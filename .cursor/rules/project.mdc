@@ -1,0 +1,14 @@
+---
+description: Shared conventions for this two-developer MVP template
+globs: ""
+alwaysApply: true
+---
+
+Read `AGENTS.md` for ownership, simplicity, line limits, validation, and compatibility rules. Read `docs/architecture.md` before changing a boundary.
+
+- Prefer the smallest working feature that fits existing patterns. Do not prebuild frameworks for hypothetical future apps.
+- Keep one Worker deployment for React assets and Hono. Keep mobile independently owned.
+- Pages/screens: 200 physical lines maximum. Other handwritten TS/Dart: 300. Split by responsibility, not arbitrary line ranges; do not minify source.
+- No placeholder success, fake metrics, empty mutations, or tests that merely repeat implementation details.
+- Document new configuration and reproducible setup commands. Secrets belong in local ignored files or Cloudflare secrets.
+- For dependency work, inspect `pnpm why`, update related package families together, refresh the lockfile, and run `pnpm audit --prod`. Use only narrowly targeted overrides and verify the affected generator/CLI plus runtime tests. If findings remain, report them accurately rather than describing the audit as fully fixed.

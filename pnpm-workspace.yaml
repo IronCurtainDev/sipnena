@@ -1,0 +1,32 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalog:
+  hono: 4.13.12
+  "@hono/swagger-ui": ^0.6.1
+  "@hono/zod-openapi": 1.6.3
+  hono-telescope: 1.2.1
+  zod: 4.6.7
+
+overrides:
+  "@better-auth/core": 1.7.14
+  "@esbuild-kit/core-utils>esbuild": 0.25.12
+  zod: "catalog:"
+  body-parser: 2.4.0
+  fast-uri: 3.1.9
+  ip-address: 10.7.4
+  qs: 6.16.1
+  undici: 7.30.1
+
+# Dependencies allowed to run install scripts. New ones fail the install until
+# reviewed here (strictDepBuilds).
+allowBuilds:
+  esbuild: true
+  workerd: true
+
+minimumReleaseAgeExclude:
+  - "@vitejs/plugin-react@6.1.2"
+  - "@cloudflare/vitest-plugin@1.4.8"
+  - miniflare@5.20261023.0-beta
+  - wrangler@4.153.0

@@ -1,0 +1,14 @@
+---
+description: Flutter ownership, API integration, and simple feature organization
+globs: "apps/mobile/**"
+alwaysApply: false
+---
+
+- Read `docs/mobile-handoff.md` (known API integration gaps) and `apps/mobile/README.md` before integrating. The Flutter developer owns the app scaffold, SDK pin, dependencies, state management, and releases.
+- Do not add Flutter dependencies or choose a state-management framework during API/web template work.
+- Use feature folders and small compositional screens (200 physical lines); other handwritten Dart files have a 300-line limit. Keep generated clients separate.
+- Consume both generated OpenAPI specifications. Preserve unknown additive response fields and handle application errors separately from Better Auth errors.
+- Store only the signed token from `set-auth-token` in platform secure storage. Use `Authorization: Bearer ...`; never use JSON `session.token` or log credentials.
+- Use native Google ID-token exchange; never ship the Google client secret. Clear local session data on logout and expired sessions; surface retryable network failures.
+- Keep development host URLs configurable. Use HTTPS in production and development-only exceptions for local networking.
+- Enable Flutter formatting, analysis, and tests when the app and pinned SDK exist; do not add a placeholder green CI job.

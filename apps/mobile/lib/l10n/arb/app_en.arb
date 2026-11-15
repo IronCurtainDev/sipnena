@@ -1,0 +1,1359 @@
+{
+    "@@locale": "en",
+    "appName": "Starter",
+    "@appName": {
+        "description": "The name of the application"
+    },
+    "signIn": "Sign In",
+    "@signIn": {
+        "description": "Label for sign in button or title"
+    },
+    "signUp": "Create Account",
+    "@signUp": {
+        "description": "Label for sign up button or title"
+    },
+    "signUpTitle": "Sign Up",
+    "@signUpTitle": {
+        "description": "Title for the sign up form"
+    },
+    "email": "Email address",
+    "@email": {
+        "description": "Label for email input"
+    },
+    "password": "Password",
+    "@password": {
+        "description": "Label for password input"
+    },
+    "forgotPassword": "Reset Your Password",
+    "@forgotPassword": {
+        "description": "Text for forgot password link"
+    },
+    "forgotPasswordQuestion": "Forgot Password?",
+    "@forgotPasswordQuestion": {
+        "description": "Text for forgot password button on sign in screen"
+    },
+    "alreadyHaveAccount": "Already have an account?",
+    "@alreadyHaveAccount": {
+        "description": "Prompt for users who already have an account"
+    },
+    "dontHaveAccount": "Don't have an account?",
+    "@dontHaveAccount": {
+        "description": "Prompt for users who don't have an account"
+    },
+    "firstName": "First Name",
+    "@firstName": {
+        "description": "Label for first name input"
+    },
+    "lastName": "Last Name",
+    "@lastName": {
+        "description": "Label for last name input"
+    },
+    "home": "Home",
+    "@home": {
+        "description": "Title for home page"
+    },
+    "explore": "Explore",
+    "@explore": {
+        "description": "Title for explore page"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Title for settings page"
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "Title for profile page"
+    },
+    "more": "More",
+    "@more": {
+        "description": "Title for more page"
+    },
+    "logout": "Logout",
+    "@logout": {
+        "description": "Label for logout action"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "Label for cancel action"
+    },
+    "ok": "OK",
+    "@ok": {
+        "description": "Label for OK action"
+    },
+    "error": "Error",
+    "@error": {
+        "description": "Generic error title"
+    },
+    "success": "Success",
+    "@success": {
+        "description": "Generic success title"
+    },
+    "signInFailed": "Sign In Failed",
+    "@signInFailed": {
+        "description": "Error message when sign in fails"
+    },
+    "signUpFailed": "Sign Up Failed",
+    "@signUpFailed": {
+        "description": "Error message when sign up fails"
+    },
+    "emailAlreadyRegisteredTitle": "Email Already Registered",
+    "@emailAlreadyRegisteredTitle": {
+        "description": "Title for email already registered dialog"
+    },
+    "emailAlreadyRegisteredMessage": "An account already exists with this email address. Sign in to continue. If you've forgotten your password, you can reset it from the Sign In screen.",
+    "@emailAlreadyRegisteredMessage": {
+        "description": "Message for email already registered dialog"
+    },
+    "invalidEmail": "Invalid Email",
+    "@invalidEmail": {
+        "description": "Error message for invalid email format"
+    },
+    "validEmailAddressRequired": "Valid Email Address Required",
+    "@validEmailAddressRequired": {
+        "description": "Popup title for invalid email address validation"
+    },
+    "validPasswordRequired": "Valid Password Required",
+    "@validPasswordRequired": {
+        "description": "Popup title for invalid password validation"
+    },
+    "designSystem": "Design System",
+    "@designSystem": {
+        "description": "Title for design system page"
+    },
+    "helpSupport": "Help & Support",
+    "@helpSupport": {
+        "description": "Title for help and support page"
+    },
+    "about": "About",
+    "@about": {
+        "description": "Title for about page"
+    },
+    "account": "Account",
+    "@account": {
+        "description": "Title for account page"
+    },
+    "editProfile": "Edit Profile",
+    "@editProfile": {
+        "description": "Label for edit profile button"
+    },
+    "changePassword": "Change Password",
+    "@changePassword": {
+        "description": "Label for change password button"
+    },
+    "currentPassword": "Current password",
+    "@currentPassword": {
+        "description": "Label for current password field"
+    },
+    "newPassword": "New password",
+    "@newPassword": {
+        "description": "Label for new password field"
+    },
+    "retypeNewPassword": "Re-type new password",
+    "@retypeNewPassword": {
+        "description": "Label for confirm new password field"
+    },
+    "passwordChangedTitle": "Password Changed",
+    "@passwordChangedTitle": {
+        "description": "Title when password is changed successfully"
+    },
+    "passwordChangedMessage": "Your password has been changed.",
+    "@passwordChangedMessage": {
+        "description": "Message when password is changed successfully"
+    },
+    "changePasswordDescription": "Stay secure and change your password.",
+    "@changePasswordDescription": {
+        "description": "Description text for change password page"
+    },
+    "yes": "Yes",
+    "@yes": {
+        "description": "Label for yes action"
+    },
+    "no": "No",
+    "@no": {
+        "description": "Label for no action"
+    },
+    "homeContent": "Home Content",
+    "@homeContent": {
+        "description": "Content placeholder for home page"
+    },
+    "introSignIn": "Sign In",
+    "@introSignIn": {
+        "description": "Sign In button on intro page"
+    },
+    "introSignUp": "Sign Up",
+    "@introSignUp": {
+        "description": "Sign Up button on intro page"
+    },
+    "introTagline": "Clean Architecture & BLoC Starter",
+    "@introTagline": {
+        "description": "Tagline displayed on the intro page"
+    },
+    "introTaglinePrefix": "Clean Architecture & ",
+    "@introTaglinePrefix": {
+        "description": "Intro page tagline prefix before emphasized word"
+    },
+    "introTaglineSuffix": "BLoC Starter",
+    "@introTaglineSuffix": {
+        "description": "Intro page tagline suffix shown in italic"
+    },
+    "requestFailed": "Request Failed",
+    "@requestFailed": {
+        "description": "Error title when request fails"
+    },
+    "checkEmail": "Please Check Your Email",
+    "@checkEmail": {
+        "description": "Title for email check instruction"
+    },
+    "passwordResetSent": "A password reset link has been sent to your dedicated email",
+    "@passwordResetSent": {
+        "description": "Message confirming password reset link sent"
+    },
+    "didntReceiveEmail": "Didn't receive the email?",
+    "@didntReceiveEmail": {
+        "description": "Question for missing email"
+    },
+    "resend": "Resend",
+    "@resend": {
+        "description": "Label for resend action"
+    },
+    "enterEmailReset": "Enter the email address linked to your account. We’ll email you a link to reset your password.",
+    "@enterEmailReset": {
+        "description": "Instruction for password reset"
+    },
+    "sendVerificationLink": "Send Verification Link",
+    "@sendVerificationLink": {
+        "description": "Label for forgot password submit button"
+    },
+    "submit": "Submit",
+    "@submit": {
+        "description": "Label for submit action"
+    },
+    "verification": "Verify",
+    "@verification": {
+        "description": "Title for verification page"
+    },
+    "logOut": "Log Out",
+    "@logOut": {
+        "description": "Label for logout action"
+    },
+    "enterVerificationCode": "Enter Verification Code",
+    "@enterVerificationCode": {
+        "description": "Instruction to enter code"
+    },
+    "verificationCodeSent": "Enter the verification code sent to",
+    "@verificationCodeSent": {
+        "description": "Message confirming code sent"
+    },
+    "resendCode": "Resend Code",
+    "@resendCode": {
+        "description": "Label for resend code action"
+    },
+    "verificationCodeResent": "Verification code resent",
+    "@verificationCodeResent": {
+        "description": "Notification when verification code is resent"
+    },
+    "or": "Or",
+    "@or": {
+        "description": "Divider text"
+    },
+    "sendCodeMobile": "Send the verification code to your mobile number?",
+    "@sendCodeMobile": {
+        "description": "Question to send code to mobile"
+    },
+    "sendCode": "Send the code",
+    "@sendCode": {
+        "description": "Label for send code action"
+    },
+    "didntReceiveCode": "Didn't receive the code?",
+    "@didntReceiveCode": {
+        "description": "Question for missing code"
+    },
+    "step1Title": "Step 1: Personal Details",
+    "@step1Title": {
+        "description": "Title for step 1 of profile completion"
+    },
+    "formContent": "Form content goes here",
+    "@formContent": {
+        "description": "Placeholder for form content"
+    },
+    "agreeTo": "By creating your account, you agree to our ",
+    "@agreeTo": {
+        "description": "Terms agreement prefix"
+    },
+    "termsOfService": "Terms & Conditions",
+    "@termsOfService": {
+        "description": "Link text for terms"
+    },
+    "and": " and ",
+    "@and": {
+        "description": "Conjunction text"
+    },
+    "privacyPolicy": "Privacy Policy.",
+    "@privacyPolicy": {
+        "description": "Link text for privacy policy"
+    },
+    "exploreApp": "Explore The App",
+    "@exploreApp": {
+        "description": "Label for explore app action"
+    },
+    "continueAction": "Continue",
+    "@continueAction": {
+        "description": "Label for continue action"
+    },
+    "myExampleTextOne": "My Example Text One",
+    "@myExampleTextOne": {
+        "description": "Label for the example text one"
+    },
+    "myExampleTextTwo": "My Example Text Two",
+    "@myExampleTextTwo": {
+        "description": "Label for the example text two"
+    },
+    "myExampleTextThree": "My Example Text Three",
+    "@myExampleTextThree": {
+        "description": "Label for the example text three"
+    },
+    "disposableEmailError": "Please use a valid email address. Disposable emails are not allowed.",
+    "@disposableEmailError": {
+        "description": "Error message for disposable email"
+    },
+    "orContinueWith": "Or continue with",
+    "@orContinueWith": {
+        "description": "Text between auth separators"
+    },
+    "enterEmailHint": "Enter email",
+    "@enterEmailHint": {
+        "description": "Hint text for email input"
+    },
+    "errorEnterEmail": "Please enter your email",
+    "@errorEnterEmail": {
+        "description": "Error when email is empty"
+    },
+    "errorInvalidEmailAddress": "Please enter a valid email\naddress.",
+    "@errorInvalidEmailAddress": {
+        "description": "Error when email format is invalid"
+    },
+    "errorEnterPassword": "Please enter your password",
+    "@errorEnterPassword": {
+        "description": "Error when password is empty"
+    },
+    "errorPasswordMinLength": "Password should contain minimum {count} characters.",
+    "@errorPasswordMinLength": {
+        "description": "Error when password is shorter than minimum length",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "errorPasswordNumber": "Password should include at least one number.",
+    "@errorPasswordNumber": {
+        "description": "Error when password does not contain a number"
+    },
+    "errorPasswordSpecialCharacter": "Password should include at least one special character.",
+    "@errorPasswordSpecialCharacter": {
+        "description": "Error when password does not contain a special character"
+    },
+    "termsAndPrivacyConfirm": " and ",
+    "@termsAndPrivacyConfirm": {
+        "description": "Text connecting terms and privacy policy"
+    },
+    "genericError": "Something went wrong!",
+    "@genericError": {
+        "description": "Generic error message"
+    },
+    "firstNameRequired": "First name is required",
+    "@firstNameRequired": {
+        "description": "Error message when first name is missing"
+    },
+    "lastNameRequired": "Last name is required",
+    "@lastNameRequired": {
+        "description": "Error message when last name is missing"
+    },
+    "phoneNumberRequired": "Phone number is required",
+    "@phoneNumberRequired": {
+        "description": "Error message when phone number is missing"
+    },
+    "phoneNumberDigitsOnly": "Please enter digits only",
+    "@phoneNumberDigitsOnly": {
+        "description": "Error message when phone number contains non-digits"
+    },
+    "phoneNumberAusLength": "Phone number must be 9 digits for Australia",
+    "@phoneNumberAusLength": {
+        "description": "Error message when Australian phone number is not 9 digits"
+    },
+    "phoneNumberTooShort": "Phone number is too short",
+    "@phoneNumberTooShort": {
+        "description": "Error message when phone number is too short"
+    },
+    "step2Title": "Almost there!",
+    "@step2Title": {
+        "description": "Title for step 2 of profile completion"
+    },
+    "phoneNumberOptional": "Phone Number (Optional)",
+    "@phoneNumberOptional": {
+        "description": "Hint text for optional phone number input"
+    },
+    "dateOfBirth": "Date of Birth",
+    "@dateOfBirth": {
+        "description": "Label for date of birth input"
+    },
+    "completeProfile": "Complete Profile",
+    "@completeProfile": {
+        "description": "Label for complete profile button"
+    },
+    "sessionExpired": "Session Expired",
+    "@sessionExpired": {
+        "description": "Error title when session expires"
+    },
+    "uploadFromDevice": "Upload from your device",
+    "@uploadFromDevice": {
+        "description": "Text for uploading from device"
+    },
+    "uploadFormatSizeLimit": "JPG, PNG or PDF • maximum 10 MB",
+    "@uploadFormatSizeLimit": {
+        "description": "Format and size limit text for uploads"
+    },
+    "unableToLoadImage": "Unable to load image",
+    "@unableToLoadImage": {
+        "description": "Error message when image fails to load"
+    },
+    "imageUpdatedSuccess": "Image updated successfully",
+    "@imageUpdatedSuccess": {
+        "description": "Success message when image is updated"
+    },
+    "useCamera": "Use Camera",
+    "@useCamera": {
+        "description": "Label for use camera button"
+    },
+    "next": "Next",
+    "@next": {
+        "description": "Label for next button"
+    },
+    "onboardingAllSet": "You're All Set",
+    "@onboardingAllSet": {
+        "description": "Title for the final onboarding step"
+    },
+    "onboardingReadyToRide": "You’re all set. \nExplore the app now.",
+    "@onboardingReadyToRide": {
+        "description": "Description for the final onboarding step"
+    },
+    "onboardingStepOneDescription": "Add a clear profile photo so your driver can easily recognise you at pickup.",
+    "@onboardingStepOneDescription": {
+        "description": "Description for step one of onboarding"
+    },
+    "errorProfilePhotoRequired": "Please add a profile photo",
+    "@errorProfilePhotoRequired": {
+        "description": "Error message when profile photo is missing"
+    },
+    "firstNameWithAsterisk": "First name*",
+    "@firstNameWithAsterisk": {
+        "description": "Label for first name with asterisk"
+    },
+    "lastNameWithAsterisk": "Last name*",
+    "@lastNameWithAsterisk": {
+        "description": "Label for last name with asterisk"
+    },
+    "phoneNumberWithAsterisk": "Phone number*",
+    "@phoneNumberWithAsterisk": {
+        "description": "Label for phone number with asterisk"
+    },
+    "firstNameHint": "Enter your first name here",
+    "@firstNameHint": {
+        "description": "Hint for first name field"
+    },
+    "lastNameHint": "Enter your last name here",
+    "@lastNameHint": {
+        "description": "Hint for last name field"
+    },
+    "phoneNumberHint": "Enter your phone number here",
+    "@phoneNumberHint": {
+        "description": "Hint for phone number field"
+    },
+    "onboardingStepThreeDescription": "Please share your current occupation to finish setting up your profile.",
+    "@onboardingStepThreeDescription": {
+        "description": "Description for step three of onboarding"
+    },
+    "onboardingStepTwoDescription": "Please enter your address details.",
+    "@onboardingStepTwoDescription": {
+        "description": "Description for step two of onboarding"
+    },
+    "address": "Address",
+    "@address": {
+        "description": "Label for address field"
+    },
+    "addressHint": "Enter your address",
+    "@addressHint": {
+        "description": "Hint for address field"
+    },
+    "addressRequired": "Address is required",
+    "@addressRequired": {
+        "description": "Validation message when address is empty"
+    },
+    "occupation": "Occupation",
+    "@occupation": {
+        "description": "Label for occupation field"
+    },
+    "occupationHint": "Enter your occupation",
+    "@occupationHint": {
+        "description": "Hint for occupation field"
+    },
+    "occupationRequired": "Occupation is required",
+    "@occupationRequired": {
+        "description": "Validation message when occupation is empty"
+    },
+    "uploadDriversLicence": "Upload Drivers Licence",
+    "@uploadDriversLicence": {
+        "description": "Title for upload drivers licence page"
+    },
+    "licenceFront": "Front",
+    "@licenceFront": {
+        "description": "Label for front of licence"
+    },
+    "licenceBack": "Back",
+    "@licenceBack": {
+        "description": "Label for back of licence"
+    },
+    "uploadFrontDescription": "Upload the front of your drivers licence.",
+    "@uploadFrontDescription": {
+        "description": "Description for uploading front of licence"
+    },
+    "uploadBackDescription": "Upload the back of your drivers licence.",
+    "@uploadBackDescription": {
+        "description": "Description for uploading back of licence"
+    },
+    "expiryDate": "Expiry date",
+    "@expiryDate": {
+        "description": "Label for expiry date"
+    },
+    "licenceNumber": "Licence number",
+    "@licenceNumber": {
+        "description": "Label for licence number"
+    },
+    "cardNumber": "Card number",
+    "@cardNumber": {
+        "description": "Label for card number"
+    },
+    "enterLicenceNumber": "Enter licence number",
+    "@enterLicenceNumber": {
+        "description": "Hint for licence number"
+    },
+    "enterCardNumber": "Enter card number",
+    "@enterCardNumber": {
+        "description": "Hint for card number"
+    },
+    "errorSelectExpiryDate": "Please select an expiry date",
+    "@errorSelectExpiryDate": {
+        "description": "Error message for empty expiry date"
+    },
+    "errorEnterLicenceNumber": "Please enter licence number",
+    "@errorEnterLicenceNumber": {
+        "description": "Error message for empty licence number"
+    },
+    "errorEnterCardNumber": "Please enter card number",
+    "@errorEnterCardNumber": {
+        "description": "Error message for empty card number"
+    },
+    "save": "Save",
+    "@save": {
+        "description": "Label for save button"
+    },
+    "errorLicenceComplete": "Please upload front and back licence photos and fill all fields",
+    "@errorLicenceComplete": {
+        "description": "Error message when licence details are incomplete"
+    },
+    "selectExpiryDate": "Select expiry date",
+    "@selectExpiryDate": {
+        "description": "Help text for date picker"
+    },
+    "driversLicence": "Drivers Licence",
+    "@driversLicence": {
+        "description": "Text for drivers licence"
+    },
+    "aboutUs": "About Us",
+    "@aboutUs": {
+        "description": "Title for about us page"
+    },
+    "aboutUsDescription1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis vel eros donec ac odio. Imperdiet sed euismod nisi porta.",
+    "@aboutUsDescription1": {
+        "description": "First paragraph of about us description"
+    },
+    "aboutUsDescription2": "Sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Pellentesque nec nam aliquam sem et tortor. Etiam tempor orci eu lobortis elementum nibh tellus. Dis parturient montes nascetur ridiculus mus mauris vitae ultricies leo. Suspendisse in est ante in nibh mauris cursus. Ut etiam sit amet nisl.",
+    "@aboutUsDescription2": {
+        "description": "Second paragraph of about us description"
+    },
+    "termsConditions": "Terms & Conditions",
+    "@termsConditions": {
+        "description": "Title for terms and conditions"
+    },
+    "privacyPolicy": "Privacy Policy",
+    "@privacyPolicy": {
+        "description": "Title for privacy policy"
+    },
+    "contactUs": "Contact Us",
+    "@contactUs": {
+        "description": "Title for contact us"
+    },
+    "notificationsTitle": "Notifications",
+    "@notificationsTitle": {
+        "description": "Title for notifications"
+    },
+    "managePaymentMethods": "Manage Payment Methods",
+    "@managePaymentMethods": {
+        "description": "Title for payment methods"
+    },
+    "appSettings": "App Settings",
+    "@appSettings": {
+        "description": "Title for app settings"
+    },
+    "logoutConfirmTitle": "Logout",
+    "@logoutConfirmTitle": {
+        "description": "Title for logout confirmation dialog"
+    },
+    "logoutConfirmMessage": "Are you sure you want to logout?",
+    "@logoutConfirmMessage": {
+        "description": "Message for logout confirmation dialog"
+    },
+    "haveQuestion": "Have a question?",
+    "@haveQuestion": {
+        "description": "Text for 'Have a question?'"
+    },
+    "getInTouch": "Get in touch and we’ll get back to you.",
+    "@getInTouch": {
+        "description": "Description for contact us"
+    },
+    "messageLabel": "Message",
+    "@messageLabel": {
+        "description": "Label for message field"
+    },
+    "typeYourMessage": "Type your message here",
+    "@typeYourMessage": {
+        "description": "Hint for message field"
+    },
+    "sendMessage": "Send Message",
+    "@sendMessage": {
+        "description": "Label for send message button"
+    },
+    "loremIpsumShort": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis vel eros donec ac odio. Imperdiet sed euismod nisi porta.",
+    "@loremIpsumShort": {
+        "description": "Short lorem ipsum text"
+    },
+    "loremIpsumMedium": "Sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Pellentesque nec nam aliquam sem et tortor. Etiam tempor orci eu lobortis elementum nibh tellus. Dis parturient montes nascetur ridiculus mus mauris vitae ultricies leo. Suspendisse in est ante in nibh mauris cursus. Ut etiam sit amet nisl.",
+    "@loremIpsumMedium": {
+        "description": "Medium lorem ipsum text"
+    },
+    "loremIpsumLong": "Velit aliquet sagittis id consectetur purus ut faucibus. Lacinia quis vel eros donec ac odio tempor. Quam nulla porttitor massa id neque aliquam vestibulum. Sit amet nisl suscipit adipiscing bibendum est. Pellentesque habitant morbi tristique senectus et netus et. Quis eleifend quam adipiscing vitae. Ridiculus mus mauris vitae ultricies leo integer. Scelerisque felis imperdiet proin fermentum leo.",
+    "@loremIpsumLong": {
+        "description": "Long lorem ipsum text"
+    },
+    "loremIpsumExtended": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "@loremIpsumExtended": {
+        "description": "Extended lorem ipsum text"
+    },
+    "deleteAccount": "Delete Account",
+    "@deleteAccount": {
+        "description": "Title for delete account"
+    },
+    "deleteAccountConfirmMessage": "Are you sure you want to delete your account?\n\nThis will permanently delete your profile and remove your access. This action cannot be undone.",
+    "@deleteAccountConfirmMessage": {
+        "description": "Message for delete account confirmation"
+    },
+    "deleteAction": "Delete",
+    "@deleteAction": {
+        "description": "Label for delete action"
+    },
+    "permissionSettingsTitle": "Permission Settings",
+    "@permissionSettingsTitle": {
+        "description": "Title for permission settings"
+    },
+    "saveChanges": "Save Changes",
+    "@saveChanges": {
+        "description": "Label for save changes button"
+    },
+    "noNotificationsYet": "No notifications yet",
+    "@noNotificationsYet": {
+        "description": "Text when there are no notifications"
+    },
+    "notificationDetailsTitle": "Notification Details",
+    "@notificationDetailsTitle": {
+        "description": "Title for notification details page"
+    },
+    "deleteNotification": "Delete Notification",
+    "@deleteNotification": {
+        "description": "Title for delete notification dialog"
+    },
+    "deleteNotificationConfirmMessage": "Are you sure you want to delete this notification?",
+    "@deleteNotificationConfirmMessage": {
+        "description": "Message for delete notification confirmation"
+    },
+    "deleteAllNotifications": "Delete All Notifications",
+    "@deleteAllNotifications": {
+        "description": "Title for delete all notifications dialog"
+    },
+    "deleteAllNotificationsConfirmMessage": "Are you sure you want to delete all notifications?",
+    "@deleteAllNotificationsConfirmMessage": {
+        "description": "Message for delete all notifications confirmation"
+    },
+    "notificationDeleted": "Notification deleted successfully",
+    "@notificationDeleted": {
+        "description": "Success message when a notification is deleted"
+    },
+    "allNotificationsDeleted": "All notifications deleted successfully",
+    "@allNotificationsDeleted": {
+        "description": "Success message when all notifications are deleted"
+    },
+    "rideHistory": "Ride History",
+    "@rideHistory": {
+        "description": "Title for ride history page"
+    },
+    "completed": "Completed",
+    "@completed": {
+        "description": "Complete Text"
+    },
+    "cancelled": "Cancelled",
+    "@cancelled": {
+        "description": "Cancelled Text"
+    },
+    "pending": "Pending",
+    "@pending": {
+        "description": "Pending Text"
+    },
+      "ongoing": "On Going",
+    "@ongoing": {
+        "description": "On Going Text"
+    }, 
+     "pickup": "Pickup",
+    "@pickup": {
+        "description": "Pickup Text"
+    }, 
+    "dropoff": "Drop-off",
+    "@dropoff": {
+        "description": "Drop-off Text"
+    },
+     "distance": "Distance",
+    "@distance": {
+        "description": "Distance Text"
+    }, 
+    "duration": "Duration",
+    "@duration": {
+        "description": "Duration Text"
+    },
+"rideDetails": "Ride Details",
+    "@rideDetails": {
+        "description": "Ride Details Text"
+    },
+    "vehicleDriverDetails": "Vehicle & Driver Details",
+    "@vehicleDriverDetails": {
+        "description": "Vehicle & Driver Details Text"
+    },
+    "vehicletype": "Vehicle type",
+    "@vehicletype": {
+        "description": "Vehicle type Text"
+    },
+    "registration": "Registration",
+    "@registration": {
+        "description": "Registration Text"
+    },
+      "driver": "Driver",
+    "@driver": {
+        "description": "Driver Text"
+    },
+      "bookingref": "Booking ref:",
+    "@bookingref": {
+        "description": "Booking ref Text"
+    },
+
+       "departed": "Departed",
+    "@departed": {
+        "description": "Departed Text"
+    },
+
+       "arrived": "Arrived",
+    "@arrived": {
+        "description": "Arrived Text"
+    },
+       "boarded": "Boarded",
+    "@boarded": {
+        "description": "Boarded Text"
+    },
+       "pickedUp": "Picked Up",
+    "@pickedUp": {
+        "description": "Picked Up Text"
+    },
+       "passengers": "Passengers",
+    "@passengers": {
+        "description": "Passengers Text"
+    },
+
+       "total": "Total",
+    "@total": {
+        "description": "Total Text"
+    },
+       "date": "Date",
+    "@date": {
+        "description": "Date Text"
+    },
+       "paymentMethod": "Payment method",
+    "@paymentMethod": {
+        "description": "Payment method Text"
+    },
+       "downloadpdf": "Download PDF Receipt",
+    "@downloadpdf": {
+        "description": "Download PDF Receipt Text"
+    },
+    "bookingRideDetails": "Ride Details",
+    "@bookingRideDetails": {
+        "description": "Title for the booking details sheet"
+    },
+    "bookingNumberOfPassengers": "Number of passengers",
+    "@bookingNumberOfPassengers": {
+        "description": "Passenger quantity helper label"
+    },
+    "bookingPassengers": "Passengers",
+    "@bookingPassengers": {
+        "description": "Passenger booking option label"
+    },
+    "bookingBikeRate": "$5.00 per bike",
+    "@bookingBikeRate": {
+        "description": "Bike price helper label"
+    },
+    "bookingBikes": "Bikes",
+    "@bookingBikes": {
+        "description": "Bike booking option label"
+    },
+    "bookingNumberOfBikes": "Number of bikes",
+    "@bookingNumberOfBikes": {
+        "description": "Bike quantity label"
+    },
+    "bookingRequestForRide": "Request for this ride",
+    "@bookingRequestForRide": {
+        "description": "Baby seat helper label"
+    },
+    "bookingBabySeats": "Baby Seats",
+    "@bookingBabySeats": {
+        "description": "Baby seat booking option label"
+    },
+    "bookingNumberOfBabySeats": "Number of baby seats",
+    "@bookingNumberOfBabySeats": {
+        "description": "Baby seat quantity label"
+    },
+    "bookingChooseYourVehicle": "Choose Your Vehicle",
+    "@bookingChooseYourVehicle": {
+        "description": "Choose vehicle title label"
+    },
+    "bookingRoverX": "Rover X",
+    "@bookingRoverX": {
+        "description": "Rover X car label"
+    },
+    "bookingSharedRide": "Shared ride",
+    "@bookingSharedRide": {
+        "description": "Shared ride helper label"
+    },
+    "bookingRoverRapid": "Rover Rapid",
+    "@bookingRoverRapid": {
+        "description": "Rover Rapid car label"
+    },
+    "bookingDirectRoute": "Direct route",
+    "@bookingDirectRoute": {
+        "description": "Direct route helper label"
+    },
+    "bookingTotalFare": "Total Fare",
+    "@bookingTotalFare": {
+        "description": "Total fare label"
+    },
+    "bookingPayAndConfirm": "Pay and Confirm",
+    "@bookingPayAndConfirm": {
+        "description": "Pay and confirm action button"
+    },
+    "bookingPremium": "Premium",
+    "@bookingPremium": {
+        "description": "Premium badge text"
+    },
+    "addCardTitle": "Add a Card",
+    "@addCardTitle": {
+        "description": "Title for add card bottom sheet"
+    },
+    "saveCardForFuture": "Save this card for future payments",
+    "@saveCardForFuture": {
+        "description": "Checkbox label for saving card for future payments"
+    },
+    "addCardAction": "Add Card",
+    "@addCardAction": {
+        "description": "Button label for adding card"
+    },
+    "expiryHint": "MM/YY",
+    "@expiryHint": {
+        "description": "Hint text for card expiry date"
+    },
+    "cvvHint": "CVV",
+    "@cvvHint": {
+        "description": "Hint text for card security code CVV"
+    },
+    "cardNumberPlaceholder": "3454 5837 5725 1234",
+    "@cardNumberPlaceholder": {
+        "description": "Placeholder for credit card number input"
+    },
+    "paymentMethodsTitle": "Payment Methods",
+    "@paymentMethodsTitle": {
+        "description": "Title for payment methods page"
+    },
+    "savedPaymentMethods": "Saved Payment Methods",
+    "@savedPaymentMethods": {
+        "description": "Header for saved payment methods section"
+    },
+    "creditOrDebitCard": "Credit or Debit Card",
+    "@creditOrDebitCard": {
+        "description": "Label for credit or debit card option"
+    },
+    "payAmount": "Pay {amount}",
+    "@payAmount": {
+        "description": "Label for pay button with amount",
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "errorTimeout": "Connection timeout",
+    "@errorTimeout": {
+        "description": "Error message when connection times out"
+    },
+    "errorNetwork": "Network error",
+    "@errorNetwork": {
+        "description": "Error message for network failure"
+    },
+    "errorServer": "Server error",
+    "@errorServer": {
+        "description": "Error message for server failure"
+    },
+    "errorSessionExpired": "Session expired",
+    "@errorSessionExpired": {
+        "description": "Error message for session expiration"
+    },
+    "errorMissingApiKey": "Missing API key",
+    "@errorMissingApiKey": {
+        "description": "Error message for missing API key"
+    },
+    "noItemsFound": "No items found",
+    "@noItemsFound": {
+        "description": "Default text shown when a list or search result has no items"
+    },
+    "noBookingsFound": "No bookings history found",
+    "@noBookingsFound": {
+        "description": "Text shown when the booking history is empty"
+    },
+    "noInternetConnection": "No Internet Connection",
+    "@noInternetConnection": {
+        "description": "Error message when device has no internet connection"
+    },
+    "noInternetWhoops": "Whoops!",
+    "@noInternetWhoops": {
+        "description": "Title shown in the no internet connection dialog"
+    },
+    "noInternetConnectionMessage": "No internet connection was found. Check your connection or try again.",
+    "@noInternetConnectionMessage": {
+        "description": "Message shown in the no internet connection dialog"
+    },
+    "noInternetLostConnectionMessage": "It looks like you’ve lost your internet connection.\nPlease check your connection and try again.",
+    "@noInternetLostConnectionMessage": {
+        "description": "Message explaining loss of internet connection on full-screen offline overlay"
+    },
+    "tryAgain": "Try Again",
+    "@tryAgain": {
+        "description": "Label for retrying an action"
+    },
+    "checkSettings": "Check Settings",
+    "@checkSettings": {
+        "description": "Label for opening device settings"
+    },
+    "goToSettings": "Go to Settings",
+    "@goToSettings": {
+        "description": "Label for go to settings button"
+    },
+    "removeSavedCards": "Remove Saved Cards",
+    "@removeSavedCards": {
+        "description": "Title for remove saved cards screen"
+    },
+    "setAsDefault": "Set as Default",
+    "@setAsDefault": {
+        "description": "Label for set as default button"
+    },
+    "defaultCard": "Default",
+    "@defaultCard": {
+        "description": "Label for default card badge"
+    },
+    "cardDeletedSuccess": "Payment method removed successfully",
+    "@cardDeletedSuccess": {
+        "description": "Snackbar message when a card is deleted successfully"
+    },
+    "cardSetDefaultSuccess": "Default payment method updated",
+    "@cardSetDefaultSuccess": {
+        "description": "Snackbar message when default card is updated successfully"
+    },
+    "cannotDeleteDefaultCard": "Default card cannot be deleted. Please set another card as default first.",
+    "@cannotDeleteDefaultCard": {
+        "description": "Alert dialog message when user attempts to delete default card"
+    },
+    "cannotDeleteDefaultCardTitle": "Cannot Delete Default Card",
+    "@cannotDeleteDefaultCardTitle": {
+        "description": "Alert dialog title when user attempts to delete default card"
+    },
+    "confirmDeleteCardTitle": "Remove Payment Method",
+    "@confirmDeleteCardTitle": {
+        "description": "Confirmation dialog title when user attempts to delete a non-default card"
+    },
+    "confirmDeleteCardMessage": "Are you sure you want to remove this payment method?",
+    "@confirmDeleteCardMessage": {
+        "description": "Confirmation dialog message when user attempts to delete a non-default card"
+    },
+    "noSavedCardsFound": "No saved cards found",
+    "@noSavedCardsFound": {
+        "description": "Empty state title when there are no saved payment cards"
+    },
+    "recentDestinations": "Recent destinations",
+    "@recentDestinations": {
+        "description": "Section header for recent destinations in location search"
+    },
+    "recentDestinationsEmpty": "No recent destinations found",
+    "@recentDestinationsEmpty": {
+        "description": "Empty state text for recent destinations"
+    },
+    "nearby": "Nearby",
+    "@nearby": {
+        "description": "Section header for nearby locations in location search"
+    },
+    "dropAPin": "Drop a Pin",
+    "@dropAPin": {
+        "description": "Button label for drop a pin on map action"
+    },
+    "useCurrentLocation": "Use My Current Location",
+    "@useCurrentLocation": {
+        "description": "Button label to use device GPS current location"
+    },
+    "findingYourDriver": "Finding Your Driver",
+    "@findingYourDriver": {
+        "description": "Title for finding driver bottom sheet"
+    },
+    "findingDriverDescription": "We're assigning the nearest available driver to your request.",
+    "@findingDriverDescription": {
+        "description": "Description explaining driver assignment in progress"
+    },
+    "findingDriverWaitNotice": "This usually takes less than a minute.\nPlease keep the app open.",
+    "@findingDriverWaitNotice": {
+        "description": "Wait notice at bottom of finding driver sheet"
+    },
+    "weCouldntAssignDriver": "We Couldn't Assign a Driver",
+    "@weCouldntAssignDriver": {
+        "description": "Title for request cancelled page when driver is not assigned"
+    },
+    "noAvailableDriversNotice": "Unfortunately, there aren't any available drivers at the moment.",
+    "@noAvailableDriversNotice": {
+        "description": "Notice stating no available drivers"
+    },
+    "bookingCancelledAutomatically": "Your booking has been cancelled automatically.",
+    "@bookingCancelledAutomatically": {
+        "description": "Notice stating booking cancellation"
+    },
+    "fullRefundInitiatedPrefix": "A full refund of ",
+    "@fullRefundInitiatedPrefix": {
+        "description": "Prefix text before the refunded amount"
+    },
+    "fullRefundInitiatedSuffix": " has been initiated to your original payment method.",
+    "@fullRefundInitiatedSuffix": {
+        "description": "Suffix text after the refunded amount"
+    },
+    "fullRefundInitiated": "A full refund of {amount} has been initiated to your original payment method.",
+    "@fullRefundInitiated": {
+        "description": "Notice stating refund initiation",
+        "placeholders": {
+            "amount": {
+                "type": "String",
+                "example": "$100.00"
+            }
+        }
+    },
+    "refundsProcessingTimeNotice": "Refunds typically appear within 3-5 business days, depending on your bank.",
+    "@refundsProcessingTimeNotice": {
+        "description": "Notice stating refund processing duration"
+    },
+    "trySearchingAvailableDriverAgainNotice": "You can try searching for an available driver again.",
+    "@trySearchingAvailableDriverAgainNotice": {
+        "description": "Notice prompting user to try searching for a driver again"
+    },
+    "cancelSearchRefundNoticePrefix": "If you cancel the search and return home, your booking will be cancelled and a full refund of ",
+    "@cancelSearchRefundNoticePrefix": {
+        "description": "Prefix text before the refund amount in driver-not-found cancellation notice"
+    },
+    "cancelSearchRefundNoticeSuffix": " will be initiated to your original payment method. Refunds typically appear within 3-5 business days, depending on your bank.",
+    "@cancelSearchRefundNoticeSuffix": {
+        "description": "Suffix text after the refund amount in driver-not-found cancellation notice"
+    },
+    "searchForAvailableDriverAgain": "Search for an available driver again.",
+    "@searchForAvailableDriverAgain": {
+        "description": "Subtitle under Try Again button"
+    },
+    "cancelAndGoBackToHome": "Cancel and Go Back to Home",
+    "@cancelAndGoBackToHome": {
+        "description": "Label for cancel and go back to home button"
+    },
+    "cancelSearchStartRefund": "Cancel the search and start your refund.",
+    "@cancelSearchStartRefund": {
+        "description": "Subtitle under Cancel and Go Back to Home button"
+    },
+    "backToHome": "Back to Home",
+    "@backToHome": {
+        "description": "Label for back to home button"
+    },
+    "vehicleDetails": "Vehicle details",
+    "@vehicleDetails": {
+        "description": "Subtitle for vehicle details card"
+    },
+    "sendMessage": "Send Message",
+    "@sendMessage": {
+        "description": "Button label to send message to driver"
+    },
+    "vehicleArrivingIn": "Vehicle arriving in",
+    "@vehicleArrivingIn": {
+        "description": "Header for vehicle arriving timer card"
+    },
+    "boardingNotice": "Please be ready, you will have 2 minutes to board upon arrival.",
+    "@boardingNotice": {
+        "description": "Notice for boarding arrival time limit"
+    },
+    "cancelRide": "Cancel Ride",
+    "@cancelRide": {
+        "description": "Button label to cancel the ongoing ride"
+    },
+    "cancelRideConfirmation": "Are you sure you want to cancel your ride?",
+    "@cancelRideConfirmation": {
+        "description": "Confirmation message when user attempts to cancel ride"
+    },
+    "unableToOpenMessaging": "Unable to open messaging app",
+    "@unableToOpenMessaging": {
+        "description": "Error message when opening messaging or SMS app fails"
+    },
+    "driverContactUnavailable": "Driver contact number is not available",
+    "@driverContactUnavailable": {
+        "description": "Error message when driver phone number is unavailable"
+    },
+    "timeSinceBooking": "Time since booking",
+    "@timeSinceBooking": {
+        "description": "Label for time elapsed since booking"
+    },
+    "freeCancellationNotice": "Free cancellation is available within the first two minutes.",
+    "@freeCancellationNotice": {
+        "description": "Notice indicating free cancellation availability window"
+    },
+    "confirmCancellation": "Confirm Cancellation",
+    "@confirmCancellation": {
+        "description": "Button label to confirm ride cancellation"
+    },
+    "keepMyRide": "Keep My Ride",
+    "@keepMyRide": {
+        "description": "Button label to retain the current ride"
+    },
+    "rideCancelled": "Ride Cancelled",
+    "@rideCancelled": {
+        "description": "Title for ride cancelled alert dialog"
+    },
+    "rideCancelledSuccessMessage": "Your ride has been cancelled successfully.",
+    "@rideCancelledSuccessMessage": {
+        "description": "Message for ride cancelled alert dialog"
+    },
+    "cancellationFailed": "Cancellation Failed",
+    "@cancellationFailed": {
+        "description": "Title for ride cancellation failure alert dialog"
+    },
+    "cancellationFeeWarning": "Cancelling after 2 minutes incurs an extra cancellation fee. Are you sure you want to proceed?",
+    "@cancellationFeeWarning": {
+        "description": "Warning confirmation message before cancelling when cancellation fee applies"
+    },
+    "cancellationFeeNotice": "The 2-minute free cancellation period has ended. An extra cancellation fee applies.",
+    "@cancellationFeeNotice": {
+        "description": "Notice indicating cancellation fee applies after 2 minutes"
+    },
+    "cancellationPolicyReminder": "Cancellation Policy Reminder",
+    "@cancellationPolicyReminder": {
+        "description": "Title for the cancellation policy popup"
+    },
+    "cancelWithin2Min": "Cancel within 2 minutes of booking.",
+    "@cancelWithin2Min": {
+        "description": "Policy condition for cancellation within 2 minutes"
+    },
+    "cancelAfter2Min": "Cancel after 2 minutes.",
+    "@cancelAfter2Min": {
+        "description": "Policy condition for cancellation after 2 minutes"
+    },
+    "vehicleLate15Min": "Vehicle late over 15 minutes.",
+    "@vehicleLate15Min": {
+        "description": "Policy condition when vehicle is late over 15 minutes"
+    },
+    "free": "FREE",
+    "@free": {
+        "description": "Free of charge label"
+    },
+    "rideComplete": "Ride Complete",
+    "@rideComplete": {
+        "description": "Title for ride complete page"
+    },
+    "youHaveArrived": "You’ve Arrived!",
+    "@youHaveArrived": {
+        "description": "Headline text on ride complete"
+    },
+    "pickup": "Pickup",
+    "@pickup": {
+        "description": "Pickup location label"
+    },
+    "dropOff": "Drop-off",
+    "@dropOff": {
+        "description": "Drop-off location label"
+    },
+    "totalCharged": "Total charged",
+    "@totalCharged": {
+        "description": "Label for total charged amount"
+    },
+    "rateUs": "Rate Us",
+    "@rateUs": {
+        "description": "Title for rating section"
+    },
+    "comment": "Comment",
+    "@comment": {
+        "description": "Comment field label"
+    },
+    "enterYourCommentHere": "Enter your comment here.",
+    "@enterYourCommentHere": {
+        "description": "Hint text for comment input field"
+    },
+    "whatCouldWeImprove": "What could we improve?",
+    "@whatCouldWeImprove": {
+        "description": "Title for improvement reasons section"
+    },
+    "latePickup": "Late Pickup",
+    "@latePickup": {
+        "description": "Improvement reason: late pickup"
+    },
+    "driverBehaviour": "Driver Behaviour",
+    "@driverBehaviour": {
+        "description": "Improvement reason: driver behaviour"
+    },
+    "cleanliness": "Cleanliness",
+    "@cleanliness": {
+        "description": "Improvement reason: cleanliness"
+    },
+    "comfort": "Comfort",
+    "@comfort": {
+        "description": "Improvement reason: comfort"
+    },
+    "routeIssue": "Route Issue",
+    "@routeIssue": {
+        "description": "Improvement reason: route issue"
+    },
+    "addATip": "Add a Tip",
+    "@addATip": {
+        "description": "Title for add tip bottom sheet"
+    },
+    "tipGoesToDriver": "100% of the tip goes to your driver",
+    "@tipGoesToDriver": {
+        "description": "Notice that tips go directly to the driver"
+    },
+    "oneDollar": "$1.00",
+    "@oneDollar": {
+        "description": "One dollar tip option"
+    },
+    "twoDollars": "$2.00",
+    "@twoDollars": {
+        "description": "Two dollars tip option"
+    },
+    "noTip": "No Tip",
+    "@noTip": {
+        "description": "No tip option"
+    },
+    "customAmount": "Custom amount ($)",
+    "@customAmount": {
+        "description": "Label for custom tip amount"
+    },
+    "enterOtherAmount": "Enter other amount",
+    "@enterOtherAmount": {
+        "description": "Hint text for custom tip amount"
+    },
+    "payTip": "Pay Tip",
+    "@payTip": {
+        "description": "Button label to pay tip"
+    },
+    "continueWithoutTip": "Continue without tip",
+    "@continueWithoutTip": {
+        "description": "Button label when no tip is selected"
+    },
+    "thankYouForFeedback": "Thank you for your feedback!",
+    "@thankYouForFeedback": {
+        "description": "Success message after submitting rating"
+    },
+    "ratingSubmitted": "Rating Submitted",
+    "@ratingSubmitted": {
+        "description": "Rating submitted successfully message"
+    },
+    "checkAvailability": "Check Availability",
+    "@checkAvailability": {
+        "description": "Button label for checking whether a resolved trip is serviceable"
+    },
+    "serviceabilityRetry": "We couldn't check availability. Please try again.",
+    "@serviceabilityRetry": {
+        "description": "Retry message shown when the serviceability request fails"
+    },
+    "locationOutsideServiceArea": "Location outside service area. Please choose another location.",
+    "@locationOutsideServiceArea": {
+        "description": "Fallback error message when a trip is outside the available service area"
+    },
+    "tipSentSuccessTitle": "Thank You!",
+    "@tipSentSuccessTitle": {
+        "description": "Title for tip sent successfully dialog"
+    },
+    "tipSentSuccessMessage": "Your tip has been sent to your driver.",
+    "@tipSentSuccessMessage": {
+        "description": "Message for tip sent successfully dialog"
+    },
+    "continueWithoutTipTitle": "Thank You!",
+    "@continueWithoutTipTitle": {
+        "description": "Title for continue without tip dialog"
+    },
+    "continueWithoutTipMessage": "Thank you. We hope to see you again soon.",
+    "@continueWithoutTipMessage": {
+        "description": "Message for continue without tip dialog"
+    },
+    "backToHome": "Back to Home",
+    "@backToHome": {
+        "description": "Button label to navigate back to home screen"
+    },
+    "thanksForYourFeedbackTitle": "Thanks for Your Feedback",
+    "@thanksForYourFeedbackTitle": {
+        "description": "Title for rating and feedback submitted dialog"
+    },
+    "thanksForYourFeedbackMessage": "Thanks for rating your ride. We look forward to seeing you again.",
+    "@thanksForYourFeedbackMessage": {
+        "description": "Message for rating and feedback submitted dialog"
+    },
+    "locationServiceDisabledTitle": "Location Services Disabled",
+    "@locationServiceDisabledTitle": {
+        "description": "Title for location services disabled dialog"
+    },
+    "locationServiceDisabledMessage": "Location services are turned off on your device. Please enable location services in your device settings to use this feature.",
+    "@locationServiceDisabledMessage": {
+        "description": "Message for location services disabled dialog"
+    },
+    "locationPermissionDeniedTitle": "Location Permission Required",
+    "@locationPermissionDeniedTitle": {
+        "description": "Title for location permission denied dialog"
+    },
+    "locationPermissionDeniedMessage": "Location access is disabled. Please allow location permissions in your device settings to enable this feature.",
+    "@locationPermissionDeniedMessage": {
+        "description": "Message for location permission denied dialog"
+    },
+    "disableLocationPermissionTitle": "Disable Location Permission",
+    "@disableLocationPermissionTitle": {
+        "description": "Title for disable location permission dialog"
+    },
+    "disableLocationPermissionMessage": "To disable location permissions, please turn off Location in your device settings.",
+    "@disableLocationPermissionMessage": {
+        "description": "Message for disable location permission dialog"
+    }
+}
+

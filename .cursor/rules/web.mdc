@@ -1,0 +1,15 @@
+---
+description: React feature composition and client integration
+globs: "apps/web/**"
+alwaysApply: false
+---
+
+- Route files compose small feature components. Keep page files under 200 physical lines and other source files under 300.
+- Keep a feature's UI, queries, and mutations nearby. Add hooks only for real reusable state or behavior.
+- Use the existing TanStack Router/Query setup and central HTTP error handling. Invalidate affected queries after successful mutations; avoid routine polling.
+- Define route pages and authenticated/signed-out route layouts with `lazyRouteComponent` unless the component is required for the initial shell. Direct URL navigation, pending/error boundaries, and protected redirects must still work after splitting.
+- Use relative `/api` URLs, Hono RPC for application data, and Better Auth's client for auth/organizations. Browser sessions use HttpOnly cookies; do not copy bearer tokens into browser storage.
+- Provide loading, empty, error, and pending states. Prevent duplicate submissions and keep server authorization authoritative.
+- Preserve semantic HTML, accessible labels, keyboard operation, and responsive layouts. Keep Tailwind's Vite integration working.
+- Run a production web build after route or dependency changes and compare initial minified and gzip sizes. Resolve large initial chunks through real route/component splitting before considering manual vendor chunks; do not raise `chunkSizeWarningLimit` merely to suppress a warning.
+- Use real account and file data. Do not fill screens with invented metrics or infrastructure details.

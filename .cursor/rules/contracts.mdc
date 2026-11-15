@@ -1,0 +1,13 @@
+---
+description: Shared application contracts and mobile-compatible HTTP evolution
+globs: "packages/contracts/**,packages/api-client/**,docs/openapi/**"
+alwaysApply: false
+---
+
+- Shared Zod schemas define application inputs and outputs; derive TypeScript types from them.
+- Every permission defined in `packages/contracts/src/access/permissions.ts` must follow the Single Responsibility Principle: do exactly one atomic action (format `resource:action`). Avoid compound permissions that bundle multiple actions.
+- Keep application endpoints and errors distinct from Better Auth's native contract. Do not duplicate its generated user, auth, or organization schemas in application packages.
+- Keep `/api/v1` changes additive. Installed mobile clients cannot update with each web deployment; both developers review changes that affect them.
+- Use optional additions or a new API version for incompatible semantics. Do not silently rename fields, tighten accepted input, or repurpose error codes.
+- Generate `docs/openapi/app.json` and `docs/openapi/auth.json` with `pnpm openapi:generate`; never hand-edit generated documents. Run `pnpm openapi:check` after changes.
+- Hono RPC serves React. Flutter uses HTTP/OpenAPI and does not import TypeScript packages.

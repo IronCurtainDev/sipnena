@@ -1,0 +1,50 @@
+name: Mobile
+
+on:
+  pull_request:
+    paths: ["apps/mobile/**", ".github/workflows/mobile.yml"]
+  push:
+    branches: ["main"]
+    paths: ["apps/mobile/**", ".github/workflows/mobile.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      initialized: ${{ steps.app.outputs.initialized }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - id: app
+        run: |
+          if test -f apps/mobile/pubspec.yaml; then
+            test -s apps/mobile/.fvmrc || { echo "Pin the SDK in apps/mobile/.fvmrc"; exit 1; }
+            echo "initialized=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "initialized=false" >> "$GITHUB_OUTPUT"
+            echo "Flutter application has not been initialized; mobile checks are skipped." >> "$GITHUB_STEP_SUMMARY"
+          fi
+  check:
+    needs: detect
+    if: needs.detect.outputs.initialized == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version-file: apps/mobile/.fvmrc
+          cache: true
+      - name: Prepare CI environment assets
+        run: |
+          cp env/.env.example env/.env.development
+          cp env/.env.example env/.env.production
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test

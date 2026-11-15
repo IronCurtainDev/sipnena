@@ -1,0 +1,7 @@
+// Sandbox flavor configuration
+#include "Generated.xcconfig"
+#include "../Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-sandbox.xcconfig"
+CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements
+// Used by development and staging builds
+PRODUCT_BUNDLE_IDENTIFIER = com.em.starter.sandbox
+BUNDLE_DISPLAY_NAME = Starter Sandbox

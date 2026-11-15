@@ -1,0 +1,20 @@
+---
+description: Hono, Better Auth, D1, R2, and Cloudflare implementation rules
+globs: "apps/api/**"
+alwaysApply: false
+---
+
+- Keep application routes under `/api/v1`; health and OpenAPI are under `/api`, Better Auth under `/api/auth`.
+- Put a feature's routes and plain database queries together. Use a service for cross-resource coordination; do not add mandatory wrapper layers.
+- Use shared Zod contracts and `@hono/zod-openapi`. Return the existing application error envelope; retain Better Auth's native responses.
+- Read `docs/security.md` before changing authentication, admin routes, permissions, uploads, or cleanup; its middleware order and stable error codes are repository invariants.
+- Better Auth handles users, sessions, credentials, organizations, roles, and invitations. Keep secure password hashing and signed bearer support. Validate browser mutation origins.
+- Upgrade `better-auth`, `@better-auth/drizzle-adapter`, the `auth` CLI, and the `@better-auth/core` override together. After upgrading, run `pnpm check:schema`, OpenAPI checks, and focused auth, organization, admin, cookie, and bearer-token tests before the full suite.
+- Better Auth error hooks are for redacted observability, not response construction. Ensure the Hono-facing auth handler converts unexpected Better Auth 5xx responses into the stable safe `{ code, message }` JSON response while leaving native 4xx responses untouched. Keep a regression test that simulates an internal adapter failure and proves the body is non-empty and private details are absent.
+- Every role permission must follow the Single Responsibility Principle: each permission does exactly one atomic action (e.g. `user:create`, `file:delete-any`). Never combine operations into compound permissions like `manage` or `crud`.
+- Scope every file query to the authenticated user. Bound request bodies before multipart parsing; files stay private, capped at 5 MiB, with attachment downloads.
+- Use existing indexed D1 queries, cursor pagination (20 default, 50 max), and fetch one extra row. Avoid full-list counts and writes on normal reads. Before adding an index, capture the target query, representative row counts, and `EXPLAIN QUERY PLAN`; keep speculative indexes on hold.
+- Disable interactive transactions for D1. Compensate cross-resource failures and keep deletion retryable. Add migration and authorization tests for changed behavior.
+- Use Workers rate-limit bindings for abuse control. They are approximate, local to Cloudflare locations, and unsuitable as billing/quota accounting.
+- Keep health database-free and errors redacted with request IDs. Never log production email links, query-string tokens, request bodies, or auth headers.
+- Check whether each migration has reached any shared or persistent database. Correct an unapplied migration in place; after application, use an additive migration. Generate schemas and migrations using the configured tools; do not manually alter generated schema snapshots.

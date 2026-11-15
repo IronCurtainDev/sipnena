@@ -1,0 +1,14 @@
+pnpm-lock.yaml
+**/dist/**
+**/build/**
+**/.wrangler/**
+**/.turbo/**
+**/node_modules/**
+**/*.generated.ts
+apps/api/drizzle/migrations/meta/**
+docs/openapi/**
+playwright-report/**
+test-results/**
+
+# Owned by the Flutter developer (dart format).
+apps/mobile/**
