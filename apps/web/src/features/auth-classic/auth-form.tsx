@@ -7,9 +7,9 @@ import { useAppConfig } from "@/lib/api/config";
 import { queryClient } from "@/lib/api/query-client";
 import { authClient, checkAuth } from "@/lib/auth/client";
 import { safeRedirect, searchParam } from "@/lib/auth/redirect";
+import { PasswordField } from "@/features/auth/password-field";
 import { AuthFooter } from "./auth-heading";
 import { AuthDivider, GoogleButton } from "./google-button";
-import { PasswordField } from "./password-field";
 
 export function AuthForm({ signup = false }: { signup?: boolean }) {
   const [email, setEmail] = useState("");

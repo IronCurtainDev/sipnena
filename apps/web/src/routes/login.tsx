@@ -1,16 +1,9 @@
-import { AuthForm } from "@/features/auth/auth-form";
-import { AuthHeading } from "@/features/auth/auth-heading";
+import { AuthForm } from "@/features/auth-classic/auth-form";
+import { AuthHeading } from "@/features/auth-classic/auth-heading";
+import { SipNenaLoginScreen } from "@/features/login/screen";
 
 export function LoginPage() {
-  return (
-    <section>
-      <AuthHeading
-        title="Welcome back"
-        description="Sign in to your account to continue."
-      />
-      <AuthForm />
-    </section>
-  );
+  return <SipNenaLoginScreen />;
 }
 
 export function SignupPage() {

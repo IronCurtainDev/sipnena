@@ -72,6 +72,22 @@ const AcceptInvitationPage = lazyRouteComponent(
   () => import("./routes/accept-invitation"),
   "AcceptInvitationPage",
 );
+const WelcomeLanguagePage = lazyRouteComponent(
+  () => import("./routes/welcome-language"),
+  "WelcomeLanguagePage",
+);
+const CreateAccountPage = lazyRouteComponent(
+  () => import("./routes/create-account"),
+  "CreateAccountPage",
+);
+const PreparingCoursesPage = lazyRouteComponent(
+  () => import("./routes/preparing-courses"),
+  "PreparingCoursesPage",
+);
+const PickSubjectsPage = lazyRouteComponent(
+  () => import("./routes/pick-subjects"),
+  "PickSubjectsPage",
+);
 
 // Runs before rendering, so signed-out visitors never see protected screens.
 async function requireSession({ location }: { location: ParsedLocation }) {
@@ -145,7 +161,7 @@ function appPage<const Path extends string>(
 }
 
 const loginRoute = createRoute({
-  getParentRoute: () => authLayout,
+  getParentRoute: () => rootRoute,
   path: "/login",
   component: LoginPage,
   validateSearch: (search: Record<string, unknown>): { redirect?: string } => ({
@@ -162,14 +178,54 @@ const homeRoute = createRoute({
   component: HomePage,
 });
 
+const welcomeLanguageRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/welcome-language",
+  component: WelcomeLanguagePage,
+});
+
+const createAccountRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/create-account",
+  component: CreateAccountPage,
+});
+
+const pickSubjectsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/pick-subjects",
+  component: PickSubjectsPage,
+});
+
+const preparingCoursesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/preparing-courses",
+  component: PreparingCoursesPage,
+});
+
+const forgotPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/forgot-password",
+  component: ForgotPasswordPage,
+});
+
+const resetPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/reset-password",
+  component: ResetPasswordPage,
+});
+
 const routeTree = rootRoute.addChildren([
   homeRoute,
+  welcomeLanguageRoute,
+  createAccountRoute,
+  pickSubjectsRoute,
+  loginRoute,
+  preparingCoursesRoute,
+  forgotPasswordRoute,
+  resetPasswordRoute,
   authLayout.addChildren([
-    loginRoute,
     authPage("/signup", SignupPage),
     authPage("/verify-email", VerifyEmailPage),
-    authPage("/forgot-password", ForgotPasswordPage),
-    authPage("/reset-password", ResetPasswordPage),
   ]),
   appLayout.addChildren([
     appPage("/account", AccountPage),

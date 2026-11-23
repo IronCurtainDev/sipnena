@@ -101,7 +101,7 @@ export function getAuth(env: Bindings) {
 export function createAuth(env: Bindings): Auth<AuthOptions> {
   const settings = authSettings(env);
   return betterAuth<AuthOptions>({
-    appName: "MVP Starter",
+    appName: "SipNena",
     baseURL: settings.baseURL,
     basePath: "/api/auth",
     secret: env.BETTER_AUTH_SECRET,

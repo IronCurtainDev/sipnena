@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource/noto-sans": "^5.3.0",
+    "@fontsource/noto-sans-sinhala": "^5.3.0",
+    "@fontsource/noto-sans-tamil": "^5.3.0",
     "@repo/api-client": "workspace:*",
     "@repo/contracts": "workspace:*",
     "@tanstack/react-query": "^5.90.2",

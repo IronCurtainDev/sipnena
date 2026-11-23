@@ -16,15 +16,15 @@ Use `/api/v1` for application endpoints. Do not add a second user/auth service a
 
 The web app uses [shadcn/ui](https://ui.shadcn.com) components (Radix primitives on Tailwind v4) with `lucide-react` icons.
 
-| Change                    | Where                                                                                                                                                   |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Product name and tagline  | `apps/web/src/lib/brand.ts` (also update `<title>` in `apps/web/index.html` and `appName` in `apps/api/src/auth/auth.ts`)                               |
-| Colors, radius, font      | CSS variables in `apps/web/src/styles/global.css` (`:root` for light, `.dark` for dark). `--brand` is the accent color                                  |
-| Sidebar and mobile menu   | Add one entry to `apps/web/src/components/layout/nav-items.ts`; `visible` hides it by permission or capability                                          |
-| New signed-in page        | `appPage("/path", Page)` in `apps/web/src/router.tsx`. It gets the sidebar shell and the session check                                                  |
-| New signed-out page       | `authPage("/path", Page)` in `apps/web/src/router.tsx`. It gets the centered auth layout                                                                |
-| New UI primitive          | From `apps/web`, run `pnpm dlx shadcn@latest add <name>`, then `pnpm format`. Files land in `src/components/ui`; keep each one under the 300-line limit |
-| App-level building blocks | `apps/web/src/components/app`: `PageHeader`, `EmptyState`, `ConfirmDialog`, `Field`/`SelectField`, `Feedback`                                           |
+| Change                    | Where                                                                                                                                                                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Product name and tagline  | `apps/web/src/lib/brand.ts` (also update `<title>` in `apps/web/index.html` and `appName` in `apps/api/src/auth/auth.ts`)                                                                                                              |
+| Colors, radius, font      | CSS variables in `apps/web/src/styles/global.css` (`:root` for light, `.dark` for dark). `--brand` is the accent color                                                                                                                 |
+| Sidebar and mobile menu   | Add one entry to `apps/web/src/components/layout/nav-items.ts`; `visible` hides it by permission or capability                                                                                                                         |
+| New signed-in page        | `appPage("/path", Page)` in `apps/web/src/router.tsx`. It gets the sidebar shell and the session check                                                                                                                                 |
+| New signed-out page       | Prefer `authPage("/path", Page)` for compact auth (verify/password). Full-bleed SipNena onboarding (`/welcome-language`, `/create-account`, `/login`) hangs off `rootRoute` with its own shell — document both until signup is unified |
+| New UI primitive          | From `apps/web`, run `pnpm dlx shadcn@latest add <name>`, then `pnpm format`. Files land in `src/components/ui`; keep each one under the 300-line limit                                                                                |
+| App-level building blocks | `apps/web/src/components/app`: `PageHeader`, `EmptyState`, `ConfirmDialog`, `Field`/`SelectField`, `Feedback`                                                                                                                          |
 
 Build pages from `PageHeader` plus cards or lists, give every list a loading skeleton and an `EmptyState`, and confirm destructive actions with `ConfirmDialog`. The CSP in `apps/web/public/_headers` blocks inline scripts and `style` attributes, so put any pre-paint script in `public/` as a file. It allows injected `<style>` elements (`style-src-elem`) only because Radix scroll locking needs them.
 

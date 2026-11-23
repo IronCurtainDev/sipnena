@@ -2,11 +2,12 @@
 
 Build small MVPs for two developers. Read [architecture](docs/architecture.md) and the existing feature before adding code.
 
+- Product (SipNena web): student/parent-facing onboarding in Sinhala, Tamil, and English. Prefer plain language, large tap targets, and calm motion. Do not invent metrics or claim unfinished features.
 - Hono/React owns API, web, contracts, migrations, and deployment. Flutter owns `apps/mobile` and its toolchain; do not scaffold or choose mobile dependencies during unrelated API/web work.
 - Keep pages/screens at most 200 physical lines and other handwritten TypeScript/Dart files at most 300. Extract coherent responsibilities; never compress formatting to pass.
 - Start with feature routes, plain queries, and nearby UI. Add a coordination service only when needed. Avoid forwarding classes, empty abstractions, and generic frameworks.
 - Keep React assets and `/api/*` on one Worker origin. Use D1 and private R2; do not add KV counters, polling, or infrastructure without a concrete need.
-- Better Auth owns authentication and organizations. Check authorization at every data boundary; files are personal by default. Never log credentials, cookies, bearer tokens, or production email links.
+- Better Auth owns authentication and organizations. Auth mutations (sign-up, sign-in, Google) must use Better Auth cookie sessions — never placeholder “account created” success. Until `/create-account` is wired, keep `/signup` as the real registration path and treat SipNena create-account as UI prototype only. Check authorization at every data boundary; files are personal by default. Never log credentials, cookies, bearer tokens, or production email links.
 - Keep Better Auth, its adapters, CLI, and `@better-auth/core` on the same version. After an auth upgrade, check generated schema and OpenAPI, exercise cookie and bearer sessions, organizations, admin authorization, and unexpected 5xx responses. Error hooks may log redacted details but clients must receive stable safe JSON; preserve normal Better Auth 4xx shapes.
 - Every permission assigned to a role must follow the Single Responsibility Principle: each permission must do exactly one discrete, atomic action (`resource:action`, e.g. `user:create`, `file:delete-any`). Never bundle multiple operations into compound permissions (avoid `manage` or `crud`).
 - Application contracts come from shared Zod schemas. Regenerate OpenAPI after HTTP changes. Keep `/api/v1` additive and flag mobile-facing changes for both developers' review.

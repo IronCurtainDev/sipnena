@@ -1,0 +1,22 @@
+{
+  "targets": {
+    "/welcome-language": {
+      "projectId": "fda42fea-188b-4893-bb37-0c191ed581b6",
+      "activeDraftId": "363e6622-cd7f-448f-80dc-b2d26c38e63b",
+      "title": "SipNena Welcome Language Selection",
+      "canvasUrl": "https://superdesign.dev/teams/2e210ee2-9329-44f7-a64b-a221c5f24ba8/projects/fda42fea-188b-4893-bb37-0c191ed581b6",
+      "previewUrl": "https://p.superdesign.dev/draft/363e6622-cd7f-448f-80dc-b2d26c38e63b",
+      "designDirection": "Keep SipNena blue/clean; refine for student/parent clarity",
+      "contextFiles": [
+        "apps/web/src/features/onboarding/sipnena-screen.tsx",
+        "apps/web/src/features/onboarding/content.tsx",
+        "apps/web/src/features/onboarding/tokens.ts",
+        "apps/web/src/features/onboarding/strings.ts",
+        "apps/web/src/features/onboarding/compact-language-switcher.tsx",
+        "apps/web/src/features/onboarding/animated-students-scene.tsx",
+        ".superdesign/design-system.md",
+        ".superdesign/init/theme.md"
+      ]
+    }
+  }
+}

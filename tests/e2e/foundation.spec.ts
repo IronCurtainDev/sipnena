@@ -20,9 +20,10 @@ test("register, verify, sign in, update profile, and sign out", async ({
   await expect(page).toHaveURL(/\/verify-email/);
   await page.goto(await emailLink(email, "Verify"));
   await page.goto("/login");
-  await page.getByLabel("Email", { exact: true }).fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await expect(page.getByTestId("login-heading")).toBeVisible();
+  await page.getByTestId("login-email").fill(email);
+  await page.getByTestId("login-password").fill(password);
+  await page.getByTestId("login-submit").click();
   await expect(
     page.getByRole("heading", { name: "Your account" }),
   ).toBeVisible();
@@ -41,9 +42,7 @@ test("register, verify, sign in, update profile, and sign out", async ({
   await page.getByRole("menuitem", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/login/);
   await page.goto("/account");
-  await expect(
-    page.getByRole("heading", { name: "Welcome back" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("login-heading")).toBeVisible();
   expect(errors).toEqual([]);
 });
 
@@ -103,9 +102,7 @@ test("small screens, protected navigation, and generated CSS", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/files");
-  await expect(
-    page.getByRole("heading", { name: "Welcome back" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("login-heading")).toBeVisible();
   const layout = await page.evaluate(() => {
     const label = document.createElement("span");
     label.className = "sr-only";

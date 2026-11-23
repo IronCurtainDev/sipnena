@@ -8,6 +8,8 @@ export default [
       "packages/**",
       "playwright-report/**",
       "test-results/**",
+      "reference_folder/**",
+      "sample_ui/**",
     ],
   },
   ...config,

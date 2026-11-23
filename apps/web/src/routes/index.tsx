@@ -26,6 +26,6 @@ export function HomePage() {
   return data ? (
     <Navigate to="/account" replace />
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate to="/welcome-language" replace />
   );
 }

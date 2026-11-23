@@ -2,6 +2,15 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource/noto-sans/400.css";
+@import "@fontsource/noto-sans/600.css";
+@import "@fontsource/noto-sans/700.css";
+@import "@fontsource/noto-sans-sinhala/400.css";
+@import "@fontsource/noto-sans-sinhala/600.css";
+@import "@fontsource/noto-sans-sinhala/700.css";
+@import "@fontsource/noto-sans-tamil/400.css";
+@import "@fontsource/noto-sans-tamil/600.css";
+@import "@fontsource/noto-sans-tamil/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -126,11 +135,71 @@
   }
 }
 
+@keyframes pageSlideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-lang-switch {
+  animation: pageSlideFadeIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-page-enter {
+  animation: pageSlideFadeIn 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* SipNena onboarding tokens — use classes, not inline style= (CSP style-src 'self') */
+.sipnena-onboarding {
+  --sn-page-bg: #f8fafc;
+  --sn-auth-bg: #f4f7fb;
+  --sn-surface: #ffffff;
+  --sn-surface-muted: #f1f5f9;
+  --sn-surface-selected: #eff6ff;
+  --sn-primary: #0d5bd7;
+  --sn-primary-hover: #0a49b0;
+  --sn-text-main: #0f172a;
+  --sn-text-secondary: #475569;
+  --sn-text-muted: #64748b;
+  --sn-border: #e2e8f0;
+  --sn-border-selected: #0d5bd7;
+  font-family:
+    "Noto Sans", "Noto Sans Sinhala", "Noto Sans Tamil", ui-sans-serif,
+    system-ui, sans-serif;
+}
+
+.sn-progress {
+  width: 15%;
+}
+.sn-progress[data-progress="25"] {
+  width: 25%;
+}
+.sn-progress[data-progress="50"] {
+  width: 50%;
+}
+.sn-progress[data-progress="75"] {
+  width: 75%;
+}
+.sn-progress[data-progress="100"] {
+  width: 100%;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
   ::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .sipnena-onboarding video[data-respect-reduced-motion] {
+    display: none;
   }
 }
