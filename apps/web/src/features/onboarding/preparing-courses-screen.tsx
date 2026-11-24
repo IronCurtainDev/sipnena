@@ -40,7 +40,7 @@ function getInitialChosenSubjects(): string[] {
 
 export function PreparingCoursesLoadingScreen({
   selectedLang: propLang,
-  targetRoute = "/login",
+  targetRoute = "/home",
   onComplete,
 }: Props) {
   const navigate = useNavigate();

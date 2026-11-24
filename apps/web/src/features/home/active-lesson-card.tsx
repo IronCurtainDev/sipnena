@@ -1,0 +1,117 @@
+import { Clock, FlaskConical, Play } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
+import { RayDiagramThumbnail } from "./thumbnails";
+import { HOME_STRINGS } from "./strings";
+
+interface ActiveLessonCardProps {
+  lang: AppLanguage;
+  onContinue: () => void;
+}
+
+export function ActiveLessonCard({ lang, onContinue }: ActiveLessonCardProps) {
+  const t = HOME_STRINGS[lang];
+
+  return (
+    <section aria-labelledby="pickup-heading" className="space-y-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2">
+          <h2
+            id="pickup-heading"
+            className="text-sm font-bold tracking-tight text-[var(--sn-text-main)]"
+          >
+            {t.pickUpLabel}
+          </h2>
+          <span className="hidden rounded-full bg-[var(--sn-surface-selected)] px-2.5 py-0.5 text-xs font-semibold text-[var(--sn-primary)] sm:inline-block">
+            {t.gradeLabel}
+          </span>
+        </div>
+
+        <span className="text-xs font-semibold text-[var(--sn-primary)] sm:hidden">
+          {t.gradeLabel}
+        </span>
+        <div className="hidden items-center gap-1.5 text-xs font-medium text-[var(--sn-text-muted)] sm:flex">
+          <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>{t.lastOpenedLabel}</span>
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] shadow-sm">
+        <div className="flex flex-col gap-5 p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
+          <div className="flex items-start gap-3.5 sm:hidden">
+            <RayDiagramThumbnail compact />
+            <div className="min-w-0 flex-1 space-y-1">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
+                <FlaskConical
+                  className="h-3.5 w-3.5 shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{t.activeSubjectBadge}</span>
+              </div>
+              <h3 className="line-clamp-2 text-base font-bold leading-snug text-[var(--sn-text-main)]">
+                {t.activeLessonTitle}
+              </h3>
+              <p className="line-clamp-2 text-xs text-[var(--sn-text-secondary)]">
+                {t.activeLessonUnitMobile}
+              </p>
+            </div>
+          </div>
+
+          <div className="hidden w-56 shrink-0 overflow-hidden rounded-xl border border-[var(--sn-border)] sm:block lg:w-64">
+            <RayDiagramThumbnail />
+          </div>
+
+          <div className="min-w-0 flex-1 space-y-3.5">
+            <div className="hidden space-y-1.5 sm:block">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50 px-3 py-0.5 text-xs font-bold text-emerald-800">
+                <FlaskConical
+                  className="h-3.5 w-3.5 shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{t.activeSubjectBadge}</span>
+              </div>
+              <h3 className="line-clamp-2 text-xl font-bold leading-snug text-[var(--sn-text-main)]">
+                {t.activeLessonTitle}
+              </h3>
+              <p className="line-clamp-2 text-sm font-medium text-[var(--sn-text-secondary)]">
+                {t.activeLessonUnitDesktop}
+              </p>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs sm:text-sm">
+                <span className="font-bold text-[var(--sn-text-main)]">
+                  {t.percentCompleted}
+                </span>
+                <span className="rounded-md bg-[var(--sn-surface-selected)] px-2 py-0.5 text-xs font-semibold text-[var(--sn-primary)]">
+                  {t.lessonsFraction}
+                </span>
+              </div>
+              <div
+                role="progressbar"
+                aria-valuenow={65}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={t.percentCompleted}
+                className="h-2.5 w-full overflow-hidden rounded-full bg-[var(--sn-surface-muted)]"
+              >
+                <div
+                  className="sn-progress h-full rounded-full bg-[var(--sn-primary)]"
+                  data-progress="65"
+                />
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={onContinue}
+              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] sm:w-auto sm:text-base"
+            >
+              <Play className="h-4 w-4 fill-white" aria-hidden="true" />
+              <span>{t.continueLessonBtn}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

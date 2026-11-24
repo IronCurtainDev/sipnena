@@ -88,6 +88,18 @@ const PickSubjectsPage = lazyRouteComponent(
   () => import("./routes/pick-subjects"),
   "PickSubjectsPage",
 );
+const SipNenaHomePage = lazyRouteComponent(
+  () => import("./routes/home"),
+  "SipNenaHomePage",
+);
+const CoursesPage = lazyRouteComponent(
+  () => import("./routes/courses"),
+  "CoursesPage",
+);
+const CourseDetailPage = lazyRouteComponent(
+  () => import("./routes/course"),
+  "CourseDetailPage",
+);
 
 // Runs before rendering, so signed-out visitors never see protected screens.
 async function requireSession({ location }: { location: ParsedLocation }) {
@@ -214,8 +226,36 @@ const resetPasswordRoute = createRoute({
   component: ResetPasswordPage,
 });
 
+const sipnenaHomeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/home",
+  component: SipNenaHomePage,
+});
+
+const coursesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/courses",
+  component: CoursesPage,
+});
+
+const courseRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/course",
+  component: CourseDetailPage,
+});
+
+const courseIdRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/courses/$courseId",
+  component: CourseDetailPage,
+});
+
 const routeTree = rootRoute.addChildren([
   homeRoute,
+  sipnenaHomeRoute,
+  coursesRoute,
+  courseRoute,
+  courseIdRoute,
   welcomeLanguageRoute,
   createAccountRoute,
   pickSubjectsRoute,

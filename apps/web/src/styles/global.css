@@ -181,8 +181,14 @@
 .sn-progress[data-progress="25"] {
   width: 25%;
 }
+.sn-progress[data-progress="48"] {
+  width: 48%;
+}
 .sn-progress[data-progress="50"] {
   width: 50%;
+}
+.sn-progress[data-progress="65"] {
+  width: 65%;
 }
 .sn-progress[data-progress="75"] {
   width: 75%;
