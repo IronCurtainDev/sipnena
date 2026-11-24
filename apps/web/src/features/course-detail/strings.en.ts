@@ -28,7 +28,7 @@ export const STRINGS_EN: CourseDetailStrings = {
   trailerDurationLabel: "3:15 Trailer",
   subjectGradePill: "Science • Grade 8",
   mediumPill: "සිංහල & English Medium",
-  courseTitle: "Light, Reflection & Spherical Mirrors: Complete Guide",
+  courseTitle: "Light, Reflection & Spherical Mirrors: Complete Mastery",
   instructorRoleMobile: "Senior Science Teacher, Colombo",
   reviewsWord: "reviews",
   lessonsTotalWord: "lessons total",

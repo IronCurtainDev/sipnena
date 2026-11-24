@@ -2,7 +2,6 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
-  lazyRouteComponent,
   redirect,
   type ParsedLocation,
   type RouteComponent,
@@ -17,89 +16,30 @@ import {
 import { OrganizationGate } from "./features/organizations/organization-gate";
 import { authClient } from "./lib/auth/client";
 import { safeRedirect } from "./lib/auth/redirect";
-
-// Route layouts and screens load on demand to keep the initial shell small.
-const AuthLayout = lazyRouteComponent(
-  () => import("./components/layout/auth-layout"),
-  "AuthLayout",
-);
-const AppLayout = lazyRouteComponent(
-  () => import("./components/layout/app-layout"),
-  "AppLayout",
-);
-const HomePage = lazyRouteComponent(() => import("./routes"), "HomePage");
-const LoginPage = lazyRouteComponent(
-  () => import("./routes/login"),
-  "LoginPage",
-);
-const SignupPage = lazyRouteComponent(
-  () => import("./routes/login"),
-  "SignupPage",
-);
-const VerifyEmailPage = lazyRouteComponent(
-  () => import("./routes/verify-email"),
-  "VerifyEmailPage",
-);
-const ForgotPasswordPage = lazyRouteComponent(
-  () => import("./routes/password"),
-  "ForgotPasswordPage",
-);
-const ResetPasswordPage = lazyRouteComponent(
-  () => import("./routes/password"),
-  "ResetPasswordPage",
-);
-const AccountPage = lazyRouteComponent(
-  () => import("./routes/account"),
-  "AccountPage",
-);
-const FilesPage = lazyRouteComponent(
-  () => import("./routes/files"),
-  "FilesPage",
-);
-const AdminPage = lazyRouteComponent(
-  () => import("./routes/admin"),
-  "AdminPage",
-);
-const OrganizationsPage = lazyRouteComponent(
-  () => import("./routes/organizations"),
-  "OrganizationsPage",
-);
-const OrganizationPage = lazyRouteComponent(
-  () => import("./routes/organization"),
-  "OrganizationPage",
-);
-const AcceptInvitationPage = lazyRouteComponent(
-  () => import("./routes/accept-invitation"),
-  "AcceptInvitationPage",
-);
-const WelcomeLanguagePage = lazyRouteComponent(
-  () => import("./routes/welcome-language"),
-  "WelcomeLanguagePage",
-);
-const CreateAccountPage = lazyRouteComponent(
-  () => import("./routes/create-account"),
-  "CreateAccountPage",
-);
-const PreparingCoursesPage = lazyRouteComponent(
-  () => import("./routes/preparing-courses"),
-  "PreparingCoursesPage",
-);
-const PickSubjectsPage = lazyRouteComponent(
-  () => import("./routes/pick-subjects"),
-  "PickSubjectsPage",
-);
-const SipNenaHomePage = lazyRouteComponent(
-  () => import("./routes/home"),
-  "SipNenaHomePage",
-);
-const CoursesPage = lazyRouteComponent(
-  () => import("./routes/courses"),
-  "CoursesPage",
-);
-const CourseDetailPage = lazyRouteComponent(
-  () => import("./routes/course"),
-  "CourseDetailPage",
-);
+import {
+  AcceptInvitationPage,
+  AccountPage,
+  AdminPage,
+  AppLayout,
+  AuthLayout,
+  CourseDetailPage,
+  CoursesPage,
+  CreateAccountPage,
+  FilesPage,
+  ForgotPasswordPage,
+  HomePage,
+  LoginPage,
+  OrganizationPage,
+  OrganizationsPage,
+  PickSubjectsPage,
+  PreparingCoursesPage,
+  ResetPasswordPage,
+  SignupPage,
+  SipNenaHomePage,
+  VerifyEmailPage,
+  VideoLessonPage,
+  WelcomeLanguagePage,
+} from "./route-components";
 
 // Runs before rendering, so signed-out visitors never see protected screens.
 async function requireSession({ location }: { location: ParsedLocation }) {
@@ -250,12 +190,26 @@ const courseIdRoute = createRoute({
   component: CourseDetailPage,
 });
 
+const videoLessonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lesson",
+  component: VideoLessonPage,
+});
+
+const courseLessonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/courses/$courseId/lesson",
+  component: VideoLessonPage,
+});
+
 const routeTree = rootRoute.addChildren([
   homeRoute,
   sipnenaHomeRoute,
   coursesRoute,
   courseRoute,
   courseIdRoute,
+  videoLessonRoute,
+  courseLessonRoute,
   welcomeLanguageRoute,
   createAccountRoute,
   pickSubjectsRoute,

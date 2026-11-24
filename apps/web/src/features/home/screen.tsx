@@ -87,7 +87,7 @@ export function SipNenaHomeScreen() {
 
           <ActiveLessonCard
             lang={lang}
-            onContinue={() => showToast(t.statusOpeningLesson)}
+            onContinue={() => void navigate({ to: "/lesson" })}
           />
 
           <MobileSupportStrip

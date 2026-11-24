@@ -66,7 +66,8 @@ export const COURSES_STRINGS_EN: CourseStrings = {
     "Grade 8 Science: Human Body Systems (මානව දේහ පද්ධති)",
   course_humanBody_desc:
     "Simple, clear lessons on how digestion, breathing, and blood circulation work in our body.",
-  course_opticsMirrors_title: "Light, Reflection & Mirrors: Complete Guide",
+  course_opticsMirrors_title:
+    "Light, Reflection & Spherical Mirrors: Complete Mastery",
   course_opticsMirrors_desc:
     "Ray diagrams made easy! Learn how flat and curved mirrors reflect light for term tests.",
   course_plantNutrition_title: "Plant Nutrition & Photosynthesis",

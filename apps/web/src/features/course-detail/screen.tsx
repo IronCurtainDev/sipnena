@@ -33,7 +33,6 @@ export function SipNenaCourseDetailScreen() {
   const [previewLesson, setPreviewLesson] = useState<LessonItem | null>(null);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isEnrollSuccess, setIsEnrollSuccess] = useState(false);
-  const [isEnrolled, setIsEnrolled] = useState(false);
   const [statusToast, setStatusToast] = useState<string | null>(null);
   const [demoState, setDemoState] = useState<
     "ready" | "loading" | "empty" | "error"
@@ -42,8 +41,6 @@ export function SipNenaCourseDetailScreen() {
   const t = COURSE_DETAIL_STRINGS[lang];
   const course = COURSE_DETAIL_MOCK;
   const allExpanded = openModuleIds.length === course.modules.length;
-  const firstPreviewLesson =
-    course.modules[0]?.lessons.find((l) => l.isFreePreview) ?? null;
 
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -104,12 +101,8 @@ export function SipNenaCourseDetailScreen() {
   };
 
   const handleLessonClick = (lesson: LessonItem) => {
-    if (isEnrolled || lesson.isFreePreview) {
-      setPreviewLesson(lesson);
-    } else {
-      setIsEnrollModalOpen(true);
-      setIsEnrollSuccess(false);
-    }
+    showToast(lesson.id);
+    void navigate({ to: "/lesson" });
   };
 
   return (
@@ -156,9 +149,7 @@ export function SipNenaCourseDetailScreen() {
                   <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] sm:hidden">
                     <TrailerVideoThumbnail
                       t={t}
-                      onWatchPreview={() =>
-                        setPreviewLesson(firstPreviewLesson)
-                      }
+                      onWatchPreview={() => void navigate({ to: "/lesson" })}
                     />
                   </div>
 
@@ -196,7 +187,7 @@ export function SipNenaCourseDetailScreen() {
                 <CoursePurchaseSidebar
                   course={course}
                   t={t}
-                  onWatchPreview={() => setPreviewLesson(firstPreviewLesson)}
+                  onWatchPreview={() => void navigate({ to: "/lesson" })}
                   onEnroll={() => {
                     setIsEnrollModalOpen(true);
                     setIsEnrollSuccess(false);
@@ -250,13 +241,11 @@ export function SipNenaCourseDetailScreen() {
         }}
         onConfirmJoin={() => {
           setIsEnrollSuccess(true);
-          setIsEnrolled(true);
         }}
         onStartFirstLesson={() => {
           setIsEnrollModalOpen(false);
           setIsEnrollSuccess(false);
-          setPreviewLesson(firstPreviewLesson);
-          showToast(t.l1_title);
+          void navigate({ to: "/lesson" });
         }}
         onGoToCourses={() => {
           setIsEnrollModalOpen(false);
