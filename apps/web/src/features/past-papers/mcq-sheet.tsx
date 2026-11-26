@@ -1,7 +1,10 @@
 import { Bookmark, CheckCircle2, XCircle } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import type { McqQuestionItem } from "./mock-data";
+import { PAST_PAPERS_COPY } from "./strings";
 
 interface McqSheetProps {
+  lang: AppLanguage;
   mcqs: McqQuestionItem[];
   answers: Record<string, number>;
   graded: boolean;
@@ -13,6 +16,7 @@ interface McqSheetProps {
 }
 
 export function McqAnswerSheet({
+  lang,
   mcqs,
   answers,
   graded,
@@ -22,6 +26,7 @@ export function McqAnswerSheet({
   onGrade,
   onReset,
 }: McqSheetProps) {
+  const copy = PAST_PAPERS_COPY[lang];
   const correctCount = mcqs.filter(
     (q) => answers[q.id] === q.correctIndex,
   ).length;
@@ -31,16 +36,16 @@ export function McqAnswerSheet({
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <h2 className="text-lg font-extrabold text-[var(--sn-text-main)]">
-            Part I — Interactive MCQ Answer Sheet
+            {copy.part1Title}
           </h2>
-          <p className="text-xs text-[var(--sn-text-muted)]">
-            Select answers below and grade instantly with official solutions.
-          </p>
+          <p className="text-xs text-[var(--sn-text-muted)]">{copy.part1Sub}</p>
         </div>
 
         {graded && (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-right">
-            <p className="text-xs font-bold text-emerald-800">Score Summary</p>
+            <p className="text-xs font-bold text-emerald-800">
+              {copy.scoreSummary}
+            </p>
             <p className="text-lg font-black text-emerald-950">
               {correctCount} / {mcqs.length} (
               {Math.round((correctCount / mcqs.length) * 100)}%)
@@ -61,7 +66,7 @@ export function McqAnswerSheet({
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-bold text-[var(--sn-text-main)]">
-                  {q.number}. {q.prompt}
+                  {q.number}. {q.prompt[lang]}
                 </p>
                 <button
                   type="button"
@@ -71,7 +76,7 @@ export function McqAnswerSheet({
                       ? "bg-[var(--sn-sage)] text-[var(--sn-primary)]"
                       : "text-slate-400 hover:bg-slate-200"
                   }`}
-                  aria-label={`Bookmark question ${q.number}`}
+                  aria-label={`${q.number}`}
                 >
                   <Bookmark
                     className={`h-4 w-4 ${saved ? "fill-current" : ""}`}
@@ -80,7 +85,7 @@ export function McqAnswerSheet({
               </div>
 
               <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {q.options.map((opt, idx) => {
+                {q.options[lang].map((opt, idx) => {
                   const selected = chosen === idx;
                   const highlightRight = graded && idx === q.correctIndex;
                   const highlightWrong = graded && selected && !isCorrect;
@@ -115,7 +120,8 @@ export function McqAnswerSheet({
 
               {graded && (
                 <p className="mt-2.5 rounded-xl bg-white px-3 py-2 text-xs text-[var(--sn-text-secondary)]">
-                  <strong>Explanation:</strong> {q.explanation}
+                  <strong>{copy.explanationPrefix}</strong>{" "}
+                  {q.explanation[lang]}
                 </p>
               )}
             </div>
@@ -130,7 +136,7 @@ export function McqAnswerSheet({
             onClick={onReset}
             className="rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-5 py-2.5 text-xs font-bold text-[var(--sn-primary)]"
           >
-            Retry MCQ Sheet
+            {copy.retryMcqBtn}
           </button>
         ) : (
           <button
@@ -138,7 +144,7 @@ export function McqAnswerSheet({
             onClick={onGrade}
             className="rounded-xl bg-[var(--sn-primary)] px-6 py-3 text-xs font-bold text-white shadow-sm hover:bg-[var(--sn-primary-hover)]"
           >
-            Submit &amp; Auto-Grade MCQs
+            {copy.submitGradeBtn}
           </button>
         )}
       </div>

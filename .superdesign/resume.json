@@ -10,7 +10,7 @@
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
       "activeDraftId": "be4fb51e-33aa-4398-b676-0586377a93cb",
       "previewUrl": "https://p.superdesign.dev/draft/be4fb51e-33aa-4398-b676-0586377a93cb",
-      "designDirection": "Dense grade 6-11 home — full width, sticky rail"
+      "designDirection": "Dense grade 6-11 home \u2014 full width, sticky rail"
     },
     "/courses": {
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
@@ -28,13 +28,13 @@
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
       "activeDraftId": "56c3625f-b344-4f2b-82cc-cb9301a6fa14",
       "previewUrl": "https://p.superdesign.dev/draft/56c3625f-b344-4f2b-82cc-cb9301a6fa14",
-      "designDirection": "Dense course detail — sticky purchase rail"
+      "designDirection": "Dense course detail \u2014 sticky purchase rail"
     },
     "/me": {
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
       "activeDraftId": "329b71aa-c05e-44b6-903b-afec5dd24f24",
       "previewUrl": "https://p.superdesign.dev/draft/329b71aa-c05e-44b6-903b-afec5dd24f24",
-      "designDirection": "Dense profile — compact identity, sticky widgets"
+      "designDirection": "Dense profile \u2014 compact identity, sticky widgets"
     },
     "/lesson": {
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
@@ -61,6 +61,141 @@
       "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
       "activeDraftId": "5bd76914-9cff-4a30-93a7-87fd22a940f9",
       "previewUrl": "https://p.superdesign.dev/draft/5bd76914-9cff-4a30-93a7-87fd22a940f9"
+    },
+    "/teacher/courses": {
+      "targetKind": "new-ui",
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "82dd37c0-db8a-44fd-b4a1-020bf1fca002",
+      "sourceTarget": "/lesson",
+      "sourceDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "canvasUrl": "https://superdesign.dev/teams/c5c180d2-7762-4bd4-925c-557ec432c967/projects/1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "previewUrl": "https://p.superdesign.dev/draft/82dd37c0-db8a-44fd-b4a1-020bf1fca002",
+      "designSystemPath": ".superdesign/design-system.md",
+      "designDirection": "Wide breathable card-grid My Courses library",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "apps/web/src/features/teacher/courses-library-screen.tsx",
+        "apps/web/src/features/teacher/teacher-course-card.tsx",
+        "apps/web/src/features/teacher/course-strings.ts"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "39d4977f6144d49e83bb57d207023ad15b965f12931f83ce106bea48af4956e1",
+        "apps/web/src/features/teacher/courses-library-screen.tsx": "6cbb1f3827a04398c642650635be3c5bc6ee910f00d0aa56c57b9ce3ba0e91ee",
+        "apps/web/src/features/teacher/teacher-course-card.tsx": "4c27bf31d1f5afb60685d3bf683624c3ee6c8783d3e136accf3605f291f9b227",
+        "apps/web/src/features/teacher/course-strings.ts": "510a475137eb8a382415e3aa06abe29204fa19631b03a95222074f4d215ae903"
+      },
+      "drafts": {
+        "82dd37c0-db8a-44fd-b4a1-020bf1fca002": {
+          "title": "Teacher My Courses \u2014 Wide Layout",
+          "visualDirection": "Wide breathable card-grid My Courses library",
+          "parentDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+          "currentVersion": 3
+        }
+      },
+      "updatedAt": "2026-11-26T16:49:19.000Z"
+    },
+    "/teacher/courses/$courseId": {
+      "targetKind": "new-ui",
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "6e64d3c2-d92b-4210-836d-2dfe4873f3d7",
+      "sourceTarget": "/lesson",
+      "sourceDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "canvasUrl": "https://superdesign.dev/teams/c5c180d2-7762-4bd4-925c-557ec432c967/projects/1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "previewUrl": "https://p.superdesign.dev/draft/6e64d3c2-d92b-4210-836d-2dfe4873f3d7",
+      "designSystemPath": ".superdesign/design-system.md",
+      "designDirection": "Lesson playlist curriculum builder",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx",
+        "apps/web/src/features/quiz/question-card.tsx"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "b9c95b2b4774ef8e241557aa871602017c9c546b7dc55f99aef5fc314725c140",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx": "358b09019c8b88486d1fcd106de85e0462b910388fa4d40d74bffd7af28c344a",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx": "7032f1e0702b523d7c1ee7aaa182ae0241f884483c2b49456332b846010da0c7",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx": "2615f7ef44e981c6ec3887cb0922cab8fe37acec4b91e6a001d087609908a4f5",
+        "apps/web/src/features/quiz/question-card.tsx": "43415e317eb7f57214e0dafa46f309ee9ff7fcbf567713c2e2a4631ee8e41ff2"
+      },
+      "drafts": {
+        "6e64d3c2-d92b-4210-836d-2dfe4873f3d7": {
+          "title": "Teacher Curriculum Builder",
+          "visualDirection": "Lesson playlist curriculum builder",
+          "parentDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+          "currentVersion": 1
+        }
+      },
+      "updatedAt": "2026-11-26T16:06:51.000Z"
+    },
+    "/teacher/quizzes": {
+      "targetKind": "new-ui",
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "eae77e63-a2fe-42ec-8607-189dee3e1c13",
+      "sourceTarget": "/lesson",
+      "sourceDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "canvasUrl": "https://superdesign.dev/teams/c5c180d2-7762-4bd4-925c-557ec432c967/projects/1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "previewUrl": "https://p.superdesign.dev/draft/eae77e63-a2fe-42ec-8607-189dee3e1c13",
+      "designSystemPath": ".superdesign/design-system.md",
+      "designDirection": "Lesson question-card quiz builder",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx",
+        "apps/web/src/features/quiz/question-card.tsx"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "b9c95b2b4774ef8e241557aa871602017c9c546b7dc55f99aef5fc314725c140",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx": "358b09019c8b88486d1fcd106de85e0462b910388fa4d40d74bffd7af28c344a",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx": "7032f1e0702b523d7c1ee7aaa182ae0241f884483c2b49456332b846010da0c7",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx": "2615f7ef44e981c6ec3887cb0922cab8fe37acec4b91e6a001d087609908a4f5",
+        "apps/web/src/features/quiz/question-card.tsx": "43415e317eb7f57214e0dafa46f309ee9ff7fcbf567713c2e2a4631ee8e41ff2"
+      },
+      "drafts": {
+        "eae77e63-a2fe-42ec-8607-189dee3e1c13": {
+          "title": "Teacher Quiz Builder",
+          "visualDirection": "Lesson question-card quiz builder",
+          "parentDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+          "currentVersion": 1
+        }
+      },
+      "updatedAt": "2026-11-26T16:06:51.000Z"
+    },
+    "/teacher/doubts": {
+      "targetKind": "new-ui",
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "15b419c5-0900-4a6d-b999-5d774d2fdee3",
+      "sourceTarget": "/lesson",
+      "sourceDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "canvasUrl": "https://superdesign.dev/teams/c5c180d2-7762-4bd4-925c-557ec432c967/projects/1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "previewUrl": "https://p.superdesign.dev/draft/15b419c5-0900-4a6d-b999-5d774d2fdee3",
+      "designSystemPath": ".superdesign/design-system.md",
+      "designDirection": "Lesson discussion thread",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx",
+        "apps/web/src/features/quiz/question-card.tsx"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "b9c95b2b4774ef8e241557aa871602017c9c546b7dc55f99aef5fc314725c140",
+        "apps/web/src/features/video-lesson/desktop-lesson-view.tsx": "358b09019c8b88486d1fcd106de85e0462b910388fa4d40d74bffd7af28c344a",
+        "apps/web/src/features/video-lesson/lesson-playlist-sidebar.tsx": "7032f1e0702b523d7c1ee7aaa182ae0241f884483c2b49456332b846010da0c7",
+        "apps/web/src/features/video-lesson/lesson-discussion-tab.tsx": "2615f7ef44e981c6ec3887cb0922cab8fe37acec4b91e6a001d087609908a4f5",
+        "apps/web/src/features/quiz/question-card.tsx": "43415e317eb7f57214e0dafa46f309ee9ff7fcbf567713c2e2a4631ee8e41ff2"
+      },
+      "drafts": {
+        "15b419c5-0900-4a6d-b999-5d774d2fdee3": {
+          "title": "Teacher Doubts",
+          "visualDirection": "Lesson discussion thread",
+          "parentDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+          "currentVersion": 1
+        }
+      },
+      "updatedAt": "2026-11-26T16:06:51.000Z"
     }
-  }
+  },
+  "schemaVersion": 1
 }

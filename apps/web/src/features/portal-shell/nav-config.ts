@@ -1,20 +1,22 @@
 import {
   Calendar,
-  ClipboardList,
   CreditCard,
   FileCheck2,
   FolderTree,
   GraduationCap,
   HelpCircle,
+  Library,
   MessageCircleQuestion,
-  NotebookPen,
+  Radio,
   ShieldCheck,
   Users,
   type LucideIcon,
 } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
 import type { DemoRole } from "@/lib/prototype-state";
-import { STUDENT_MOBILE_TABS, STUDENT_NAV_GROUPS } from "./student-nav";
+import { STUDENT_NAV_GROUPS } from "./student-nav";
+
+export { MOBILE_TABS_BY_ROLE } from "./mobile-tabs";
 
 export interface PortalNavLink {
   to: string;
@@ -47,26 +49,61 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
   parent: [
     {
       title: {
-        en: "Parent Portal",
-        si: "දෙමාපිය පුවරුව",
-        ta: "பெற்றோர் பகுதி",
+        en: "Children & Progress",
+        si: "දරුවන් සහ ප්‍රගතිය",
+        ta: "பிள்ளைகள் & முன்னேற்றம்",
       },
       items: [
         {
           to: "/parent",
           icon: Users,
           label: {
-            en: "Child Summary",
-            si: "දරුවාගේ ප්‍රගතිය",
-            ta: "பிள்ளை விபரம்",
+            en: "Parent Dashboard",
+            si: "දෙමාපිය පුවරුව",
+            ta: "பெற்றோர் பலகை",
           },
-          matchPrefix: "/parent",
         },
+        {
+          to: "/parent/child/kasun",
+          icon: GraduationCap,
+          label: {
+            en: "Kasun (Grade 8)",
+            si: "කසුන් (8 ශ්‍රේණිය)",
+            ta: "கசுன் (தரம் 8)",
+          },
+        },
+        {
+          to: "/parent/child/nethmi",
+          icon: GraduationCap,
+          label: {
+            en: "Nethmi (Grade 11 O/L)",
+            si: "නෙත්මි (11 සා/පෙළ)",
+            ta: "நெத்மி (தரம் 11 சா/த)",
+          },
+        },
+        {
+          to: "/schedule",
+          icon: Calendar,
+          label: {
+            en: "Tuition Timetable",
+            si: "පන්ති කාලසටහන",
+            ta: "வகுப்பு அட்டவணை",
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: "Payments & Class Cards",
+        si: "ගෙවීම් සහ කාඩ්පත්",
+        ta: "கட்டணம் & அட்டைகள்",
+      },
+      items: [
         {
           to: "/billing",
           icon: CreditCard,
           label: {
-            en: "Class Cards",
+            en: "Class Cards & Receipts",
             si: "පන්ති කාඩ්පත්",
             ta: "வகுப்பு அட்டைகள்",
           },
@@ -77,75 +114,68 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
           label: {
             en: "Pay / Upload Slip",
             si: "ගෙවීම් / රිසිට්",
-            ta: "கட்டணம்",
+            ta: "கட்டணம் / ரசீது",
           },
         },
         {
           to: "/payment-status",
           icon: FileCheck2,
-          label: { en: "Slip Status", si: "ගෙවීම් තත්ත්වය", ta: "கட்டண நிலை" },
-        },
-        {
-          to: "/schedule",
-          icon: Calendar,
-          label: { en: "Class Timetable", si: "කාලසටහන", ta: "நேர அட்டவணை" },
+          label: {
+            en: "Bank Slip Status",
+            si: "ගෙවීම් තත්ත්වය",
+            ta: "ரசீது நிலை",
+          },
         },
         {
           to: "/help",
           icon: HelpCircle,
-          label: { en: "Parent Help", si: "දෙමාපිය උදව්", ta: "உதவி" },
+          label: { en: "Parent Helpdesk", si: "දෙමාපිය උදව්", ta: "உதவி" },
         },
       ],
     },
   ],
   teacher: [
     {
-      title: { en: "Tutor Studio", si: "ගුරු මැදිරිය", ta: "ஆசிரியர் தளம்" },
+      title: {
+        en: "Tutor Studio",
+        si: "ගුරු මැදිරිය",
+        ta: "ஆசிரியர் ஸ்டுடியோ",
+      },
       items: [
         {
           to: "/teacher",
           icon: GraduationCap,
-          label: { en: "Studio Home", si: "ගුරු මුල් පිටුව", ta: "முகப்பு" },
-        },
-        {
-          to: "/teacher/courses",
-          icon: NotebookPen,
           label: {
-            en: "Lessons & Tutes",
-            si: "පාඩම් සහ ටියුට්",
-            ta: "பாடங்கள்",
+            en: "Studio Overview",
+            si: "ගුරු මුල් පිටුව",
+            ta: "ஸ்டுடியோ முகப்பு",
           },
         },
         {
-          to: "/teacher/quizzes",
-          icon: ClipboardList,
+          to: "/teacher/courses",
+          icon: Library,
           label: {
-            en: "MCQ Quiz Builder",
-            si: "ප්‍රශ්න සාදන්න",
-            ta: "வினா உருவாக்கி",
+            en: "Courses",
+            si: "පාඨමාලා",
+            ta: "பாடநெறிகள்",
           },
         },
         {
           to: "/teacher/doubts",
           icon: MessageCircleQuestion,
           label: {
-            en: "Student Doubts",
-            si: "සිසු ප්‍රශ්න",
+            en: "Student Doubt Queue",
+            si: "සිසු ප්‍රශ්න පෝලිම",
             ta: "மாணவர் கேள்விகள்",
           },
         },
         {
-          to: "/schedule",
-          icon: Calendar,
-          label: { en: "Live Timetable", si: "කාලසටහන", ta: "நேர அட்டவணை" },
-        },
-        {
-          to: "/admin/syllabus",
-          icon: FolderTree,
+          to: "/teacher/schedule",
+          icon: Radio,
           label: {
-            en: "Syllabus Tree",
-            si: "විෂය නිර්දේශය",
-            ta: "பாடத்திட்டம்",
+            en: "My Live Broadcasts",
+            si: "මගේ සජීවී පන්ති",
+            ta: "எனது நேரலை வகுப்புகள்",
           },
         },
       ],
@@ -153,120 +183,49 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
   ],
   admin: [
     {
-      title: { en: "Operations", si: "පරිපාලනය", ta: "நிர்வாகம்" },
+      title: {
+        en: "Admin Operations",
+        si: "පරිපාලක මෙහෙයුම්",
+        ta: "நிர்வாகச் செயற்பாடுகள்",
+      },
       items: [
         {
           to: "/admin/payments",
           icon: ShieldCheck,
           label: {
-            en: "Bank Slip Queue",
+            en: "Bank Slip Approval Queue",
             si: "බැංකු රිසිට් පෝලිම",
-            ta: "வங்கிச் சீட்டுகள்",
+            ta: "வங்கி ரசீது வரிசை",
           },
         },
         {
           to: "/admin/syllabus",
           icon: FolderTree,
           label: {
-            en: "Syllabus Manager",
+            en: "NIE Syllabus Manager",
             si: "විෂය නිර්දේශ කළමනාකරු",
-            ta: "பாடத்திட்ட நிர்வாகி",
+            ta: "NIE பாடத்திட்ட நிர்வாகி",
           },
         },
         {
           to: "/payment-status",
           icon: FileCheck2,
           label: {
-            en: "Status Preview",
-            si: "තත්ත්ව පෙරදසුන",
-            ta: "கட்டண நிலை",
-          },
-        },
-        {
-          to: "/billing",
-          icon: CreditCard,
-          label: {
-            en: "Billing Records",
-            si: "බිල්පත්",
-            ta: "கட்டணப் பதிவுகள்",
+            en: "Verification Status View",
+            si: "තහවුරු තත්ත්ව පෙරදසුන",
+            ta: "சரிபார்ப்பு நிலைப் பார்வை",
           },
         },
         {
           to: "/help",
           icon: HelpCircle,
-          label: { en: "Policies & Legal", si: "නීති සහ උදව්", ta: "உதவி" },
+          label: {
+            en: "Policies & Compliance",
+            si: "ප්‍රතිපත්ති සහ උදව්",
+            ta: "கொள்கைகள் & உதவி",
+          },
         },
       ],
-    },
-  ],
-};
-
-export const MOBILE_TABS_BY_ROLE: Record<DemoRole, PortalNavLink[]> = {
-  student: STUDENT_MOBILE_TABS,
-  parent: [
-    {
-      to: "/parent",
-      icon: Users,
-      label: { en: "Child", si: "දරුවා", ta: "பிள்ளை" },
-    },
-    {
-      to: "/billing",
-      icon: CreditCard,
-      label: { en: "Cards", si: "කාඩ්පත්", ta: "அட்டை" },
-    },
-    {
-      to: "/checkout",
-      icon: ShieldCheck,
-      label: { en: "Pay", si: "ගෙවන්න", ta: "செலுத்து" },
-    },
-    {
-      to: "/payment-status",
-      icon: FileCheck2,
-      label: { en: "Status", si: "තත්ත්වය", ta: "நிலை" },
-    },
-  ],
-  teacher: [
-    {
-      to: "/teacher",
-      icon: GraduationCap,
-      label: { en: "Studio", si: "මැදිරිය", ta: "முகப்பு" },
-    },
-    {
-      to: "/teacher/courses",
-      icon: NotebookPen,
-      label: { en: "Lessons", si: "පාඩම්", ta: "பாடங்கள்" },
-    },
-    {
-      to: "/teacher/quizzes",
-      icon: ClipboardList,
-      label: { en: "Quizzes", si: "ප්‍රශ්න", ta: "வினா" },
-    },
-    {
-      to: "/teacher/doubts",
-      icon: MessageCircleQuestion,
-      label: { en: "Doubts", si: "ගැටලු", ta: "கேள்விகள்" },
-    },
-  ],
-  admin: [
-    {
-      to: "/admin/payments",
-      icon: ShieldCheck,
-      label: { en: "Slips", si: "රිසිට්", ta: "சீட்டு" },
-    },
-    {
-      to: "/admin/syllabus",
-      icon: FolderTree,
-      label: { en: "Syllabus", si: "නිර්දේශය", ta: "பாடத்திட்டம்" },
-    },
-    {
-      to: "/payment-status",
-      icon: FileCheck2,
-      label: { en: "Status", si: "තත්ත්වය", ta: "நிலை" },
-    },
-    {
-      to: "/help",
-      icon: HelpCircle,
-      label: { en: "Policies", si: "නීති", ta: "கொள்கை" },
     },
   ],
 };

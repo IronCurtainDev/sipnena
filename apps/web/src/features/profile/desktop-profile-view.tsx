@@ -206,7 +206,7 @@ export function DesktopProfileView({
                 onOpenGradeDialog={onOpenGradeDialog}
               />
 
-              <ProfileQuickLinks />
+              <ProfileQuickLinks lang={lang} />
             </div>
 
             <div className="lg:sticky lg:top-5 lg:h-[calc(100svh-2.5rem)] lg:overflow-y-auto">

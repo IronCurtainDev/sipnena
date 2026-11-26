@@ -1,5 +1,13 @@
+interface LessonFileItem {
+  id: string;
+  title: string;
+  meta: string;
+}
+
 interface LessonDownloadsTabProps {
   onToast: (msg: string) => void;
+  items?: LessonFileItem[];
+  emptyLabel?: string;
 }
 
 const DOWNLOAD_ITEMS = [
@@ -20,14 +28,26 @@ const DOWNLOAD_ITEMS = [
   },
 ];
 
-export function LessonDownloadsTab({ onToast }: LessonDownloadsTabProps) {
+export function LessonDownloadsTab({
+  onToast,
+  items,
+  emptyLabel,
+}: LessonDownloadsTabProps) {
+  const files = items ?? DOWNLOAD_ITEMS;
   return (
     <div className="space-y-4">
-      <p className="text-base text-[var(--sn-text-secondary)]">
-        Free handouts for homework and term tests. Download or open a preview.
-      </p>
+      {items ? null : (
+        <p className="text-base text-[var(--sn-text-secondary)]">
+          Free handouts for homework and term tests. Download or open a preview.
+        </p>
+      )}
+      {files.length === 0 ? (
+        <p className="text-base text-[var(--sn-text-secondary)]">
+          {emptyLabel}
+        </p>
+      ) : null}
       <ul className="space-y-1">
-        {DOWNLOAD_ITEMS.map((item) => (
+        {files.map((item) => (
           <li
             key={item.id}
             className="flex flex-col gap-2 border-t border-[var(--sn-border)] py-4 first:border-t-0 sm:flex-row sm:items-center sm:justify-between"

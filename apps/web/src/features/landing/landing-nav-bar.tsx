@@ -1,8 +1,17 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
+import {
+  ROLE_ENTRY_ROUTE,
+  ROLE_LABELS,
+} from "@/features/portal-shell/nav-config";
+import { ROLE_VISUAL_CONFIG } from "@/features/portal-shell/role-themes";
 import type { AppLanguage } from "@/lib/language";
+import { updatePrototypeState, type DemoRole } from "@/lib/prototype-state";
 import type { LandingStrings } from "./strings.types";
+
+const DEMO_ROLES: DemoRole[] = ["student", "parent", "teacher", "admin"];
 
 interface LandingNavBarProps {
   lang: AppLanguage;
@@ -29,16 +38,42 @@ export function LandingNavBar({
     onScrollToSection(sectionId);
   };
 
-  const handleBrandClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const portalStripLabel =
+    lang === "si"
+      ? "භූමිකාව අනුව පිවිසෙන්න:"
+      : lang === "ta"
+        ? "பங்கு வாரியான தளம்:"
+        : "Separate Portals:";
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--sn-border)] bg-[var(--sn-cream)]/95 backdrop-blur-md">
+      <div className="border-b border-[var(--sn-border)]/70 bg-[var(--sn-surface-muted)] px-4 py-1.5 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 text-xs">
+          <span className="font-bold text-[var(--sn-text-secondary)]">
+            {portalStripLabel}
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {DEMO_ROLES.map((role) => (
+              <Link
+                key={role}
+                to={ROLE_ENTRY_ROUTE[role]}
+                onClick={() =>
+                  updatePrototypeState((prev) => ({ ...prev, role }))
+                }
+                data-testid={`landing-portal-${role}`}
+                className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold transition ${ROLE_VISUAL_CONFIG[role].badgePillCls} hover:opacity-90`}
+              >
+                {ROLE_LABELS[role][lang]}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <button
           type="button"
-          onClick={handleBrandClick}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="text-left focus:outline-none"
         >
           <span className="text-lg font-black tracking-tight text-[var(--sn-text-main)] sm:text-xl">
@@ -132,7 +167,7 @@ export function LandingNavBar({
                 key={id}
                 type="button"
                 onClick={() => handleNavClick(id)}
-                className="rounded-xl bg-[var(--sn-olive)] px-3 py-2.5 text-left text-sm font-semibold text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)] active:scale-[0.98] transition"
+                className="rounded-xl bg-[var(--sn-olive)] px-3 py-2.5 text-left text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-sage)] active:scale-[0.98]"
               >
                 {label}
               </button>

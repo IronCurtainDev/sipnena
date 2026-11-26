@@ -1,7 +1,10 @@
 import { Bookmark, Check, Download, FileText, X } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import type { StudyMaterialItem } from "./mock-data";
+import { CATEGORY_LABELS, NOTES_COPY } from "./strings";
 
 interface MaterialPreviewModalProps {
+  lang: AppLanguage;
   item: StudyMaterialItem | null;
   isDownloaded: boolean;
   isBookmarked: boolean;
@@ -11,6 +14,7 @@ interface MaterialPreviewModalProps {
 }
 
 export function MaterialPreviewModal({
+  lang,
   item,
   isDownloaded,
   isBookmarked,
@@ -19,6 +23,8 @@ export function MaterialPreviewModal({
   onToggleBookmark,
 }: MaterialPreviewModalProps) {
   if (!item) return null;
+  const copy = NOTES_COPY[lang];
+  const itemTitle = item.localizedTitle[lang];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
@@ -35,13 +41,14 @@ export function MaterialPreviewModal({
             </span>
             <div>
               <span className="rounded-full bg-[var(--sn-surface-selected)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
-                {item.category} • {item.pages} Pages • {item.sizeLabel}
+                {CATEGORY_LABELS[item.category][lang]} • {item.pages}{" "}
+                {copy.pagesWord} • {item.sizeLabel}
               </span>
               <h3
                 id="material-preview-title"
                 className="mt-1 text-base font-extrabold text-[var(--sn-text-main)]"
               >
-                {item.title}
+                {itemTitle}
               </h3>
             </div>
           </div>
@@ -49,7 +56,7 @@ export function MaterialPreviewModal({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close preview"
+            aria-label={copy.closePreviewAria}
             className="rounded-full p-2 text-slate-500 hover:bg-slate-100"
           >
             <X className="h-5 w-5" />
@@ -59,18 +66,18 @@ export function MaterialPreviewModal({
         <div className="flex-1 space-y-4 overflow-y-auto bg-[var(--sn-page-bg)]/40 p-5">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
             <p className="text-xs font-bold uppercase tracking-wider text-[var(--sn-text-muted)]">
-              Document Preview • Page 1 of {item.pages}
+              {copy.docPreviewPrefix} {item.pages}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-[var(--sn-text-secondary)]">
-              {item.previewSummary}
+              {item.localizedSummary[lang]}
             </p>
 
             <div className="mt-4 space-y-2 border-t border-slate-100 pt-3">
               <p className="text-xs font-extrabold text-[var(--sn-primary)]">
-                Key Highlights Inside This Resource:
+                {copy.highlightsHeading}
               </p>
               <ul className="list-disc space-y-1.5 pl-4 text-xs leading-relaxed text-[var(--sn-text-main)]">
-                {item.previewBullets.map((line) => (
+                {item.localizedBullets[lang].map((line) => (
                   <li key={line}>{line}</li>
                 ))}
               </ul>
@@ -91,7 +98,7 @@ export function MaterialPreviewModal({
             <Bookmark
               className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`}
             />
-            <span>{isBookmarked ? "Bookmarked" : "Bookmark"}</span>
+            <span>{isBookmarked ? copy.bookmarkedBtn : copy.bookmarkBtn}</span>
           </button>
 
           <button
@@ -102,12 +109,12 @@ export function MaterialPreviewModal({
             {isDownloaded ? (
               <>
                 <Check className="h-4 w-4" />
-                <span>Saved Offline (Remove)</span>
+                <span>{copy.savedOfflineModalBtn}</span>
               </>
             ) : (
               <>
                 <Download className="h-4 w-4" />
-                <span>Save for Offline / Download</span>
+                <span>{copy.saveOfflineModalBtn}</span>
               </>
             )}
           </button>

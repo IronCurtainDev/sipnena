@@ -110,6 +110,7 @@ export function PickSubjectsScreen() {
         <PickSubjectsHighlightCard t={t} />
         <PickSubjectsContent
           t={t}
+          lang={selectedLang}
           grade={state.grade}
           onChangeGrade={setGrade}
           olBaskets={state.olBaskets}

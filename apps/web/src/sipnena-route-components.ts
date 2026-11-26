@@ -75,14 +75,19 @@ export const TeacherCoursesPage = lazyRouteComponent(
   "TeacherCoursesPage",
 );
 
-export const TeacherQuizzesPage = lazyRouteComponent(
+export const TeacherCourseBuilderPage = lazyRouteComponent(
   () => import("./routes/portals"),
-  "TeacherQuizzesPage",
+  "TeacherCourseBuilderPage",
 );
 
 export const TeacherDoubtsPage = lazyRouteComponent(
   () => import("./routes/portals"),
   "TeacherDoubtsPage",
+);
+
+export const TeacherSchedulePage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherSchedulePage",
 );
 
 export const AdminPaymentsPage = lazyRouteComponent(

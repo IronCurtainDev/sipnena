@@ -1,0 +1,15 @@
+---
+description: Use horizontal viewport space — avoid empty side gutters on portal and library UIs
+globs: "apps/web/**"
+alwaysApply: false
+---
+
+# Utilize horizontal space
+
+Portal and library screens must fill usable width. Do not leave large empty gutters on both sides.
+
+- Portal main content: at least `max-w-7xl` (not `max-w-3xl` / `max-w-5xl` / `max-w-6xl` for list/library/catalog pages).
+- Prefer responsive grids that grow with the viewport (`sm:grid-cols-2`, `lg:grid-cols-3`, `xl:grid-cols-4`) over a single narrow stacked column.
+- Put air **between** items (`gap-5` / `gap-6`), not as unused left/right margins from an overly narrow max-width.
+- Keep modest horizontal padding only (`px-4` / `sm:px-6` / `lg:px-8`).
+- Exception: focused single-column forms (auth, checkout, short settings) may stay narrower when that aids reading.

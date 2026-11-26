@@ -12,6 +12,7 @@ import {
 import { SipNenaPortalShell } from "@/features/portal-shell/portal-shell";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { useToastMessage } from "@/features/portal-shell/use-toast";
+import { formatGrade, formatSubject } from "@/lib/i18n-common";
 import { usePrototypeState } from "@/lib/prototype-state";
 import {
   MATERIAL_CATEGORIES,
@@ -20,6 +21,9 @@ import {
   type StudyMaterialItem,
 } from "./mock-data";
 import { MaterialPreviewModal } from "./preview-modal";
+import { CATEGORY_LABELS, NOTES_COPY } from "./strings";
+
+const SUBJECT_FILTER_KEYS = ["All", "Science", "Mathematics", "ICT", "History"];
 
 export function NotesAndMaterialsScreen({
   courseScoped = false,
@@ -30,6 +34,7 @@ export function NotesAndMaterialsScreen({
   const [lang, setLang] = useSipNenaLanguage();
   const { state, toggleBookmark, toggleDownload } = usePrototypeState();
   const { toast, showToast } = useToastMessage();
+  const copy = NOTES_COPY[lang];
 
   const [category, setCategory] = useState<"All" | MaterialCategory>("All");
   const [subject, setSubject] = useState("All");
@@ -49,31 +54,26 @@ export function NotesAndMaterialsScreen({
 
   const handleToggleDownload = (item: StudyMaterialItem) => {
     const exists = state.downloadedIds.includes(item.id);
+    const title = item.localizedTitle[lang];
     toggleDownload(item.id);
     showToast(
       exists
-        ? `Removed "${item.title}" from offline storage`
-        : `Saved "${item.title}" for offline study!`,
+        ? `${copy.removedOfflineToastPrefix} ${title}`
+        : `${copy.savedToastPrefix} ${title}`,
     );
   };
 
   const handleToggleBookmark = (item: StudyMaterialItem) => {
     const exists = state.bookmarkedIds.includes(item.id);
     toggleBookmark(item.id);
-    showToast(
-      exists ? "Removed from Saved bookmarks" : "Bookmarked for exam revision!",
-    );
+    showToast(exists ? copy.removedBookmarkToast : copy.addedBookmarkToast);
   };
 
   return (
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title={
-        courseScoped
-          ? `Course Materials (${courseId ?? "Science"})`
-          : "Tutes, Short Notes & NIE Textbooks"
-      }
+      title={courseScoped ? copy.courseMaterialsTitle : copy.pageTitle}
       roleOverride="student"
       toastMessage={toast}
     >
@@ -84,7 +84,7 @@ export function NotesAndMaterialsScreen({
             className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--sn-primary)] hover:underline"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Course Details</span>
+            <span>{copy.backToCourse}</span>
           </Link>
           <div className="flex gap-2">
             <Link
@@ -92,13 +92,13 @@ export function NotesAndMaterialsScreen({
               params={{ courseId: courseId ?? "sci-g8-full" }}
               className="rounded-xl border border-[var(--sn-border)] bg-white px-3 py-1.5 text-xs font-bold text-[var(--sn-primary)]"
             >
-              Course Q&amp;A
+              {copy.courseQa}
             </Link>
             <Link
               to="/lesson"
               className="rounded-xl bg-[var(--sn-primary)] px-3 py-1.5 text-xs font-bold text-white"
             >
-              Open Video Lesson
+              {copy.openVideoLesson}
             </Link>
           </div>
         </div>
@@ -109,24 +109,24 @@ export function NotesAndMaterialsScreen({
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--sn-olive)] px-3 py-1 text-xs font-bold text-[var(--sn-primary)]">
               <BookOpen className="h-3.5 w-3.5" />
-              <span>Categorized Revision Library</span>
+              <span>{copy.libraryBadge}</span>
             </span>
             <h2 className="mt-2 text-xl font-extrabold text-[var(--sn-text-main)]">
-              Lesson Tutes, Short Notes, Formula Sheets &amp; NIE Textbooks
+              {copy.libraryHeading}
             </h2>
           </div>
 
           <select
-            aria-label="Filter materials by subject"
+            aria-label={copy.filterSubjectAria}
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             className="rounded-xl border border-[var(--sn-border)] bg-white px-3 py-2 text-xs font-bold text-[var(--sn-text-main)]"
           >
-            <option value="All">All Subjects</option>
-            <option value="Science">Science</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="ICT">ICT</option>
-            <option value="History">History</option>
+            {SUBJECT_FILTER_KEYS.map((sub) => (
+              <option key={sub} value={sub}>
+                {formatSubject(lang, sub)}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -142,7 +142,7 @@ export function NotesAndMaterialsScreen({
                   : "border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-secondary)] hover:bg-[var(--sn-sage)]"
               }`}
             >
-              {cat}
+              {CATEGORY_LABELS[cat][lang]}
             </button>
           ))}
         </div>
@@ -152,6 +152,7 @@ export function NotesAndMaterialsScreen({
         {materials.map((item) => {
           const downloaded = state.downloadedIds.includes(item.id);
           const bookmarked = state.bookmarkedIds.includes(item.id);
+          const title = item.localizedTitle[lang];
           return (
             <article
               key={item.id}
@@ -161,16 +162,17 @@ export function NotesAndMaterialsScreen({
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex flex-wrap gap-1.5">
                     <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
-                      {item.category}
+                      {CATEGORY_LABELS[item.category][lang]}
                     </span>
                     <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">
-                      Grade {item.grade} • {item.subject}
+                      {formatGrade(lang, item.grade)} •{" "}
+                      {formatSubject(lang, item.subject)}
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleToggleBookmark(item)}
-                    aria-label={`Bookmark ${item.title}`}
+                    aria-label={title}
                     className={`rounded-xl p-2 ${
                       bookmarked
                         ? "bg-[var(--sn-surface-selected)] text-[var(--sn-primary)]"
@@ -189,15 +191,16 @@ export function NotesAndMaterialsScreen({
                   </span>
                   <div className="min-w-0">
                     <h3 className="text-sm font-extrabold text-[var(--sn-text-main)] sm:text-base">
-                      {item.title}
+                      {title}
                     </h3>
                     <p className="mt-0.5 text-xs text-[var(--sn-text-muted)]">
-                      {item.medium} • {item.pages} pages • {item.sizeLabel}
+                      {item.localizedMedium[lang]} • {item.pages}{" "}
+                      {copy.pagesWord} • {item.sizeLabel}
                     </p>
                   </div>
                 </div>
                 <p className="mt-2.5 text-xs leading-relaxed text-[var(--sn-text-secondary)]">
-                  {item.previewSummary}
+                  {item.localizedSummary[lang]}
                 </p>
               </div>
 
@@ -208,7 +211,7 @@ export function NotesAndMaterialsScreen({
                   className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] py-2.5 text-xs font-bold text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
                 >
                   <Eye className="h-4 w-4" />
-                  <span>Preview PDF</span>
+                  <span>{copy.previewPdfBtn}</span>
                 </button>
                 <button
                   type="button"
@@ -222,12 +225,12 @@ export function NotesAndMaterialsScreen({
                   {downloaded ? (
                     <>
                       <Check className="h-4 w-4" />
-                      <span>Saved Offline</span>
+                      <span>{copy.savedOfflineBtn}</span>
                     </>
                   ) : (
                     <>
                       <Download className="h-4 w-4" />
-                      <span>Save Offline</span>
+                      <span>{copy.saveOfflineBtn}</span>
                     </>
                   )}
                 </button>
@@ -238,6 +241,7 @@ export function NotesAndMaterialsScreen({
       </div>
 
       <MaterialPreviewModal
+        lang={lang}
         item={previewItem}
         isDownloaded={
           previewItem ? state.downloadedIds.includes(previewItem.id) : false

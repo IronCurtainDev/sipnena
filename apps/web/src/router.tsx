@@ -149,8 +149,16 @@ const routeTree = rootRoute.addChildren([
   publicPage("/parent/child/$studentId", Pages.ParentChildPage),
   publicPage("/teacher", Pages.TeacherHomePage),
   publicPage("/teacher/courses", Pages.TeacherCoursesPage),
-  publicPage("/teacher/quizzes", Pages.TeacherQuizzesPage),
+  publicPage("/teacher/courses/$courseId", Pages.TeacherCourseBuilderPage),
+  createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/teacher/quizzes",
+    beforeLoad: () => {
+      throw redirect({ to: "/teacher/courses", replace: true });
+    },
+  }),
   publicPage("/teacher/doubts", Pages.TeacherDoubtsPage),
+  publicPage("/teacher/schedule", Pages.TeacherSchedulePage),
   publicPage("/admin/payments", Pages.AdminPaymentsPage),
   publicPage("/admin/syllabus", Pages.AdminSyllabusPage),
   publicPage("/search", Pages.SearchPage),

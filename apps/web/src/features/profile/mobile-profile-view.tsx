@@ -148,7 +148,7 @@ export function MobileProfileView({
           />
         </div>
 
-        <ProfileQuickLinks />
+        <ProfileQuickLinks lang={lang} />
 
         {/* Log Out Button */}
         <button

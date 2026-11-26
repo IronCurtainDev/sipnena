@@ -273,12 +273,20 @@ export function CreateAccountForm({
           </button>
         </p>
         <p className="text-xs text-slate-500">
-          Need full account?{" "}
+          {selectedLang === "si"
+            ? "සම්පූර්ණ ගිණුමක් අවශ්‍යද? "
+            : selectedLang === "ta"
+              ? "முழு கணக்கு தேவையா? "
+              : "Need full account? "}
           <Link
             to="/signup"
             className="font-semibold text-[var(--sn-primary)] hover:underline"
           >
-            Sign up here
+            {selectedLang === "si"
+              ? "මෙතැනින් ලියාපදිංචි වන්න"
+              : selectedLang === "ta"
+                ? "இங்கே பதிவு செய்யுங்கள்"
+                : "Sign up here"}
           </Link>
         </p>
       </div>

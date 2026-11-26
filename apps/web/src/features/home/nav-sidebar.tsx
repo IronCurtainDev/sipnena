@@ -14,6 +14,7 @@ import {
   Radio,
   Search,
 } from "lucide-react";
+import type { LocalizedText } from "@/lib/i18n-common";
 import type { AppLanguage } from "@/lib/language";
 import { NAV_ITEMS } from "./mock-data";
 import { HOME_STRINGS } from "./strings";
@@ -24,19 +25,85 @@ interface DesktopSidebarProps {
   lang: AppLanguage;
 }
 
-const EXPLORE_LINKS = [
-  { to: "/past-papers", label: "Past Papers", icon: FileCheck2 },
-  { to: "/term-tests", label: "Term Tests", icon: FileSpreadsheet },
-  { to: "/notes", label: "Tutes & Notes", icon: FileText },
-  { to: "/live", label: "Live Classes", icon: Radio },
-  { to: "/schedule", label: "Timetable", icon: Calendar },
-  { to: "/doubts", label: "Ask Doubts", icon: MessageCircleQuestion },
-  { to: "/progress", label: "Progress & Mistakes", icon: BarChart3 },
-  { to: "/downloads", label: "Downloads & Data", icon: Download },
-  { to: "/billing", label: "Class Cards", icon: CreditCard },
-  { to: "/search", label: "Search", icon: Search },
-  { to: "/notifications", label: "Alerts", icon: Bell },
-  { to: "/help", label: "Help & Legal", icon: HelpCircle },
+const EXPLORE_HEADER: LocalizedText = {
+  en: "Exam Prep & Tools",
+  si: "විභාග සූදානම සහ මෙවලම්",
+  ta: "பரீட்சை & கருவிகள்",
+};
+
+const EXPLORE_LINKS: Array<{
+  to: string;
+  label: LocalizedText;
+  icon: typeof FileCheck2;
+}> = [
+  {
+    to: "/past-papers",
+    label: {
+      en: "Past Papers",
+      si: "පසුගිය ප්‍රශ්න පත්‍ර",
+      ta: "கடந்த வினாத்தாள்கள்",
+    },
+    icon: FileCheck2,
+  },
+  {
+    to: "/term-tests",
+    label: { en: "Term Tests", si: "වාර විභාග", ta: "தவணைப் பரீட்சைகள்" },
+    icon: FileSpreadsheet,
+  },
+  {
+    to: "/notes",
+    label: { en: "Tutes & Notes", si: "ටියුට් සහ සටහන්", ta: "குறிப்புகள்" },
+    icon: FileText,
+  },
+  {
+    to: "/live",
+    label: { en: "Live Classes", si: "සජීවී පන්ති", ta: "நேரலை வகுப்புகள்" },
+    icon: Radio,
+  },
+  {
+    to: "/schedule",
+    label: { en: "Timetable", si: "කාලසටහන", ta: "நேர அட்டவணை" },
+    icon: Calendar,
+  },
+  {
+    to: "/doubts",
+    label: { en: "Ask Doubts", si: "ප්‍රශ්න අහන්න", ta: "சந்தேகங்கள்" },
+    icon: MessageCircleQuestion,
+  },
+  {
+    to: "/progress",
+    label: {
+      en: "Progress & Mistakes",
+      si: "ප්‍රගතිය සහ වැරදි",
+      ta: "முன்னேற்றம்",
+    },
+    icon: BarChart3,
+  },
+  {
+    to: "/downloads",
+    label: { en: "Downloads & Data", si: "බාගැනීම්", ta: "பதிவிறக்கம்" },
+    icon: Download,
+  },
+  {
+    to: "/billing",
+    label: { en: "Class Cards", si: "පන්ති කාඩ්පත්", ta: "வகுப்பு அட்டைகள்" },
+    icon: CreditCard,
+  },
+  {
+    to: "/search",
+    label: { en: "Search", si: "සොයන්න", ta: "தேடுக" },
+    icon: Search,
+  },
+  {
+    to: "/notifications",
+    label: { en: "Alerts", si: "දැනුම්දීම්", ta: "அறிவிப்புகள்" },
+    icon: Bell,
+  },
+  {
+    to: "/help",
+    label: { en: "Help & Legal", si: "උදව් සහ නීති", ta: "உதவி & கொள்கை" },
+    icon: HelpCircle,
+  },
 ];
 
 export function DesktopSidebar({
@@ -54,7 +121,7 @@ export function DesktopSidebar({
       <div className="space-y-5">
         <div className="px-2 pt-2">
           <div className="truncate text-lg font-black leading-tight text-[var(--sn-text-main)]">
-            SipNena
+            {lang === "si" ? "සිප්නැණ" : lang === "ta" ? "சிப்நென" : "SipNena"}
           </div>
           <div className="truncate text-xs font-medium text-[var(--sn-text-muted)]">
             {t.brandSubtitle}
@@ -88,7 +155,7 @@ export function DesktopSidebar({
 
         <div className="space-y-1 border-t border-[var(--sn-border)] pt-3">
           <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-[var(--sn-text-muted)]">
-            Exam Prep &amp; Tools
+            {EXPLORE_HEADER[lang]}
           </p>
           {EXPLORE_LINKS.map((link) => {
             const Icon = link.icon;
@@ -99,7 +166,7 @@ export function DesktopSidebar({
                 className="flex min-h-[38px] items-center gap-2.5 rounded-xl px-3 text-xs font-bold text-[var(--sn-text-secondary)] transition hover:bg-[var(--sn-surface-muted)] hover:text-[var(--sn-text-main)]"
               >
                 <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span className="truncate">{link.label}</span>
+                <span className="truncate">{link.label[lang]}</span>
               </Link>
             );
           })}

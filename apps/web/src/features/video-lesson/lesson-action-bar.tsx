@@ -9,6 +9,7 @@ interface LessonActionBarProps {
   onToggleDone: () => void;
   onDownloadNotes: () => void;
   onHelp: () => void;
+  courseMode?: boolean;
 }
 
 export function LessonActionBar({
@@ -18,19 +19,22 @@ export function LessonActionBar({
   isDone,
   onToggleDone,
   onDownloadNotes,
+  courseMode = false,
 }: LessonActionBarProps) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0 space-y-1">
         <p className="text-sm font-semibold leading-normal text-[var(--sn-text-secondary)]">
-          {lessonCounter} · {t.unitSubtitle}
+          {courseMode ? lessonCounter : `${lessonCounter} · ${t.unitSubtitle}`}
         </p>
         <h1 className="text-xl font-bold leading-normal text-[var(--sn-text-main)] sm:text-2xl">
           {lessonTitle}
         </h1>
-        <p className="text-base text-[var(--sn-text-secondary)]">
-          {t.lessonSubtitle}
-        </p>
+        {courseMode ? null : (
+          <p className="text-base text-[var(--sn-text-secondary)]">
+            {t.lessonSubtitle}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-2.5 shrink-0">

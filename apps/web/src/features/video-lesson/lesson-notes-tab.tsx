@@ -2,6 +2,8 @@ import { useState, type FormEvent } from "react";
 
 interface LessonNotesTabProps {
   onToast: (msg: string) => void;
+  revisionNotes?: { title: string; body: string }[];
+  emptyLabel?: string;
 }
 
 interface SavedNote {
@@ -29,14 +31,23 @@ const REVISION_POINTS = [
   },
 ];
 
-export function LessonNotesTab({ onToast }: LessonNotesTabProps) {
-  const [personalNotes, setPersonalNotes] = useState<SavedNote[]>([
-    {
-      id: "note-1",
-      timestamp: "Today",
-      text: "Normal is always 90° to the mirror. Measure i and r from the normal.",
-    },
-  ]);
+export function LessonNotesTab({
+  onToast,
+  revisionNotes,
+  emptyLabel,
+}: LessonNotesTabProps) {
+  const points = revisionNotes ?? REVISION_POINTS;
+  const [personalNotes, setPersonalNotes] = useState<SavedNote[]>(() =>
+    revisionNotes
+      ? []
+      : [
+          {
+            id: "note-1",
+            timestamp: "Today",
+            text: "Normal is always 90° to the mirror. Measure i and r from the normal.",
+          },
+        ],
+  );
   const [newNoteText, setNewNoteText] = useState("");
 
   const handleAddNote = (e: FormEvent) => {
@@ -60,8 +71,13 @@ export function LessonNotesTab({ onToast }: LessonNotesTabProps) {
         <h3 className="text-base font-bold text-[var(--sn-text-main)]">
           Key revision points
         </h3>
+        {points.length === 0 ? (
+          <p className="text-base text-[var(--sn-text-secondary)]">
+            {emptyLabel}
+          </p>
+        ) : null}
         <ol className="space-y-3">
-          {REVISION_POINTS.map((point) => (
+          {points.map((point) => (
             <li
               key={point.title}
               className="border-t border-[var(--sn-border)] pt-3 first:border-t-0 first:pt-0"

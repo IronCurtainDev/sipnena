@@ -12,14 +12,21 @@ import { SipNenaPortalShell } from "@/features/portal-shell/portal-shell";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { useToastMessage } from "@/features/portal-shell/use-toast";
 import {
+  localizeBankName,
+  localizeSlipCourseTitle,
+} from "@/lib/prototype-i18n";
+import {
   usePrototypeState,
   type PaymentVerificationStatus,
 } from "@/lib/prototype-state";
+import { BILLING_COPY } from "./strings";
 
 export function PaymentStatusScreen() {
   const [lang, setLang] = useSipNenaLanguage();
   const { state, setSlipStatus } = usePrototypeState();
   const { toast, showToast } = useToastMessage();
+  const copy = BILLING_COPY[lang];
+
   const latestSlip = state.bankSlips[0];
   const [previewOverride, setPreviewOverride] =
     useState<PaymentVerificationStatus | null>(null);
@@ -27,57 +34,53 @@ export function PaymentStatusScreen() {
   const activeStatus: PaymentVerificationStatus =
     previewOverride ?? latestSlip?.status ?? "pending";
 
+  const statusLabels: Record<PaymentVerificationStatus, string> = {
+    pending: copy.statusPendingLabel,
+    approved: copy.statusApprovedLabel,
+    rejected: copy.statusRejectedLabel,
+  };
+
   const handleStatusSwitch = (next: PaymentVerificationStatus) => {
     setPreviewOverride(next);
     if (latestSlip) {
       setSlipStatus(
         latestSlip.id,
         next,
-        next === "rejected"
-          ? "Reference number partially cropped. Please re-upload a clearer photo of the full BOC slip."
-          : undefined,
+        next === "rejected" ? copy.rejectedSyncReason : undefined,
       );
     }
-    showToast(`Status preview switched to: ${next.toUpperCase()}`);
+    showToast(`${copy.statusSwitchedToastPrefix} ${statusLabels[next]}`);
   };
 
   return (
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title="Payment Verification Status"
+      title={copy.paymentStatusPageTitle}
       toastMessage={toast}
     >
-      {/* Demo State Toggle Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--sn-border)] bg-white p-4 shadow-xs">
         <p className="text-xs font-bold text-[var(--sn-text-secondary)]">
-          Demo Verification State Switcher (syncs with Admin Queue):
+          {copy.demoSwitcherLabel}
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {(
-            [
-              { id: "pending", label: "Pending Verification" },
-              { id: "approved", label: "Approved" },
-              { id: "rejected", label: "Rejected (Re-upload)" },
-            ] as const
-          ).map((opt) => (
+          {(["pending", "approved", "rejected"] as const).map((statusKey) => (
             <button
-              key={opt.id}
+              key={statusKey}
               type="button"
-              onClick={() => handleStatusSwitch(opt.id)}
+              onClick={() => handleStatusSwitch(statusKey)}
               className={`rounded-xl px-3 py-1.5 text-xs font-bold ${
-                activeStatus === opt.id
+                activeStatus === statusKey
                   ? "bg-[var(--sn-primary)] text-white"
                   : "bg-[var(--sn-surface-muted)] text-[var(--sn-text-secondary)]"
               }`}
             >
-              {opt.label}
+              {statusLabels[statusKey]}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Main Status Card */}
       <section className="mx-auto max-w-2xl rounded-3xl border border-[var(--sn-border)] bg-white p-6 text-center shadow-xs sm:p-8">
         {activeStatus === "pending" && (
           <>
@@ -85,11 +88,10 @@ export function PaymentStatusScreen() {
               <Clock className="h-8 w-8" />
             </div>
             <h2 className="mt-4 text-2xl font-extrabold text-[var(--sn-text-main)]">
-              Pending Verification
+              {copy.pendingTitle}
             </h2>
             <p className="mt-2 text-sm text-[var(--sn-text-secondary)]">
-              Our Colombo verification desk is checking your bank slip. Slips
-              are verified within 15–30 minutes (8:00 AM – 9:00 PM).
+              {copy.pendingDesc}
             </p>
           </>
         )}
@@ -100,11 +102,10 @@ export function PaymentStatusScreen() {
               <CheckCircle2 className="h-8 w-8" />
             </div>
             <h2 className="mt-4 text-2xl font-extrabold text-emerald-900">
-              Approved — Class Card Activated!
+              {copy.approvedTitle}
             </h2>
             <p className="mt-2 text-sm text-[var(--sn-text-secondary)]">
-              Your bank deposit was verified. Full Term 2 videos, tutes, and
-              live classes are now unlocked.
+              {copy.approvedDesc}
             </p>
           </>
         )}
@@ -115,37 +116,45 @@ export function PaymentStatusScreen() {
               <AlertTriangle className="h-8 w-8" />
             </div>
             <h2 className="mt-4 text-2xl font-extrabold text-rose-900">
-              Rejected (Re-upload Required)
+              {copy.rejectedTitle}
             </h2>
             <p className="mt-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-800">
-              {latestSlip?.reason ||
-                "Reference number or stamp on the bank slip was blurry. Please upload a clear photo."}
+              {latestSlip?.reason || copy.rejectedDefaultReason}
             </p>
           </>
         )}
 
         {latestSlip && (
           <dl className="mt-6 space-y-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 text-left text-xs">
-            <div className="flex justify-between">
-              <dt className="text-[var(--sn-text-muted)]">Course / Card</dt>
-              <dd className="font-bold text-[var(--sn-text-main)]">
-                {latestSlip.courseTitle}
+            <div className="flex justify-between gap-2">
+              <dt className="text-[var(--sn-text-muted)]">
+                {copy.courseCardLabel}
+              </dt>
+              <dd className="text-right font-bold text-[var(--sn-text-main)]">
+                {localizeSlipCourseTitle(latestSlip, lang)}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-2">
+              <dt className="text-[var(--sn-text-muted)]">
+                {copy.bankFileLabel}
+              </dt>
+              <dd className="text-right font-semibold text-[var(--sn-text-main)]">
+                {localizeBankName(latestSlip.bankName, lang)} (
+                {latestSlip.slipFileName})
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-[var(--sn-text-muted)]">Bank &amp; File</dt>
-              <dd className="font-semibold text-[var(--sn-text-main)]">
-                {latestSlip.bankName} ({latestSlip.slipFileName})
-              </dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-[var(--sn-text-muted)]">Reference Code</dt>
+              <dt className="text-[var(--sn-text-muted)]">
+                {copy.refCodeLabel}
+              </dt>
               <dd className="font-mono font-bold text-[var(--sn-text-main)]">
                 {latestSlip.referenceCode}
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-[var(--sn-text-muted)]">Amount</dt>
+              <dt className="text-[var(--sn-text-muted)]">
+                {copy.amountLabel}
+              </dt>
               <dd className="font-extrabold text-[var(--sn-text-main)]">
                 Rs. {latestSlip.amount.toLocaleString()}
               </dd>
@@ -162,8 +171,8 @@ export function PaymentStatusScreen() {
               <UploadCloud className="h-4 w-4" />
               <span>
                 {activeStatus === "rejected"
-                  ? "Re-upload Bank Slip"
-                  : "Upload Another Slip"}
+                  ? copy.reuploadSlipBtn
+                  : copy.uploadAnotherSlipBtn}
               </span>
             </Link>
           ) : (
@@ -172,21 +181,17 @@ export function PaymentStatusScreen() {
               className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sn-primary)] px-5 py-3 text-xs font-bold text-white"
             >
               <RefreshCw className="h-4 w-4" />
-              <span>Start Studying Now</span>
+              <span>{copy.startStudyingBtn}</span>
             </Link>
           )}
 
           <button
             type="button"
-            onClick={() =>
-              showToast(
-                "Opening WhatsApp Verification Desk (+94 77 123 4567)...",
-              )
-            }
+            onClick={() => showToast(copy.whatsappDeskToast)}
             className="inline-flex items-center gap-2 rounded-2xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-xs font-bold text-emerald-800"
           >
             <MessageCircle className="h-4 w-4" />
-            <span>WhatsApp Support</span>
+            <span>{copy.whatsappSupportBtn}</span>
           </button>
         </div>
       </section>

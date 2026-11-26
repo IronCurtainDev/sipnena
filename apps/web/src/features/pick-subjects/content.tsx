@@ -7,12 +7,14 @@ import {
   HelpCircle,
   Lightbulb,
 } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import { OlBasketsPicker } from "./ol-baskets";
 import { SubjectGrid } from "./subject-grid";
 import type { PickSubjectsStrings } from "./strings";
 
 interface Props {
   t: PickSubjectsStrings;
+  lang: AppLanguage;
   grade: number;
   onChangeGrade: (grade: number) => void;
   olBaskets: { basket1: string; basket2: string; basket3: string };
@@ -27,6 +29,7 @@ interface Props {
 
 export function PickSubjectsContent({
   t,
+  lang,
   grade,
   onChangeGrade,
   olBaskets,
@@ -68,7 +71,11 @@ export function PickSubjectsContent({
                     : "text-slate-500"
                 }`}
               >
-                Grades 6–9
+                {lang === "si"
+                  ? "6–9 ශ්‍රේණි"
+                  : lang === "ta"
+                    ? "தரம் 6–9"
+                    : "Grades 6–9"}
               </button>
               <button
                 type="button"
@@ -79,7 +86,11 @@ export function PickSubjectsContent({
                     : "text-slate-500"
                 }`}
               >
-                Grades 10–11 (O/L)
+                {lang === "si"
+                  ? "10–11 ශ්‍රේණි (O/L)"
+                  : lang === "ta"
+                    ? "தரம் 10–11 (சா/த)"
+                    : "Grades 10–11 (O/L)"}
               </button>
             </div>
 
@@ -119,19 +130,31 @@ export function PickSubjectsContent({
         <div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             {isOL
-              ? `Grade ${grade} G.C.E. O/L Subjects & Baskets`
+              ? lang === "si"
+                ? `${grade} ශ්‍රේණිය සා/පෙළ විෂයයන් සහ කාණ්ඩ`
+                : lang === "ta"
+                  ? `தரம் ${grade} சா/த பாடங்கள் & பிரிவுகள்`
+                  : `Grade ${grade} G.C.E. O/L Subjects & Baskets`
               : t.cardGroupTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
             {isOL
-              ? "6 core subjects plus 1 subject from each O/L Basket (I, II & III)"
+              ? lang === "si"
+                ? "ප්‍රධාන විෂයයන් 6 සහ 1, 2, 3 කාණ්ඩ වලින් එක බැගින් තෝරන්න"
+                : lang === "ta"
+                  ? "6 கட்டாயப் பாடங்கள் மற்றும் I, II, III பிரிவுகளில் தலா 1 பாடம்"
+                  : "6 core subjects plus 1 subject from each O/L Basket (I, II & III)"
               : t.cardGroupSubtitle}
           </p>
         </div>
       </div>
 
       {isOL ? (
-        <OlBasketsPicker baskets={olBaskets} onSelectBasket={onSelectBasket} />
+        <OlBasketsPicker
+          lang={lang}
+          baskets={olBaskets}
+          onSelectBasket={onSelectBasket}
+        />
       ) : (
         <SubjectGrid
           t={t}

@@ -2,7 +2,17 @@ import { ArrowLeft, Bookmark, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { DesktopSidebar } from "@/features/home/nav-sidebar";
 import type { AppLanguage } from "@/lib/language";
-import { InlineQuizPlayer } from "./inline-quiz-player";
+import type { CourseLessonCopy } from "./course-lesson-copy";
+import {
+  flatLessons,
+  nextQuizItem,
+  type CourseLessonBundle,
+} from "./course-lesson-model";
+import {
+  CourseInlineQuiz,
+  FollowQuizBanner,
+  LabPanel,
+} from "./lesson-activity";
 import { LessonActionBar } from "./lesson-action-bar";
 import { LessonDiscussionTab } from "./lesson-discussion-tab";
 import { LessonDownloadsTab } from "./lesson-downloads-tab";
@@ -11,7 +21,6 @@ import { LessonOverviewTab } from "./lesson-overview-tab";
 import { LessonPlaylistSidebar } from "./lesson-playlist-sidebar";
 import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { lessonCounter, lessonTitle } from "./playlist-copy";
-import { SectionQuizBanner } from "./section-quiz-banner";
 import type { VideoLessonStrings } from "./strings";
 import { VideoPlayer } from "./video-player";
 
@@ -35,6 +44,8 @@ interface DesktopLessonViewProps {
   ) => void;
   onBackToCourse: () => void;
   onToast: (msg: string) => void;
+  bundle?: CourseLessonBundle;
+  lessonCopy?: CourseLessonCopy;
 }
 
 export function DesktopLessonView({
@@ -55,10 +66,17 @@ export function DesktopLessonView({
   setActiveTab,
   onBackToCourse,
   onToast,
+  bundle,
+  lessonCopy,
 }: DesktopLessonViewProps) {
-  const currentLesson = VIDEO_LESSON_PLAYLIST.flatMap((s) => s.lessons).find(
-    (l) => l.id === activeLessonId,
-  );
+  const playlist = bundle?.playlist ?? VIDEO_LESSON_PLAYLIST;
+  const lessons = flatLessons(playlist);
+  const currentLesson = lessons.find((lesson) => lesson.id === activeLessonId);
+  const authored = bundle?.byId[activeLessonId];
+  const isQuiz = bundle
+    ? authored?.kind === "quiz"
+    : activeLessonId.startsWith("quiz");
+  const followQuiz = bundle ? nextQuizItem(playlist, activeLessonId) : null;
   const currentLessonTitle = currentLesson
     ? lessonTitle(lang, currentLesson.id, currentLesson.titleKey)
     : t.lessonTitle;
@@ -122,42 +140,60 @@ export function DesktopLessonView({
         <main className="w-full flex-1 px-6 py-5 xl:px-8">
           <div className="grid h-full grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(380px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)] 2xl:gap-6">
             <div className="min-w-0 space-y-4">
-              {activeLessonId.startsWith("quiz") ? (
-                <InlineQuizPlayer
-                  quizId={activeLessonId}
+              {bundle && !authored ? (
+                <p className="text-base text-[var(--sn-text-secondary)]">
+                  {lessonCopy?.emptyPlaylist}
+                </p>
+              ) : isQuiz ? (
+                <CourseInlineQuiz
+                  activeLessonId={activeLessonId}
                   lang={lang}
-                  onNextLesson={() =>
-                    activeLessonId === "quiz-sec2"
-                      ? onSelectLesson("course-completed")
-                      : onSelectLesson("les5")
-                  }
+                  authored={authored}
+                  bundle={bundle}
+                  playlist={playlist}
+                  lessonCopy={lessonCopy}
+                  onSelectLesson={onSelectLesson}
                   onToast={onToast}
                 />
               ) : (
                 <>
-                  <VideoPlayer
-                    t={t}
-                    isPlaying={isPlaying}
-                    onTogglePlay={onTogglePlay}
-                    onToast={onToast}
-                  />
+                  {authored?.kind === "lab" ? (
+                    <LabPanel
+                      kicker={lessonCopy?.labKicker}
+                      title={authored.title}
+                      prompt={authored.labPrompt}
+                      className="space-y-2 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-6"
+                    />
+                  ) : (
+                    <VideoPlayer
+                      t={t}
+                      isPlaying={isPlaying}
+                      onTogglePlay={onTogglePlay}
+                      onToast={onToast}
+                    />
+                  )}
 
                   <LessonActionBar
                     t={t}
                     lessonTitle={currentLessonTitle}
-                    lessonCounter={lessonCounter(lang, currentLessonNumber)}
+                    lessonCounter={lessonCounter(
+                      lang,
+                      currentLessonNumber,
+                      lessons.length || 12,
+                    )}
                     isDone={isDone}
                     onToggleDone={onToggleDone}
                     onDownloadNotes={() => onToast(t.downloadSuccess)}
                     onHelp={() => onToast("Help")}
+                    courseMode={Boolean(bundle)}
                   />
 
-                  <SectionQuizBanner
-                    eyebrow={t.sectionQuizEyebrow}
-                    quizTitle={t.sectionQuizTitle}
-                    detail={quizDetail}
-                    ctaLabel={t.sectionQuizCta}
-                    onTakeQuiz={() => onSelectLesson("quiz-sec2")}
+                  <FollowQuizBanner
+                    t={t}
+                    bundle={bundle}
+                    followQuiz={followQuiz}
+                    sampleDetail={quizDetail}
+                    onSelectLesson={onSelectLesson}
                   />
 
                   <div className="flex gap-1 border-b border-[var(--sn-border)] text-sm font-bold text-[var(--sn-text-secondary)]">
@@ -189,15 +225,29 @@ export function DesktopLessonView({
                     })}
                   </div>
 
-                  {activeTab === "overview" && <LessonOverviewTab t={t} />}
+                  {activeTab === "overview" && (
+                    <LessonOverviewTab
+                      t={t}
+                      authored={authored}
+                      emptyLabel={lessonCopy?.emptyOverview}
+                    />
+                  )}
                   {activeTab === "notes" && (
-                    <LessonNotesTab onToast={onToast} />
+                    <LessonNotesTab
+                      onToast={onToast}
+                      revisionNotes={authored?.revisionNotes}
+                      emptyLabel={lessonCopy?.emptyNotes}
+                    />
                   )}
                   {activeTab === "discussion" && (
                     <LessonDiscussionTab onToast={onToast} />
                   )}
                   {activeTab === "downloads" && (
-                    <LessonDownloadsTab onToast={onToast} />
+                    <LessonDownloadsTab
+                      onToast={onToast}
+                      items={authored?.files}
+                      emptyLabel={lessonCopy?.emptyFiles}
+                    />
                   )}
                 </>
               )}
@@ -209,6 +259,18 @@ export function DesktopLessonView({
               activeLessonId={activeLessonId}
               onSelectLesson={onSelectLesson}
               onToast={onToast}
+              playlist={bundle ? playlist : undefined}
+              files={bundle ? bundle.sidebarFiles : undefined}
+              quizzes={
+                bundle
+                  ? bundle.sidebarQuizzes.map((quiz) => ({
+                      id: quiz.id,
+                      title: quiz.title,
+                      meta: `${quiz.questionCount}`,
+                    }))
+                  : undefined
+              }
+              lessonCopy={lessonCopy}
             />
           </div>
         </main>

@@ -1,7 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { Camera, Clock, Send, X } from "lucide-react";
+import { formatSubject } from "@/lib/i18n-common";
+import type { AppLanguage } from "@/lib/language";
+import { DOUBTS_COPY } from "./strings";
 
 interface AskDoubtModalProps {
+  lang: AppLanguage;
   isOpen: boolean;
   defaultCourseId?: string;
   onClose: () => void;
@@ -21,14 +25,18 @@ const SAMPLE_PHOTOS = [
   "past_paper_q3_photo.png",
 ];
 
+const MODAL_SUBJECTS = ["Science", "Mathematics", "ICT", "English", "History"];
+
 export function AskDoubtModal({
+  lang,
   isOpen,
   defaultCourseId = "sci-g8-full",
   onClose,
   onSubmit,
 }: AskDoubtModalProps) {
+  const copy = DOUBTS_COPY[lang];
   const [subject, setSubject] = useState("Science");
-  const [lessonTitle, setLessonTitle] = useState("Mirrors & Image Formation");
+  const [lessonTitle, setLessonTitle] = useState("");
   const [timestampTag, setTimestampTag] = useState("08:15");
   const [question, setQuestion] = useState("");
   const [photoLabel, setPhotoLabel] = useState<string | undefined>(undefined);
@@ -40,7 +48,7 @@ export function AskDoubtModal({
     if (!question.trim()) return;
     onSubmit({
       subject,
-      lessonTitle: lessonTitle.trim() || "General Syllabus Question",
+      lessonTitle: lessonTitle.trim() || copy.defaultLessonTopic,
       timestampTag: timestampTag.trim() || undefined,
       question: question.trim(),
       photoLabel,
@@ -62,7 +70,7 @@ export function AskDoubtModal({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close modal"
+          aria-label={copy.closeModalAria}
           className="absolute right-4 top-4 rounded-full p-2 text-slate-500 hover:bg-slate-100"
         >
           <X className="h-5 w-5" />
@@ -72,62 +80,60 @@ export function AskDoubtModal({
           id="ask-doubt-title"
           className="text-lg font-extrabold text-[var(--sn-text-main)]"
         >
-          Ask a Teacher Doubt
+          {copy.modalTitle}
         </h3>
-        <p className="text-xs text-[var(--sn-text-muted)]">
-          Tag a lesson timestamp or attach a photo of your math/science
-          exercise.
-        </p>
+        <p className="text-xs text-[var(--sn-text-muted)]">{copy.modalSub}</p>
 
         <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <label className="block text-xs font-bold text-[var(--sn-text-main)]">
-              <span className="mb-1 block">Subject</span>
+              <span className="mb-1 block">{copy.subjectField}</span>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold"
               >
-                <option value="Science">Science</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="ICT">ICT</option>
-                <option value="English">English</option>
-                <option value="History">History</option>
+                {MODAL_SUBJECTS.map((sub) => (
+                  <option key={sub} value={sub}>
+                    {formatSubject(lang, sub)}
+                  </option>
+                ))}
               </select>
             </label>
 
             <label className="block text-xs font-bold text-[var(--sn-text-main)]">
               <span className="mb-1 flex items-center gap-1">
-                <Clock className="h-3 w-3" /> Lesson Timestamp Tag
+                <Clock className="h-3 w-3" /> {copy.timestampField}
               </span>
               <input
                 type="text"
                 value={timestampTag}
                 onChange={(e) => setTimestampTag(e.target.value)}
-                placeholder="e.g. 12:40"
+                placeholder={copy.timestampPlaceholder}
                 className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs"
               />
             </label>
           </div>
 
           <label className="block text-xs font-bold text-[var(--sn-text-main)]">
-            <span className="mb-1 block">Lesson or Past Paper Topic</span>
+            <span className="mb-1 block">{copy.lessonTopicField}</span>
             <input
               type="text"
               value={lessonTitle}
+              placeholder={copy.defaultLessonTopic}
               onChange={(e) => setLessonTitle(e.target.value)}
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs"
             />
           </label>
 
           <label className="block text-xs font-bold text-[var(--sn-text-main)]">
-            <span className="mb-1 block">Your Question</span>
+            <span className="mb-1 block">{copy.questionField}</span>
             <textarea
               rows={3}
               required
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Explain where you got stuck (Sinhala, Tamil, or English)..."
+              placeholder={copy.questionPlaceholder}
               className="w-full rounded-xl border border-slate-200 p-3 text-xs"
             />
           </label>
@@ -136,7 +142,7 @@ export function AskDoubtModal({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
                 <Camera className="h-4 w-4 text-[var(--sn-primary)]" />
-                <span>Attach Notebook / Question Photo (Optional)</span>
+                <span>{copy.attachPhotoLabel}</span>
               </span>
               {photoLabel && (
                 <button
@@ -144,7 +150,7 @@ export function AskDoubtModal({
                   onClick={() => setPhotoLabel(undefined)}
                   className="text-[11px] font-bold text-rose-600"
                 >
-                  Clear
+                  {copy.clearBtn}
                 </button>
               )}
             </div>
@@ -172,14 +178,14 @@ export function AskDoubtModal({
               onClick={onClose}
               className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-700"
             >
-              Cancel
+              {copy.cancelBtn}
             </button>
             <button
               type="submit"
               className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[var(--sn-primary)] py-2.5 text-xs font-bold text-white"
             >
               <Send className="h-3.5 w-3.5" />
-              <span>Submit Doubt</span>
+              <span>{copy.submitBtn}</span>
             </button>
           </div>
         </form>

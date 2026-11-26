@@ -10,6 +10,7 @@ alwaysApply: false
 - SipNena onboarding lives under `features/onboarding|login|create-account` with thin route files. Prefer the shared onboarding shell + CSS tokens; keep si/ta/en string maps colocated.
 - Full-bleed marketing/onboarding screens may sit on `rootRoute`. Compact verify/password pages stay on `authPage` + AuthLayout. Cookie auth mutations must still use `authClient` + HttpOnly cookies.
 - Prefer Tailwind/CSS variables over inline `style=` (production CSP `style-src 'self'`). Self-host fonts used for Sinhala/Tamil (`font-src 'self'`). Honor `prefers-reduced-motion` for video and animation.
+- Utilize horizontal space on portal/library UIs: content at least `max-w-7xl`, responsive grids that fill the width, gaps between items — not empty side gutters from a narrow max-width (see `layout-width.mdc`).
 - Gate Google with `useAppConfig().googleEnabled`. Align password min length with Better Auth (8). Never fake sign-up success.
 - Use the existing TanStack Router/Query setup and central HTTP error handling. Invalidate affected queries after successful mutations; avoid routine polling.
 - Define route pages and authenticated/signed-out route layouts with `lazyRouteComponent` unless the component is required for the initial shell. Direct URL navigation, pending/error boundaries, and protected redirects must still work after splitting.

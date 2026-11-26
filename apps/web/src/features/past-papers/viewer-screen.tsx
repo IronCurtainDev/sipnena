@@ -8,6 +8,7 @@ import { usePrototypeState } from "@/lib/prototype-state";
 import { McqAnswerSheet } from "./mcq-sheet";
 import { PAST_PAPERS, type PastPaperItem } from "./mock-data";
 import { PartTwoSection } from "./part-two-section";
+import { PAST_PAPERS_COPY } from "./strings";
 
 function formatClock(totalSeconds: number): string {
   const mins = Math.floor(totalSeconds / 60);
@@ -19,6 +20,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
   const [lang, setLang] = useSipNenaLanguage();
   const { state, toggleBookmark } = usePrototypeState();
   const { toast, showToast } = useToastMessage();
+  const copy = PAST_PAPERS_COPY[lang];
 
   const [mode, setMode] = useState<"exam" | "practice">("exam");
   const [secondsLeft, setSecondsLeft] = useState(paper.durationMinutes * 60);
@@ -50,7 +52,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title={paper.title}
+      title={paper.localizedTitle[lang]}
       roleOverride="student"
       toastMessage={toast}
     >
@@ -60,7 +62,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
           className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--sn-primary)] hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span>Back to Past Papers</span>
+          <span>{copy.backLink}</span>
         </Link>
 
         <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-2 shadow-xs">
@@ -74,7 +76,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
                   : "text-[var(--sn-text-secondary)]"
               }`}
             >
-              Exam Mode
+              {copy.examMode}
             </button>
             <button
               type="button"
@@ -88,7 +90,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
                   : "text-[var(--sn-text-secondary)]"
               }`}
             >
-              Practice Mode
+              {copy.practiceMode}
             </button>
           </div>
 
@@ -101,7 +103,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
               <button
                 type="button"
                 onClick={() => setTimerRunning((v) => !v)}
-                aria-label={timerRunning ? "Pause timer" : "Start timer"}
+                aria-label={copy.examMode}
                 className="rounded-lg bg-[var(--sn-olive)] p-1.5 text-[var(--sn-primary)]"
               >
                 {timerRunning ? (
@@ -116,7 +118,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
                   setTimerRunning(false);
                   setSecondsLeft(paper.durationMinutes * 60);
                 }}
-                aria-label="Reset timer"
+                aria-label={copy.resetBtn}
                 className="rounded-lg bg-slate-100 p-1.5 text-slate-600"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
@@ -124,13 +126,14 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
             </div>
           ) : (
             <span className="px-2 text-xs font-semibold text-emerald-700">
-              Untimed Practice
+              {copy.untimedLabel}
             </span>
           )}
         </div>
       </div>
 
       <McqAnswerSheet
+        lang={lang}
         mcqs={paper.mcqs}
         answers={answers}
         graded={graded}
@@ -141,15 +144,11 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
         onToggleBookmark={(qId) => {
           const saved = state.bookmarkedIds.includes(qId);
           toggleBookmark(qId);
-          showToast(
-            saved
-              ? "Question removed from Saved"
-              : "Tricky question saved for revision!",
-          );
+          showToast(saved ? copy.removedToast : copy.savedToast);
         }}
         onGrade={() => {
           setGraded(true);
-          showToast("MCQ sheet auto-graded!");
+          showToast(copy.gradedToast);
         }}
         onReset={() => {
           setAnswers({});
@@ -158,6 +157,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
       />
 
       <PartTwoSection
+        lang={lang}
         questions={paper.partTwo}
         openSchemes={openSchemes}
         showAllSchemes={showAllSchemes}

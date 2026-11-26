@@ -1,7 +1,10 @@
 import { ChevronDown, Eye } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import type { PartTwoQuestionItem } from "./mock-data";
+import { PAST_PAPERS_COPY } from "./strings";
 
 interface PartTwoSectionProps {
+  lang: AppLanguage;
   questions: PartTwoQuestionItem[];
   openSchemes: Record<string, boolean>;
   showAllSchemes: boolean;
@@ -10,22 +13,23 @@ interface PartTwoSectionProps {
 }
 
 export function PartTwoSection({
+  lang,
   questions,
   openSchemes,
   showAllSchemes,
   onToggleOne,
   onToggleAll,
 }: PartTwoSectionProps) {
+  const copy = PAST_PAPERS_COPY[lang];
+
   return (
     <section className="rounded-3xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 shadow-xs">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <h2 className="text-lg font-extrabold text-[var(--sn-text-main)]">
-            Part II — Structured &amp; Essay Questions
+            {copy.part2Title}
           </h2>
-          <p className="text-xs text-[var(--sn-text-muted)]">
-            Write answers on paper, then reveal the official NIE marking scheme.
-          </p>
+          <p className="text-xs text-[var(--sn-text-muted)]">{copy.part2Sub}</p>
         </div>
         <button
           type="button"
@@ -34,9 +38,7 @@ export function PartTwoSection({
         >
           <Eye className="h-4 w-4" />
           <span>
-            {showAllSchemes
-              ? "Hide Official Marking Scheme"
-              : "Show Official Marking Scheme"}
+            {showAllSchemes ? copy.hideSchemeBtn : copy.showSchemeBtn}
           </span>
         </button>
       </div>
@@ -51,14 +53,14 @@ export function PartTwoSection({
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="rounded-full bg-[var(--sn-surface-muted)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
-                  {q.number} • {q.marks} Marks
+                  {q.numberLabel[lang]} • {q.marks} {copy.marksWord}
                 </span>
                 <h3 className="text-sm font-extrabold text-[var(--sn-text-main)]">
-                  {q.title}
+                  {q.title[lang]}
                 </h3>
               </div>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-[var(--sn-text-secondary)]">
-                {q.prompt}
+                {q.prompt[lang]}
               </p>
 
               <button
@@ -67,11 +69,7 @@ export function PartTwoSection({
                 onClick={() => onToggleOne(q.id)}
                 className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[var(--sn-olive)] px-3.5 py-2 text-xs font-bold text-[var(--sn-primary)]"
               >
-                <span>
-                  {isOpen
-                    ? "Hide Official Marking Scheme"
-                    : "Show Official Marking Scheme"}
-                </span>
+                <span>{isOpen ? copy.hideSchemeBtn : copy.showSchemeBtn}</span>
                 <ChevronDown
                   className={`h-4 w-4 transition-transform ${
                     isOpen ? "rotate-180" : ""
@@ -82,10 +80,10 @@ export function PartTwoSection({
               {isOpen && (
                 <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
                   <p className="text-xs font-extrabold uppercase text-emerald-900">
-                    Official Marking Scheme Points
+                    {copy.schemePointsTitle}
                   </p>
                   <ul className="mt-2 list-disc space-y-1.5 pl-4 text-xs leading-relaxed text-emerald-950">
-                    {q.markingScheme.map((point) => (
+                    {q.markingScheme[lang].map((point) => (
                       <li key={point}>{point}</li>
                     ))}
                   </ul>

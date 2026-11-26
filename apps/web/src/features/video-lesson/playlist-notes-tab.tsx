@@ -1,5 +1,7 @@
 interface PlaylistNotesTabProps {
   onToast?: (msg: string) => void;
+  items?: { id: string; title: string; meta: string }[];
+  emptyLabel?: string;
 }
 
 const LESSON_NOTES = [
@@ -10,10 +12,22 @@ const LESSON_NOTES = [
   { id: "n5", title: "5. Convex mirrors", meta: "PDF · 1.4 MB" },
 ];
 
-export function PlaylistNotesTab({ onToast }: PlaylistNotesTabProps) {
+export function PlaylistNotesTab({
+  onToast,
+  items,
+  emptyLabel,
+}: PlaylistNotesTabProps) {
+  const notes = items ?? LESSON_NOTES;
+  if (notes.length === 0) {
+    return (
+      <p className="px-3 py-4 text-base text-[var(--sn-text-secondary)]">
+        {emptyLabel}
+      </p>
+    );
+  }
   return (
     <ul className="max-h-[560px] space-y-1 overflow-y-auto pr-1">
-      {LESSON_NOTES.map((note) => (
+      {notes.map((note) => (
         <li key={note.id}>
           <button
             type="button"

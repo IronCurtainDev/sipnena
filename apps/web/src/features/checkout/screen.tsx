@@ -17,6 +17,7 @@ import { ParentApprovalPortalView } from "./parent-approval-portal-view";
 import { PaymentFailedView } from "./payment-failed-view";
 import { PaymentPendingView } from "./payment-pending-view";
 import { PaymentSuccessView } from "./payment-success-view";
+import { CHECKOUT_EXTRA_COPY } from "./extra-strings";
 import { CHECKOUT_STRINGS } from "./strings";
 import { StudentEnrollView } from "./student-enroll-view";
 import type { CheckoutViewMode, ReceiptInfo } from "./types";
@@ -39,6 +40,7 @@ export function SipNenaCheckoutScreen() {
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = CHECKOUT_STRINGS[lang];
+  const extra = CHECKOUT_EXTRA_COPY[lang];
   const course = MOCK_ENROLLMENT_COURSE;
   const student = MOCK_STUDENT_PROFILE;
 
@@ -100,7 +102,7 @@ export function SipNenaCheckoutScreen() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       void navigator.clipboard.writeText(value);
     }
-    showToast(`${label} copied!`);
+    showToast(`${label} ${extra.copiedToastSuffix}`);
   };
 
   const handleOpenWhatsApp = () => {
@@ -125,7 +127,7 @@ export function SipNenaCheckoutScreen() {
             onSendToParent={() => setViewMode("parent_pay")}
             onCopyLink={() =>
               handleCopy(
-                "Enrollment link",
+                extra.enrollmentLinkLabel,
                 `${window.location.origin}/checkout?mode=parent_pay`,
               )
             }
@@ -136,6 +138,7 @@ export function SipNenaCheckoutScreen() {
 
         {viewMode === "parent_pay" && (
           <ParentApprovalPortalView
+            lang={lang}
             course={course}
             student={student}
             t={t}
@@ -166,9 +169,7 @@ export function SipNenaCheckoutScreen() {
             receipt={receipt}
             t={t}
             onOpenCourse={() => void navigate({ to: "/lesson" })}
-            onDownloadReceipt={() =>
-              showToast("Downloading official PDF receipt...")
-            }
+            onDownloadReceipt={() => showToast(extra.downloadingReceiptToast)}
             onWhatsAppHelp={handleOpenWhatsApp}
           />
         )}
@@ -182,13 +183,16 @@ export function SipNenaCheckoutScreen() {
             onGoToCourses={() => void navigate({ to: "/payment-status" })}
             onWatchPreviews={() => void navigate({ to: "/lesson" })}
             onReUploadSlip={() => setIsSlipModalOpen(true)}
-            onCopyRef={() => handleCopy("Reference", receipt.referenceCode)}
+            onCopyRef={() =>
+              handleCopy(extra.referenceLabel, receipt.referenceCode)
+            }
             onWhatsAppHelp={handleOpenWhatsApp}
           />
         )}
       </main>
 
       <BankSlipModal
+        lang={lang}
         isOpen={isSlipModalOpen}
         onClose={() => setIsSlipModalOpen(false)}
         onSubmitSlip={(bankName, ref) =>

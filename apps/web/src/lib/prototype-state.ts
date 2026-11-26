@@ -7,10 +7,19 @@ import {
   type PrototypeBankSlip,
   type PrototypeDoubt,
   type PrototypeState,
+  type LessonTextBlock,
+  type TeacherCourseDraft,
+  type TeacherCourseSection,
+  type TeacherCourseTerm,
+  type TeacherItemKind,
   type TeacherLessonDraft,
+  type TeacherLiveChannel,
+  type TeacherLiveDay,
+  type TeacherLiveSession,
   type TeacherQuizDraft,
 } from "./prototype-seed";
 import type { StudyMedium } from "./language-types";
+import { normalizeStoredTeacherDrafts } from "./normalize-teacher-drafts";
 
 export type {
   DataSaverQuality,
@@ -19,7 +28,15 @@ export type {
   PrototypeBankSlip,
   PrototypeDoubt,
   PrototypeState,
+  LessonTextBlock,
+  TeacherCourseDraft,
+  TeacherCourseSection,
+  TeacherCourseTerm,
+  TeacherItemKind,
   TeacherLessonDraft,
+  TeacherLiveChannel,
+  TeacherLiveDay,
+  TeacherLiveSession,
   TeacherQuizDraft,
 };
 
@@ -39,7 +56,36 @@ export function readPrototypeState(): PrototypeState {
         : INITIAL_PROTOTYPE_STATE;
     }
     const parsed = JSON.parse(raw) as Partial<PrototypeState>;
-    return { ...INITIAL_PROTOTYPE_STATE, ...parsed };
+    const merged = { ...INITIAL_PROTOTYPE_STATE, ...parsed };
+    const courses = Array.isArray(parsed.teacherCourses)
+      ? parsed.teacherCourses
+      : INITIAL_PROTOTYPE_STATE.teacherCourses;
+    const sections = Array.isArray(parsed.teacherCourseSections)
+      ? [...parsed.teacherCourseSections]
+      : [...INITIAL_PROTOTYPE_STATE.teacherCourseSections];
+    const drafts = normalizeStoredTeacherDrafts({
+      courses,
+      sections,
+      lessons: parsed.teacherLessons,
+      quizzes: parsed.teacherQuizzes,
+      fallbackLessons: INITIAL_PROTOTYPE_STATE.teacherLessons,
+      fallbackQuizzes: INITIAL_PROTOTYPE_STATE.teacherQuizzes,
+    });
+    const teacherLiveSessions = Array.isArray(parsed.teacherLiveSessions)
+      ? (parsed.teacherLiveSessions as TeacherLiveSession[]).map((session) => ({
+          ...session,
+          meetingUrl:
+            typeof session.meetingUrl === "string" ? session.meetingUrl : "",
+        }))
+      : INITIAL_PROTOTYPE_STATE.teacherLiveSessions;
+    return {
+      ...merged,
+      teacherCourses: courses,
+      teacherCourseSections: drafts.sections,
+      teacherLessons: drafts.lessons,
+      teacherQuizzes: drafts.quizzes,
+      teacherLiveSessions,
+    };
   } catch {
     return INITIAL_PROTOTYPE_STATE;
   }

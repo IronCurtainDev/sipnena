@@ -12,12 +12,14 @@ import {
 import { SipNenaPortalShell } from "@/features/portal-shell/portal-shell";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { useToastMessage } from "@/features/portal-shell/use-toast";
+import { formatGrade, formatSubject } from "@/lib/i18n-common";
 import { LivePlayerModal } from "./live-player-modal";
 import {
   PAST_RECORDINGS,
   WEEKLY_TIMETABLE,
   type TimetableSession,
 } from "./mock-data";
+import { DAY_LABELS, LIVE_SCHEDULE_COPY } from "./strings";
 
 export function LiveAndScheduleScreen({
   defaultTab = "live",
@@ -26,6 +28,8 @@ export function LiveAndScheduleScreen({
 }) {
   const [lang, setLang] = useSipNenaLanguage();
   const { toast, showToast } = useToastMessage();
+  const copy = LIVE_SCHEDULE_COPY[lang];
+
   const [tab, setTab] = useState<"live" | "timetable" | "recordings">(
     defaultTab,
   );
@@ -49,12 +53,8 @@ export function LiveAndScheduleScreen({
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title={
-        tab === "timetable"
-          ? "Weekly Class Timetable"
-          : "Live Classes & Recordings"
-      }
-      roleOverride="student"
+      title={tab === "timetable" ? copy.timetablePageTitle : copy.livePageTitle}
+      roleOverride={defaultTab === "live" ? "student" : undefined}
       toastMessage={toast}
     >
       <section className="rounded-3xl bg-[var(--sn-primary)] p-5 text-[var(--sn-cream)] shadow-sm sm:p-6">
@@ -63,24 +63,25 @@ export function LiveAndScheduleScreen({
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-500 px-3 py-1 text-xs font-extrabold text-white">
                 <Radio className="h-3.5 w-3.5 animate-pulse" />
-                <span>LIVE NOW</span>
+                <span>{copy.liveNowBadge}</span>
               </span>
               <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
-                Next Q&amp;A Segment in {String(mins).padStart(2, "0")}:
+                {copy.nextQaPrefix} {String(mins).padStart(2, "0")}:
                 {String(secs).padStart(2, "0")}
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-200">
                 <Users className="h-3.5 w-3.5" />
-                <span>342 students watching</span>
+                <span>{copy.watchingCount}</span>
               </span>
             </div>
             <h2 className="text-xl font-extrabold sm:text-2xl">
-              Grade {liveSession.grade} {liveSession.subject}:{" "}
-              {liveSession.topic}
+              {formatGrade(lang, liveSession.grade)}{" "}
+              {formatSubject(lang, liveSession.subject)}:{" "}
+              {liveSession.localizedTopic[lang]}
             </h2>
             <p className="text-xs text-[var(--sn-cream)]/85 sm:text-sm">
-              {liveSession.teacher} • {liveSession.medium} • Low-data mode
-              supported
+              {liveSession.teacher} • {liveSession.localizedMedium[lang]} •{" "}
+              {copy.lowDataSupported}
             </p>
           </div>
 
@@ -91,26 +92,22 @@ export function LiveAndScheduleScreen({
               className="inline-flex min-h-[46px] items-center gap-2 rounded-2xl bg-[var(--sn-cream)] px-5 text-xs font-extrabold text-[var(--sn-primary)] hover:bg-[var(--sn-olive)]"
             >
               <Play className="h-4 w-4 fill-current" />
-              <span>Join Mock Live Player</span>
+              <span>{copy.joinMockPlayerBtn}</span>
             </button>
             <button
               type="button"
-              onClick={() =>
-                showToast("Opening Zoom Classroom link (Demo preview)...")
-              }
+              onClick={() => showToast(copy.zoomToast)}
               className="inline-flex min-h-[46px] items-center gap-1.5 rounded-2xl border border-white/25 bg-white/10 px-4 text-xs font-bold text-white hover:bg-white/20"
             >
-              <span>Zoom</span>
+              <span>{copy.zoomBtn}</span>
               <ExternalLink className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
-              onClick={() =>
-                showToast("Opening YouTube Live unlisted stream (Demo)...")
-              }
+              onClick={() => showToast(copy.youtubeToast)}
               className="inline-flex min-h-[46px] items-center gap-1.5 rounded-2xl border border-white/25 bg-white/10 px-4 text-xs font-bold text-white hover:bg-white/20"
             >
-              <span>YouTube Live</span>
+              <span>{copy.youtubeBtn}</span>
               <ExternalLink className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -120,13 +117,9 @@ export function LiveAndScheduleScreen({
       <div className="flex flex-wrap gap-2">
         {(
           [
-            { id: "live", label: "Live & Upcoming", icon: Radio },
-            {
-              id: "timetable",
-              label: "Weekly Timetable (Mon–Sun)",
-              icon: Calendar,
-            },
-            { id: "recordings", label: "Past Recordings", icon: Video },
+            { id: "live", label: copy.tabLive, icon: Radio },
+            { id: "timetable", label: copy.tabTimetable, icon: Calendar },
+            { id: "recordings", label: copy.tabRecordings, icon: Video },
           ] as const
         ).map((item) => {
           const Icon = item.icon;
@@ -157,13 +150,15 @@ export function LiveAndScheduleScreen({
             >
               <div>
                 <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
-                  Grade {rec.grade} • {rec.subject}
+                  {formatGrade(lang, rec.grade)} •{" "}
+                  {formatSubject(lang, rec.subject)}
                 </span>
                 <h3 className="mt-2.5 text-base font-extrabold text-[var(--sn-text-main)]">
-                  {rec.title}
+                  {rec.localizedTitle[lang]}
                 </h3>
                 <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
-                  {rec.teacher} • {rec.recordedOn} • {rec.duration}
+                  {rec.teacher} • {rec.localizedRecordedOn[lang]} •{" "}
+                  {rec.localizedDuration[lang]}
                 </p>
               </div>
               <div className="mt-4 border-t border-slate-100 pt-3">
@@ -172,7 +167,7 @@ export function LiveAndScheduleScreen({
                   className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--sn-primary)] px-4 py-2 text-xs font-bold text-white"
                 >
                   <Play className="h-3.5 w-3.5 fill-current" />
-                  <span>Watch Recorded Lesson</span>
+                  <span>{copy.watchRecordedBtn}</span>
                 </Link>
               </div>
             </article>
@@ -182,6 +177,7 @@ export function LiveAndScheduleScreen({
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {WEEKLY_TIMETABLE.map((slot) => {
             const reminded = reminders.includes(slot.id);
+            const dayLabel = DAY_LABELS[slot.day][lang];
             return (
               <article
                 key={slot.id}
@@ -194,17 +190,19 @@ export function LiveAndScheduleScreen({
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="rounded-lg bg-[var(--sn-primary)] px-2.5 py-1 text-xs font-extrabold text-white">
-                      {slot.day} • {slot.time}
+                      {dayLabel} • {slot.time}
                     </span>
                     <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
-                      Grade {slot.grade} • {slot.subject}
+                      {formatGrade(lang, slot.grade)} •{" "}
+                      {formatSubject(lang, slot.subject)}
                     </span>
                   </div>
                   <h3 className="mt-2.5 text-sm font-extrabold text-[var(--sn-text-main)]">
-                    {slot.topic}
+                    {slot.localizedTopic[lang]}
                   </h3>
                   <p className="mt-0.5 text-xs text-[var(--sn-text-muted)]">
-                    {slot.teacher} • {slot.medium} • {slot.channel}
+                    {slot.teacher} • {slot.localizedMedium[lang]} •{" "}
+                    {slot.channel}
                   </p>
                 </div>
 
@@ -219,8 +217,8 @@ export function LiveAndScheduleScreen({
                       );
                       showToast(
                         reminded
-                          ? "Reminder removed"
-                          : `Reminder set for ${slot.day} ${slot.time}`,
+                          ? copy.reminderRemovedToast
+                          : `${copy.reminderSetPrefix} ${dayLabel} ${slot.time}`,
                       );
                     }}
                     className={`inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-bold ${
@@ -230,7 +228,9 @@ export function LiveAndScheduleScreen({
                     }`}
                   >
                     <Bell className="h-3.5 w-3.5" />
-                    <span>{reminded ? "Reminder On" : "Remind Me"}</span>
+                    <span>
+                      {reminded ? copy.reminderOnBtn : copy.remindMeBtn}
+                    </span>
                   </button>
 
                   <button
@@ -238,7 +238,7 @@ export function LiveAndScheduleScreen({
                     onClick={() => setActiveLiveSession(slot)}
                     className="rounded-xl bg-[var(--sn-primary)] px-4 py-1.5 text-xs font-bold text-white"
                   >
-                    {slot.isLiveNow ? "Join Live" : "Open Stream"}
+                    {slot.isLiveNow ? copy.joinLiveBtn : copy.openStreamBtn}
                   </button>
                 </div>
               </article>
@@ -248,6 +248,7 @@ export function LiveAndScheduleScreen({
       )}
 
       <LivePlayerModal
+        lang={lang}
         session={activeLiveSession}
         onClose={() => setActiveLiveSession(null)}
       />

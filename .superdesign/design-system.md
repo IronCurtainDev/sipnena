@@ -49,6 +49,7 @@ Style source: Superdesign `nature-inspired-style`, adapted. Sinhala / Tamil / En
 
 - Page bg cream; section bands olive with ~1.5–2rem top radius
 - Learning chrome quiet; video/quiz content dominates
+- Portal/library content: **max-w-7xl** (or full usable width) — fill the viewport with responsive grids; put air between cards, not as empty left/right gutters from a narrow max-width
 - Nav: sticky cream/white, wordmark left, language switcher, one primary action
 - Checkout/parents: Forest primary + clay warnings only
 

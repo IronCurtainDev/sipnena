@@ -1,119 +1,163 @@
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Check, GraduationCap, ShieldCheck } from "lucide-react";
 import { SipNenaOnboardingShell } from "@/components/layout/sipnena-auth-shell";
+import { formatGrade, type LocalizedText } from "@/lib/i18n-common";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { usePrototypeState } from "@/lib/prototype-state";
 
 interface GradeCardInfo {
   grade: number;
-  enSub: string;
-  siSub: string;
-  taSub: string;
+  sub: LocalizedText;
   isOL: boolean;
 }
 
 const GRADES: GradeCardInfo[] = [
   {
     grade: 6,
-    enSub: "Junior Secondary Start",
-    siSub: "කනිෂ්ඨ ද්විතීයික ආරම්භය",
-    taSub: "இளநிலை இரண்டாம் நிலை",
+    sub: {
+      en: "Junior Secondary Start",
+      si: "කනිෂ්ඨ ද්විතීයික ආරම්භය",
+      ta: "இளநிலை இரண்டாம் நிலை",
+    },
     isOL: false,
   },
   {
     grade: 7,
-    enSub: "Core Foundations",
-    siSub: "මූලික විෂය පදනම",
-    taSub: "அடிப்படைப் பாடங்கள்",
+    sub: {
+      en: "Core Foundations",
+      si: "මූලික විෂය පදනම",
+      ta: "அடிப்படைப் பாடங்கள்",
+    },
     isOL: false,
   },
   {
     grade: 8,
-    enSub: "Term Test & SBA Prep",
-    siSub: "වාර විභාග සූදානම",
-    taSub: "தவணைப் பரீட்சை பயிற்சி",
+    sub: {
+      en: "Term Test & SBA Prep",
+      si: "වාර විභාග සූදානම",
+      ta: "தவணைப் பரீட்சை பயிற்சி",
+    },
     isOL: false,
   },
   {
     grade: 9,
-    enSub: "Pre-O/L Bridge Year",
-    siSub: "සා/පෙළ පූර්ව වසර",
-    taSub: "சாதாரண தர முன்னோடி",
+    sub: {
+      en: "Pre-O/L Bridge Year",
+      si: "සා/පෙළ පූර්ව වසර",
+      ta: "சாதாரண தர முன்னோடி",
+    },
     isOL: false,
   },
   {
     grade: 10,
-    enSub: "G.C.E. O/L Part I Syllabus",
-    siSub: "අ.පො.ස. සා/පෙළ (1 කොටස)",
-    taSub: "க.பொ.த. சாதாரண தரம் I",
+    sub: {
+      en: "G.C.E. O/L Part I Syllabus",
+      si: "අ.පො.ස. සා/පෙළ (1 කොටස)",
+      ta: "க.பொ.த. சாதாரண தரம் I",
+    },
     isOL: true,
   },
   {
     grade: 11,
-    enSub: "G.C.E. O/L Exam Year",
-    siSub: "අ.පො.ස. සා/පෙළ විභාග වසර",
-    taSub: "க.பொ.த. சாதாரண தரம் II",
+    sub: {
+      en: "G.C.E. O/L Exam Year",
+      si: "අ.පො.ස. සා/පෙළ විභාග වසර",
+      ta: "க.பொ.த. சாதாரண தரம் II",
+    },
     isOL: true,
   },
 ];
+
+const GRADE_COPY = {
+  en: {
+    brandSubtitle: "School Learning App",
+    topBadge: "NIE Curriculum • Grades 6–11",
+    footer: "Made for Sri Lankan School Students (Grades 6–11)",
+    stepPill: "Step 2 of 4 • School Grade",
+    nieAligned: "NIE 2026 Aligned",
+    olBadge: "G.C.E. O/L",
+    title: "Select your school grade",
+    subtitle:
+      "We tailor your lessons, tutes, and past papers to the NIE school syllabus.",
+    olHint: "Grades 10–11 unlock Core + Basket 1, 2 & 3 O/L subjects.",
+    regularHint: "Includes Sinhala, Tamil, and English medium school units.",
+    continueBtn: "Continue to Medium",
+    langAria: "Change language",
+  },
+  si: {
+    brandSubtitle: "පාසල් ඉගෙනුම් ඇප් එක",
+    topBadge: "ජාතික විෂය නිර්දේශය • 6–11 ශ්‍රේණි",
+    footer: "ශ්‍රී ලාංකික පාසල් සිසුන් වෙනුවෙන් (6–11 ශ්‍රේණි)",
+    stepPill: "පියවර 2 / 4 • ශ්‍රේණිය",
+    nieAligned: "NIE 2026 අනුකූලයි",
+    olBadge: "අ.පො.ස. සා/පෙළ",
+    title: "ඔබ ඉගෙන ගන්නා ශ්‍රේණිය තෝරන්න",
+    subtitle:
+      "ජාතික අධ්‍යාපන ආයතනයේ (NIE) විෂය නිර්දේශයට අනුව පාඩම්, ටියුට් සහ ප්‍රශ්න පත්‍ර සැකසේ.",
+    olHint:
+      "10–11 ශ්‍රේණි සඳහා ප්‍රධාන විෂයයන් සහ 1, 2, 3 කාණ්ඩ (Baskets) විවෘත වේ.",
+    regularHint:
+      "සිංහල, දෙමළ සහ ඉංග්‍රීසි මාධ්‍ය තුනෙන්ම පාසල් පාඩම් ඇතුළත් වේ.",
+    continueBtn: "මාධ්‍යය තෝරන්න",
+    langAria: "භාෂාව මාරු කරන්න",
+  },
+  ta: {
+    brandSubtitle: "பாடசாலை கற்றல் தளம்",
+    topBadge: "NIE பாடத்திட்டம் • தரம் 6–11",
+    footer: "இலங்கைப் பாடசாலை மாணவர்களுக்காக (தரம் 6–11)",
+    stepPill: "படி 2 / 4 • தரம்",
+    nieAligned: "NIE 2026 இணைந்தது",
+    olBadge: "க.பொ.த. சா/த",
+    title: "நீங்கள் படிக்கும் தரத்தைத் தேர்ந்தெடுக்கவும்",
+    subtitle:
+      "தேசிய கல்வி நிறுவக (NIE) பாடத்திட்டத்திற்கு ஏற்ப பாடங்கள், குறிப்புகள் மற்றும் வினாத்தாள்கள் தயாராகும்.",
+    olHint:
+      "தரம் 10–11 க்கு கட்டாயப் பாடங்களுடன் 1, 2, 3 பிரிவுப் பாடங்களும் திறக்கப்படும்.",
+    regularHint:
+      "சிங்களம், தமிழ் மற்றும் ஆங்கில மொழி மூலப் பாடசாலைப் பாடங்கள் உள்ளடங்கும்.",
+    continueBtn: "மொழி மூலத்தைத் தேர்ந்தெடுக்கவும்",
+    langAria: "மொழியை மாற்றுக",
+  },
+};
 
 export function SelectGradeScreen() {
   const navigate = useNavigate();
   const [lang, setLang] = useSipNenaLanguage();
   const { state, setGrade } = usePrototypeState();
-
-  const title =
-    lang === "si"
-      ? "ඔබ ඉගෙන ගන්නා ශ්‍රේණිය තෝරන්න"
-      : lang === "ta"
-        ? "நீங்கள் படிக்கும் தரத்தைத் தேர்ந்தெடுக்கவும்"
-        : "Select your school grade";
-
-  const subtitle =
-    lang === "si"
-      ? "ජාතික අධ්‍යාපන ආයතනයේ (NIE) විෂය නිර්දේශයට අනුව පාඩම් සැකසේ."
-      : lang === "ta"
-        ? "தேசிய கல்வி நிறுவக (NIE) பாடத்திட்டத்திற்கு ஏற்ப பாடங்கள் தயாராகும்."
-        : "We tailor your lessons, tutes, and past papers to the NIE school syllabus.";
+  const copy = GRADE_COPY[lang];
 
   return (
     <SipNenaOnboardingShell
       selectedLang={lang}
       onLanguageChange={setLang}
-      langSwitcherAria="Change language"
-      brandSubtitle="Sri Lankan School LMS"
-      topBadge="NIE Curriculum • Grades 6–11"
-      footer="Made for Sri Lankan School Students (Grades 6–11)"
+      langSwitcherAria={copy.langAria}
+      brandSubtitle={copy.brandSubtitle}
+      topBadge={copy.topBadge}
+      footer={copy.footer}
       onBack={() => void navigate({ to: "/welcome-language" })}
     >
       <div className="w-full max-w-3xl rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 animate-page-enter">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="inline-flex items-center gap-2 rounded-full bg-[var(--sn-sage)] px-3 py-1 text-xs font-bold text-[var(--sn-primary)]">
             <GraduationCap className="h-4 w-4" />
-            <span>
-              {lang === "si"
-                ? "පියවර 2 / 4 • ශ්‍රේණිය"
-                : lang === "ta"
-                  ? "படி 2 / 4 • தரம்"
-                  : "Step 2 of 4 • School Grade"}
-            </span>
+            <span>{copy.stepPill}</span>
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
             <ShieldCheck className="h-4 w-4" />
-            <span>NIE 2026 Aligned</span>
+            <span>{copy.nieAligned}</span>
           </span>
         </div>
 
         <h1 className="mt-4 text-2xl font-extrabold text-[var(--sn-text-main)] sm:text-3xl">
-          {title}
+          {copy.title}
         </h1>
         <p className="mt-1 text-sm text-[var(--sn-text-secondary)]">
-          {subtitle}
+          {copy.subtitle}
         </p>
 
         <div
           role="radiogroup"
-          aria-label="Grade selector"
+          aria-label={copy.title}
           className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3"
         >
           {GRADES.map((item) => {
@@ -144,7 +188,7 @@ export function SelectGradeScreen() {
                   </span>
                   {item.isOL ? (
                     <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-900">
-                      G.C.E. O/L
+                      {copy.olBadge}
                     </span>
                   ) : active ? (
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--sn-primary)] text-white">
@@ -155,18 +199,10 @@ export function SelectGradeScreen() {
 
                 <div className="mt-3">
                   <p className="text-base font-extrabold text-[var(--sn-text-main)]">
-                    {lang === "si"
-                      ? `${item.grade} ශ්‍රේණිය`
-                      : lang === "ta"
-                        ? `தரம் ${item.grade}`
-                        : `Grade ${item.grade}`}
+                    {formatGrade(lang, item.grade)}
                   </p>
                   <p className="mt-0.5 text-xs text-[var(--sn-text-muted)]">
-                    {lang === "si"
-                      ? item.siSub
-                      : lang === "ta"
-                        ? item.taSub
-                        : item.enSub}
+                    {item.sub[lang]}
                   </p>
                 </div>
               </button>
@@ -176,22 +212,14 @@ export function SelectGradeScreen() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-slate-200 pt-5 sm:flex-row">
           <p className="text-xs font-medium text-[var(--sn-text-secondary)]">
-            {state.grade >= 10
-              ? "Grades 10–11 unlock Core + Basket 1, 2 & 3 O/L subjects."
-              : "Includes Sinhala, Tamil, and English medium school units."}
+            {state.grade >= 10 ? copy.olHint : copy.regularHint}
           </p>
           <button
             type="button"
             onClick={() => void navigate({ to: "/select-medium" })}
             className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-sm hover:bg-[var(--sn-primary-hover)] sm:w-auto"
           >
-            <span>
-              {lang === "si"
-                ? "මාධ්‍යය තෝරන්න"
-                : lang === "ta"
-                  ? "மொழி மூலத்தைத் தேர்ந்தெடுக்கவும்"
-                  : "Continue to Medium"}
-            </span>
+            <span>{copy.continueBtn}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

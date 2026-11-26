@@ -2,7 +2,17 @@ import { useState } from "react";
 import { ArrowLeft, Bookmark, Check, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import type { AppLanguage } from "@/lib/language";
-import { InlineQuizPlayer } from "./inline-quiz-player";
+import type { CourseLessonCopy } from "./course-lesson-copy";
+import {
+  flatLessons,
+  nextQuizItem,
+  type CourseLessonBundle,
+} from "./course-lesson-model";
+import {
+  CourseInlineQuiz,
+  FollowQuizBanner,
+  LabPanel,
+} from "./lesson-activity";
 import { LessonDiscussionTab } from "./lesson-discussion-tab";
 import { LessonDownloadsTab } from "./lesson-downloads-tab";
 import { LessonNotesTab } from "./lesson-notes-tab";
@@ -10,7 +20,6 @@ import { LessonOverviewTab } from "./lesson-overview-tab";
 import { MobileLessonPlaylist } from "./mobile-lesson-playlist";
 import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { lessonCounter, lessonTitle } from "./playlist-copy";
-import { SectionQuizBanner } from "./section-quiz-banner";
 import type { VideoLessonStrings } from "./strings";
 import { VideoPlayer } from "./video-player";
 
@@ -29,6 +38,8 @@ interface MobileLessonViewProps {
   onBack: () => void;
   onNavTab?: (tab: string) => void;
   onToast: (msg: string) => void;
+  bundle?: CourseLessonBundle;
+  lessonCopy?: CourseLessonCopy;
 }
 
 export function MobileLessonView({
@@ -46,14 +57,21 @@ export function MobileLessonView({
   onBack,
   onNavTab,
   onToast,
+  bundle,
+  lessonCopy,
 }: MobileLessonViewProps) {
   const [mobileTab, setMobileTab] = useState<
     "lessons" | "notes" | "discussion" | "files"
   >("lessons");
 
-  const currentLesson = VIDEO_LESSON_PLAYLIST.flatMap((s) => s.lessons).find(
-    (l) => l.id === activeLessonId,
-  );
+  const playlist = bundle?.playlist ?? VIDEO_LESSON_PLAYLIST;
+  const lessons = flatLessons(playlist);
+  const currentLesson = lessons.find((lesson) => lesson.id === activeLessonId);
+  const authored = bundle?.byId[activeLessonId];
+  const isQuiz = bundle
+    ? authored?.kind === "quiz"
+    : activeLessonId.startsWith("quiz");
+  const followQuiz = bundle ? nextQuizItem(playlist, activeLessonId) : null;
   const currentTitle = currentLesson
     ? lessonTitle(lang, currentLesson.id, currentLesson.titleKey)
     : t.lessonTitle;
@@ -103,34 +121,48 @@ export function MobileLessonView({
         </div>
       </header>
 
-      {activeLessonId.startsWith("quiz") ? (
+      {bundle && !authored ? (
+        <p className="p-4 text-base text-[var(--sn-text-secondary)]">
+          {lessonCopy?.emptyPlaylist}
+        </p>
+      ) : isQuiz ? (
         <div className="p-4">
-          <InlineQuizPlayer
-            quizId={activeLessonId}
+          <CourseInlineQuiz
+            activeLessonId={activeLessonId}
             lang={lang}
-            onNextLesson={() =>
-              activeLessonId === "quiz-sec2"
-                ? onSelectLesson("course-completed")
-                : onSelectLesson("les5")
-            }
+            authored={authored}
+            bundle={bundle}
+            playlist={playlist}
+            lessonCopy={lessonCopy}
+            onSelectLesson={onSelectLesson}
             onToast={onToast}
           />
         </div>
       ) : (
         <>
-          <VideoPlayer
-            t={t}
-            isPlaying={isPlaying}
-            onTogglePlay={onTogglePlay}
-            onToast={onToast}
-            compact
-          />
+          {authored?.kind === "lab" ? (
+            <LabPanel
+              kicker={lessonCopy?.labKicker}
+              title={authored.title}
+              prompt={authored.labPrompt}
+              className="space-y-2 border-b border-[var(--sn-border)] bg-[var(--sn-surface)] p-4"
+            />
+          ) : (
+            <VideoPlayer
+              t={t}
+              isPlaying={isPlaying}
+              onTogglePlay={onTogglePlay}
+              onToast={onToast}
+              compact
+            />
+          )}
 
           <div className="space-y-4 border-b border-[var(--sn-border)] bg-[var(--sn-surface)] p-4">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 space-y-1">
                 <p className="text-sm font-semibold leading-normal text-[var(--sn-text-secondary)]">
-                  {lessonCounter(lang, currentNumber)} · {t.unitSubtitle}
+                  {lessonCounter(lang, currentNumber, lessons.length || 12)}
+                  {authored ? "" : ` · ${t.unitSubtitle}`}
                 </p>
                 <h1 className="text-lg font-bold leading-normal text-[var(--sn-text-main)] sm:text-xl">
                   {currentTitle}
@@ -167,12 +199,12 @@ export function MobileLessonView({
               <span>{isDone ? t.markedDone : t.markAsDone}</span>
             </button>
 
-            <SectionQuizBanner
-              eyebrow={t.sectionQuizEyebrow}
-              quizTitle={t.sectionQuizTitle}
-              detail={quizDetail}
-              ctaLabel={t.sectionQuizCta}
-              onTakeQuiz={() => onSelectLesson("quiz-sec2")}
+            <FollowQuizBanner
+              t={t}
+              bundle={bundle}
+              followQuiz={followQuiz}
+              sampleDetail={quizDetail}
+              onSelectLesson={onSelectLesson}
             />
 
             <div className="flex border-b border-[var(--sn-border)] text-sm font-bold text-[var(--sn-text-secondary)]">
@@ -196,20 +228,36 @@ export function MobileLessonView({
           <div className="space-y-4 p-4">
             {mobileTab === "notes" && (
               <div className="space-y-6">
-                <LessonOverviewTab t={t} />
-                <LessonNotesTab onToast={onToast} />
+                <LessonOverviewTab
+                  t={t}
+                  authored={authored}
+                  emptyLabel={lessonCopy?.emptyOverview}
+                />
+                <LessonNotesTab
+                  onToast={onToast}
+                  revisionNotes={authored?.revisionNotes}
+                  emptyLabel={lessonCopy?.emptyNotes}
+                />
               </div>
             )}
             {mobileTab === "discussion" && (
               <LessonDiscussionTab onToast={onToast} />
             )}
-            {mobileTab === "files" && <LessonDownloadsTab onToast={onToast} />}
+            {mobileTab === "files" && (
+              <LessonDownloadsTab
+                onToast={onToast}
+                items={authored?.files}
+                emptyLabel={lessonCopy?.emptyFiles}
+              />
+            )}
             {mobileTab === "lessons" && (
               <MobileLessonPlaylist
                 t={t}
                 lang={lang}
                 activeLessonId={activeLessonId}
                 onSelectLesson={onSelectLesson}
+                playlist={bundle ? playlist : undefined}
+                emptyLabel={lessonCopy?.emptyPlaylist}
               />
             )}
             <p className="pt-2 text-center text-sm text-[var(--sn-text-muted)]">

@@ -1,10 +1,78 @@
+import type { AuthoredLessonView } from "./course-lesson-model";
 import type { VideoLessonStrings } from "./strings";
 
 interface LessonOverviewTabProps {
   t: VideoLessonStrings;
+  authored?: AuthoredLessonView;
+  emptyLabel?: string;
 }
 
-export function LessonOverviewTab({ t }: LessonOverviewTabProps) {
+export function LessonOverviewTab({
+  t,
+  authored,
+  emptyLabel,
+}: LessonOverviewTabProps) {
+  if (authored) {
+    const hasOverview =
+      authored.overviewTitle ||
+      authored.overviewBody ||
+      authored.formula ||
+      authored.educatorNote ||
+      authored.rules.some((rule) => rule.title || rule.body);
+    if (!hasOverview) {
+      return (
+        <p className="text-base text-[var(--sn-text-secondary)]">
+          {emptyLabel}
+        </p>
+      );
+    }
+    return (
+      <div className="space-y-6">
+        <section className="space-y-2 border-t border-[var(--sn-border)] pt-4">
+          {authored.overviewTitle ? (
+            <h3 className="text-base font-bold text-[var(--sn-text-main)]">
+              {authored.overviewTitle}
+            </h3>
+          ) : null}
+          {authored.overviewBody ? (
+            <p className="text-base leading-relaxed text-[var(--sn-text-secondary)]">
+              {authored.overviewBody}
+            </p>
+          ) : null}
+          {authored.formula ? (
+            <p className="rounded-xl bg-[var(--sn-olive)] px-4 py-3 text-sm font-bold leading-snug text-[var(--sn-text-main)]">
+              {authored.formula}
+            </p>
+          ) : null}
+        </section>
+        {authored.rules.length > 0 ? (
+          <ol className="space-y-3">
+            {authored.rules.map((rule, index) => (
+              <li
+                key={`${rule.title}-${index}`}
+                className="border-t border-[var(--sn-border)] pt-3 first:border-t-0 first:pt-0"
+              >
+                <p className="text-sm font-bold text-[var(--sn-primary)]">
+                  {index + 1}. {rule.title}
+                </p>
+                <p className="mt-1 text-base leading-relaxed text-[var(--sn-text-secondary)]">
+                  {rule.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+        {authored.educatorNote ? (
+          <section className="space-y-2 rounded-2xl bg-[var(--sn-olive)]/50 p-5">
+            <p className="text-base leading-relaxed text-[var(--sn-text-secondary)]">
+              {authored.educatorNote}
+            </p>
+          </section>
+        ) : null}
+      </div>
+    );
+  }
+
   const rules = [
     { title: t.rule1Title, desc: t.rule1Desc },
     { title: t.rule2Title, desc: t.rule2Desc },

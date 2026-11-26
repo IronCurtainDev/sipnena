@@ -1,6 +1,15 @@
+interface PlaylistQuizItem {
+  id: string;
+  title: string;
+  meta: string;
+  locked?: boolean;
+}
+
 interface PlaylistQuizzesTabProps {
   onSelectLesson: (id: string, isLocked?: boolean) => void;
   onToast?: (msg: string) => void;
+  items?: PlaylistQuizItem[];
+  emptyLabel?: string;
 }
 
 const QUIZZES = [
@@ -27,10 +36,20 @@ const QUIZZES = [
 export function PlaylistQuizzesTab({
   onSelectLesson,
   onToast,
+  items,
+  emptyLabel,
 }: PlaylistQuizzesTabProps) {
+  const quizzes = items ?? QUIZZES;
+  if (quizzes.length === 0) {
+    return (
+      <p className="px-3 py-4 text-base text-[var(--sn-text-secondary)]">
+        {emptyLabel}
+      </p>
+    );
+  }
   return (
     <ul className="max-h-[560px] space-y-1 overflow-y-auto pr-1">
-      {QUIZZES.map((quiz) => (
+      {quizzes.map((quiz) => (
         <li key={quiz.id}>
           <button
             type="button"

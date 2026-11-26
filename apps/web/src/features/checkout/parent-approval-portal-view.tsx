@@ -8,12 +8,16 @@ import {
   Send,
   Shield,
 } from "lucide-react";
+import { formatGrade } from "@/lib/i18n-common";
+import type { AppLanguage } from "@/lib/language";
 import { BankDepositPanel } from "./bank-deposit-panel";
 import { CardLankaQrPanel } from "./card-lankaqr-panel";
+import { CHECKOUT_EXTRA_COPY } from "./extra-strings";
 import type { CheckoutStrings } from "./strings.types";
 import type { EnrollmentCourseInfo, StudentProfileInfo } from "./types";
 
 interface ParentApprovalPortalViewProps {
+  lang: AppLanguage;
   course: EnrollmentCourseInfo;
   student: StudentProfileInfo;
   t: CheckoutStrings;
@@ -26,6 +30,7 @@ interface ParentApprovalPortalViewProps {
 }
 
 export function ParentApprovalPortalView({
+  lang,
   course,
   student,
   t,
@@ -36,13 +41,13 @@ export function ParentApprovalPortalView({
   onSimulateFail,
   onWhatsAppHelp,
 }: ParentApprovalPortalViewProps) {
+  const extra = CHECKOUT_EXTRA_COPY[lang];
   const [activeMethodTab, setActiveMethodTab] = useState<"card_qr" | "bank">(
     "bank",
   );
 
   return (
     <div className="mx-auto w-full max-w-xl space-y-4 px-4 py-5 sm:py-6">
-      {/* Top Status & Quick Links */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-olive)]/80 p-3 text-xs font-semibold text-[var(--sn-text-main)]">
         <span className="flex items-center gap-2">
           <Shield className="h-4 w-4 shrink-0 text-[var(--sn-primary)]" />
@@ -53,21 +58,20 @@ export function ParentApprovalPortalView({
             to="/payment-status"
             className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
           >
-            Check Slip Status
+            {extra.checkSlipStatus}
           </Link>
           <Link
             to="/billing"
             className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
           >
-            Class Cards
+            {extra.classCardsLink}
           </Link>
         </div>
       </div>
 
-      {/* Student + Course Compact Summary */}
       <div className="rounded-3xl border border-[var(--sn-border)] bg-white p-4 shadow-xs">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--sn-sage)] font-extrabold text-[var(--sn-primary)]">
               {student.name.charAt(0)}
               <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white">
@@ -76,14 +80,14 @@ export function ParentApprovalPortalView({
             </div>
             <div className="min-w-0">
               <p className="truncate text-sm font-extrabold text-[var(--sn-text-main)]">
-                {course.title}
+                {extra.localizedCourseTitle}
               </p>
               <p className="truncate text-xs text-[var(--sn-text-muted)]">
-                {student.name} ({student.grade}) • {course.terms}
+                {student.name} ({formatGrade(lang, 8)}) • {extra.localizedTerms}
               </p>
             </div>
           </div>
-          <div className="text-right shrink-0">
+          <div className="shrink-0 text-right">
             <p className="text-lg font-black text-[var(--sn-text-main)]">
               Rs. {course.feeAmount.toLocaleString()}
             </p>
@@ -93,17 +97,16 @@ export function ParentApprovalPortalView({
               className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
             >
               <Send className="h-3 w-3" />
-              <span>Share with Parent</span>
+              <span>{extra.shareWithParentBtn}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Payment Method Tabs: Card / LankaQR vs Bank Deposit / Slip Upload */}
       <div className="rounded-3xl border border-[var(--sn-border)] bg-white p-4 shadow-xs sm:p-5">
         <div
           role="tablist"
-          aria-label="Payment method tabs"
+          aria-label={extra.methodTabsAria}
           className="mb-4 grid grid-cols-2 gap-2 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] p-1"
         >
           <button
@@ -118,7 +121,7 @@ export function ParentApprovalPortalView({
             }`}
           >
             <CreditCard className="h-4 w-4" />
-            <span>Card / LankaQR</span>
+            <span>{extra.tabCardQr}</span>
           </button>
           <button
             type="button"
@@ -132,17 +135,19 @@ export function ParentApprovalPortalView({
             }`}
           >
             <Building2 className="h-4 w-4" />
-            <span>Bank Deposit / Slip Upload</span>
+            <span>{extra.tabBankDeposit}</span>
           </button>
         </div>
 
         {activeMethodTab === "card_qr" ? (
           <CardLankaQrPanel
+            lang={lang}
             amount={course.feeAmount}
             onPayInstant={(method) => onPayCard(method)}
           />
         ) : (
           <BankDepositPanel
+            lang={lang}
             amount={course.feeAmount}
             onCopy={onCopyInfo}
             onSubmitSlip={onSubmitBankSlip}
@@ -150,14 +155,13 @@ export function ParentApprovalPortalView({
         )}
       </div>
 
-      {/* Demo Failure Trigger + WhatsApp */}
       <div className="flex flex-col items-center gap-2 text-center">
         <button
           type="button"
           onClick={onSimulateFail}
           className="text-[11px] font-semibold text-slate-400 hover:text-rose-600 hover:underline"
         >
-          [Demo: Test &quot;Payment did not go through&quot; screen]
+          {extra.demoFailTrigger}
         </button>
         <button
           type="button"

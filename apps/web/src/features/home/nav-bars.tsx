@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { AppLanguage } from "@/lib/language";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { PrototypeRoleSwitcher } from "@/features/portal-shell/role-switcher";
+import { ROLE_VISUAL_CONFIG } from "@/features/portal-shell/role-themes";
 import { NAV_ITEMS } from "./mock-data";
 import { HOME_STRINGS } from "./strings";
 
@@ -104,18 +105,28 @@ export function HomeTopBar({
   onProfileClick: () => void;
 }) {
   const t = HOME_STRINGS[lang];
+  const studentTheme = ROLE_VISUAL_CONFIG.student;
 
   return (
-    <>
-      <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-4 backdrop-blur-md sm:hidden">
-        <h1 className="text-lg font-bold tracking-tight text-[var(--sn-text-main)]">
-          {t.mobileHeaderTitle}
-        </h1>
+    <header className="sticky top-0 z-20 border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 backdrop-blur-md">
+      <div className="flex h-14 items-center justify-between px-4 sm:hidden">
+        <div className="flex items-center gap-2">
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${studentTheme.badgePillCls}`}
+          >
+            {studentTheme.portalBadge[lang]}
+          </span>
+          <h1 className="text-base font-bold tracking-tight text-[var(--sn-text-main)]">
+            {t.mobileHeaderTitle}
+          </h1>
+        </div>
 
         <div className="flex items-center gap-2">
           <Link
             to="/search"
-            aria-label="Search"
+            aria-label={
+              lang === "si" ? "සොයන්න" : lang === "ta" ? "தேடு" : "Search"
+            }
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)]"
           >
             <Search className="h-4 w-4" />
@@ -126,7 +137,6 @@ export function HomeTopBar({
             ariaLabel={t.langGroupAria}
             size="sm"
           />
-
           <button
             type="button"
             onClick={onProfileClick}
@@ -136,11 +146,24 @@ export function HomeTopBar({
             <User className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
-      </header>
+      </div>
 
-      <header className="sticky top-0 z-20 hidden h-14 shrink-0 items-center justify-between gap-2 border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-6 backdrop-blur-md sm:flex lg:px-8">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="hidden xl:inline-flex items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-xs font-semibold text-[var(--sn-text-secondary)]">
+      <div className="border-t border-[var(--sn-border)] bg-emerald-50/70 px-4 py-1.5 sm:hidden">
+        <PrototypeRoleSwitcher
+          lang={lang}
+          activeRoleOverride="student"
+          compact
+        />
+      </div>
+
+      <div className="hidden h-14 shrink-0 items-center justify-between gap-2 px-6 sm:flex lg:px-8">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wide ${studentTheme.badgePillCls}`}
+          >
+            {studentTheme.portalBadge[lang]}
+          </span>
+          <div className="hidden items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1 text-xs font-semibold text-[var(--sn-text-secondary)] xl:inline-flex">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--sn-primary)]" />
             <span>{t.topContextPill}</span>
           </div>
@@ -150,14 +173,22 @@ export function HomeTopBar({
         <div className="flex items-center gap-2.5">
           <Link
             to="/search"
-            aria-label="Search"
+            aria-label={
+              lang === "si" ? "සොයන්න" : lang === "ta" ? "தேடு" : "Search"
+            }
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
           >
             <Search className="h-4 w-4" />
           </Link>
           <Link
             to="/notifications"
-            aria-label="Notifications"
+            aria-label={
+              lang === "si"
+                ? "දැනුම්දීම්"
+                : lang === "ta"
+                  ? "அறிவிப்புகள்"
+                  : "Notifications"
+            }
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
           >
             <Bell className="h-4 w-4" />
@@ -187,7 +218,7 @@ export function HomeTopBar({
             </span>
           </button>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }

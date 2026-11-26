@@ -75,9 +75,7 @@ export function PaymentPendingView({
               {t.startStudyingTipTitle}
             </h4>
             <p className="leading-relaxed text-amber-900/90">
-              Don&apos;t worry! While we verify your slip,{" "}
-              <strong>{student.name.split(" ")[0]}</strong> can continue
-              watching the 3 free preview lessons right now.
+              {t.startStudyingTipDesc}
             </p>
             <div className="pt-1">
               <button

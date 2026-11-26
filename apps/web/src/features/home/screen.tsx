@@ -98,16 +98,70 @@ export function SipNenaHomeScreen() {
           />
 
           <section
-            aria-label="Exam & Study Shortcuts"
+            aria-label={
+              lang === "si"
+                ? "විභාග සහ අධ්‍යයන කෙටිමං"
+                : lang === "ta"
+                  ? "பரீட்சை & படிப்புக் குறுக்குவழிகள்"
+                  : "Exam & Study Shortcuts"
+            }
             className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 xl:grid-cols-6"
           >
             {[
-              { to: "/past-papers", label: "Past Papers" },
-              { to: "/term-tests", label: "Term Tests" },
-              { to: "/notes", label: "Tutes & Notes" },
-              { to: "/live", label: "Live Classes" },
-              { to: "/doubts", label: "Ask Doubts" },
-              { to: "/progress", label: "Mistake Bank" },
+              {
+                to: "/past-papers",
+                label:
+                  lang === "si"
+                    ? "පසුගිය ප්‍රශ්න පත්‍ර"
+                    : lang === "ta"
+                      ? "கடந்த வினாக்கள்"
+                      : "Past Papers",
+              },
+              {
+                to: "/term-tests",
+                label:
+                  lang === "si"
+                    ? "වාර විභාග"
+                    : lang === "ta"
+                      ? "தவணைப் பரீட்சை"
+                      : "Term Tests",
+              },
+              {
+                to: "/notes",
+                label:
+                  lang === "si"
+                    ? "ටියුට් සහ සටහන්"
+                    : lang === "ta"
+                      ? "குறிப்புகள்"
+                      : "Tutes & Notes",
+              },
+              {
+                to: "/live",
+                label:
+                  lang === "si"
+                    ? "සජීවී පන්ති"
+                    : lang === "ta"
+                      ? "நேரலை வகுப்பு"
+                      : "Live Classes",
+              },
+              {
+                to: "/doubts",
+                label:
+                  lang === "si"
+                    ? "ප්‍රශ්න අහන්න"
+                    : lang === "ta"
+                      ? "சந்தேகங்கள்"
+                      : "Ask Doubts",
+              },
+              {
+                to: "/progress",
+                label:
+                  lang === "si"
+                    ? "වැරදි බැංකුව"
+                    : lang === "ta"
+                      ? "தவறுகள் வங்கி"
+                      : "Mistake Bank",
+              },
             ].map((item) => (
               <Link
                 key={item.to}

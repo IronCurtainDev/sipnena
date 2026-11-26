@@ -44,20 +44,23 @@ export function QuestionCard({
           {question.title}
         </h2>
 
-        {/* Diagram */}
-        <QuizRayDiagram
-          incidentAngle={question.incidentAngle}
-          showLawBadge={question.showLawBadge}
-          highlightCorrect={isChecked && isCorrect}
-        />
+        {question.showDiagram === false ? null : (
+          <QuizRayDiagram
+            incidentAngle={question.incidentAngle}
+            showLawBadge={question.showLawBadge}
+            highlightCorrect={isChecked && isCorrect}
+          />
+        )}
       </div>
 
       {/* Options Prompt */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">
-            {t.chooseAnglePrompt}
-          </p>
+          {question.showDiagram === false ? null : (
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">
+              {t.chooseAnglePrompt}
+            </p>
+          )}
         </div>
 
         {/* Options List */}
@@ -178,14 +181,16 @@ export function QuestionCard({
             {question.explanation.body}
           </p>
 
-          <button
-            type="button"
-            onClick={() => void navigate({ to: "/lesson" })}
-            className="flex w-full items-center justify-between border-t border-emerald-200/70 pt-3 text-xs font-semibold text-emerald-800 hover:underline cursor-pointer"
-          >
-            <span>{t.reviewTextbookLabel}</span>
-            <ChevronRight className="h-4 w-4" />
-          </button>
+          {question.showDiagram === false ? null : (
+            <button
+              type="button"
+              onClick={() => void navigate({ to: "/lesson" })}
+              className="flex w-full items-center justify-between border-t border-emerald-200/70 pt-3 text-xs font-semibold text-emerald-800 hover:underline cursor-pointer"
+            >
+              <span>{t.reviewTextbookLabel}</span>
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
         </div>
       )}
 

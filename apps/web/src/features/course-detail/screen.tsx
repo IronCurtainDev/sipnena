@@ -192,6 +192,7 @@ export function SipNenaCourseDetailScreen() {
 
                 <CoursePurchaseSidebar
                   course={course}
+                  lang={lang}
                   t={t}
                   onWatchPreview={() => void navigate({ to: "/lesson" })}
                   onEnroll={() => {

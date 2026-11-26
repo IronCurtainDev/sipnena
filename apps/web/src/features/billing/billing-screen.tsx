@@ -11,49 +11,56 @@ import {
   type PaymentRecord,
 } from "./billing-data";
 import { ReceiptModal } from "./receipt-modal";
+import { BILLING_COPY } from "./strings";
 
 export function BillingScreen() {
   const [lang, setLang] = useSipNenaLanguage();
   const { toast, showToast } = useToastMessage();
+  const copy = BILLING_COPY[lang];
+
   const [promoInput, setPromoInput] = useState("");
-  const [appliedVoucher, setAppliedVoucher] = useState<{
-    code: string;
-    label: string;
-    discount: number;
-  } | null>(null);
+  const [appliedVoucherCode, setAppliedVoucherCode] = useState<string | null>(
+    null,
+  );
   const [activeReceipt, setActiveReceipt] = useState<PaymentRecord | null>(
     null,
   );
+
+  const activeVoucher = appliedVoucherCode
+    ? VALID_VOUCHERS[appliedVoucherCode]
+    : undefined;
 
   const handleApplyPromo = (e: FormEvent) => {
     e.preventDefault();
     const code = promoInput.trim().toUpperCase();
     const match = VALID_VOUCHERS[code];
     if (!match) {
-      showToast("Try demo codes: SIPNENA25, SCHOLAR50, or OLPASS");
+      showToast(copy.voucherInvalidToast);
       return;
     }
-    setAppliedVoucher({ code, ...match });
-    showToast(`Applied voucher ${code}: -Rs. ${match.discount}`);
+    setAppliedVoucherCode(code);
+    showToast(
+      `${copy.voucherAppliedToastPrefix} ${code}: -Rs. ${match.discount}`,
+    );
   };
 
   return (
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title="Billing & Monthly Class Cards"
+      title={copy.billingPageTitle}
       toastMessage={toast}
     >
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-extrabold text-[var(--sn-text-main)]">
-            Active Monthly Class Cards &amp; Term Bundles
+            {copy.activeCardsHeading}
           </h2>
           <Link
             to="/payment-status"
             className="text-xs font-bold text-[var(--sn-primary)] hover:underline"
           >
-            View Bank Slip Verification Status →
+            {copy.viewSlipStatusLink}
           </Link>
         </div>
 
@@ -66,23 +73,24 @@ export function BillingScreen() {
               <div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
-                    {card.type}
+                    {card.localizedType[lang]}
                   </span>
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
-                      card.status === "Active"
+                      card.statusKey === "Active"
                         ? "bg-emerald-100 text-emerald-800"
                         : "bg-amber-100 text-amber-800"
                     }`}
                   >
-                    {card.status}
+                    {card.localizedStatus[lang]}
                   </span>
                 </div>
                 <h3 className="mt-3 text-base font-extrabold text-[var(--sn-text-main)]">
-                  {card.title}
+                  {card.localizedTitle[lang]}
                 </h3>
                 <p className="mt-0.5 text-xs text-[var(--sn-text-muted)]">
-                  {card.teacher} • Next renewal: {card.renewalDate}
+                  {card.teacher} • {copy.nextRenewalPrefix}{" "}
+                  {card.localizedRenewalDate[lang]}
                 </p>
               </div>
 
@@ -91,7 +99,7 @@ export function BillingScreen() {
                   Rs.{" "}
                   {Math.max(
                     0,
-                    card.price - (appliedVoucher?.discount ?? 0),
+                    card.price - (activeVoucher?.discount ?? 0),
                   ).toLocaleString()}
                 </span>
                 <Link
@@ -99,7 +107,7 @@ export function BillingScreen() {
                   className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--sn-primary)] px-4 py-2 text-xs font-bold text-white"
                 >
                   <CreditCard className="h-3.5 w-3.5" />
-                  <span>Renew Class Card</span>
+                  <span>{copy.renewCardBtn}</span>
                 </Link>
               </div>
             </article>
@@ -111,12 +119,12 @@ export function BillingScreen() {
         <div className="flex items-center gap-2">
           <Tag className="h-4 w-4 text-[var(--sn-primary)]" />
           <h3 className="text-base font-extrabold text-[var(--sn-text-main)]">
-            Redeem Promo Code or Scholarship Voucher
+            {copy.voucherHeading}
           </h3>
         </div>
         <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
-          Try sample codes: <code>SIPNENA25</code>, <code>SCHOLAR50</code>, or{" "}
-          <code>OLPASS</code>.
+          {copy.voucherHintPrefix} <code>SIPNENA25</code>,{" "}
+          <code>SCHOLAR50</code>, {copy.voucherHintOr} <code>OLPASS</code>.
         </p>
 
         <form
@@ -127,7 +135,7 @@ export function BillingScreen() {
             type="text"
             value={promoInput}
             onChange={(e) => setPromoInput(e.target.value)}
-            placeholder="Enter scholarship or promo code..."
+            placeholder={copy.voucherPlaceholder}
             className="flex-1 rounded-xl border border-[var(--sn-border)] px-3.5 py-2.5 text-xs font-semibold uppercase"
           />
           <button
@@ -135,23 +143,24 @@ export function BillingScreen() {
             className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[var(--sn-primary)] px-5 py-2.5 text-xs font-bold text-white"
           >
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Apply Voucher</span>
+            <span>{copy.applyVoucherBtn}</span>
           </button>
         </form>
 
-        {appliedVoucher && (
+        {appliedVoucherCode && activeVoucher && (
           <div className="mt-3 flex items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-xs font-bold text-emerald-900">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-              {appliedVoucher.code} active — {appliedVoucher.label} (-Rs.{" "}
-              {appliedVoucher.discount})
+              {appliedVoucherCode} {copy.voucherActivePrefix}{" "}
+              {activeVoucher.localizedLabel[lang]} (-Rs.{" "}
+              {activeVoucher.discount})
             </span>
             <button
               type="button"
-              onClick={() => setAppliedVoucher(null)}
+              onClick={() => setAppliedVoucherCode(null)}
               className="text-rose-700 hover:underline"
             >
-              Remove
+              {copy.voucherRemoveBtn}
             </button>
           </div>
         )}
@@ -159,30 +168,30 @@ export function BillingScreen() {
 
       <section className="rounded-3xl border border-[var(--sn-border)] bg-white p-5 shadow-xs">
         <h3 className="text-base font-extrabold text-[var(--sn-text-main)]">
-          Payment History &amp; Receipts
+          {copy.historyHeading}
         </h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[540px] text-left text-xs">
             <thead className="border-b border-slate-200 text-[11px] uppercase text-[var(--sn-text-muted)]">
               <tr>
-                <th className="py-2.5 pr-3">Date</th>
-                <th className="py-2.5 pr-3">Class Card / Bundle</th>
-                <th className="py-2.5 pr-3">Method</th>
-                <th className="py-2.5 pr-3">Amount</th>
-                <th className="py-2.5 text-right">Receipt</th>
+                <th className="py-2.5 pr-3">{copy.colDate}</th>
+                <th className="py-2.5 pr-3">{copy.colCardBundle}</th>
+                <th className="py-2.5 pr-3">{copy.colMethod}</th>
+                <th className="py-2.5 pr-3">{copy.colAmount}</th>
+                <th className="py-2.5 text-right">{copy.colReceipt}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {PAYMENT_HISTORY.map((row) => (
                 <tr key={row.id}>
                   <td className="py-3 pr-3 font-medium text-[var(--sn-text-secondary)]">
-                    {row.date}
+                    {row.localizedDate[lang]}
                   </td>
                   <td className="py-3 pr-3 font-bold text-[var(--sn-text-main)]">
-                    {row.description}
+                    {row.localizedDescription[lang]}
                   </td>
                   <td className="py-3 pr-3 text-[var(--sn-text-secondary)]">
-                    {row.method}
+                    {row.localizedMethod[lang]}
                   </td>
                   <td className="py-3 pr-3 font-extrabold text-[var(--sn-text-main)]">
                     Rs. {row.amount.toLocaleString()}
@@ -194,7 +203,7 @@ export function BillingScreen() {
                       className="inline-flex items-center gap-1 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-[11px] font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
                     >
                       <Receipt className="h-3.5 w-3.5" />
-                      <span>View Receipt</span>
+                      <span>{copy.viewReceiptBtn}</span>
                     </button>
                   </td>
                 </tr>
@@ -205,13 +214,14 @@ export function BillingScreen() {
       </section>
 
       <ReceiptModal
+        lang={lang}
         receipt={activeReceipt}
         onClose={() => setActiveReceipt(null)}
         onDownload={(receiptNo) => {
-          showToast(`Downloaded PDF: ${receiptNo}.pdf`);
+          showToast(`${copy.downloadedPdfToastPrefix} ${receiptNo}.pdf`);
           setActiveReceipt(null);
         }}
-        onPrint={() => showToast("Sent to printer preview")}
+        onPrint={() => showToast(copy.printerToast)}
       />
     </SipNenaPortalShell>
   );

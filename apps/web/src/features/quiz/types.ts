@@ -16,6 +16,7 @@ export interface QuizQuestion {
   incidentAngle?: number;
   reflectedAngle?: number;
   showLawBadge?: boolean;
+  showDiagram?: boolean;
   options: QuizOption[];
   explanation: {
     title: string;

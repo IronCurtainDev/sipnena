@@ -4,12 +4,15 @@ import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { PLAYLIST_STATUS } from "./playlist-copy";
 import { PlaylistSectionAccordion } from "./playlist-section-accordion";
 import type { VideoLessonStrings } from "./strings";
+import type { PlaylistSection } from "./types";
 
 interface MobileLessonPlaylistProps {
   t: VideoLessonStrings;
   lang: AppLanguage;
   activeLessonId: string;
   onSelectLesson: (id: string, isLocked?: boolean) => void;
+  playlist?: PlaylistSection[];
+  emptyLabel?: string;
 }
 
 export function MobileLessonPlaylist({
@@ -17,11 +20,14 @@ export function MobileLessonPlaylist({
   lang,
   activeLessonId,
   onSelectLesson,
+  playlist = VIDEO_LESSON_PLAYLIST,
+  emptyLabel,
 }: MobileLessonPlaylistProps) {
   const [openSectionIds, setOpenSectionIds] = useState<string[]>(() => {
-    const parent = VIDEO_LESSON_PLAYLIST.find((s) =>
-      s.lessons.some((l) => l.id === activeLessonId),
+    const parent = playlist.find((section) =>
+      section.lessons.some((lesson) => lesson.id === activeLessonId),
     );
+    if (playlist[0]?.id !== "partA") return parent ? [parent.id] : [];
     const initial = ["partA", "partB"];
     return parent && !initial.includes(parent.id)
       ? [...initial, parent.id]
@@ -36,13 +42,13 @@ export function MobileLessonPlaylist({
     );
   };
 
-  const isAllOpen = openSectionIds.length === VIDEO_LESSON_PLAYLIST.length;
+  const isAllOpen = openSectionIds.length === playlist.length;
 
   const toggleAll = () => {
     if (isAllOpen) {
       setOpenSectionIds([]);
     } else {
-      setOpenSectionIds(VIDEO_LESSON_PLAYLIST.map((s) => s.id));
+      setOpenSectionIds(playlist.map((section) => section.id));
     }
   };
 
@@ -62,7 +68,12 @@ export function MobileLessonPlaylist({
       </div>
 
       <div className="space-y-1">
-        {VIDEO_LESSON_PLAYLIST.map((section) => (
+        {playlist.length === 0 ? (
+          <p className="px-2 py-4 text-base text-[var(--sn-text-secondary)]">
+            {emptyLabel}
+          </p>
+        ) : null}
+        {playlist.map((section) => (
           <PlaylistSectionAccordion
             key={section.id}
             section={section}

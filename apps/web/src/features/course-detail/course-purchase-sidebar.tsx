@@ -8,12 +8,14 @@ import {
   Play,
   Share2,
 } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import type { CourseDetailData } from "./mock-data";
 import type { CourseDetailStrings } from "./strings.types";
 import { TrailerVideoThumbnail } from "./course-trailer-thumbnail";
 
 interface CoursePurchaseSidebarProps {
   course: CourseDetailData;
+  lang: AppLanguage;
   t: CourseDetailStrings;
   onWatchPreview: () => void;
   onEnroll: () => void;
@@ -23,6 +25,7 @@ interface CoursePurchaseSidebarProps {
 
 export function CoursePurchaseSidebar({
   course,
+  lang,
   t,
   onWatchPreview,
   onEnroll,
@@ -101,7 +104,13 @@ export function CoursePurchaseSidebar({
                 className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
               >
                 <FileText className="h-3.5 w-3.5" />
-                <span>Course Tutes</span>
+                <span>
+                  {lang === "si"
+                    ? "පාඨමාලා ටියුට්"
+                    : lang === "ta"
+                      ? "பாடக் குறிப்புகள்"
+                      : "Course Tutes"}
+                </span>
               </Link>
               <Link
                 to="/courses/$courseId/qa"
@@ -109,7 +118,13 @@ export function CoursePurchaseSidebar({
                 className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
               >
                 <MessageCircleQuestion className="h-3.5 w-3.5" />
-                <span>Course Q&amp;A</span>
+                <span>
+                  {lang === "si"
+                    ? "පාඨමාලා Q&A"
+                    : lang === "ta"
+                      ? "பாடக் கேள்விகள்"
+                      : "Course Q&A"}
+                </span>
               </Link>
             </div>
           </div>

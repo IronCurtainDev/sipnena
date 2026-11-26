@@ -1,5 +1,8 @@
 import { useState, type DragEvent, type FormEvent } from "react";
 import { Building2, Check, Copy, UploadCloud } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
+import { localizeBankName } from "@/lib/prototype-i18n";
+import { BANK_BRANCH_LABELS, CHECKOUT_EXTRA_COPY } from "./extra-strings";
 
 export interface SriLankanBankAccount {
   id: string;
@@ -34,16 +37,19 @@ export const SRI_LANKAN_BANK_ACCOUNTS: SriLankanBankAccount[] = [
 ];
 
 interface BankDepositPanelProps {
+  lang: AppLanguage;
   amount: number;
   onSubmitSlip: (bankName: string, ref: string, fileName: string) => void;
   onCopy: (label: string, value: string) => void;
 }
 
 export function BankDepositPanel({
+  lang,
   amount,
   onSubmitSlip,
   onCopy,
 }: BankDepositPanelProps) {
+  const extra = CHECKOUT_EXTRA_COPY[lang];
   const [selectedBankId, setSelectedBankId] = useState("boc");
   const [refNumber, setRefNumber] = useState("BOC-2026-88412");
   const [fileName, setFileName] = useState("bank_deposit_slip.jpg");
@@ -69,11 +75,13 @@ export function BankDepositPanel({
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <p className="text-xs font-bold text-[var(--sn-text-main)]">
-          1. Transfer Rs. {amount.toLocaleString()} to any SipNena account:
+          {extra.bankStep1Prefix} {amount.toLocaleString()}{" "}
+          {extra.bankStep1Suffix}
         </p>
         <div className="space-y-2">
           {SRI_LANKAN_BANK_ACCOUNTS.map((bank) => {
             const active = bank.id === selectedBankId;
+            const bankLabel = localizeBankName(bank.bankName, lang);
             return (
               <div
                 key={bank.id}
@@ -88,17 +96,17 @@ export function BankDepositPanel({
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-[var(--sn-primary)]" />
                     <span className="text-xs font-extrabold text-[var(--sn-text-main)]">
-                      {bank.bankName}
+                      {bankLabel}
                     </span>
                   </div>
                   <span className="text-[11px] font-semibold text-[var(--sn-text-muted)]">
-                    {bank.branch}
+                    {BANK_BRANCH_LABELS[bank.branch]?.[lang] ?? bank.branch}
                   </span>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white px-3 py-2 text-xs">
                   <div>
                     <span className="text-[10px] text-[var(--sn-text-muted)]">
-                      Acc No:{" "}
+                      {extra.accNoLabel}{" "}
                     </span>
                     <span className="font-mono font-extrabold text-[var(--sn-text-main)]">
                       {bank.accountNumber}
@@ -108,12 +116,15 @@ export function BankDepositPanel({
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onCopy(`${bank.bankName} Account No`, bank.accountNumber);
+                      onCopy(
+                        `${bankLabel} ${extra.accountNoCopySuffix}`,
+                        bank.accountNumber,
+                      );
                     }}
                     className="inline-flex items-center gap-1 rounded-lg bg-[var(--sn-surface-muted)] px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
                   >
                     <Copy className="h-3 w-3" />
-                    <span>Copy</span>
+                    <span>{extra.copyBtn}</span>
                   </button>
                 </div>
               </div>
@@ -127,7 +138,7 @@ export function BankDepositPanel({
           htmlFor="checkout-slip-ref"
           className="mb-1 block text-xs font-bold text-[var(--sn-text-main)]"
         >
-          2. Receipt Reference / Slip Number
+          {extra.bankStep2Label}
         </label>
         <input
           id="checkout-slip-ref"
@@ -136,13 +147,13 @@ export function BankDepositPanel({
           value={refNumber}
           onChange={(e) => setRefNumber(e.target.value)}
           className="w-full rounded-xl border border-[var(--sn-border)] bg-white px-3 py-2.5 text-xs font-semibold text-[var(--sn-text-main)]"
-          placeholder="e.g. BOC-2026-88412"
+          placeholder={extra.bankStep2Placeholder}
         />
       </div>
 
       <div>
         <p className="mb-1 text-xs font-bold text-[var(--sn-text-main)]">
-          3. Drag &amp; Drop Receipt / Bank Slip Image
+          {extra.bankStep3Label}
         </p>
         <div
           onDragOver={(e) => {
@@ -163,7 +174,7 @@ export function BankDepositPanel({
             <span>{fileName}</span>
           </p>
           <label className="mt-2 cursor-pointer rounded-xl border border-[var(--sn-border)] bg-white px-3.5 py-1.5 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-olive)]">
-            <span>Choose Photo or PDF</span>
+            <span>{extra.choosePhotoBtn}</span>
             <input
               type="file"
               accept="image/*,.pdf"
@@ -181,7 +192,7 @@ export function BankDepositPanel({
         type="submit"
         className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--sn-primary)] py-3.5 text-sm font-bold text-white shadow-sm hover:bg-[var(--sn-primary-hover)]"
       >
-        Submit Bank Slip for Verification →
+        {extra.submitBankSlipBtn}
       </button>
     </form>
   );

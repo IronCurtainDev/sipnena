@@ -2,9 +2,10 @@ import { BillingScreen } from "@/features/billing/billing-screen";
 import { PaymentStatusScreen } from "@/features/billing/payment-status-screen";
 import { ParentDashboardScreen } from "@/features/parent/screen";
 import { TeacherStudioHomeScreen } from "@/features/teacher/home-screen";
-import { TeacherCoursesScreen } from "@/features/teacher/courses-screen";
-import { TeacherQuizzesScreen } from "@/features/teacher/quizzes-screen";
+import { TeacherCoursesLibraryScreen } from "@/features/teacher/courses-library-screen";
+import { TeacherCourseBuilderScreen } from "@/features/teacher/course-builder-screen";
 import { TeacherDoubtsScreen } from "@/features/teacher/doubts-screen";
+import { TeacherScheduleScreen } from "@/features/teacher/schedule-screen";
 import { AdminPaymentsScreen } from "@/features/admin-ops/payments-screen";
 import { AdminSyllabusScreen } from "@/features/admin-ops/syllabus-screen";
 
@@ -29,15 +30,19 @@ export function TeacherHomePage() {
 }
 
 export function TeacherCoursesPage() {
-  return <TeacherCoursesScreen />;
+  return <TeacherCoursesLibraryScreen />;
 }
 
-export function TeacherQuizzesPage() {
-  return <TeacherQuizzesScreen />;
+export function TeacherCourseBuilderPage() {
+  return <TeacherCourseBuilderScreen />;
 }
 
 export function TeacherDoubtsPage() {
   return <TeacherDoubtsScreen />;
+}
+
+export function TeacherSchedulePage() {
+  return <TeacherScheduleScreen />;
 }
 
 export function AdminPaymentsPage() {

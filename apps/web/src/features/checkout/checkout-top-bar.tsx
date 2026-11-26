@@ -1,5 +1,6 @@
 import { ArrowLeft, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
+import { PrototypeRoleSwitcher } from "@/features/portal-shell/role-switcher";
 import type { AppLanguage } from "@/lib/language";
 import type { CheckoutStrings } from "./strings.types";
 
@@ -22,12 +23,12 @@ export function CheckoutTopBar({
 }: CheckoutTopBarProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 sm:px-6">
+        <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] text-[var(--sn-text-main)] shadow-2xs transition hover:bg-[var(--sn-surface-muted)]"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] text-[var(--sn-text-main)] shadow-2xs transition hover:bg-[var(--sn-surface-muted)]"
             aria-label="Back"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -40,6 +41,10 @@ export function CheckoutTopBar({
               {t.brandSub}
             </p>
           </div>
+        </div>
+
+        <div className="hidden md:block">
+          <PrototypeRoleSwitcher lang={lang} />
         </div>
 
         <div className="flex items-center gap-2">

@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Building2, Check, UploadCloud, X } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
+import { CHECKOUT_EXTRA_COPY, EXTRA_BANK_NAMES } from "./extra-strings";
 
 interface BankSlipModalProps {
+  lang: AppLanguage;
   isOpen: boolean;
   onClose: () => void;
   onSubmitSlip: (bankName: string, ref: string) => void;
@@ -17,19 +20,21 @@ const SRI_LANKAN_BANKS = [
 ];
 
 export function BankSlipModal({
+  lang,
   isOpen,
   onClose,
   onSubmitSlip,
 }: BankSlipModalProps) {
+  const extra = CHECKOUT_EXTRA_COPY[lang];
   const [selectedBank, setSelectedBank] = useState<string>(
     SRI_LANKAN_BANKS[0] ?? "Bank of Ceylon (BOC)",
   );
-  const [refNumber, setRefNumber] = useState("TXN-2024-99182");
+  const [refNumber, setRefNumber] = useState("TXN-2026-99182");
   const [fileAttached, setFileAttached] = useState(true);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSubmitSlip(selectedBank, refNumber);
     onClose();
@@ -42,7 +47,7 @@ export function BankSlipModal({
           type="button"
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full p-2 text-[var(--sn-text-muted)] hover:bg-[var(--sn-surface-muted)] hover:text-[var(--sn-text-main)]"
-          aria-label="Close"
+          aria-label={extra.modalCloseAria}
         >
           <X className="h-5 w-5" />
         </button>
@@ -53,10 +58,10 @@ export function BankSlipModal({
           </div>
           <div>
             <h3 className="text-base font-bold text-[var(--sn-text-main)] sm:text-lg">
-              Upload Bank Transfer Slip
+              {extra.modalTitle}
             </h3>
             <p className="text-xs text-[var(--sn-text-muted)]">
-              බැංකු තැන්පතු රිසිට්පත උඩුගත කරන්න
+              {extra.modalSub}
             </p>
           </div>
         </div>
@@ -67,7 +72,7 @@ export function BankSlipModal({
               htmlFor="bank-select"
               className="block text-xs font-semibold text-[var(--sn-text-main)]"
             >
-              Select Bank / Payment Channel
+              {extra.modalBankLabel}
             </label>
             <select
               id="bank-select"
@@ -77,7 +82,7 @@ export function BankSlipModal({
             >
               {SRI_LANKAN_BANKS.map((b) => (
                 <option key={b} value={b}>
-                  {b}
+                  {EXTRA_BANK_NAMES[b]?.[lang] ?? b}
                 </option>
               ))}
             </select>
@@ -88,7 +93,7 @@ export function BankSlipModal({
               htmlFor="bank-ref"
               className="block text-xs font-semibold text-[var(--sn-text-main)]"
             >
-              Transaction / Reference Number
+              {extra.modalRefLabel}
             </label>
             <input
               id="bank-ref"
@@ -97,13 +102,13 @@ export function BankSlipModal({
               value={refNumber}
               onChange={(e) => setRefNumber(e.target.value)}
               className="mt-1 w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-2.5 text-xs text-[var(--sn-text-main)] focus:border-[var(--sn-primary)] focus:outline-none"
-              placeholder="e.g. BOC-1893201 or FriMi-Ref"
+              placeholder={extra.modalRefPlaceholder}
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-[var(--sn-text-main)]">
-              Slip Photo or PDF receipt
+              {extra.modalFileLabel}
             </label>
             <div
               onClick={() => setFileAttached(true)}
@@ -113,15 +118,15 @@ export function BankSlipModal({
               {fileAttached ? (
                 <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-emerald-700">
                   <Check className="h-3.5 w-3.5 stroke-[3]" />
-                  <span>bank_slip_deposit_receipt.jpg (Selected)</span>
+                  <span>{extra.modalFileSelected}</span>
                 </div>
               ) : (
                 <p className="mt-1 text-xs text-slate-600">
-                  Click to choose file or snap photo from phone
+                  {extra.modalFilePrompt}
                 </p>
               )}
               <span className="mt-0.5 text-[10px] text-slate-400">
-                JPEG, PNG or PDF up to 10MB
+                {extra.modalFileHint}
               </span>
             </div>
           </div>
@@ -132,13 +137,13 @@ export function BankSlipModal({
               onClick={onClose}
               className="flex-1 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] py-3 text-xs font-semibold text-[var(--sn-text-main)] hover:bg-slate-200"
             >
-              Cancel
+              {extra.modalCancelBtn}
             </button>
             <button
               type="submit"
               className="flex-1 rounded-2xl bg-[var(--sn-primary)] py-3 text-xs font-bold text-white shadow-sm hover:bg-[var(--sn-primary-hover)]"
             >
-              Submit for Verification
+              {extra.modalSubmitBtn}
             </button>
           </div>
         </form>

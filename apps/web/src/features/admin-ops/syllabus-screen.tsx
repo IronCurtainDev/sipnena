@@ -3,11 +3,15 @@ import { ChevronDown, ChevronRight, FolderTree, Plus } from "lucide-react";
 import { SipNenaPortalShell } from "@/features/portal-shell/portal-shell";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { useToastMessage } from "@/features/portal-shell/use-toast";
+import { formatGrade, TERM_NAME_MAP } from "@/lib/i18n-common";
+import { ADMIN_OPS_COPY } from "./strings";
 import { INITIAL_SYLLABUS_TREE, type SyllabusGradeNode } from "./syllabus-data";
 
 export function AdminSyllabusScreen() {
   const [lang, setLang] = useSipNenaLanguage();
   const { toast, showToast } = useToastMessage();
+  const copy = ADMIN_OPS_COPY[lang];
+
   const [tree, setTree] = useState<SyllabusGradeNode[]>(INITIAL_SYLLABUS_TREE);
   const [openGrades, setOpenGrades] = useState<number[]>([8, 11]);
   const [openSubjects, setOpenSubjects] = useState<string[]>([
@@ -50,11 +54,12 @@ export function AdminSyllabusScreen() {
             },
       ),
     );
-    showToast("Updated unit publish status");
+    showToast(copy.unitStatusToast);
   };
 
   const handleQuickAddUnit = () => {
     if (!newUnitTitle.trim()) return;
+    const raw = newUnitTitle.trim();
     setTree((prev) =>
       prev.map((g) =>
         g.grade !== 8
@@ -75,7 +80,7 @@ export function AdminSyllabusScreen() {
                                 ...t.units,
                                 {
                                   id: `u-${Date.now()}`,
-                                  title: newUnitTitle.trim(),
+                                  localizedTitle: { en: raw, si: raw, ta: raw },
                                   published: true,
                                 },
                               ],
@@ -87,26 +92,26 @@ export function AdminSyllabusScreen() {
       ),
     );
     setNewUnitTitle("");
-    showToast("Added new NIE syllabus unit to Grade 8 Science Term 2");
+    showToast(copy.unitAddedToast);
   };
 
   return (
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title="Admin Operations — NIE Syllabus Manager"
+      title={copy.syllabusPageTitle}
       roleOverride="admin"
       toastMessage={toast}
     >
-      <section className="rounded-3xl border border-[var(--sn-border)] bg-white p-5 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="rounded-3xl border border-slate-300 bg-white p-5 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#111827] p-5 text-white">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--sn-olive)] px-3 py-1 text-xs font-bold text-[var(--sn-primary)]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-bold text-amber-300">
               <FolderTree className="h-3.5 w-3.5" />
-              <span>Grades → Subjects → Terms → Units Tree View</span>
+              <span>{copy.treeBadge}</span>
             </span>
-            <h2 className="mt-2 text-lg font-extrabold text-[var(--sn-text-main)]">
-              Sri Lankan National Syllabus Curriculum Tree
+            <h2 className="mt-2 text-lg font-extrabold text-white">
+              {copy.syllabusHeading}
             </h2>
           </div>
 
@@ -115,16 +120,16 @@ export function AdminSyllabusScreen() {
               type="text"
               value={newUnitTitle}
               onChange={(e) => setNewUnitTitle(e.target.value)}
-              placeholder="New G8 Science Term 2 unit..."
-              className="rounded-xl border border-slate-200 px-3 py-2 text-xs"
+              placeholder={copy.newUnitPlaceholder}
+              className="rounded-xl border border-slate-600 bg-slate-800 px-3 py-2 text-xs text-white placeholder:text-slate-400"
             />
             <button
               type="button"
               onClick={handleQuickAddUnit}
-              className="inline-flex items-center gap-1 rounded-xl bg-[var(--sn-primary)] px-3.5 py-2 text-xs font-bold text-white"
+              className="inline-flex items-center gap-1 rounded-xl bg-amber-400 px-3.5 py-2 text-xs font-extrabold text-slate-950 hover:bg-amber-300"
             >
               <Plus className="h-3.5 w-3.5" />
-              <span>Add Unit</span>
+              <span>{copy.addUnitBtn}</span>
             </button>
           </div>
         </div>
@@ -154,8 +159,8 @@ export function AdminSyllabusScreen() {
                     <ChevronRight className="h-4 w-4" />
                   )}
                   <span>
-                    Grade {gNode.grade}
-                    {gNode.grade >= 10 ? " (G.C.E. O/L)" : ""}
+                    {formatGrade(lang, gNode.grade)}
+                    {gNode.grade >= 10 ? copy.olSuffix : ""}
                   </span>
                 </button>
 
@@ -184,7 +189,7 @@ export function AdminSyllabusScreen() {
                             ) : (
                               <ChevronRight className="h-3.5 w-3.5" />
                             )}
-                            <span>{sub.name}</span>
+                            <span>{sub.localizedName[lang]}</span>
                           </button>
 
                           {sOpen && (
@@ -192,7 +197,7 @@ export function AdminSyllabusScreen() {
                               {sub.terms.map((tNode) => (
                                 <div key={tNode.term} className="space-y-1.5">
                                   <p className="text-[11px] font-bold uppercase text-[var(--sn-text-muted)]">
-                                    {tNode.term}
+                                    {TERM_NAME_MAP[tNode.term][lang]}
                                   </p>
                                   {tNode.units.map((u) => (
                                     <div
@@ -200,7 +205,7 @@ export function AdminSyllabusScreen() {
                                       className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 px-3 py-2 text-xs"
                                     >
                                       <span className="font-semibold text-[var(--sn-text-main)]">
-                                        {u.title}
+                                        {u.localizedTitle[lang]}
                                       </span>
                                       <button
                                         type="button"
@@ -218,7 +223,9 @@ export function AdminSyllabusScreen() {
                                             : "bg-slate-200 text-slate-600"
                                         }`}
                                       >
-                                        {u.published ? "Published" : "Draft"}
+                                        {u.published
+                                          ? copy.publishedBadge
+                                          : copy.draftBadge}
                                       </button>
                                     </div>
                                   ))}

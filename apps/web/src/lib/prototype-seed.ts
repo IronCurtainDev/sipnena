@@ -39,33 +39,35 @@ export interface PrototypeDoubt {
   };
 }
 
-export interface TeacherLessonDraft {
-  id: string;
-  title: string;
-  subject: string;
-  grade: number;
-  term: "Term 1" | "Term 2" | "Term 3";
-  videoUrl: string;
-  tuteName: string;
-  duration: string;
-  published: boolean;
-}
+import type {
+  TeacherCourseDraft,
+  TeacherCourseSection,
+  TeacherLessonDraft,
+  TeacherLiveSession,
+  TeacherQuizDraft,
+} from "./prototype-teacher-seed";
+import {
+  SEED_TEACHER_COURSES,
+  SEED_TEACHER_LESSONS,
+  SEED_TEACHER_LIVE_SESSIONS,
+  SEED_TEACHER_QUIZZES,
+  SEED_TEACHER_SECTIONS,
+} from "./prototype-teacher-seed-data";
 
-export interface QuizQuestionDraft {
-  id: string;
-  prompt: string;
-  options: [string, string, string, string];
-  correctIndex: number;
-  explanation: string;
-}
-
-export interface TeacherQuizDraft {
-  id: string;
-  title: string;
-  subject: string;
-  grade: number;
-  questions: QuizQuestionDraft[];
-}
+export type {
+  LessonFileDraft,
+  LessonTextBlock,
+  QuizQuestionDraft,
+  TeacherCourseDraft,
+  TeacherCourseSection,
+  TeacherCourseTerm,
+  TeacherItemKind,
+  TeacherLessonDraft,
+  TeacherLiveChannel,
+  TeacherLiveDay,
+  TeacherLiveSession,
+  TeacherQuizDraft,
+} from "./prototype-teacher-seed";
 
 export interface PrototypeState {
   role: DemoRole;
@@ -86,8 +88,11 @@ export interface PrototypeState {
   readNotificationIds: string[];
   bankSlips: PrototypeBankSlip[];
   doubts: PrototypeDoubt[];
+  teacherCourses: TeacherCourseDraft[];
+  teacherCourseSections: TeacherCourseSection[];
   teacherLessons: TeacherLessonDraft[];
   teacherQuizzes: TeacherQuizDraft[];
+  teacherLiveSessions: TeacherLiveSession[];
   activeChildId: string;
 }
 
@@ -214,60 +219,9 @@ export const INITIAL_PROTOTYPE_STATE: PrototypeState = {
       },
     },
   ],
-  teacherLessons: [
-    {
-      id: "tl-1",
-      title: "Unit 7.1 — Laws of Reflection & Plane Mirrors",
-      subject: "Science",
-      grade: 8,
-      term: "Term 2",
-      videoUrl: "https://media.sipnena.lk/g8-sci-u7-reflection.mp4",
-      tuteName: "G8_Science_Unit7_Tute_SI_EN.pdf",
-      duration: "18 mins",
-      published: true,
-    },
-    {
-      id: "tl-2",
-      title: "O/L Circle Theorems — Angle at the Centre",
-      subject: "Mathematics",
-      grade: 11,
-      term: "Term 2",
-      videoUrl: "https://media.sipnena.lk/g11-math-circle-theorems.mp4",
-      tuteName: "OL_Maths_Circle_Theorems_ShortNote.pdf",
-      duration: "24 mins",
-      published: true,
-    },
-  ],
-  teacherQuizzes: [
-    {
-      id: "tq-1",
-      title: "Term 2 Checkpoint — Light & Mirrors",
-      subject: "Science",
-      grade: 8,
-      questions: [
-        {
-          id: "q1",
-          prompt:
-            "If the angle of incidence on a plane mirror is 35°, what is the angle between the incident ray and reflected ray?",
-          options: ["35°", "55°", "70°", "90°"],
-          correctIndex: 2,
-          explanation:
-            "Angle of reflection equals angle of incidence (35°), so total angle = 35° + 35° = 70°.",
-        },
-        {
-          id: "q2",
-          prompt: "Which mirror is used as a vehicle side rear-view mirror?",
-          options: [
-            "Concave mirror",
-            "Convex mirror",
-            "Plane mirror",
-            "Parabolic mirror",
-          ],
-          correctIndex: 1,
-          explanation:
-            "A convex mirror gives a wider field of view and always forms an upright diminished image.",
-        },
-      ],
-    },
-  ],
+  teacherCourses: SEED_TEACHER_COURSES,
+  teacherCourseSections: SEED_TEACHER_SECTIONS,
+  teacherLessons: SEED_TEACHER_LESSONS,
+  teacherQuizzes: SEED_TEACHER_QUIZZES,
+  teacherLiveSessions: SEED_TEACHER_LIVE_SESSIONS,
 };

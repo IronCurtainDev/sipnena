@@ -11,105 +11,41 @@ import {
 } from "lucide-react";
 import { SipNenaPortalShell } from "@/features/portal-shell/portal-shell";
 import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
+import type { AppLanguage } from "@/lib/language";
 import { usePrototypeState } from "@/lib/prototype-state";
+import {
+  SEARCH_CATALOG,
+  SEARCH_CATEGORY_LABELS,
+  SEARCH_COPY,
+  type SearchCategory,
+} from "./strings";
 
-type SearchCategory = "All" | "Lessons" | "Past Papers" | "Tutes" | "Teachers";
-
-interface SearchResultItem {
-  id: string;
-  category: Exclude<SearchCategory, "All">;
-  title: string;
-  subtitle: string;
-  keywords: string;
-  to: string;
-}
-
-const SEARCH_CATALOG: SearchResultItem[] = [
-  {
-    id: "sr-1",
-    category: "Lessons",
-    title: "Lesson 4: Mirrors & Image Formation (ආලෝකය සහ පරාවර්තනය)",
-    subtitle: "Grade 8 Science • Ms. Menaka Jayawardena • 18 mins",
-    keywords:
-      "light reflection alokaya paravarthanaya mirrors oli science vidyawa",
-    to: "/lesson",
-  },
-  {
-    id: "sr-2",
-    category: "Past Papers",
-    title: "G.C.E. O/L Science — 2024 Part I & Official Marking Scheme",
-    subtitle: "Grade 11 • English Medium • 40 MCQs + Part II",
-    keywords: "past paper 2024 science mcq vidyawa விஞ்ஞானம்",
-    to: "/past-papers",
-  },
-  {
-    id: "sr-3",
-    category: "Past Papers",
-    title: "G.C.E. O/L Mathematics — 2023 Part II (ගණිතය)",
-    subtitle: "Grade 11 • Sinhala Medium • Quadratic & Geometry",
-    keywords: "ganithaya maths quadratic geometry கணிதம் 2023",
-    to: "/past-papers",
-  },
-  {
-    id: "sr-4",
-    category: "Tutes",
-    title: "O/L Mathematics Master Formula Sheet (All 3 Terms)",
-    subtitle: "PDF Formula Sheet • 4 Pages • 920 KB",
-    keywords: "formula tute ganithaya area volume circle theorem",
-    to: "/notes",
-  },
-  {
-    id: "sr-5",
-    category: "Tutes",
-    title: "Unit 7: Light, Mirrors & Ray Diagrams Tute (PDF)",
-    subtitle: "Lesson Tute • Grade 8 Science • 14 Pages",
-    keywords: "alokaya ray diagram mirror tute pdf",
-    to: "/notes",
-  },
-  {
-    id: "sr-6",
-    category: "Lessons",
-    title: "Photosynthesis & Gas Exchange (ප්‍රභාසංශ්ලේෂණය / ஒளித்தொகுப்பு)",
-    subtitle: "Grade 10–11 Science • Term 1 Biology",
-    keywords:
-      "photosynthesis prabhasansleshanaya ஒளித்தொகுப்பு plant leaf starch",
-    to: "/courses",
-  },
-  {
-    id: "sr-7",
-    category: "Teachers",
-    title: "Ms. Menaka Jayawardena — Senior Science Specialist",
-    subtitle: "BSc, PGDE • Grades 6–11 Sinhala & English Medium",
-    keywords: "menaka science teacher vidyawa newton",
-    to: "/courses",
-  },
-  {
-    id: "sr-8",
-    category: "Teachers",
-    title: "Mr. Anura Perera — O/L Mathematics & Geometry Mentor",
-    subtitle: "20+ Years Experience • Western Province Marking Panel",
-    keywords: "anura maths ganithaya geometry quadratic",
-    to: "/courses",
-  },
-  {
-    id: "sr-9",
-    category: "Lessons",
-    title: "Newton's Laws of Motion & Force Calculations",
-    subtitle: "Grade 10 Science • Physics Unit 4",
-    keywords: "newton laws force physics motion vidyawa",
-    to: "/lesson",
-  },
-];
-
-const TOPIC_CHIPS = [
-  "Alokaya (ආලෝකය)",
-  "Quadratic",
-  "ගණිතය 2023",
-  "ஒளித்தொகுப்பு",
-  "Newton",
-  "Vidyawa",
-  "Logic Gates",
-];
+const TOPIC_CHIPS: Record<AppLanguage, string[]> = {
+  en: [
+    "Light & Mirrors",
+    "Quadratic",
+    "Maths 2023",
+    "Photosynthesis",
+    "Newton",
+    "Logic Gates",
+  ],
+  si: [
+    "ආලෝකය (Alokaya)",
+    "වර්ගජ සමීකරණ",
+    "ගණිතය 2023",
+    "ප්‍රභාසංශ්ලේෂණය",
+    "නිව්ටන්",
+    "තර්ක ද්වාර",
+  ],
+  ta: [
+    "ஒளி & ஆடிகள்",
+    "இருபடிச் சமன்பாடு",
+    "கணிதம் 2023",
+    "ஒளித்தொகுப்பு",
+    "நியூட்டன்",
+    "தர்க்க வாயில்கள்",
+  ],
+};
 
 const TABS: SearchCategory[] = [
   "All",
@@ -122,6 +58,7 @@ const TABS: SearchCategory[] = [
 export function GlobalSearchScreen() {
   const [lang, setLang] = useSipNenaLanguage();
   const { state, update } = usePrototypeState();
+  const copy = SEARCH_COPY[lang];
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState<SearchCategory>("All");
 
@@ -130,11 +67,10 @@ export function GlobalSearchScreen() {
     return SEARCH_CATALOG.filter((item) => {
       if (tab !== "All" && item.category !== tab) return false;
       if (!q) return true;
-      return `${item.title} ${item.subtitle} ${item.keywords}`
-        .toLowerCase()
-        .includes(q);
+      const hay = `${item.localizedTitle.en} ${item.localizedTitle.si} ${item.localizedTitle.ta} ${item.localizedSubtitle[lang]} ${item.keywords}`;
+      return hay.toLowerCase().includes(q);
     });
-  }, [query, tab]);
+  }, [lang, query, tab]);
 
   const applyTopic = (term: string) => {
     const clean = term.split(" (")[0] ?? term;
@@ -152,7 +88,7 @@ export function GlobalSearchScreen() {
     <SipNenaPortalShell
       lang={lang}
       onLanguageChange={setLang}
-      title="Search SipNena"
+      title={copy.pageTitle}
       roleOverride="student"
     >
       <section className="rounded-3xl border border-[var(--sn-border)] bg-white p-5 shadow-xs">
@@ -162,12 +98,11 @@ export function GlobalSearchScreen() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search in English, සිංහල, தமிழ், or Singlish (e.g. alokaya, ganithaya, newton)..."
+            placeholder={copy.placeholder}
             className="w-full rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-page-bg)]/50 py-3 pl-10 pr-4 text-sm font-semibold text-[var(--sn-text-main)] focus:border-[var(--sn-primary)] focus:outline-none"
           />
         </div>
 
-        {/* Instant Filter Tabs */}
         <div className="mt-4 flex flex-wrap gap-2">
           {TABS.map((item) => (
             <button
@@ -180,17 +115,16 @@ export function GlobalSearchScreen() {
                   : "bg-[var(--sn-surface-muted)] text-[var(--sn-text-secondary)]"
               }`}
             >
-              {item}
+              {SEARCH_CATEGORY_LABELS[item][lang]}
             </button>
           ))}
         </div>
 
-        {/* Recent & Popular Chips */}
         <div className="mt-4 grid grid-cols-1 gap-4 border-t border-slate-100 pt-4 md:grid-cols-2">
           <div>
             <div className="flex items-center justify-between text-xs font-bold text-[var(--sn-text-muted)]">
               <span className="flex items-center gap-1">
-                <History className="h-3.5 w-3.5" /> Recent Searches
+                <History className="h-3.5 w-3.5" /> {copy.recentSearches}
               </span>
               {state.recentSearches.length > 0 && (
                 <button
@@ -200,7 +134,7 @@ export function GlobalSearchScreen() {
                   }
                   className="text-[11px] font-semibold text-[var(--sn-primary)] hover:underline"
                 >
-                  Clear
+                  {copy.clearBtn}
                 </button>
               )}
             </div>
@@ -221,10 +155,10 @@ export function GlobalSearchScreen() {
           <div>
             <p className="flex items-center gap-1 text-xs font-bold text-[var(--sn-text-muted)]">
               <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-              <span>Popular Grade 6–11 Topics (EN / සි / த / Singlish)</span>
+              <span>{copy.popularTopics}</span>
             </p>
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {TOPIC_CHIPS.map((topic) => (
+              {TOPIC_CHIPS[lang].map((topic) => (
                 <button
                   key={topic}
                   type="button"
@@ -241,7 +175,8 @@ export function GlobalSearchScreen() {
 
       <section className="space-y-3">
         <p className="text-xs font-bold text-[var(--sn-text-secondary)]">
-          Showing {results.length} results {query ? `for "${query}"` : ""}
+          {copy.showingPrefix} {results.length} {copy.resultsSuffix}{" "}
+          {query ? `(${copy.forQueryPrefix} "${query}")` : ""}
         </p>
 
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -265,13 +200,13 @@ export function GlobalSearchScreen() {
                 </span>
                 <div className="min-w-0">
                   <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
-                    {item.category}
+                    {SEARCH_CATEGORY_LABELS[item.category][lang]}
                   </span>
                   <h3 className="mt-1 text-sm font-extrabold text-[var(--sn-text-main)]">
-                    {item.title}
+                    {item.localizedTitle[lang]}
                   </h3>
                   <p className="mt-0.5 text-xs text-[var(--sn-text-muted)]">
-                    {item.subtitle}
+                    {item.localizedSubtitle[lang]}
                   </p>
                 </div>
               </Link>

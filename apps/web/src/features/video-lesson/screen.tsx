@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Navigate, useNavigate, useParams } from "@tanstack/react-router";
 import {
   getSavedLanguage,
   saveLanguage,
   type AppLanguage,
 } from "@/lib/language";
+import { usePrototypeState } from "@/lib/prototype-state";
+import { COURSE_LESSON_COPY } from "./course-lesson-copy";
+import { buildCourseLessonModel } from "./course-lesson-model";
 import { DesktopLessonView } from "./desktop-lesson-view";
 import { MobileLessonView } from "./mobile-lesson-view";
 import { MobileBottomNav } from "@/features/home/nav-bars";
@@ -12,6 +15,9 @@ import { VIDEO_LESSON_STRINGS } from "./strings";
 
 export function SipNenaVideoLessonScreen() {
   const navigate = useNavigate();
+  const { courseId } = useParams({ strict: false });
+  const { state } = usePrototypeState();
+  const bundle = courseId ? buildCourseLessonModel(state, courseId) : undefined;
   const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
   const [activeTab, setActiveTab] = useState<
     "overview" | "notes" | "discussion" | "downloads"
@@ -24,6 +30,11 @@ export function SipNenaVideoLessonScreen() {
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = VIDEO_LESSON_STRINGS[lang];
+  const lessonCopy = COURSE_LESSON_COPY[lang];
+  const resolvedLessonId =
+    bundle && !bundle.byId[activeLessonId]
+      ? (bundle.firstId ?? activeLessonId)
+      : activeLessonId;
 
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -35,16 +46,18 @@ export function SipNenaVideoLessonScreen() {
       window.removeEventListener("sipnena_language_change", handleSync);
   }, []);
 
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
-
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
     const timer = setTimeout(() => setToastMsg(null), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (courseId && !bundle) return <Navigate to="/courses" />;
+
+  const handleLanguageChange = (nextLang: AppLanguage) => {
+    setLang(nextLang);
+    saveLanguage(nextLang);
+  };
 
   const handleNavTab = (tab: string) => {
     setActiveNav(tab);
@@ -67,7 +80,8 @@ export function SipNenaVideoLessonScreen() {
       return;
     }
     setActiveLessonId(id);
-    if (id.startsWith("quiz")) {
+    const kind = bundle?.byId[id]?.kind;
+    if (kind === "quiz" || id.startsWith("quiz")) {
       setIsPlaying(false);
       showToast(`Started Section Checkpoint Quiz`);
     } else {
@@ -98,11 +112,19 @@ export function SipNenaVideoLessonScreen() {
           onToggleDone={handleToggleDone}
           isSaved={isSaved}
           onToggleSave={handleToggleSave}
-          activeLessonId={activeLessonId}
+          activeLessonId={resolvedLessonId}
           onSelectLesson={handleSelectLesson}
           isPlaying={isPlaying}
           onTogglePlay={() => setIsPlaying(!isPlaying)}
-          onBack={() => void navigate({ to: "/course" })}
+          onBack={() =>
+            void navigate(
+              courseId
+                ? { to: "/courses/$courseId", params: { courseId } }
+                : { to: "/course" },
+            )
+          }
+          bundle={bundle ?? undefined}
+          lessonCopy={bundle ? lessonCopy : undefined}
           onNavTab={handleNavTab}
           onToast={showToast}
         />
@@ -126,12 +148,20 @@ export function SipNenaVideoLessonScreen() {
         onToggleDone={handleToggleDone}
         isSaved={isSaved}
         onToggleSave={handleToggleSave}
-        activeLessonId={activeLessonId}
+        activeLessonId={resolvedLessonId}
         onSelectLesson={handleSelectLesson}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onBackToCourse={() => void navigate({ to: "/course" })}
+        onBackToCourse={() =>
+          void navigate(
+            courseId
+              ? { to: "/courses/$courseId", params: { courseId } }
+              : { to: "/course" },
+          )
+        }
         onToast={showToast}
+        bundle={bundle ?? undefined}
+        lessonCopy={bundle ? lessonCopy : undefined}
       />
 
       {/* Floating Status Toast Feedback */}

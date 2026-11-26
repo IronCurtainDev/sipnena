@@ -89,21 +89,33 @@ export function LandingFooter({
               to="/refund-policy"
               className="hover:text-[var(--sn-primary)] hover:underline"
             >
-              Refund Policy
+              {t.brandName === "සිප්නැණ"
+                ? "මුදල් ආපසු ප්‍රතිපත්තිය"
+                : t.brandName === "சிப்நென"
+                  ? "பணம் திரும்பப் பெறும் கொள்கை"
+                  : "Refund Policy"}
             </Link>
             <span>•</span>
             <Link
               to="/help"
               className="hover:text-[var(--sn-primary)] hover:underline"
             >
-              Help &amp; FAQ
+              {t.brandName === "සිප්නැණ"
+                ? "උදව් සහ FAQ"
+                : t.brandName === "சிப்நென"
+                  ? "உதவி & FAQ"
+                  : "Help & FAQ"}
             </Link>
             <span>•</span>
             <Link
               to="/parent"
               className="hover:text-[var(--sn-primary)] hover:underline"
             >
-              Parent Portal
+              {t.brandName === "සිප්නැණ"
+                ? "දෙමාපිය පුවරුව"
+                : t.brandName === "சிப்நென"
+                  ? "பெற்றோர் பகுதி"
+                  : "Parent Portal"}
             </Link>
             <span>•</span>
             <Link
@@ -117,7 +129,11 @@ export function LandingFooter({
               to="/admin/payments"
               className="hover:text-[var(--sn-primary)] hover:underline"
             >
-              Admin Ops
+              {t.brandName === "සිප්නැණ"
+                ? "පරිපාලක පුවරුව"
+                : t.brandName === "சிப்நென"
+                  ? "நிர்வாகி பகுதி"
+                  : "Admin Ops"}
             </Link>
           </div>
         </div>
