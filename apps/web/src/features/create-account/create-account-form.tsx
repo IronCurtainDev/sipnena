@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { AlertCircle, ArrowRight, Eye, EyeOff, Lightbulb } from "lucide-react";
 import { GoogleIcon } from "@/components/ui/google-icon";
 import { GradeSelector } from "./grade-selector";
@@ -49,11 +49,14 @@ export function CreateAccountForm({
       setFormFeedback({ type: "warning", text: t.passwordShortErr });
       return;
     }
-    // UI prototype only — real Better Auth signup is deferred. Do not claim success.
+    try {
+      localStorage.setItem("sipnena_student_name", firstName.trim());
+      localStorage.setItem("sipnena_student_grade", String(selectedGrade));
+    } catch {}
     setFormFeedback({ type: "info", text: t.signupComingNextMsg });
     setTimeout(() => {
-      void navigate({ to: "/login" });
-    }, 900);
+      void navigate({ to: "/pick-subjects" });
+    }, 600);
   };
 
   return (
@@ -80,7 +83,7 @@ export function CreateAccountForm({
           onClick={() =>
             setFormFeedback({ type: "info", text: t.googleStatusMsg })
           }
-          className="w-full min-h-[48px] px-4 rounded-xl bg-white border border-slate-200 flex items-center justify-center gap-3 text-sm sm:text-base font-semibold text-slate-800 hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 shadow-xs"
+          className="w-full min-h-[48px] px-4 rounded-xl bg-white border border-slate-200 flex items-center justify-center gap-3 text-sm sm:text-base font-semibold text-slate-800 hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] shadow-xs"
         >
           <GoogleIcon />
           <span>{t.googleBtn}</span>
@@ -119,7 +122,7 @@ export function CreateAccountForm({
               if (formFeedback) setFormFeedback(null);
             }}
             placeholder={t.firstNamePlaceholder}
-            className="w-full min-h-[46px] px-3.5 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-blue-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-colors"
+            className="w-full min-h-[46px] px-3.5 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-[var(--sn-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--sn-primary)]/20 transition-colors"
           />
         </div>
 
@@ -155,7 +158,7 @@ export function CreateAccountForm({
               className={`w-full min-h-[46px] pl-3.5 pr-10 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 border focus:outline-none focus:ring-2 transition-colors ${
                 showEmailWarning
                   ? "bg-amber-50 border-amber-400 text-amber-900"
-                  : "bg-slate-100 border-transparent focus:border-blue-600 focus:bg-white"
+                  : "bg-slate-100 border-transparent focus:border-[var(--sn-primary)] focus:bg-white"
               }`}
             />
             {showEmailWarning && (
@@ -199,7 +202,7 @@ export function CreateAccountForm({
                 if (formFeedback) setFormFeedback(null);
               }}
               placeholder={t.passwordPlaceholder}
-              className="w-full min-h-[46px] pl-3.5 pr-11 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-blue-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-colors"
+              className="w-full min-h-[46px] pl-3.5 pr-11 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-[var(--sn-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--sn-primary)]/20 transition-colors"
             />
             <button
               type="button"
@@ -240,7 +243,7 @@ export function CreateAccountForm({
                 ? "bg-emerald-50 border-emerald-200 text-emerald-800"
                 : formFeedback.type === "warning"
                   ? "bg-amber-50 border-amber-200 text-amber-800"
-                  : "bg-blue-50 border-blue-200 text-blue-800"
+                  : "bg-[var(--sn-olive)] border-[var(--sn-border)] text-[var(--sn-text-main)]"
             }`}
           >
             {formFeedback.text}
@@ -249,23 +252,32 @@ export function CreateAccountForm({
 
         <button
           type="submit"
-          className="w-full min-h-[48px] px-6 rounded-xl text-base font-semibold text-white inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          className="w-full min-h-[48px] px-6 rounded-xl text-base font-semibold text-white inline-flex items-center justify-center gap-2 bg-[var(--sn-primary)] hover:bg-[var(--sn-primary-hover)] transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
         >
           <span>{t.submitBtn}</span>
           <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </button>
       </form>
 
-      <div className="mt-4 text-center">
+      <div className="mt-4 text-center space-y-1">
         <p className="text-xs sm:text-sm text-slate-600">
           {t.alreadyHaveDesktop}{" "}
           <button
             type="button"
             onClick={onLoginClick}
-            className="font-semibold text-blue-600 hover:underline focus:outline-none rounded px-1 py-0.5"
+            className="font-semibold text-[var(--sn-primary)] hover:underline focus:outline-none rounded px-1 py-0.5"
           >
             {t.logInLink}
           </button>
+        </p>
+        <p className="text-xs text-slate-500">
+          Need full account?{" "}
+          <Link
+            to="/signup"
+            className="font-semibold text-[var(--sn-primary)] hover:underline"
+          >
+            Sign up here
+          </Link>
         </p>
       </div>
     </section>

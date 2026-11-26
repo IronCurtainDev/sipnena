@@ -1,22 +1,13 @@
 import { Outlet } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { brand } from "@/lib/brand";
-import { Brand, BrandMark } from "./brand";
+import { Brand } from "./brand";
 
 export function AuthLayout() {
   return (
     <div className="grid min-h-svh lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-      <aside className="relative hidden overflow-hidden bg-zinc-950 p-10 text-zinc-50 lg:flex lg:flex-col lg:justify-between">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_40rem_at_0%_0%,color-mix(in_oklch,var(--brand)_45%,transparent),transparent_60%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/0.05)_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_at_top_left,black,transparent_75%)]"
-        />
-        <div className="relative flex items-center gap-2.5 font-semibold">
-          <BrandMark />
+      <aside className="relative hidden overflow-hidden bg-[oklch(0.22_0.04_155)] p-10 text-[oklch(0.98_0.02_95)] lg:flex lg:flex-col lg:justify-between">
+        <div className="relative text-2xl font-black tracking-tight">
           {brand.name}
         </div>
         <div className="relative max-w-md space-y-4">

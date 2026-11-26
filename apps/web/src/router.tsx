@@ -38,6 +38,13 @@ import {
   SipNenaHomePage,
   VerifyEmailPage,
   VideoLessonPage,
+  QuizPage,
+  QuizResultPage,
+  CourseCompletedPage,
+  SipNenaProfilePage,
+  CheckoutPage,
+  EnrollPage,
+  LandingPage,
   WelcomeLanguagePage,
 } from "./route-components";
 
@@ -93,6 +100,17 @@ function authPage<const Path extends string>(
   });
 }
 
+function publicPage<const Path extends string>(
+  path: Path,
+  Component: RouteComponent,
+) {
+  return createRoute({
+    getParentRoute: () => rootRoute,
+    path,
+    component: Component,
+  });
+}
+
 function appPage<const Path extends string>(
   path: Path,
   Component: RouteComponent,
@@ -124,83 +142,39 @@ const loginRoute = createRoute({
   }),
 });
 
-const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: HomePage,
-});
-
-const welcomeLanguageRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/welcome-language",
-  component: WelcomeLanguagePage,
-});
-
-const createAccountRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/create-account",
-  component: CreateAccountPage,
-});
-
-const pickSubjectsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/pick-subjects",
-  component: PickSubjectsPage,
-});
-
-const preparingCoursesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/preparing-courses",
-  component: PreparingCoursesPage,
-});
-
-const forgotPasswordRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/forgot-password",
-  component: ForgotPasswordPage,
-});
-
-const resetPasswordRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/reset-password",
-  component: ResetPasswordPage,
-});
-
-const sipnenaHomeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/home",
-  component: SipNenaHomePage,
-});
-
-const coursesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/courses",
-  component: CoursesPage,
-});
-
-const courseRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/course",
-  component: CourseDetailPage,
-});
-
-const courseIdRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/courses/$courseId",
-  component: CourseDetailPage,
-});
-
-const videoLessonRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/lesson",
-  component: VideoLessonPage,
-});
-
-const courseLessonRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/courses/$courseId/lesson",
-  component: VideoLessonPage,
-});
+const homeRoute = publicPage("/", HomePage);
+const welcomeLanguageRoute = publicPage(
+  "/welcome-language",
+  WelcomeLanguagePage,
+);
+const createAccountRoute = publicPage("/create-account", CreateAccountPage);
+const pickSubjectsRoute = publicPage("/pick-subjects", PickSubjectsPage);
+const preparingCoursesRoute = publicPage(
+  "/preparing-courses",
+  PreparingCoursesPage,
+);
+const forgotPasswordRoute = publicPage("/forgot-password", ForgotPasswordPage);
+const resetPasswordRoute = publicPage("/reset-password", ResetPasswordPage);
+const sipnenaHomeRoute = publicPage("/home", SipNenaHomePage);
+const coursesRoute = publicPage("/courses", CoursesPage);
+const courseRoute = publicPage("/course", CourseDetailPage);
+const courseIdRoute = publicPage("/courses/$courseId", CourseDetailPage);
+const videoLessonRoute = publicPage("/lesson", VideoLessonPage);
+const quizRoute = publicPage("/quiz", QuizPage);
+const quizResultRoute = publicPage("/quiz-result", QuizResultPage);
+const courseCompletedRoute = publicPage(
+  "/course-completed",
+  CourseCompletedPage,
+);
+const meRoute = publicPage("/me", SipNenaProfilePage);
+const profileRoute = publicPage("/profile", SipNenaProfilePage);
+const checkoutRoute = publicPage("/checkout", CheckoutPage);
+const enrollRoute = publicPage("/enroll", EnrollPage);
+const landingRoute = publicPage("/landing", LandingPage);
+const courseLessonRoute = publicPage(
+  "/courses/$courseId/lesson",
+  VideoLessonPage,
+);
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
@@ -209,6 +183,14 @@ const routeTree = rootRoute.addChildren([
   courseRoute,
   courseIdRoute,
   videoLessonRoute,
+  quizRoute,
+  quizResultRoute,
+  courseCompletedRoute,
+  meRoute,
+  profileRoute,
+  checkoutRoute,
+  enrollRoute,
+  landingRoute,
   courseLessonRoute,
   welcomeLanguageRoute,
   createAccountRoute,

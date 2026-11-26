@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
 import {
   getSavedLanguage,
   saveLanguage,
@@ -8,6 +7,7 @@ import {
 } from "@/lib/language";
 import { DesktopLessonView } from "./desktop-lesson-view";
 import { MobileLessonView } from "./mobile-lesson-view";
+import { MobileBottomNav } from "@/features/home/nav-bars";
 import { VIDEO_LESSON_STRINGS } from "./strings";
 
 export function SipNenaVideoLessonScreen() {
@@ -49,11 +49,17 @@ export function SipNenaVideoLessonScreen() {
   const handleNavTab = (tab: string) => {
     setActiveNav(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "courses" || tab === "saved")
+      void navigate({ to: "/courses" });
+    else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(tab.toUpperCase());
   };
 
   const handleSelectLesson = (id: string, isLocked?: boolean) => {
+    if (id === "course-completed") {
+      void navigate({ to: "/course-completed" });
+      return;
+    }
     if (isLocked) {
       showToast(
         "This lesson is locked. Complete previous unit quizzes to unlock.",
@@ -61,8 +67,13 @@ export function SipNenaVideoLessonScreen() {
       return;
     }
     setActiveLessonId(id);
-    setIsPlaying(true);
-    showToast(`Loaded lesson: ${id}`);
+    if (id.startsWith("quiz")) {
+      setIsPlaying(false);
+      showToast(`Started Section Checkpoint Quiz`);
+    } else {
+      setIsPlaying(true);
+      showToast("Lesson loaded");
+    }
   };
 
   const handleToggleDone = () => {
@@ -76,7 +87,7 @@ export function SipNenaVideoLessonScreen() {
   };
 
   return (
-    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] font-sans text-[var(--sn-text-main)] antialiased">
+    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased">
       {/* Mobile Screen (< 1024px) */}
       <div className="block lg:hidden">
         <MobileLessonView
@@ -85,12 +96,20 @@ export function SipNenaVideoLessonScreen() {
           onLanguageChange={handleLanguageChange}
           isDone={isDone}
           onToggleDone={handleToggleDone}
+          isSaved={isSaved}
+          onToggleSave={handleToggleSave}
           activeLessonId={activeLessonId}
           onSelectLesson={handleSelectLesson}
           isPlaying={isPlaying}
           onTogglePlay={() => setIsPlaying(!isPlaying)}
           onBack={() => void navigate({ to: "/course" })}
+          onNavTab={handleNavTab}
           onToast={showToast}
+        />
+        <MobileBottomNav
+          activeTab={activeNav}
+          onTabChange={handleNavTab}
+          lang={lang}
         />
       </div>
 
@@ -122,7 +141,10 @@ export function SipNenaVideoLessonScreen() {
           aria-live="polite"
           className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs font-semibold text-white shadow-2xl"
         >
-          <Sparkles className="h-4 w-4 text-blue-400" />
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 shrink-0 rounded-full bg-[var(--sn-primary)]"
+          />
           <span>{toastMsg}</span>
         </aside>
       )}

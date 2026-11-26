@@ -125,7 +125,7 @@ export function PopularSubjectsSection({
       </div>
 
       {/* Desktop Request Module Banner */}
-      <div className="hidden items-center justify-between gap-4 rounded-2xl border border-blue-200 bg-[var(--sn-surface-selected)] p-6 sm:flex">
+      <div className="hidden items-center justify-between gap-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface-selected)] p-6 sm:flex">
         <div className="flex items-start gap-4">
           <span
             aria-hidden="true"
@@ -148,7 +148,7 @@ export function PopularSubjectsSection({
         <button
           type="button"
           onClick={onRequestModule}
-          className="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-xl border border-blue-200 bg-white px-5 text-base font-semibold text-[var(--sn-primary)] transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+          className="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-xl border border-[var(--sn-border)] bg-white px-5 text-base font-semibold text-[var(--sn-primary)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
         >
           <Bell className="h-5 w-5" aria-hidden="true" />
           <span>{t.requestModuleBtn}</span>

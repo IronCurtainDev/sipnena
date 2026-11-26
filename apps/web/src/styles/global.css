@@ -35,8 +35,8 @@
   --border: oklch(0.92 0 0);
   --input: oklch(0.9 0 0);
   --ring: oklch(0.708 0 0);
-  --brand: oklch(0.55 0.2 265);
-  --brand-foreground: oklch(0.985 0 0);
+  --brand: oklch(0.32 0.065 155);
+  --brand-foreground: oklch(0.98 0.02 95);
   --radius: 0.625rem;
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -65,8 +65,8 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --brand: oklch(0.65 0.19 265);
-  --brand-foreground: oklch(0.985 0 0);
+  --brand: oklch(0.45 0.08 155);
+  --brand-foreground: oklch(0.98 0.02 95);
   --sidebar: oklch(0.175 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
@@ -156,23 +156,40 @@
   animation: pageSlideFadeIn 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* SipNena onboarding tokens — use classes, not inline style= (CSP style-src 'self') */
+/* SipNena Lanka Grove tokens — use classes, not inline style= (CSP style-src 'self') */
 .sipnena-onboarding {
-  --sn-page-bg: #f8fafc;
-  --sn-auth-bg: #f4f7fb;
+  --sn-page-bg: #fefae0;
+  --sn-auth-bg: #e9edc9;
   --sn-surface: #ffffff;
-  --sn-surface-muted: #f1f5f9;
-  --sn-surface-selected: #eff6ff;
-  --sn-primary: #0d5bd7;
-  --sn-primary-hover: #0a49b0;
-  --sn-text-main: #0f172a;
-  --sn-text-secondary: #475569;
-  --sn-text-muted: #64748b;
-  --sn-border: #e2e8f0;
-  --sn-border-selected: #0d5bd7;
+  --sn-surface-muted: #e9edc9;
+  --sn-surface-selected: #ccd5ae;
+  --sn-primary: #01472e;
+  --sn-primary-hover: #013825;
+  --sn-primary-soft: #ccd5ae;
+  --sn-sage: #ccd5ae;
+  --sn-olive: #e9edc9;
+  --sn-cream: #fefae0;
+  --sn-moss: #a3b18a;
+  --sn-text-main: #01472e;
+  --sn-text-secondary: #4a5d4e;
+  --sn-text-muted: #4a5d4e;
+  --sn-border: rgb(1 71 46 / 12%);
+  --sn-border-selected: #01472e;
+  /* Script fonts first so Sinhala/Tamil never hit Geist/Latin Noto gaps */
   font-family:
-    "Noto Sans", "Noto Sans Sinhala", "Noto Sans Tamil", ui-sans-serif,
-    system-ui, sans-serif;
+    "Noto Sans Sinhala", "Noto Sans Tamil", "Noto Sans", ui-sans-serif,
+    system-ui, sans-serif !important;
+  letter-spacing: normal;
+  line-height: 1.7;
+}
+
+.sipnena-onboarding h1,
+.sipnena-onboarding h2,
+.sipnena-onboarding h3,
+.sipnena-onboarding h4 {
+  letter-spacing: normal;
+  line-height: 1.55;
+  font-weight: 700;
 }
 
 .sn-progress {

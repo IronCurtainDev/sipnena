@@ -1,0 +1,58 @@
+import type { QuizResultStrings } from "./result-strings.types";
+
+export const SI_QUIZ_RESULT_STRINGS: QuizResultStrings = {
+  headerTitle: "ප්‍රශ්නාවලි ප්‍රතිඵල",
+  pillUnit: "1 වන ඒකකයේ දැනුම පරීක්ෂාව • 8 ශ්‍රේණිය විද්‍යාව",
+  passCriteria: "සමත් සීමාව: 10 න් 6 ක් අවශ්‍යයි",
+  scoreLabel: "ලකුණු",
+  passedBadge: "සමත්",
+  almostThereTitle: "තව සුළු උත්සාහයක්, කසුන්!",
+  almostThereSub:
+    "2 වන ඒකකය විවෘත කරගැනීමට ලකුණු 6 ක් අවශ්‍ය වේ. ඕනෑම මොහොතක නැවත උත්සාහ කරන්න — නැවත පුහුණුව මතකය තහවුරු කරයි!",
+  almostThereBilingual:
+    "Almost there, Kasun! • இன்னும் கொஞ்சம் முயற்சி, கசுன்!",
+  wellDoneTitle: "විශිෂ්ටයි, කසුන්!",
+  wellDoneSub:
+    "ඔබ ප්‍රශ්නාවලිය සාර්ථකව සමත් වූ අතර 4 වන පාඩම: ගෝලීය දර්පණ විවෘත විය.",
+  wellDoneBilingual:
+    "Well done, Kasun! • அருமை! நீங்கள் மதிப்பீட்டில் சித்தியடைந்தீர்கள்.",
+  statCorrect: "නිවැරදි පිළිතුරු",
+  statToReview: "නැවත බැලිය යුතු",
+  statTimeSpent: "ගතවූ කාලය",
+  statAttempts: "උත්සාහයන්",
+  statCompletion: "සම්පූර්ණ වීම",
+  scienceTipTitle: "කෙටි විද්‍යා උපදෙස",
+  breakdownTitle: "ප්‍රශ්න විග්‍රහය (ප්‍රශ්න 10 ක්)",
+  breakdownSub: "ඔබේ දැනුම තහවුරු කරගැනීමට පහත පිළිතුරු පරීක්ෂා කරන්න.",
+  filterAll: "සියල්ල (10)",
+  filterReview: "නැවත බැලිය යුතු (6)",
+  filterCorrect: "නිවැරදි (4)",
+  tryAgainBtn: "නැවත උත්සාහ කරන්න",
+  reviewAnswersBtn: "පිළිතුරු පරීක්ෂා කරන්න",
+  reviewNotesBtn: "නැවත උත්සාහයට පෙර සටහන් බලන්න",
+  nextLessonBtn: "ඊළඟ පාඩම: ගෝලීය දර්පණ →",
+  downloadPdfBtn: "PDF සාරාංශය බාගන්න",
+  reviewSolutionsBtn: "විසඳුම් බලන්න",
+  yourAnswerLabel: "ඔබේ පිළිතුර",
+  correctAnswerLabel: "නිවැරදි පිළිතුර",
+  teacherNoteLabel: "ගුරු සටහන",
+  refresherTopicsTitle: "මතක් කරගත යුතු මාතෘකා (විනාඩි 3-5 සාරාංශ)",
+  refresher1Title: "1. තල හා ගෝලීය දර්පණ",
+  refresher1Meta: "විනාඩි 3 ක කියවීම් සටහන",
+  refresher2Title: "2. නාභීය ලක්ෂ්‍යයට කිරණ ඇඳීම",
+  refresher2Meta: "විනාඩි 5 ක වීඩියෝ සාරාංශය",
+  formulaCardTitle: "සූත්‍ර කාඩ්පත",
+  formulaCardBody: "f = R / 2 (නාභීය දුර යනු වක්‍රතා අරයෙන් අඩකි)",
+  teacherPraiseQuote:
+    '"කලබල වෙන්න එපා කසුන්! කිරණ සටහන් ඇඳීම පුහුණුවෙන් පහසු වේ. කෝදුව ගෙන කියවීම් පාඩමේ 1 හා 2 රූප සටහන් බලා නැවත උත්සාහ කරන්න."',
+  askTeacherWhatsApp: "WhatsApp මඟින් ගුරුතුමියගෙන් අසන්න (077 123 4567)",
+  nextInSyllabusTitle: "විෂය නිර්දේශයේ මීළඟ කොටස • විවෘතයි ✓",
+  nextLessonTitle: "පාඩම 1.4 - ප්‍රායෝගික කිරණ සටහන්: ගෝලීය දර්පණ",
+  nextLessonDesc:
+    "නාභීය ලක්ෂ්‍යය හා වක්‍රතා කේන්ද්‍රය භාවිතයෙන් කිරණ සටහන් ඇඳීම.",
+  startLessonBtn: "4 වන පාඩම අරඹන්න",
+  unitProgressTitle: "1 වන ඒකකයේ ප්‍රගතිය",
+  unitProgressValue: "75%",
+  shareWithGuardian: "දෙමාපියන් සමඟ බෙදාගන්න",
+  printSheet: "මුද්‍රණය කරන්න",
+};

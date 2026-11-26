@@ -110,7 +110,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
           <button
             type="button"
             onClick={handleGoogle}
-            className="w-full min-h-[48px] px-4 rounded-xl bg-white border border-slate-200 flex items-center justify-center gap-3 text-sm sm:text-base font-semibold text-slate-800 hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 shadow-xs"
+            className="w-full min-h-[48px] px-4 rounded-xl bg-white border border-slate-200 flex items-center justify-center gap-3 text-sm sm:text-base font-semibold text-slate-800 hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] shadow-xs"
           >
             <GoogleIcon />
             <span>{t.googleBtn}</span>
@@ -150,7 +150,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
                 className={`w-full min-h-[46px] pl-3.5 pr-10 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 border focus:outline-none focus:ring-2 transition-colors ${
                   showEmailWarning
                     ? "bg-amber-50 border-amber-400 text-amber-900"
-                    : "bg-slate-100 border-transparent focus:border-blue-600 focus:bg-white"
+                    : "bg-slate-100 border-transparent focus:border-[var(--sn-primary)] focus:bg-white"
                 }`}
               />
               {showEmailWarning && (
@@ -180,7 +180,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
               </label>
               <Link
                 to="/forgot-password"
-                className="text-xs font-semibold text-blue-600 hover:underline"
+                className="text-xs font-semibold text-[var(--sn-primary)] hover:underline"
               >
                 {t.forgotPasswordBtn}
               </Link>
@@ -198,7 +198,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
                   if (statusMsg) setStatusMsg(null);
                 }}
                 placeholder={t.passwordPlaceholder}
-                className="w-full min-h-[46px] pl-3.5 pr-11 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-blue-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/20 transition-colors"
+                className="w-full min-h-[46px] pl-3.5 pr-11 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 bg-slate-100 border border-transparent focus:border-[var(--sn-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--sn-primary)]/20 transition-colors"
               />
               <button
                 type="button"
@@ -217,8 +217,8 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
             </div>
           </div>
 
-          <div className="rounded-xl p-3 flex items-center gap-2.5 bg-blue-50/60 border border-blue-100">
-            <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
+          <div className="rounded-xl p-3 flex items-center gap-2.5 bg-[var(--sn-olive)]/60 border border-[var(--sn-border)]">
+            <ShieldCheck className="w-4 h-4 text-[var(--sn-primary)] shrink-0" />
             <p className="text-xs text-slate-700 leading-snug">
               {t.safetyBannerText}
             </p>
@@ -233,7 +233,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
                   ? "bg-emerald-50 border-emerald-200 text-emerald-800"
                   : statusMsg.type === "warning"
                     ? "bg-amber-50 border-amber-200 text-amber-800"
-                    : "bg-blue-50 border-blue-200 text-blue-800"
+                    : "bg-[var(--sn-olive)] border-[var(--sn-border)] text-[var(--sn-text-main)]"
               }`}
             >
               {statusMsg.text}
@@ -244,7 +244,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
             type="submit"
             data-testid="login-submit"
             disabled={action.pending}
-            className="w-full min-h-[48px] px-6 rounded-xl text-base font-semibold text-white inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-50"
+            className="w-full min-h-[48px] px-6 rounded-xl text-base font-semibold text-white inline-flex items-center justify-center gap-2 bg-[var(--sn-primary)] hover:bg-[var(--sn-primary-hover)] transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] disabled:opacity-50"
           >
             <span>{t.submitBtn}</span>
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -258,7 +258,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
           <button
             type="button"
             onClick={onCreateAccountClick}
-            className="font-semibold text-blue-600 hover:underline focus:outline-none rounded px-1 py-0.5"
+            className="font-semibold text-[var(--sn-primary)] hover:underline focus:outline-none rounded px-1 py-0.5"
           >
             {t.createAccountLink}
           </button>

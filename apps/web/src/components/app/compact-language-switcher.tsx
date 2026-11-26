@@ -5,6 +5,8 @@ interface Props {
   onLanguageChange?: (lang: AppLanguage) => void;
   ariaLabel?: string;
   size?: "sm" | "md";
+  /** When false, only the short badge (සි / த / En) is shown — no native title label */
+  showLabel?: boolean;
   className?: string;
 }
 
@@ -13,6 +15,7 @@ export function CompactLanguageSwitcher({
   onLanguageChange,
   ariaLabel = "Change language",
   size = "md",
+  showLabel = true,
   className = "",
 }: Props) {
   const handleClick = (code: AppLanguage) => {
@@ -53,14 +56,20 @@ export function CompactLanguageSwitcher({
           >
             <span
               className={`font-semibold shrink-0 text-[11px] sm:text-xs rounded px-1 py-0.5 ${
+                showLabel ? "min-[420px]:hidden" : ""
+              } ${
                 isSelected
-                  ? "bg-blue-100 text-blue-700 font-bold"
+                  ? "bg-[var(--sn-olive,#e9edc9)] text-[var(--sn-primary,#01472e)] font-bold"
                   : "text-slate-500"
               }`}
             >
               {lang.badge}
             </span>
-            <span className="hidden min-[420px]:inline truncate">
+            <span
+              className={
+                showLabel ? "hidden min-[420px]:inline truncate" : "hidden"
+              }
+            >
               {lang.nativeTitle}
             </span>
           </button>

@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  BookOpen,
   Check,
   Globe,
   Languages,
@@ -33,18 +32,13 @@ export function LanguageSetupContent({
           <div className="bg-white rounded-2xl border border-[var(--sn-border)] p-4 sm:p-5 shadow-sm">
             <AnimatedStudentsScene />
 
-            <div className="flex items-start gap-3.5 mt-4 pt-4 border-t border-slate-100">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-[var(--sn-surface-selected)] text-[var(--sn-primary)]">
-                <BookOpen className="w-5 h-5" aria-hidden="true" />
-              </div>
-              <div className="space-y-1">
-                <h2 className="text-base font-bold text-slate-900">
-                  {t.featureTitle}
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {t.featureDesc}
-                </p>
-              </div>
+            <div className="mt-4 space-y-1 border-t border-[var(--sn-border)] pt-4">
+              <h2 className="text-base font-bold text-[var(--sn-text-main)]">
+                {t.featureTitle}
+              </h2>
+              <p className="text-xs sm:text-sm text-[var(--sn-text-secondary)] leading-relaxed">
+                {t.featureDesc}
+              </p>
             </div>
           </div>
 
@@ -56,7 +50,7 @@ export function LanguageSetupContent({
               />
               <span>{t.supportedBanner}</span>
             </div>
-            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 shrink-0">
+            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[var(--sn-olive)] text-[var(--sn-primary)] shrink-0">
               {t.freeBadge}
             </span>
           </div>
@@ -96,7 +90,7 @@ export function LanguageSetupContent({
                   role="radio"
                   aria-checked={isSelected}
                   onClick={() => onLanguageChange(lang.code)}
-                  className={`relative min-h-[96px] sm:min-h-[112px] rounded-2xl border px-1.5 py-3 sm:px-3 sm:py-4 flex flex-col items-center justify-center gap-1.5 text-center transition-all hover:border-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] ${
+                  className={`relative min-h-[96px] sm:min-h-[112px] rounded-2xl border px-1.5 py-3 sm:px-3 sm:py-4 flex flex-col items-center justify-center gap-1.5 text-center transition-all hover:border-[var(--sn-border-selected)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] ${
                     isSelected
                       ? "bg-[var(--sn-surface-selected)] border-[var(--sn-border-selected)] border-[1.5px] shadow-xs"
                       : "bg-white border-[var(--sn-border)]"
@@ -115,7 +109,7 @@ export function LanguageSetupContent({
                     aria-hidden="true"
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition-colors shadow-xs ${
                       isSelected
-                        ? "bg-[var(--sn-primary)] text-white"
+                        ? "bg-[var(--sn-primary)] text-[var(--sn-cream)]"
                         : "bg-[var(--sn-surface-muted)] text-[var(--sn-text-secondary)]"
                     }`}
                   >
@@ -137,7 +131,7 @@ export function LanguageSetupContent({
             <button
               type="button"
               onClick={onContinue}
-              className="w-full sm:w-auto min-w-[200px] min-h-[48px] px-8 rounded-xl text-base font-semibold text-white inline-flex items-center justify-center gap-2 transition-transform active:scale-[0.99] hover:opacity-95 shadow-md shadow-blue-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] bg-[var(--sn-primary)]"
+              className="w-full sm:w-auto min-w-[200px] min-h-[48px] px-8 rounded-xl text-base font-semibold text-[var(--sn-cream)] inline-flex items-center justify-center gap-2 transition-transform active:scale-[0.99] hover:opacity-95 shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] bg-[var(--sn-primary)] hover:bg-[var(--sn-primary-hover)]"
             >
               <span>{t.continueBtn}</span>
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
@@ -166,7 +160,7 @@ export function LanguageSetupContent({
             <div className="flex flex-wrap items-center gap-5 text-xs text-slate-600">
               <div className="flex items-center gap-1.5">
                 <Smartphone
-                  className="w-4 h-4 shrink-0 text-blue-600"
+                  className="w-4 h-4 shrink-0 text-[var(--sn-primary)]"
                   aria-hidden="true"
                 />
                 <span>{t.phoneSync}</span>

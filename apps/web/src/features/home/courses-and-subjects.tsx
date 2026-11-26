@@ -21,7 +21,7 @@ export function MySubjectsSection({
       <div className="flex items-center justify-between gap-2">
         <h2
           id="subjects-heading"
-          className="text-lg font-bold tracking-tight text-[var(--sn-text-main)] sm:text-xl"
+          className="text-lg font-bold leading-normal text-[var(--sn-text-main)] sm:text-xl"
         >
           {t.mySubjectsTitle}
         </h2>
@@ -88,7 +88,7 @@ export function NewCoursesSection({
       <div className="flex items-center justify-between gap-2">
         <h2
           id="new-courses-heading"
-          className="text-lg font-bold tracking-tight text-[var(--sn-text-main)] sm:text-xl"
+          className="text-lg font-bold leading-normal text-[var(--sn-text-main)] sm:text-xl"
         >
           {t.newForGradeTitle}
         </h2>
@@ -109,7 +109,10 @@ export function NewCoursesSection({
               key={course.id}
               className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] transition hover:border-[var(--sn-text-muted)]"
             >
-              <div className="flex items-start gap-3.5 p-4 sm:hidden">
+              <div
+                onClick={() => onCourseClick(course.id)}
+                className="flex items-start gap-3.5 p-4 cursor-pointer sm:hidden"
+              >
                 <CourseThumbnail
                   courseId={course.id}
                   badgeText={subjectLabel}

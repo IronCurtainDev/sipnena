@@ -6,7 +6,6 @@ import {
   Lightbulb,
   ListChecks,
   Play,
-  Sparkles,
   X,
 } from "lucide-react";
 import { CelebrationCheckGraphic } from "./course-enroll-graphics";
@@ -28,8 +27,8 @@ export function CourseEnrollStepSuccess({
   return (
     <>
       <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 p-4 sm:p-5">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200/70 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-          <BookOpen className="h-3.5 w-3.5 text-blue-600" />
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sn-border)] bg-[var(--sn-olive)] px-3 py-1 text-xs font-semibold text-[var(--sn-primary)]">
+          <BookOpen className="h-3.5 w-3.5 text-[var(--sn-primary)]" />
           <span>{t.subjectGradePill}</span>
         </span>
         <button
@@ -64,7 +63,7 @@ export function CourseEnrollStepSuccess({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
               <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-500 uppercase sm:text-[11px]">
-                <Sparkles className="h-3 w-3 shrink-0 text-emerald-600" />
+                <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" />
                 <span>{t.enrolledTag}</span>
               </div>
               <div className="text-sm font-bold leading-snug text-slate-900 sm:text-base">
@@ -87,7 +86,7 @@ export function CourseEnrollStepSuccess({
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200 sm:h-2">
-              <div className="h-full w-0 rounded-full bg-blue-600" />
+              <div className="h-full w-0 rounded-full bg-[var(--sn-primary)]" />
             </div>
           </div>
 
@@ -98,18 +97,18 @@ export function CourseEnrollStepSuccess({
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") onStartFirstLesson();
             }}
-            className="group flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-slate-200/90 bg-white p-3 shadow-2xs transition hover:border-blue-400 hover:shadow-xs sm:p-3.5"
+            className="group flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-slate-200/90 bg-white p-3 shadow-2xs transition hover:border-[var(--sn-border-selected)] hover:shadow-xs sm:p-3.5"
           >
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white sm:h-10 sm:w-10">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--sn-olive)] text-[var(--sn-primary)] transition group-hover:bg-[var(--sn-primary)] group-hover:text-[var(--sn-cream)] sm:h-10 sm:w-10">
                 <Play className="ml-0.5 h-4 w-4 fill-current" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-bold tracking-wide text-blue-600 uppercase sm:text-[11px]">
+                <div className="text-[10px] font-bold tracking-wide text-[var(--sn-primary)] uppercase sm:text-[11px]">
                   <span className="hidden sm:inline">{t.nextUpEyebrow}</span>
                   <span className="sm:hidden">{t.nextUpEyebrowMobile}</span>
                 </div>
-                <div className="truncate text-xs font-bold text-slate-900 transition group-hover:text-blue-700 sm:text-sm">
+                <div className="truncate text-xs font-bold text-slate-900 transition group-hover:text-[var(--sn-primary)] sm:text-sm">
                   {t.nextUpLessonTitle}
                 </div>
                 <div className="text-[11px] text-slate-500 sm:text-xs">
@@ -118,7 +117,7 @@ export function CourseEnrollStepSuccess({
                 </div>
               </div>
             </div>
-            <ChevronRight className="h-5 w-5 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-blue-600" />
+            <ChevronRight className="h-5 w-5 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-[var(--sn-primary)]" />
           </div>
 
           <div className="flex items-start gap-2.5 rounded-xl border border-amber-200/70 bg-amber-50/80 p-2.5 text-xs text-amber-900 sm:p-3">
@@ -134,7 +133,7 @@ export function CourseEnrollStepSuccess({
           <button
             type="button"
             onClick={onStartFirstLesson}
-            className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.99] sm:text-base"
+            className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99] sm:text-base"
           >
             <span>{t.startFirstLessonBtn}</span>
             <ArrowRight className="h-5 w-5" />

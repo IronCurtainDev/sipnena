@@ -110,3 +110,37 @@ export const VideoLessonPage = lazyRouteComponent(
   "VideoLessonPage",
 );
 
+export const QuizPage = lazyRouteComponent(
+  () => import("./routes/quiz"),
+  "QuizPage",
+);
+
+export const QuizResultPage = lazyRouteComponent(
+  () => import("./routes/quiz-result"),
+  "QuizResultPage",
+);
+
+export const CourseCompletedPage = lazyRouteComponent(
+  () => import("./routes/course-completed"),
+  "CourseCompletedPage",
+);
+
+export const SipNenaProfilePage = lazyRouteComponent(
+  () => import("./routes/me"),
+  "SipNenaProfilePage",
+);
+
+export const CheckoutPage = lazyRouteComponent(
+  () => import("./routes/checkout"),
+  "CheckoutPage",
+);
+
+export const EnrollPage = lazyRouteComponent(
+  () => import("./routes/enroll"),
+  "EnrollPage",
+);
+
+export const LandingPage = lazyRouteComponent(
+  () => import("./routes/landing"),
+  "LandingPage",
+);

@@ -35,14 +35,14 @@ export function CourseSidebar({
   return (
     <aside
       aria-label="Syllabus details and curriculum units"
-      className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-1"
+      className="hidden gap-3 sm:grid sm:grid-cols-2 lg:sticky lg:top-5 lg:grid-cols-1 lg:h-[calc(100svh-2.5rem)] lg:content-start lg:overflow-y-auto"
     >
       {/* 1. Government Syllabus Aligned Card */}
       <div className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5">
         <div className="flex items-start gap-3">
           <span
             aria-hidden="true"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[var(--sn-primary)]"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--sn-olive)] text-[var(--sn-primary)]"
           >
             <ShieldCheck className="h-6 w-6" />
           </span>
@@ -187,17 +187,17 @@ export function CourseSidebar({
       </div>
 
       {/* 3. Need Help With a Science Question Card */}
-      <div className="space-y-3 rounded-2xl bg-[var(--sn-primary)] p-5 text-white sm:col-span-2 lg:col-span-1">
+      <div className="space-y-3 rounded-2xl bg-[var(--sn-primary)] p-5 text-[var(--sn-cream)] sm:col-span-2 lg:col-span-1">
         <span
           aria-hidden="true"
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600"
+          className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15"
         >
           <HelpCircle className="h-6 w-6" />
         </span>
 
         <div className="space-y-1.5">
           <h3 className="text-lg font-bold leading-snug">{t.helpCardTitle}</h3>
-          <p className="text-base leading-relaxed text-blue-100">
+          <p className="text-base leading-relaxed text-[var(--sn-cream)]/90">
             {t.helpCardDesc}
           </p>
         </div>
@@ -205,7 +205,7 @@ export function CourseSidebar({
         <button
           type="button"
           onClick={onAskTeacher}
-          className="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-white px-5 text-base font-bold text-[var(--sn-primary)] transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sn-primary)]"
+          className="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-[var(--sn-cream)] px-5 text-base font-bold text-[var(--sn-primary)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-cream)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sn-primary)]"
         >
           {t.askTeacherBtn}
         </button>
@@ -222,7 +222,7 @@ export function LabPracticalsCard({
   onViewManual: () => void;
 }) {
   return (
-    <div className="hidden items-center justify-between gap-4 rounded-2xl border-l-4 border-l-emerald-600 border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 sm:flex">
+    <div className="hidden items-center justify-between gap-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 sm:flex">
       <div className="flex items-start gap-4">
         <span
           aria-hidden="true"
@@ -254,7 +254,7 @@ export function LabPracticalsCard({
 
 export function GovAlignedMobileCard({ t }: { t: CourseStrings }) {
   return (
-    <div className="flex items-start gap-3.5 rounded-2xl border border-blue-200 bg-[var(--sn-surface-selected)] p-4 sm:hidden">
+    <div className="flex items-start gap-3.5 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface-selected)] p-4 sm:hidden">
       <span
         aria-hidden="true"
         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-emerald-700 shadow-xs"

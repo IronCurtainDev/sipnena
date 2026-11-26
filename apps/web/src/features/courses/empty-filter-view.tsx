@@ -68,7 +68,7 @@ export function EmptyFilterView({
           <button
             type="button"
             onClick={onResetGrade}
-            className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-blue-200 bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+            className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-sage)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
           >
             <span>
               {t.gradeFilterLabel} {selectedGrade}
@@ -80,7 +80,7 @@ export function EmptyFilterView({
             <button
               type="button"
               onClick={onResetMedium}
-              className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-blue-200 bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+              className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-sage)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
             >
               <span>{getMediumLabel(selectedMedium)}</span>
               <X className="h-4 w-4 text-slate-500" aria-hidden="true" />
@@ -91,7 +91,7 @@ export function EmptyFilterView({
             <button
               type="button"
               onClick={onResetPrice}
-              className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-blue-200 bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+              className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-selected)] px-4 text-sm font-semibold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-sage)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
             >
               <span>
                 {priceFilter === "free" ? t.freeOption : t.paidOption}

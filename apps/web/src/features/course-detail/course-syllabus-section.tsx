@@ -58,7 +58,7 @@ export function CourseSyllabusSection({
         <button
           type="button"
           onClick={onExpandCollapseAll}
-          className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-sm font-bold text-[var(--sn-primary)] transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+          className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl px-3.5 text-sm font-bold text-[var(--sn-primary)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
         >
           <span className="sm:hidden">
             {allExpanded ? t.collapseAllBtn : t.expandAllBtn}
@@ -96,7 +96,7 @@ export function CourseSyllabusSection({
                     className={`hidden h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold sm:flex ${
                       mod.locked
                         ? "bg-slate-100 text-slate-700"
-                        : "bg-blue-50 text-[var(--sn-primary)]"
+                        : "bg-[var(--sn-olive)] text-[var(--sn-primary)]"
                     }`}
                   >
                     {mod.number}
@@ -148,14 +148,14 @@ export function CourseSyllabusSection({
                         key={lesson.id}
                         type="button"
                         onClick={() => onLessonClick(lesson)}
-                        className="flex min-h-[64px] w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-blue-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] sm:px-5"
+                        className="flex min-h-[64px] w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-[var(--sn-olive)]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] sm:px-5"
                       >
                         <div className="flex min-w-0 items-center gap-3.5">
                           <span
                             aria-hidden="true"
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
                               lesson.isFreePreview
-                                ? "border border-blue-200 bg-blue-50 text-[var(--sn-primary)]"
+                                ? "border border-[var(--sn-border)] bg-[var(--sn-olive)] text-[var(--sn-primary)]"
                                 : "bg-slate-100 text-[var(--sn-text-muted)]"
                             }`}
                           >

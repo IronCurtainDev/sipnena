@@ -15,6 +15,7 @@ export interface PlaylistSection {
   titleKey: string;
   statusBadgeKey: string;
   statusColor: "green" | "blue" | "gray";
+  totalDuration?: string;
   lessons: LessonPlaylistItem[];
 }
 

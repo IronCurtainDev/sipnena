@@ -1,4 +1,4 @@
-import { Check, ShieldCheck, Sparkles } from "lucide-react";
+import { Check, ShieldCheck } from "lucide-react";
 import { AnimatedStudentsScene } from "@/components/app/animated-students-scene";
 import type { PasswordStrings } from "./strings";
 
@@ -14,7 +14,7 @@ export function PasswordRecoveryHighlightCard({ t, mode }: Props) {
 
   const benefits = [
     {
-      icon: Sparkles,
+      icon: Check,
       title: t.ben_fast_title,
       desc: t.ben_fast_desc,
     },
@@ -33,7 +33,7 @@ export function PasswordRecoveryHighlightCard({ t, mode }: Props) {
   return (
     <aside
       aria-label={title}
-      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-8 bg-gradient-to-b from-slate-50 to-blue-50/40 border-b md:border-b-0 md:border-r border-slate-200"
+      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-8 bg-gradient-to-b from-slate-50 to-[var(--sn-olive)]/40 border-b md:border-b-0 md:border-r border-slate-200"
     >
       <div className="space-y-5">
         <AnimatedStudentsScene />
@@ -55,7 +55,7 @@ export function PasswordRecoveryHighlightCard({ t, mode }: Props) {
                 <li key={b.title} className="flex items-start gap-2.5">
                   <span
                     aria-hidden="true"
-                    className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-blue-100 text-blue-700"
+                    className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-[var(--sn-sage)] text-[var(--sn-primary)]"
                   >
                     <Icon className="w-3.5 h-3.5 stroke-[2.5]" />
                   </span>

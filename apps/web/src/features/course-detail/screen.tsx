@@ -66,7 +66,9 @@ export function SipNenaCourseDetailScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "courses" || tab === "saved")
+      void navigate({ to: "/courses" });
+    else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(tab.toUpperCase());
   };
 
@@ -101,12 +103,15 @@ export function SipNenaCourseDetailScreen() {
   };
 
   const handleLessonClick = (lesson: LessonItem) => {
-    showToast(lesson.id);
-    void navigate({ to: "/lesson" });
+    if (lesson.type === "quiz") {
+      void navigate({ to: "/quiz" });
+    } else {
+      void navigate({ to: "/lesson" });
+    }
   };
 
   return (
-    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] font-sans text-[var(--sn-text-main)] antialiased sm:flex-row">
+    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased sm:flex-row">
       <DesktopSidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -118,15 +123,16 @@ export function SipNenaCourseDetailScreen() {
         lang={lang}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col pb-36 sm:pb-10">
+      <div className="flex min-w-0 flex-1 flex-col pb-36 sm:pb-6">
         <CourseDetailTopBar
           lang={lang}
           onLanguageChange={handleLanguageChange}
-          onProfileClick={() => showToast(t.profileAria)}
+          onProfileClick={() => void navigate({ to: "/me" })}
+          onBack={handleBackToCourses}
           t={t}
         />
 
-        <main className="mx-auto w-full max-w-[1200px] flex-1 space-y-6 px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+        <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
           {demoState !== "ready" ? (
             <CourseStateViews
               demoState={demoState}
@@ -134,7 +140,7 @@ export function SipNenaCourseDetailScreen() {
               t={t}
             />
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <CourseBreadcrumbBar
                 t={t}
                 isSaved={isSaved}
@@ -143,8 +149,8 @@ export function SipNenaCourseDetailScreen() {
                 onToggleSave={handleToggleSave}
               />
 
-              <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-                <div className="min-w-0 space-y-6">
+              <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(380px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
+                <div className="min-w-0 space-y-4">
                   {/* Mobile Top Trailer Preview Card (< 640px) */}
                   <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] sm:hidden">
                     <TrailerVideoThumbnail
@@ -189,10 +195,14 @@ export function SipNenaCourseDetailScreen() {
                   t={t}
                   onWatchPreview={() => void navigate({ to: "/lesson" })}
                   onEnroll={() => {
-                    setIsEnrollModalOpen(true);
-                    setIsEnrollSuccess(false);
+                    void navigate({ to: "/enroll" });
                   }}
-                  onSendToParent={() => showToast(t.parentShareMsg)}
+                  onSendToParent={() => {
+                    void navigate({
+                      to: "/checkout",
+                      search: { mode: "parent_pay" },
+                    });
+                  }}
                   onContactDesk={() => showToast(t.contactDeskMsg)}
                 />
               </div>
@@ -206,8 +216,7 @@ export function SipNenaCourseDetailScreen() {
           course={course}
           t={t}
           onEnroll={() => {
-            setIsEnrollModalOpen(true);
-            setIsEnrollSuccess(false);
+            void navigate({ to: "/enroll" });
           }}
         />
       )}

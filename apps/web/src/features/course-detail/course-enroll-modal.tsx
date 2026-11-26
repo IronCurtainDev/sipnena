@@ -40,7 +40,7 @@ export function CourseEnrollModal({
         {/* Mobile Sheet Drag Indicator */}
         <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-slate-300 sm:hidden" />
         {/* Desktop Top Brand Gradient Line Accent */}
-        <div className="hidden h-1 w-full bg-linear-to-r from-blue-600 via-indigo-500 to-amber-500 sm:block" />
+        <div className="hidden h-1 w-full bg-linear-to-r from-[var(--sn-primary)] via-[var(--sn-moss)] to-amber-500 sm:block" />
 
         {!isSuccess ? (
           <CourseEnrollStepJoin

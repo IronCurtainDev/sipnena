@@ -17,7 +17,7 @@ export function ActiveLessonCard({ lang, onContinue }: ActiveLessonCardProps) {
         <div className="flex min-w-0 items-center gap-2">
           <h2
             id="pickup-heading"
-            className="text-sm font-bold tracking-tight text-[var(--sn-text-main)]"
+            className="text-sm font-bold leading-normal text-[var(--sn-text-main)]"
           >
             {t.pickUpLabel}
           </h2>
@@ -36,18 +36,18 @@ export function ActiveLessonCard({ lang, onContinue }: ActiveLessonCardProps) {
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] shadow-sm">
-        <div className="flex flex-col gap-5 p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
+        <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-4">
           <div className="flex items-start gap-3.5 sm:hidden">
             <RayDiagramThumbnail compact />
             <div className="min-w-0 flex-1 space-y-1">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sn-border)] bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
                 <FlaskConical
                   className="h-3.5 w-3.5 shrink-0"
                   aria-hidden="true"
                 />
                 <span>{t.activeSubjectBadge}</span>
               </div>
-              <h3 className="line-clamp-2 text-base font-bold leading-snug text-[var(--sn-text-main)]">
+              <h3 className="line-clamp-2 text-base font-bold leading-normal text-[var(--sn-text-main)]">
                 {t.activeLessonTitle}
               </h3>
               <p className="line-clamp-2 text-xs text-[var(--sn-text-secondary)]">
@@ -56,20 +56,20 @@ export function ActiveLessonCard({ lang, onContinue }: ActiveLessonCardProps) {
             </div>
           </div>
 
-          <div className="hidden w-56 shrink-0 overflow-hidden rounded-xl border border-[var(--sn-border)] sm:block lg:w-64">
+          <div className="hidden w-48 shrink-0 overflow-hidden rounded-xl border border-[var(--sn-border)] sm:block lg:w-56">
             <RayDiagramThumbnail />
           </div>
 
-          <div className="min-w-0 flex-1 space-y-3.5">
-            <div className="hidden space-y-1.5 sm:block">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50 px-3 py-0.5 text-xs font-bold text-emerald-800">
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="hidden space-y-1 sm:block">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sn-border)] bg-[var(--sn-olive)] px-3 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                 <FlaskConical
                   className="h-3.5 w-3.5 shrink-0"
                   aria-hidden="true"
                 />
                 <span>{t.activeSubjectBadge}</span>
               </div>
-              <h3 className="line-clamp-2 text-xl font-bold leading-snug text-[var(--sn-text-main)]">
+              <h3 className="line-clamp-2 text-xl font-bold leading-normal text-[var(--sn-text-main)]">
                 {t.activeLessonTitle}
               </h3>
               <p className="line-clamp-2 text-sm font-medium text-[var(--sn-text-secondary)]">
@@ -104,9 +104,9 @@ export function ActiveLessonCard({ lang, onContinue }: ActiveLessonCardProps) {
             <button
               type="button"
               onClick={onContinue}
-              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] sm:w-auto sm:text-base"
+              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-[var(--sn-cream)] shadow-sm transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] sm:w-auto sm:text-base"
             >
-              <Play className="h-4 w-4 fill-white" aria-hidden="true" />
+              <Play className="h-4 w-4 fill-current" aria-hidden="true" />
               <span>{t.continueLessonBtn}</span>
             </button>
           </div>

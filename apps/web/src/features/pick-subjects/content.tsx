@@ -37,8 +37,8 @@ export function PickSubjectsContent({
       {/* Top Mobile Title / Desktop Subheader Row */}
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-            <span className="w-2 h-2 rounded-full bg-blue-600" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--sn-sage)] text-[var(--sn-primary)]">
+            <span className="w-2 h-2 rounded-full bg-[var(--sn-primary)]" />
             <span>{t.stepPillDesktop}</span>
           </div>
 
@@ -56,7 +56,7 @@ export function PickSubjectsContent({
             <div
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-bold shrink-0 ${
                 hasAtLeastOne
-                  ? "bg-blue-50 border-blue-200 text-blue-700"
+                  ? "bg-[var(--sn-olive)] border-[var(--sn-border)] text-[var(--sn-primary)]"
                   : "bg-amber-50 border-amber-200 text-amber-700"
               }`}
             >
@@ -69,9 +69,9 @@ export function PickSubjectsContent({
         {showHelp && (
           <div
             role="status"
-            className="rounded-xl border border-blue-200 bg-blue-50/60 p-3 flex items-start gap-2.5 text-xs sm:text-sm text-slate-800 animate-page-enter"
+            className="rounded-xl border border-[var(--sn-border)] bg-[var(--sn-olive)]/60 p-3 flex items-start gap-2.5 text-xs sm:text-sm text-slate-800 animate-page-enter"
           >
-            <Lightbulb className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+            <Lightbulb className="w-4 h-4 text-[var(--sn-primary)] shrink-0 mt-0.5" />
             <p className="leading-relaxed">{t.helpCalloutText}</p>
           </div>
         )}

@@ -183,7 +183,7 @@ export function TrailerVideoThumbnail({
             onClick={onWatchPreview}
             className="inline-flex min-h-[48px] items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-base font-bold text-slate-900 shadow-md transition hover:bg-slate-50 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] focus-visible:ring-offset-2"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-[var(--sn-primary)]">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--sn-olive)] text-[var(--sn-primary)]">
               <Play
                 className="ml-0.5 h-4 w-4 fill-current"
                 aria-hidden="true"

@@ -69,7 +69,9 @@ export function SipNenaCoursesScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "courses" || tab === "saved")
+      void navigate({ to: "/courses" });
+    else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(`${tab.toUpperCase()} ${t.comingSoonBadge}`);
   };
 
@@ -130,7 +132,7 @@ export function SipNenaCoursesScreen() {
   const isZeroResults = filteredCourses.length === 0;
 
   return (
-    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] font-sans text-[var(--sn-text-main)] antialiased sm:flex-row">
+    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased sm:flex-row">
       <DesktopSidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -142,15 +144,15 @@ export function SipNenaCoursesScreen() {
         lang={lang}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col pb-28 sm:pb-8">
+      <div className="flex min-w-0 flex-1 flex-col pb-28 sm:pb-6">
         <CoursesTopBar
           lang={lang}
           onLanguageChange={handleLanguageChange}
-          onProfileClick={() => showToast(t.profileAria)}
+          onProfileClick={() => void navigate({ to: "/me" })}
           t={t}
         />
 
-        <main className="mx-auto w-full max-w-[1200px] flex-1 space-y-6 px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+        <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
           {demoState !== "ready" ? (
             <CourseStateViews
               demoState={demoState}
@@ -158,7 +160,7 @@ export function SipNenaCoursesScreen() {
               t={t}
             />
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <BreadcrumbTrustRow
                 t={t}
                 isZeroResults={isZeroResults}
@@ -174,11 +176,9 @@ export function SipNenaCoursesScreen() {
                   onResetMedium={() => setSelectedMedium("all")}
                   onResetPrice={() => setPriceFilter("all")}
                   onResetAll={resetAllFilters}
-                  onSeeAllSubjects={(sub) =>
-                    showToast(
-                      `${t.seeAllSubjectsBanner} ${sub ? `— ${sub}` : ""}`,
-                    )
-                  }
+                  onSeeAllSubjects={() => {
+                    resetAllFilters();
+                  }}
                   onRequestModule={() =>
                     showToast(
                       formatCourseString(t.requestSentFeedback, {
@@ -189,7 +189,7 @@ export function SipNenaCoursesScreen() {
                   t={t}
                 />
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <CourseHero t={t} />
 
                   <CourseFilterBar
@@ -212,7 +212,7 @@ export function SipNenaCoursesScreen() {
                     lang={lang}
                   />
 
-                  <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+                  <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(400px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
                     <CourseCatalogGrid
                       courses={filteredCourses}
                       savedIds={savedIds}

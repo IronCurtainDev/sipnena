@@ -43,7 +43,7 @@ export function ForgotPasswordForm({ t }: Props) {
     <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
       <div className="max-w-md mx-auto w-full space-y-6">
         <div>
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+          <div className="w-10 h-10 rounded-xl bg-[var(--sn-olive)] text-[var(--sn-primary)] flex items-center justify-center mb-4">
             <KeyRound className="w-5 h-5" aria-hidden="true" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -97,7 +97,7 @@ export function ForgotPasswordForm({ t }: Props) {
                   className={`w-full min-h-[46px] pl-3.5 pr-10 rounded-xl text-sm sm:text-base text-slate-900 placeholder:text-slate-400 border focus:outline-none focus:ring-2 transition-colors ${
                     emailError
                       ? "bg-amber-50 border-amber-400 text-amber-900"
-                      : "bg-slate-100 border-transparent focus:border-blue-600 focus:bg-white focus:ring-blue-600/20"
+                      : "bg-slate-100 border-transparent focus:border-[var(--sn-primary)] focus:bg-white focus:ring-[var(--sn-primary)]/20"
                   }`}
                 />
                 {emailError ? (
@@ -141,7 +141,7 @@ export function ForgotPasswordForm({ t }: Props) {
                 {t.rememberPasswordPrompt}{" "}
                 <Link
                   to="/login"
-                  className="font-bold text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center gap-1"
+                  className="font-bold text-[var(--sn-primary)] hover:text-[var(--sn-primary)] hover:underline inline-flex items-center gap-1"
                 >
                   {t.backToLoginLink}
                 </Link>

@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import type { CourseDetailStrings } from "./strings.types";
@@ -7,6 +7,7 @@ interface CourseDetailTopBarProps {
   lang: AppLanguage;
   onLanguageChange: (l: AppLanguage) => void;
   onProfileClick: () => void;
+  onBack?: () => void;
   t: CourseDetailStrings;
 }
 
@@ -14,15 +15,28 @@ export function CourseDetailTopBar({
   lang,
   onLanguageChange,
   onProfileClick,
+  onBack,
   t,
 }: CourseDetailTopBarProps) {
   return (
     <>
       {/* MOBILE TOP BAR (< 640px) */}
       <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 sm:hidden">
-        <h1 className="text-xl font-bold text-[var(--sn-text-main)]">
-          {t.mobilePageTitle}
-        </h1>
+        <div className="flex items-center gap-2 min-w-0">
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              aria-label={t.backAria}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-700 hover:bg-slate-100"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+          )}
+          <h1 className="text-lg font-bold text-[var(--sn-text-main)] truncate">
+            {t.mobilePageTitle}
+          </h1>
+        </div>
 
         <div className="flex items-center gap-2">
           <CompactLanguageSwitcher

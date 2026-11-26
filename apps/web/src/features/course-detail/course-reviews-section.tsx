@@ -70,7 +70,7 @@ export function CourseReviewsSection({
               </div>
 
               <div className="hidden items-center gap-2.5 border-t border-slate-200/70 pt-2 sm:flex">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-[var(--sn-primary)]">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--sn-sage)] text-xs font-bold text-[var(--sn-primary)]">
                   {rev.initials}
                 </span>
                 <span className="text-sm font-semibold text-[var(--sn-text-main)]">

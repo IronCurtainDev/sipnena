@@ -1,17 +1,16 @@
 import { useState } from "react";
-import {
-  ArrowLeft,
-  Check,
-  FileText,
-  ListChecks,
-  Paperclip,
-  ShieldCheck,
-  User,
-} from "lucide-react";
+import { ArrowLeft, Bookmark, Check, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import type { AppLanguage } from "@/lib/language";
+import { InlineQuizPlayer } from "./inline-quiz-player";
+import { LessonDiscussionTab } from "./lesson-discussion-tab";
+import { LessonDownloadsTab } from "./lesson-downloads-tab";
+import { LessonNotesTab } from "./lesson-notes-tab";
 import { LessonOverviewTab } from "./lesson-overview-tab";
 import { MobileLessonPlaylist } from "./mobile-lesson-playlist";
+import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
+import { lessonCounter, lessonTitle } from "./playlist-copy";
+import { SectionQuizBanner } from "./section-quiz-banner";
 import type { VideoLessonStrings } from "./strings";
 import { VideoPlayer } from "./video-player";
 
@@ -21,11 +20,14 @@ interface MobileLessonViewProps {
   onLanguageChange: (lang: AppLanguage) => void;
   isDone: boolean;
   onToggleDone: () => void;
+  isSaved?: boolean;
+  onToggleSave?: () => void;
   activeLessonId: string;
   onSelectLesson: (id: string, isLocked?: boolean) => void;
   isPlaying: boolean;
   onTogglePlay: () => void;
   onBack: () => void;
+  onNavTab?: (tab: string) => void;
   onToast: (msg: string) => void;
 }
 
@@ -35,34 +37,55 @@ export function MobileLessonView({
   onLanguageChange,
   isDone,
   onToggleDone,
+  isSaved = false,
+  onToggleSave,
   activeLessonId,
   onSelectLesson,
   isPlaying,
   onTogglePlay,
   onBack,
+  onNavTab,
   onToast,
 }: MobileLessonViewProps) {
-  const [mobileTab, setMobileTab] = useState<"lessons" | "notes" | "files">(
-    "lessons",
+  const [mobileTab, setMobileTab] = useState<
+    "lessons" | "notes" | "discussion" | "files"
+  >("lessons");
+
+  const currentLesson = VIDEO_LESSON_PLAYLIST.flatMap((s) => s.lessons).find(
+    (l) => l.id === activeLessonId,
   );
+  const currentTitle = currentLesson
+    ? lessonTitle(lang, currentLesson.id, currentLesson.titleKey)
+    : t.lessonTitle;
+  const currentNumber = currentLesson?.number ?? 4;
+  const quizDetail =
+    lang === "si"
+      ? "ප්‍රශ්න 10 · මිනිත්තු 15 පමණ"
+      : lang === "ta"
+        ? "10 கேள்விகள் · சுமார் 15 நிமிடங்கள்"
+        : "10 questions · about 15 minutes";
+
+  const tabs = [
+    { id: "lessons" as const, label: t.mobileTabLessons },
+    { id: "notes" as const, label: t.mobileTabNotes },
+    { id: "discussion" as const, label: t.tabDiscussion },
+    { id: "files" as const, label: t.mobileTabFiles },
+  ];
 
   return (
-    <div className="flex min-h-svh flex-col bg-slate-50 pb-20 text-slate-900">
-      {/* Mobile Sticky Top Navigation Bar */}
-      <header className="backdrop-blur-xs sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 bg-white/95 px-3">
-        <div className="flex min-w-0 items-center gap-2">
-          <button
-            type="button"
-            onClick={onBack}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100"
-            aria-label="Back"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <span className="truncate text-sm font-bold text-slate-900">
-            Video Less...
+    <div className="sipnena-onboarding flex min-h-screen flex-col bg-[var(--sn-page-bg)] pb-24 text-[var(--sn-text-main)]">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-cream)]/95 px-4 py-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex min-h-[44px] items-center gap-1.5 text-sm font-bold text-[var(--sn-text-main)]"
+          aria-label="Back to course"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span className="max-w-[9rem] truncate sm:max-w-none">
+            {t.breadcrumbBack}
           </span>
-        </div>
+        </button>
 
         <div className="flex items-center gap-2">
           <CompactLanguageSwitcher
@@ -71,139 +94,130 @@ export function MobileLessonView({
           />
           <button
             type="button"
-            onClick={() => onToast(t.helpAria)}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-700 text-white"
-            aria-label="Profile"
+            onClick={() => onNavTab?.("me")}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--sn-primary)] text-[var(--sn-cream)]"
+            aria-label="Profile (Me)"
           >
             <User className="h-4 w-4" />
           </button>
         </div>
       </header>
 
-      {/* Embedded Video Player */}
-      <VideoPlayer
-        t={t}
-        isPlaying={isPlaying}
-        onTogglePlay={onTogglePlay}
-        onToast={onToast}
-        compact
-      />
-
-      {/* Meta & Action Section */}
-      <div className="space-y-4 border-b border-slate-200 bg-white p-4">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-medium text-slate-500">
-            {t.unitSubtitle}
-          </span>
-          <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-700">
-            {t.lessonPill}
-          </span>
+      {activeLessonId.startsWith("quiz") ? (
+        <div className="p-4">
+          <InlineQuizPlayer
+            quizId={activeLessonId}
+            lang={lang}
+            onNextLesson={() =>
+              activeLessonId === "quiz-sec2"
+                ? onSelectLesson("course-completed")
+                : onSelectLesson("les5")
+            }
+            onToast={onToast}
+          />
         </div>
+      ) : (
+        <>
+          <VideoPlayer
+            t={t}
+            isPlaying={isPlaying}
+            onTogglePlay={onTogglePlay}
+            onToast={onToast}
+            compact
+          />
 
-        <h1 className="text-xl font-bold leading-tight text-slate-900">
-          {t.lessonTitle}
-        </h1>
-
-        {/* Mark as Done Full-Width CTA */}
-        <button
-          type="button"
-          onClick={onToggleDone}
-          className={`flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl text-sm font-bold shadow-xs transition ${
-            isDone
-              ? "bg-emerald-700 text-white"
-              : "bg-emerald-600 text-white hover:bg-emerald-700 active:scale-[0.99]"
-          }`}
-        >
-          <Check className="h-4 w-4" />
-          <span>{isDone ? t.markedDone : t.markAsDone}</span>
-        </button>
-
-        {/* Mobile Tab Switcher */}
-        <div className="flex border-b border-slate-200 pt-2 text-xs font-bold text-slate-600">
-          <button
-            type="button"
-            onClick={() => setMobileTab("lessons")}
-            className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 pb-2.5 ${
-              mobileTab === "lessons"
-                ? "border-blue-700 text-blue-700"
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            <ListChecks className="h-4 w-4" />
-            <span>{t.mobileTabLessons}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setMobileTab("notes")}
-            className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 pb-2.5 ${
-              mobileTab === "notes"
-                ? "border-blue-700 text-blue-700"
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            <FileText className="h-4 w-4" />
-            <span>{t.mobileTabNotes}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setMobileTab("files")}
-            className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 pb-2.5 ${
-              mobileTab === "files"
-                ? "border-blue-700 text-blue-700"
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            <Paperclip className="h-4 w-4" />
-            <span>{t.mobileTabFiles}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Tab Contents */}
-      <div className="space-y-4 p-4">
-        {mobileTab === "notes" && <LessonOverviewTab t={t} />}
-
-        {mobileTab === "files" && (
-          <div className="space-y-3">
-            {[
-              "Lesson_3_Ray_Optics_Notes.pdf",
-              "Concave_Mirror_Handout.pdf",
-              "Quiz_Preparation_Guide.pdf",
-            ].map((f) => (
-              <div
-                key={f}
-                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3"
-              >
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                  <FileText className="h-4 w-4 text-blue-600" />
-                  <span>{f}</span>
-                </div>
+          <div className="space-y-4 border-b border-[var(--sn-border)] bg-[var(--sn-surface)] p-4">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 space-y-1">
+                <p className="text-sm font-semibold leading-normal text-[var(--sn-text-secondary)]">
+                  {lessonCounter(lang, currentNumber)} · {t.unitSubtitle}
+                </p>
+                <h1 className="text-lg font-bold leading-normal text-[var(--sn-text-main)] sm:text-xl">
+                  {currentTitle}
+                </h1>
+              </div>
+              {onToggleSave && (
                 <button
                   type="button"
-                  onClick={() => onToast(t.downloadSuccess)}
-                  className="text-xs font-bold text-blue-700 hover:underline"
+                  onClick={onToggleSave}
+                  className={`rounded-xl border p-2.5 transition ${
+                    isSaved
+                      ? "border-[var(--sn-border)] bg-[var(--sn-olive)] text-[var(--sn-primary)]"
+                      : "border-[var(--sn-border)] text-[var(--sn-text-secondary)]"
+                  }`}
+                  aria-label="Bookmark"
                 >
-                  Download
+                  <Bookmark
+                    className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`}
+                  />
                 </button>
-              </div>
-            ))}
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={onToggleDone}
+              className={`flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl text-sm font-bold transition active:scale-[0.99] ${
+                isDone
+                  ? "bg-[var(--sn-primary)] text-[var(--sn-cream)]"
+                  : "bg-[var(--sn-primary)] text-[var(--sn-cream)] hover:bg-[var(--sn-primary-hover)]"
+              }`}
+            >
+              <Check className="h-4 w-4" />
+              <span>{isDone ? t.markedDone : t.markAsDone}</span>
+            </button>
+
+            <SectionQuizBanner
+              eyebrow={t.sectionQuizEyebrow}
+              quizTitle={t.sectionQuizTitle}
+              detail={quizDetail}
+              ctaLabel={t.sectionQuizCta}
+              onTakeQuiz={() => onSelectLesson("quiz-sec2")}
+            />
+
+            <div className="flex border-b border-[var(--sn-border)] text-sm font-bold text-[var(--sn-text-secondary)]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setMobileTab(tab.id)}
+                  className={`flex min-h-[48px] flex-1 items-center justify-center border-b-2 px-1 ${
+                    mobileTab === tab.id
+                      ? "border-[var(--sn-primary)] text-[var(--sn-primary)]"
+                      : "border-transparent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
 
-        {mobileTab === "lessons" && (
-          <MobileLessonPlaylist
-            t={t}
-            activeLessonId={activeLessonId}
-            onSelectLesson={onSelectLesson}
-          />
-        )}
-
-        {/* Bottom Curriculum accreditation */}
-        <div className="flex items-center justify-center gap-1.5 pt-4 text-center text-xs font-medium text-slate-500">
-          <ShieldCheck className="h-4 w-4 shrink-0 text-slate-500" />
-          <span>{t.curriculumBadge}</span>
-        </div>
-      </div>
+          <div className="space-y-4 p-4">
+            {mobileTab === "notes" && (
+              <div className="space-y-6">
+                <LessonOverviewTab t={t} />
+                <LessonNotesTab onToast={onToast} />
+              </div>
+            )}
+            {mobileTab === "discussion" && (
+              <LessonDiscussionTab onToast={onToast} />
+            )}
+            {mobileTab === "files" && <LessonDownloadsTab onToast={onToast} />}
+            {mobileTab === "lessons" && (
+              <MobileLessonPlaylist
+                t={t}
+                lang={lang}
+                activeLessonId={activeLessonId}
+                onSelectLesson={onSelectLesson}
+              />
+            )}
+            <p className="pt-2 text-center text-sm text-[var(--sn-text-muted)]">
+              {t.curriculumBadge}
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 }

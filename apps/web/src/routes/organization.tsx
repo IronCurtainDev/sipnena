@@ -1,4 +1,4 @@
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { ArrowLeft, Building2, LogOut } from "lucide-react";
 import { ConfirmDialog } from "@/components/app/confirm-dialog";
 import { EmptyState } from "@/components/app/empty-state";
@@ -41,7 +41,7 @@ export function OrganizationPage() {
         title="Organization not found."
         action={
           <Button variant="outline" asChild>
-            <a href="/organizations">Back to your organizations</a>
+            <Link to="/organizations">Back to your organizations</Link>
           </Button>
         }
       />
@@ -53,13 +53,13 @@ export function OrganizationPage() {
     <section className="max-w-4xl">
       <PageHeader
         back={
-          <a
-            href="/organizations"
+          <Link
+            to="/organizations"
             className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground no-underline hover:text-foreground"
           >
             <ArrowLeft className="size-4" />
             Your organizations
-          </a>
+          </Link>
         }
         title={name}
         description={slug}

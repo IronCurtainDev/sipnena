@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { BookOpen } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { LanguageSetupContent } from "./content";
 import { ONBOARDING_CONFIG } from "./tokens";
@@ -59,19 +58,18 @@ export function SipNenaLanguageSetupScreen() {
   return (
     <div className="sipnena-onboarding min-h-screen flex flex-col overflow-x-hidden bg-[var(--sn-page-bg)]">
       <header className="w-full bg-white/95 backdrop-blur border-b border-[var(--sn-border)] sticky top-0 z-20 px-3 sm:px-6 lg:px-12 h-14 sm:h-16 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center text-white shrink-0 shadow-xs bg-[var(--sn-primary)]">
-            <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-sm sm:text-lg font-bold text-slate-900 tracking-tight leading-none block truncate">
-              {ONBOARDING_CONFIG.brandName}
-            </span>
-            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate hidden min-[420px]:block">
-              {t.topContext}
-            </span>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => void navigate({ to: "/" })}
+          className="flex flex-col min-w-0 text-left focus:outline-none cursor-pointer"
+        >
+          <span className="text-sm sm:text-lg font-black text-[var(--sn-text-main)] tracking-tight leading-none block truncate">
+            {ONBOARDING_CONFIG.brandName}
+          </span>
+          <span className="text-[11px] sm:text-xs text-[var(--sn-text-muted)] font-medium truncate hidden min-[420px]:block">
+            {t.topContext}
+          </span>
+        </button>
 
         <CompactLanguageSwitcher
           selectedLang={selectedLang}

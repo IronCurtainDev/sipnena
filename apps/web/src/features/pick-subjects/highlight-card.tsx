@@ -25,10 +25,10 @@ export function PickSubjectsHighlightCard({ t }: Props) {
   return (
     <aside
       aria-label="Study plan overview"
-      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-7 bg-gradient-to-b from-slate-50 to-blue-50/40 border-b md:border-b-0 md:border-r border-slate-200"
+      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-7 bg-gradient-to-b from-slate-50 to-[var(--sn-olive)]/40 border-b md:border-b-0 md:border-r border-slate-200"
     >
       <div className="space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-blue-100 text-blue-700">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-[var(--sn-sage)] text-[var(--sn-primary)]">
           <GraduationCap className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>{t.curriculumEyebrow}</span>
         </div>
@@ -37,7 +37,7 @@ export function PickSubjectsHighlightCard({ t }: Props) {
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight">
             {t.heading}
           </h2>
-          <p className="text-xs sm:text-sm font-semibold text-blue-600">
+          <p className="text-xs sm:text-sm font-semibold text-[var(--sn-primary)]">
             {t.nativeSubheading}
           </p>
         </div>

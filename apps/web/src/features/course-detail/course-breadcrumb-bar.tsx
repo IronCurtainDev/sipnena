@@ -93,7 +93,7 @@ export function CourseBreadcrumbBar({
         <button
           type="button"
           onClick={onBackToCourses}
-          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl px-3 text-sm font-semibold text-[var(--sn-primary)] transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl px-3 text-sm font-semibold text-[var(--sn-primary)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           <span>{t.backToScienceBtn}</span>

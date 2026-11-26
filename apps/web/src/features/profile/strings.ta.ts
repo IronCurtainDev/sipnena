@@ -1,0 +1,72 @@
+import type { ProfileStrings } from "./strings.types";
+
+export const TA_PROFILE_STRINGS: ProfileStrings = {
+  headerTitle: "முகப்பு",
+  breadcrumbHome: "முகப்பு",
+  breadcrumbMe: "எனது கணக்கு மற்றும் அமைப்புகள்",
+  academicYearBadge: "கல்வியாண்டு 2024 செயலில் உள்ளது",
+  pageTitle: "கசுனின் சுயவிவரம்",
+  studentBadge: "மாணவர் கணக்கு • தரம் 8 • க.பொ.த சா/த தளம்",
+  studentName: "கசுன் பெரேரா",
+  activeStatus: "செயலில்",
+  studentSubtitleMobile:
+    "மாணவர் • தரம் 8\nதேசிய பாடத்திட்டம் (ஆங்கில மொழிமூலம்)",
+  studentSubtitleDesktop:
+    "தரம் 8 • சிங்கள/தமிழ் சொற்களஞ்சியத்துடன் ஆங்கில வழி • ஜனவரி 2024 முதல் உறுப்பினர்",
+  enrolledSubjectsMobile: "6 பாடங்கள்",
+  childSafeVerified: "சரிபார்க்கப்பட்ட ஐடி",
+  educationalZone: "கொழும்பு கல்வி வலயம்",
+  enrolledModulesDesktop: "பதிவுசெய்யப்பட்ட 6 தொகுதிகள்",
+  statLessonsCompleted: "முடிக்கப்பட்ட பாடங்கள்",
+  statQuizzesTaken: "வினாடி வினாக்கள்",
+  statAttendance: "வருகை சதவீதம்",
+  avatarSectionTitle: "உங்கள் அவதாரை தேர்வு செய்யவும்",
+  avatarChoicesCount: "6 தேர்வுகள்",
+  avatarSubtitleMobile:
+    "முன்னமைக்கப்பட்ட படங்கள் மட்டுமே • புகைப்படம் தேவையில்லை",
+  childSafePolicyTitle: "குழந்தை பாதுகாப்பு கொள்கை",
+  childSafePolicyDesc:
+    "இலங்கை தேசிய கல்வி நிறுவனத்தின் (NIE) பாதுகாப்பு வழிகாட்டுதல்களின்படி புகைப்பட பதிவேற்றம் முடக்கப்பட்டுள்ளது. உங்களுக்காக ஒரு நட்புரீதியான கதாப்பாத்திரத்தை தேர்ந்தெடுக்கவும்.",
+  settingsSectionTitle: "கல்வி மற்றும் செயலி அமைப்புகள்",
+  settingLanguageTitle: "மொழி / Language / භාෂාව",
+  settingLanguageSub: "தற்போது: தமிழ்",
+  settingGradeTitle: "தரம் (Grade)",
+  settingGradeSub: "தரம் 8 • 6, 7, 9, 10 இற்கு மாற்றவும் ...",
+  changeGradeBtn: "தரத்தை மாற்றவும்",
+  settingPasswordTitle: "கடவுச்சொல்லை மாற்றவும்",
+  settingPasswordSub: "உங்கள் கணக்கை பாதுகாப்பாக வைக்கவும்",
+  updatePasswordBtn: "புதுப்பிக்கவும்",
+  settingReceiptsTitle: "எனது ரசீதுகள் மற்றும் கட்டணங்கள்",
+  settingReceiptsSub: "பாடநெறி கொடுப்பனவுகள் மற்றும் ரசீதுகள்",
+  receiptsPaidBadge: "2 செலுத்தப்பட்டது",
+  settingHelpTitle: "உதவி மற்றும் ஆதரவு",
+  settingHelpSub: "அடிக்கடி கேட்கப்படும் கேள்விகள் மற்றும் ஆசிரியர் ஆதரவு",
+  academicCardTitle: "கல்வி விருப்பங்கள் மற்றும் கற்றல் பாதை",
+  syncedBadge: "பாடத்திட்டத்துடன் ஒத்திசைக்கப்பட்டது",
+  displayLangTitle: "செயலியின் மொழி",
+  displayLangSub: "மொழியைத் தேர்ந்தெடுக்கவும்",
+  mediumTitle: "கற்பித்தல் மொழிமூலம்",
+  mediumSub: "இருமொழி தமிழ்/சிங்கள பாடநூல் சொற்கள் செயல்படுத்தப்பட்டுள்ளது",
+  mediumValue: "ஆங்கில மொழிமூலம் + சொல்லகராதி குறிப்புகள்",
+  studyGoalTitle: "தினசரி வீட்டுப்பாடம் மற்றும் குறிப்பேடு இலக்கு",
+  studyGoalSub:
+    "மாணவர் செயலி மற்றும் பெற்றோர் தொலைபேசிக்கு அறிவிப்பு அனுப்பப்படும்",
+  studyGoalValue: "நாளைக்கு 45 நிமிடங்கள் • வார நாட்களில் மாலை 5:00 மணிக்கு",
+  accountSecurityTitle: "கணக்கு மற்றும் பாதுகாப்பு",
+  parentEmailLabel: "பெற்றோர் / மாணவர் மின்னஞ்சல்",
+  parentEmailValue: "kasun.student@gmail.com",
+  emailVerified: "சரிபார்க்கப்பட்டது",
+  receiptsCardTitle: "எனது ரசீதுகள் மற்றும் கட்டணங்கள்",
+  receiptPaidParentNote:
+    "கொமர்ஷல் வங்கி / Genie ஊடாக பெற்றோரால் செலுத்தப்பட்டது",
+  needHelpTitle: "படிப்புக்கு உதவி தேவையா?",
+  needHelpDesc:
+    "உங்கள் குறிப்புகள், வீடியோ அல்லது பயிற்சிகள் பற்றி ஏதேனும் சந்தேகங்கள் உள்ளதா?",
+  whatsappAdvisorBtn: "WhatsApp ஊடாக ஆலோசகரிடம் கேளுங்கள்",
+  ministryComplianceNote:
+    "இலங்கை கல்வி அமைச்சின் மின்-கற்றல் தரநிலைகளுக்கு இணங்குகிறது.",
+  logoutBtnMobile: "வெளியேறு",
+  logoutBtnDesktop: "Tidy Notebook இலிருந்து வெளியேறவும்",
+  footerVersion:
+    "மாணவர் செயலி பதிப்பு 2.4.1 • இலங்கை கல்வி அமைச்சின் வழிகாட்டுதல்கள்",
+};

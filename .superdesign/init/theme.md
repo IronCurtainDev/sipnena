@@ -1,14 +1,15 @@
 # Theme
 
-## Compact token summary (SipNena onboarding)
+## Compact token summary (SipNena Lanka Grove)
 
-- pageBg: #F8FAFC / auth shell #F4F7FB
+- pageBg / cream: #FEFAE0 · auth / olive: #E9EDC9 · sage: #CCD5AE · moss: #A3B18A
 - surface: #FFFFFF
-- primary: #0D5BD7 (hover #0A49B0)
-- textMain: #0F172A, textSecondary: #475569, textMuted: #64748B
-- border: #E2E8F0, borderSelected: #0D5BD7
-- Fonts (target): Geist Variable (app) + Noto Sans / Sinhala / Tamil for onboarding (self-hosted)
+- primary / forest: #01472E (hover #013825)
+- textMain: #01472E, textSecondary/muted: #4A5D4E
+- border: Forest 12% · borderSelected: #01472E
+- Fonts: Noto Sans / Sinhala / Tamil for product UI (self-hosted); brand = wordmark only
 - Motion: `.animate-page-enter`, `.animate-lang-switch`; honor prefers-reduced-motion
+- Anti-slop: no Sparkles / AI icons, no blur orbs, no purple brand
 
 ## Raw: onboarding tokens
 

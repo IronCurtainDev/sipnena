@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  BookOpen,
-  Check,
-  CheckCircle2,
-  Loader2,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, Check, CheckCircle2, Loader2 } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import {
   getSavedLanguage,
@@ -91,22 +84,17 @@ export function PreparingCoursesLoadingScreen({
     <div className="sipnena-onboarding min-h-screen flex flex-col justify-between bg-[var(--sn-auth-bg)]">
       {/* Header */}
       <header className="w-full bg-white/95 backdrop-blur border-b border-[var(--sn-border)] px-4 sm:px-8 h-14 sm:h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white bg-[var(--sn-primary)] shadow-xs">
-            <BookOpen className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight block">
-              SipNena
-            </span>
-            <span className="text-[11px] text-slate-500 font-medium hidden min-[480px]:block">
-              {lang === "si"
-                ? "පාසල් ඉගෙනුම් ඇප් එක"
-                : lang === "ta"
-                  ? "பள்ளி கல்விச் செயலி"
-                  : "School Learning App"}
-            </span>
-          </div>
+        <div>
+          <span className="text-sm sm:text-base font-black text-[var(--sn-text-main)] tracking-tight block">
+            SipNena
+          </span>
+          <span className="text-[11px] text-[var(--sn-text-muted)] font-medium hidden min-[480px]:block">
+            {lang === "si"
+              ? "පාසල් ඉගෙනුම් ඇප් එක"
+              : lang === "ta"
+                ? "பள்ளி கல்விச் செயலி"
+                : "School Learning App"}
+          </span>
         </div>
 
         <CompactLanguageSwitcher
@@ -130,8 +118,8 @@ export function PreparingCoursesLoadingScreen({
           <div className="md:col-span-7 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--sn-sage)] text-[var(--sn-primary)] text-xs font-semibold">
+                  <Check className="w-3.5 h-3.5 text-amber-500" />
                   <span>
                     {isReady
                       ? lang === "si"
@@ -186,13 +174,13 @@ export function PreparingCoursesLoadingScreen({
                   aria-label="Preparation progress"
                 >
                   <div
-                    className="sn-progress bg-blue-600 h-full rounded-full transition-all duration-700 ease-out"
+                    className="sn-progress bg-[var(--sn-primary)] h-full rounded-full transition-all duration-700 ease-out"
                     data-progress={progressBucket}
                   />
                 </div>
                 <div className="flex justify-between items-center text-xs text-slate-500 font-semibold">
                   <span>SipNena Learning Engine</span>
-                  <span className="text-blue-600">{progress}%</span>
+                  <span className="text-[var(--sn-primary)]">{progress}%</span>
                 </div>
               </div>
 
@@ -208,7 +196,7 @@ export function PreparingCoursesLoadingScreen({
                         isDone
                           ? "bg-emerald-50/70 text-emerald-900 border border-emerald-100"
                           : isCurrent
-                            ? "bg-blue-50/70 text-blue-900 border border-blue-200"
+                            ? "bg-[var(--sn-olive)]/70 text-[var(--sn-text-main)] border border-[var(--sn-border)]"
                             : "text-slate-400 opacity-60"
                       }`}
                     >
@@ -217,7 +205,7 @@ export function PreparingCoursesLoadingScreen({
                           <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                         </span>
                       ) : isCurrent ? (
-                        <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-5 h-5 rounded-full bg-[var(--sn-primary)] text-[var(--sn-cream)] flex items-center justify-center shrink-0 mt-0.5">
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         </span>
                       ) : (
@@ -255,15 +243,30 @@ export function PreparingCoursesLoadingScreen({
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </button>
               ) : (
-                <div className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-500">
-                  <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-                  <span>
-                    {lang === "si"
-                      ? "කෙටි සටහන් සහ අභ්‍යාස ගොනු සූදානම් වෙමින් පවතී..."
-                      : lang === "ta"
-                        ? "சுருக்கக் குறிப்புகள் தயாராகின்றன..."
-                        : "Finalizing short notes & exercises..."}
-                  </span>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center gap-2 py-1.5 text-xs font-medium text-slate-500">
+                    <Loader2 className="w-4 h-4 animate-spin text-[var(--sn-primary)]" />
+                    <span>
+                      {lang === "si"
+                        ? "කෙටි සටහන් සහ අභ්‍යාස ගොනු සූදානම් වෙමින් පවතී..."
+                        : lang === "ta"
+                          ? "சுருக்கக் குறிப்புகள் தயாராகின்றன..."
+                          : "Finalizing short notes & exercises..."}
+                    </span>
+                  </div>
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={handleFinish}
+                      className="text-xs font-semibold text-[var(--sn-primary)] hover:underline"
+                    >
+                      {lang === "si"
+                        ? "ඉදිරියට යන්න (Skip)"
+                        : lang === "ta"
+                          ? "முகப்புக்குச் செல்ல (Skip)"
+                          : "Skip setup & go to Home"}
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

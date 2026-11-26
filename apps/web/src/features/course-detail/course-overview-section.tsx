@@ -27,7 +27,7 @@ export function CourseOverviewSection({
   return (
     <section
       aria-labelledby="course-detail-heading"
-      className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 sm:p-6"
+      className="space-y-3 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-4 sm:p-5"
     >
       {/* Subject, Grade, Medium & NIE Badges */}
       <div className="flex flex-wrap items-center gap-2">
@@ -36,7 +36,7 @@ export function CourseOverviewSection({
           <span>{t.subjectGradePill}</span>
         </span>
 
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-semibold text-[var(--sn-primary)]">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sn-border)] bg-[var(--sn-olive)] px-3 py-1.5 text-sm font-semibold text-[var(--sn-primary)]">
           <span>{t.mediumPill}</span>
         </span>
 
@@ -74,7 +74,7 @@ export function CourseOverviewSection({
       {/* Desktop & Tablet Inline Meta Row */}
       <div className="hidden flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--sn-text-secondary)] sm:flex">
         <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-[var(--sn-primary)]">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--sn-sage)] text-xs font-bold text-[var(--sn-primary)]">
             {course.instructor.initials}
           </span>
           <span className="font-semibold text-[var(--sn-text-main)]">

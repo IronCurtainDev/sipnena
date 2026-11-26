@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Building2, ChevronRight } from "lucide-react";
 import { EmptyState } from "@/components/app/empty-state";
 import { Feedback } from "@/components/app/feedback";
@@ -33,8 +34,9 @@ export function OrganizationsPage() {
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {organizations.data.map((organization) => (
             <li key={organization.id}>
-              <a
-                href={`/organizations/${encodeURIComponent(organization.id)}`}
+              <Link
+                to="/organizations/$organizationId"
+                params={{ organizationId: organization.id }}
                 className="group flex items-center gap-3 rounded-xl bg-card p-4 no-underline ring-1 ring-foreground/10 transition hover:ring-foreground/25 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-brand/10 font-semibold text-brand">
@@ -49,7 +51,7 @@ export function OrganizationsPage() {
                   </span>
                 </span>
                 <ChevronRight className="size-4 text-muted-foreground transition group-hover:translate-x-0.5" />
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

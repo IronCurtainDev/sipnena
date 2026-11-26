@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Link } from "@tanstack/react-router";
 import { Feedback } from "@/components/app/feedback";
 import { Field } from "@/components/app/field";
 import { Button } from "@/components/ui/button";
@@ -104,12 +105,12 @@ export function AuthForm({ signup = false }: { signup?: boolean }) {
           description={signup ? "Use at least 8 characters." : undefined}
           labelAction={
             signup ? undefined : (
-              <a
-                href="/forgot-password"
+              <Link
+                to="/forgot-password"
                 className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
               >
                 Forgot password?
-              </a>
+              </Link>
             )
           }
         />
@@ -138,14 +139,22 @@ export function AuthForm({ signup = false }: { signup?: boolean }) {
       <AuthFooter>
         <p>
           {signup ? "Already have an account?" : "New here?"}{" "}
-          <a href={`${signup ? "/login" : "/signup"}?${redirectQuery}`}>
+          <Link
+            to={signup ? "/login" : "/signup"}
+            search={destination !== "/" ? { redirect: destination } : undefined}
+          >
             {signup ? "Sign in" : "Create an account"}
-          </a>
+          </Link>
         </p>
         {!signup && (
           <p>
             Need a new verification link?{" "}
-            <a href={verifyHref(false)}>Verify email</a>
+            <Link
+              to="/verify-email"
+              search={email ? { email, redirect: destination } : undefined}
+            >
+              Verify email
+            </Link>
           </p>
         )}
       </AuthFooter>

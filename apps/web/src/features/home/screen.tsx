@@ -29,7 +29,9 @@ export function SipNenaHomeScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "courses" || tab === "saved")
+      void navigate({ to: "/courses" });
+    else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(`${tab.toUpperCase()}`);
   };
 
@@ -60,7 +62,7 @@ export function SipNenaHomeScreen() {
   }, []);
 
   return (
-    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] font-sans text-[var(--sn-text-main)] antialiased sm:flex-row">
+    <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased sm:flex-row">
       <DesktopSidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -72,14 +74,14 @@ export function SipNenaHomeScreen() {
         lang={lang}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col pb-24 sm:pb-8">
+      <div className="flex min-w-0 flex-1 flex-col pb-24 sm:pb-6">
         <HomeTopBar
           lang={lang}
           onLanguageChange={handleLanguageChange}
-          onProfileClick={() => showToast(t.profileAria)}
+          onProfileClick={() => void navigate({ to: "/me" })}
         />
 
-        <main className="mx-auto w-full max-w-[1200px] flex-1 space-y-8 px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+        <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
           <HeroBanner
             lang={lang}
             onToggleOffline={() => showToast(t.statusOfflineReady)}
@@ -92,16 +94,20 @@ export function SipNenaHomeScreen() {
 
           <MobileSupportStrip
             lang={lang}
-            onJoinSession={(id) => showToast(`Session ${id}`)}
+            onJoinSession={() => void navigate({ to: "/lesson" })}
           />
 
-          <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <div className="min-w-0 space-y-8">
+          <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(380px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
+            <div className="min-w-0 space-y-5">
               <MySubjectsSection
                 lang={lang}
-                onSubjectClick={(id) =>
-                  showToast(`${t.statusOpeningSubject} ${id}`)
-                }
+                onSubjectClick={(id) => {
+                  try {
+                    if (id !== "all")
+                      localStorage.setItem("sipnena_selected_subject", id);
+                  } catch {}
+                  void navigate({ to: "/courses" });
+                }}
               />
 
               <NewCoursesSection
@@ -114,11 +120,11 @@ export function SipNenaHomeScreen() {
 
             <aside
               aria-label="Timetable and term progress"
-              className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-1"
+              className="hidden gap-3 sm:grid sm:grid-cols-2 lg:sticky lg:top-5 lg:grid-cols-1 lg:h-[calc(100svh-2.5rem)] lg:overflow-y-auto lg:content-start"
             >
               <TimetableWidget
                 lang={lang}
-                onJoinSession={(id) => showToast(`Session ${id}`)}
+                onJoinSession={() => void navigate({ to: "/lesson" })}
               />
               <StudyTipWidget lang={lang} />
               <div className="sm:col-span-2 lg:col-span-1">

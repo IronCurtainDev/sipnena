@@ -39,8 +39,8 @@ export const HOME_SUBJECTS: HomeSubject[] = [
     icon: Calculator,
     nativeScript: "ගණිතය",
     mobileLabel: "Maths",
-    iconBg: "bg-blue-50 text-blue-600",
-    iconColor: "text-blue-600",
+    iconBg: "bg-[var(--sn-olive)] text-[var(--sn-primary)]",
+    iconColor: "text-[var(--sn-primary)]",
   },
   {
     id: "science",
@@ -55,8 +55,8 @@ export const HOME_SUBJECTS: HomeSubject[] = [
     icon: Languages,
     nativeScript: "ඉංග්‍රීසි",
     mobileLabel: "English",
-    iconBg: "bg-purple-50 text-purple-600",
-    iconColor: "text-purple-600",
+    iconBg: "bg-[var(--sn-sage)] text-[var(--sn-primary)]",
+    iconColor: "text-[var(--sn-primary)]",
   },
   {
     id: "sinhala",
@@ -71,8 +71,8 @@ export const HOME_SUBJECTS: HomeSubject[] = [
     icon: Terminal,
     nativeScript: "තොරතුරු තාක්ෂණය",
     mobileLabel: "ICT",
-    iconBg: "bg-sky-50 text-sky-700",
-    iconColor: "text-sky-700",
+    iconBg: "bg-[var(--sn-olive)] text-[var(--sn-primary)]",
+    iconColor: "text-[var(--sn-primary)]",
   },
 ];
 
@@ -99,8 +99,8 @@ export const NEW_COURSES: NewCourse[] = [
     mediumKey: "mediumSinhala",
     isFree: true,
     price: null,
-    tagBg: "bg-blue-50 text-blue-700",
-    tagColor: "text-blue-700",
+    tagBg: "bg-[var(--sn-olive)] text-[var(--sn-primary)]",
+    tagColor: "text-[var(--sn-primary)]",
   },
   {
     id: "python",
@@ -111,8 +111,8 @@ export const NEW_COURSES: NewCourse[] = [
     mediumKey: "mediumEnglish",
     isFree: false,
     price: "Rs. 1,500",
-    tagBg: "bg-sky-50 text-sky-700",
-    tagColor: "text-sky-700",
+    tagBg: "bg-[var(--sn-olive)] text-[var(--sn-primary)]",
+    tagColor: "text-[var(--sn-primary)]",
   },
   {
     id: "history",
@@ -137,6 +137,6 @@ export const TIMETABLE_ITEMS = [
   {
     id: "tt-2",
     time: "02:30 PM",
-    badgeBg: "bg-blue-50 text-blue-800 border-blue-200/60",
+    badgeBg: "bg-[var(--sn-olive)] text-[var(--sn-text-main)] border-[var(--sn-border)]/60",
   },
 ];

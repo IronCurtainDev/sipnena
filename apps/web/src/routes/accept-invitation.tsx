@@ -1,4 +1,4 @@
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { MailOpen } from "lucide-react";
 import { Feedback } from "@/components/app/feedback";
@@ -100,12 +100,12 @@ export function AcceptInvitationPage() {
           )}
         </CardContent>
         <CardFooter className="justify-center">
-          <a
-            href="/organizations"
+          <Link
+            to="/organizations"
             className="text-sm text-muted-foreground hover:text-foreground"
           >
             Back to your organizations
-          </a>
+          </Link>
         </CardFooter>
       </Card>
     </section>

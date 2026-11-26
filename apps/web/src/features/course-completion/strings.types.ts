@@ -1,0 +1,29 @@
+export interface CompletionStrings {
+  headerTitle: string;
+  pillCourseCompleted: string;
+  pillSubjectGrade: string;
+  greetingBilingual: string;
+  finishTitle: string;
+  courseTitle: string;
+  finishDesc: string;
+  statCompletedNum: string;
+  statCompletedLabel: string;
+  statNieBadge: string;
+  statNieLabel: string;
+  statCertReady: string;
+  statCertLabel: string;
+  notebookUpdatedTitle: string;
+  notebookUpdatedDesc: string;
+  getCertificateBtn: string;
+  rateCourseBtn: string;
+  findNextCourseBtn: string;
+  certificateModalTitle: string;
+  certificateIssuedTo: string;
+  certificateSubtitle: string;
+  studentName: string;
+  certDownloadPdf: string;
+  certClose: string;
+  ratingModalTitle: string;
+  ratingModalPrompt: string;
+  submitFeedback: string;
+}

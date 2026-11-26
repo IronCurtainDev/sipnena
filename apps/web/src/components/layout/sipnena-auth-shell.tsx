@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { ArrowLeft, BookOpen, ShieldCheck } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { brand } from "@/lib/brand";
 import type { AppLanguage } from "@/lib/language";
@@ -42,19 +43,17 @@ export function SipNenaOnboardingShell({
             </button>
           ) : null}
 
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-white shrink-0 bg-[var(--sn-primary)] shadow-xs">
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
-            </div>
-            <div className="min-w-0">
-              <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight leading-none block truncate">
-                {brand.name}
-              </span>
-              <span className="text-[11px] text-slate-500 font-medium truncate hidden min-[480px]:block">
-                {brandSubtitle}
-              </span>
-            </div>
-          </div>
+          <Link
+            to="/"
+            className="flex flex-col min-w-0 focus:outline-none"
+          >
+            <span className="text-sm sm:text-base font-black text-[var(--sn-text-main)] tracking-tight leading-none block truncate">
+              {brand.name}
+            </span>
+            <span className="text-[11px] text-[var(--sn-text-muted)] font-medium truncate hidden min-[480px]:block">
+              {brandSubtitle}
+            </span>
+          </Link>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">

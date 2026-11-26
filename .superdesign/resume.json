@@ -1,22 +1,66 @@
 {
   "targets": {
-    "/welcome-language": {
-      "projectId": "fda42fea-188b-4893-bb37-0c191ed581b6",
-      "activeDraftId": "363e6622-cd7f-448f-80dc-b2d26c38e63b",
-      "title": "SipNena Welcome Language Selection",
-      "canvasUrl": "https://superdesign.dev/teams/2e210ee2-9329-44f7-a64b-a221c5f24ba8/projects/fda42fea-188b-4893-bb37-0c191ed581b6",
-      "previewUrl": "https://p.superdesign.dev/draft/363e6622-cd7f-448f-80dc-b2d26c38e63b",
-      "designDirection": "Keep SipNena blue/clean; refine for student/parent clarity",
-      "contextFiles": [
-        "apps/web/src/features/onboarding/sipnena-screen.tsx",
-        "apps/web/src/features/onboarding/content.tsx",
-        "apps/web/src/features/onboarding/tokens.ts",
-        "apps/web/src/features/onboarding/strings.ts",
-        "apps/web/src/features/onboarding/compact-language-switcher.tsx",
-        "apps/web/src/features/onboarding/animated-students-scene.tsx",
-        ".superdesign/design-system.md",
-        ".superdesign/init/theme.md"
-      ]
+    "/landing": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "93f8821b-b9f3-43f3-b75f-1777be8c0176",
+      "canvasUrl": "https://superdesign.dev/teams/c5c180d2-7762-4bd4-925c-557ec432c967/projects/1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "previewUrl": "https://p.superdesign.dev/draft/93f8821b-b9f3-43f3-b75f-1777be8c0176"
+    },
+    "/home": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "be4fb51e-33aa-4398-b676-0586377a93cb",
+      "previewUrl": "https://p.superdesign.dev/draft/be4fb51e-33aa-4398-b676-0586377a93cb",
+      "designDirection": "Dense grade 6-11 home — full width, sticky rail"
+    },
+    "/courses": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "d69550a1-b812-4a83-a26c-3bf774b9ef5a",
+      "previewUrl": "https://p.superdesign.dev/draft/d69550a1-b812-4a83-a26c-3bf774b9ef5a",
+      "designDirection": "Grade-first dense catalog, sticky term rail"
+    },
+    "/enroll": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "6ea09762-f66e-4c44-9e85-f6cfec8cecc3",
+      "previewUrl": "https://p.superdesign.dev/draft/6ea09762-f66e-4c44-9e85-f6cfec8cecc3",
+      "designDirection": "Parent-pay handoff two-pane enroll"
+    },
+    "/course": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "56c3625f-b344-4f2b-82cc-cb9301a6fa14",
+      "previewUrl": "https://p.superdesign.dev/draft/56c3625f-b344-4f2b-82cc-cb9301a6fa14",
+      "designDirection": "Dense course detail — sticky purchase rail"
+    },
+    "/me": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "329b71aa-c05e-44b6-903b-afec5dd24f24",
+      "previewUrl": "https://p.superdesign.dev/draft/329b71aa-c05e-44b6-903b-afec5dd24f24",
+      "designDirection": "Dense profile — compact identity, sticky widgets"
+    },
+    "/lesson": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "previewUrl": "https://p.superdesign.dev/draft/6d0efe5a-67cb-4cba-9228-6788e6217bd4",
+      "designDirection": "Player-first grade 6-11 lesson"
+    },
+    "/lesson-mobile": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "b5088a1f-7667-43e0-b41a-90b14868fc4f",
+      "previewUrl": "https://p.superdesign.dev/draft/b5088a1f-7667-43e0-b41a-90b14868fc4f"
+    },
+    "/lesson-inline-quiz": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "8b9a68dc-6cab-4742-a3ae-b4d77b2101f7",
+      "previewUrl": "https://p.superdesign.dev/draft/8b9a68dc-6cab-4742-a3ae-b4d77b2101f7"
+    },
+    "/lesson-playlist": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "51cf2c4f-fe52-4ed7-b6db-51db7602ae31",
+      "previewUrl": "https://p.superdesign.dev/draft/51cf2c4f-fe52-4ed7-b6db-51db7602ae31"
+    },
+    "/quiz": {
+      "projectId": "1e5bfb5a-4dbc-4e42-b759-8d503f7a5e66",
+      "activeDraftId": "5bd76914-9cff-4a30-93a7-87fd22a940f9",
+      "previewUrl": "https://p.superdesign.dev/draft/5bd76914-9cff-4a30-93a7-87fd22a940f9"
     }
   }
 }

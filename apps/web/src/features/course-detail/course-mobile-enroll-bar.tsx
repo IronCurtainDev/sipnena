@@ -14,7 +14,7 @@ export function CourseMobileEnrollBar({
   onEnroll,
 }: CourseMobileEnrollBarProps) {
   return (
-    <div className="fixed inset-x-0 bottom-[68px] z-20 flex items-center justify-between gap-3 border-t border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 py-3 shadow-lg sm:hidden">
+    <div className="fixed inset-x-0 bottom-[calc(68px+env(safe-area-inset-bottom,0px))] z-20 flex items-center justify-between gap-3 border-t border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 py-3 shadow-lg sm:hidden">
       <div className="min-w-0">
         <div className="flex items-baseline gap-2">
           <span className="text-xl font-bold text-[var(--sn-text-main)]">

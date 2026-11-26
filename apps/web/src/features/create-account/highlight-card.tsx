@@ -12,13 +12,13 @@ export function CreateAccountHighlightCard({ t, selectedLang }: Props) {
   return (
     <aside
       aria-label={t.leftTitle}
-      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-8 bg-gradient-to-b from-slate-50 to-blue-50/40 border-b md:border-b-0 md:border-r border-slate-200"
+      className="hidden md:flex md:col-span-5 flex-col justify-between p-6 lg:p-8 bg-gradient-to-b from-slate-50 to-[var(--sn-olive)]/40 border-b md:border-b-0 md:border-r border-slate-200"
     >
       <div className="space-y-5">
         <AnimatedStudentsScene />
 
         <div className="space-y-4 animate-lang-switch">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--sn-sage)] text-[var(--sn-primary)]">
             <GraduationCap className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>{t.gradePill}</span>
           </div>

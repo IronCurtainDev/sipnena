@@ -66,3 +66,6 @@ apps/mobile/android/.settings/
 # Local reference files
 reference_folder/
 sample_ui/
+
+# Superdesign temp HTML
+.superdesign/tmp/

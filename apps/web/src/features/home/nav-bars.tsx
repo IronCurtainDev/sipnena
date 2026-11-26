@@ -1,4 +1,4 @@
-import { BookOpen, User } from "lucide-react";
+import { User } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { NAV_ITEMS } from "./mock-data";
@@ -19,8 +19,10 @@ export function TabletRail({ activeTab, onTabChange, lang }: NavProps) {
       className="sticky top-0 hidden h-svh w-20 shrink-0 flex-col items-center justify-between overflow-y-auto border-r border-[var(--sn-border)] bg-[var(--sn-surface)] py-5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:flex lg:hidden"
     >
       <div className="flex w-full flex-col items-center gap-5 px-1.5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--sn-primary)] text-white shadow-xs">
-          <BookOpen className="h-5 w-5" aria-hidden="true" />
+        <div className="px-1 text-center text-[11px] font-black leading-tight text-[var(--sn-primary)]">
+          Sip
+          <br />
+          Nena
         </div>
 
         <nav className="flex w-full flex-col gap-1.5">
@@ -64,7 +66,7 @@ export function MobileBottomNav({ activeTab, onTabChange, lang }: NavProps) {
   return (
     <nav
       aria-label="Primary mobile navigation"
-      className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 gap-1 border-t border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-2 py-1.5 shadow-lg backdrop-blur-md sm:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 gap-1 border-t border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] shadow-lg backdrop-blur-md sm:hidden"
     >
       {NAV_ITEMS.map((item) => {
         const Icon = item.icon;

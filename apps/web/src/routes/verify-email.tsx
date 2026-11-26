@@ -1,5 +1,6 @@
 import { MailCheck } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { Link } from "@tanstack/react-router";
 import { Feedback } from "@/components/app/feedback";
 import { Field } from "@/components/app/field";
 import { Button } from "@/components/ui/button";
@@ -79,7 +80,7 @@ export function VerifyEmailPage() {
       </form>
       <AuthFooter>
         <p>
-          Already verified? <a href="/login">Back to sign in</a>
+          Already verified? <Link to="/login">Back to sign in</Link>
         </p>
       </AuthFooter>
     </section>

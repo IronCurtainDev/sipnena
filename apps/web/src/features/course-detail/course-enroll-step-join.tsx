@@ -61,7 +61,7 @@ export function CourseEnrollStepJoin({
             </h3>
             <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-700 sm:text-sm">
               <span>{course.instructor.name}</span>
-              <CheckCircle2 className="inline h-3.5 w-3.5 shrink-0 fill-blue-50 text-blue-600" />
+              <CheckCircle2 className="inline h-3.5 w-3.5 shrink-0 fill-[var(--sn-cream)] text-[var(--sn-primary)]" />
             </div>
             <p className="mt-0.5 hidden truncate text-xs text-slate-500 sm:block">
               {t.educatorRole}
@@ -93,8 +93,8 @@ export function CourseEnrollStepJoin({
 
         <div className="space-y-3 pt-1">
           <div className="flex items-start gap-3">
-            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600">
-              <Play className="ml-0.5 h-4 w-4 fill-blue-600" />
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--sn-border)] bg-[var(--sn-olive)] text-[var(--sn-primary)]">
+              <Play className="ml-0.5 h-4 w-4 fill-[var(--sn-primary)]" />
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 sm:text-sm">
@@ -107,7 +107,7 @@ export function CourseEnrollStepJoin({
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--sn-border)] bg-[var(--sn-olive)] text-[var(--sn-primary)]">
               <Clock className="h-4 w-4" />
             </div>
             <div>
@@ -139,7 +139,7 @@ export function CourseEnrollStepJoin({
           <button
             type="button"
             onClick={onConfirmJoin}
-            className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.99] sm:text-base"
+            className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99] sm:text-base"
           >
             <GraduationCap className="h-5 w-5 shrink-0" />
             <span className="hidden sm:inline">{t.joinCourseBtn}</span>

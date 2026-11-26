@@ -37,9 +37,9 @@ export function SubjectGrid({ t, selectedSubjects, onToggleSubject }: Props) {
             type="button"
             aria-pressed={isSelected}
             onClick={() => onToggleSubject(subject.id)}
-            className={`group relative rounded-2xl p-3 sm:p-3.5 text-left transition-all flex flex-col justify-between min-h-[120px] sm:min-h-[112px] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 cursor-pointer ${
+            className={`group relative rounded-2xl p-3 sm:p-3.5 text-left transition-all flex flex-col justify-between min-h-[120px] sm:min-h-[112px] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--sn-primary)] cursor-pointer ${
               isSelected
-                ? "bg-blue-50/50 border-2 border-blue-600 shadow-xs"
+                ? "bg-[var(--sn-olive)]/50 border-2 border-[var(--sn-primary)] shadow-xs"
                 : "bg-white border border-slate-200 hover:border-slate-300 shadow-xs"
             }`}
           >
@@ -55,7 +55,7 @@ export function SubjectGrid({ t, selectedSubjects, onToggleSubject }: Props) {
                 aria-hidden="true"
                 className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors ${
                   isSelected
-                    ? "bg-blue-600 text-white"
+                    ? "bg-[var(--sn-primary)] text-white"
                     : "bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-600"
                 }`}
               >
@@ -90,7 +90,7 @@ export function SubjectGrid({ t, selectedSubjects, onToggleSubject }: Props) {
       })}
 
       {/* 8th Card: Helpful Tip Callout */}
-      <div className="rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between border border-blue-100 bg-blue-50/30 min-h-[120px] sm:min-h-[112px]">
+      <div className="rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between border border-[var(--sn-border)] bg-[var(--sn-olive)]/30 min-h-[120px] sm:min-h-[112px]">
         <span
           aria-hidden="true"
           className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0"
