@@ -60,7 +60,9 @@ export function PaymentFailedView({
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div className="space-y-0.5 text-xs">
-          <h4 className="font-bold text-[var(--sn-text-main)]">{t.seatReservedTitle}</h4>
+          <h4 className="font-bold text-[var(--sn-text-main)]">
+            {t.seatReservedTitle}
+          </h4>
           <p className="leading-relaxed text-[var(--sn-text-main)]/90">
             Your student enrollment is safely held. {student.name.split(" ")[0]}{" "}
             won&apos;t lose their place in this batch while you retry.

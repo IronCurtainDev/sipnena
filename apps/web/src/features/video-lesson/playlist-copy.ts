@@ -117,9 +117,7 @@ export function formatDuration(lang: AppLanguage, raw: string): string {
   const items = raw.match(/(\d+)\s*items?/i);
   const parts: string[] = [];
   if (items) {
-    parts.push(
-      lang === "si" ? `අයිතම ${items[1]}` : `உருப்படி ${items[1]}`,
-    );
+    parts.push(lang === "si" ? `අයිතම ${items[1]}` : `உருப்படி ${items[1]}`);
   }
   if (hr && mins) {
     parts.push(
@@ -128,9 +126,7 @@ export function formatDuration(lang: AppLanguage, raw: string): string {
         : `${hr[1]} மணி ${mins[1]} நிமி`,
     );
   } else if (clock && mins) {
-    parts.push(
-      lang === "si" ? `${clock[1]} මිනි` : `${clock[1]} நிமி`,
-    );
+    parts.push(lang === "si" ? `${clock[1]} මිනි` : `${clock[1]} நிமி`);
   } else if (mins) {
     parts.push(lang === "si" ? `මිනි ${mins[1]}` : `${mins[1]} நிமி`);
   } else {

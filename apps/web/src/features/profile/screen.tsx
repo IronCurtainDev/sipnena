@@ -54,8 +54,8 @@ export function SipNenaProfileScreen() {
   const handleNavTab = (tab: string) => {
     setActiveNavTab(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses" || tab === "saved")
-      void navigate({ to: "/courses" });
+    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "saved") void navigate({ to: "/saved" });
     else if (tab === "me") void navigate({ to: "/me" });
     else showToast(`${tab.toUpperCase()}`);
   };

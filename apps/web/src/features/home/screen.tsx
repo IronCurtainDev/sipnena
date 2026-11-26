@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   getSavedLanguage,
   saveLanguage,
@@ -29,8 +29,8 @@ export function SipNenaHomeScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses" || tab === "saved")
-      void navigate({ to: "/courses" });
+    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "saved") void navigate({ to: "/saved" });
     else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(`${tab.toUpperCase()}`);
   };
@@ -94,8 +94,30 @@ export function SipNenaHomeScreen() {
 
           <MobileSupportStrip
             lang={lang}
-            onJoinSession={() => void navigate({ to: "/lesson" })}
+            onJoinSession={() => void navigate({ to: "/live" })}
           />
+
+          <section
+            aria-label="Exam & Study Shortcuts"
+            className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 xl:grid-cols-6"
+          >
+            {[
+              { to: "/past-papers", label: "Past Papers" },
+              { to: "/term-tests", label: "Term Tests" },
+              { to: "/notes", label: "Tutes & Notes" },
+              { to: "/live", label: "Live Classes" },
+              { to: "/doubts", label: "Ask Doubts" },
+              { to: "/progress", label: "Mistake Bank" },
+            ].map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="flex min-h-[44px] items-center justify-center rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-3 py-2 text-center text-xs font-extrabold text-[var(--sn-primary)] shadow-2xs transition hover:bg-[var(--sn-olive)]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </section>
 
           <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(380px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
             <div className="min-w-0 space-y-5">
@@ -105,7 +127,9 @@ export function SipNenaHomeScreen() {
                   try {
                     if (id !== "all")
                       localStorage.setItem("sipnena_selected_subject", id);
-                  } catch {}
+                  } catch {
+                    // Ignore storage restrictions
+                  }
                   void navigate({ to: "/courses" });
                 }}
               />

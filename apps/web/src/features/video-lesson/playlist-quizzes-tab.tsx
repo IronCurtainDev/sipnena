@@ -44,9 +44,7 @@ export function PlaylistQuizzesTab({
               onSelectLesson(quiz.id);
             }}
             className={`flex min-h-[56px] w-full flex-col items-start justify-center rounded-xl px-3 py-2 text-left transition ${
-              quiz.locked
-                ? "opacity-60"
-                : "hover:bg-[var(--sn-cream)]"
+              quiz.locked ? "opacity-60" : "hover:bg-[var(--sn-cream)]"
             }`}
           >
             <span className="text-sm font-bold text-[var(--sn-text-main)]">

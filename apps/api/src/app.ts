@@ -31,8 +31,11 @@ import type { AppEnv } from "./types/context";
 // Bump the minor version for additive /api/v1 changes and record them in API_CHANGELOG.md.
 const OPENAPI_VERSION = "1.4.0";
 
+// Telescope is a local debugging tool only; the dashboard is guarded by
+// developmentOnly middleware. Disable at module level so hono-telescope does
+// not throw when deployed to staging or production without dashboard creds.
 const telescope = createTelescope({
-  enabled: true,
+  enabled: false,
   storage: memoryStorage({ maxEntries: 500 }),
   dashboardPath: "/api/telescope",
   ignorePaths: ["/api/telescope", "/api/docs", "/api/openapi.json"],

@@ -11,11 +11,13 @@ import {
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { DesktopSidebar } from "@/features/home/nav-sidebar";
 import { TabletRail } from "@/features/home/nav-bars";
+import { PrototypeRoleSwitcher } from "@/features/portal-shell/role-switcher";
 import type { AppLanguage } from "@/lib/language";
 import { AcademicPreferencesCard } from "./academic-preferences-card";
 import { AvatarIcon } from "./avatar-icon";
 import { AvatarPicker } from "./avatar-picker";
 import { DesktopSidebarWidgets } from "./desktop-sidebar-widgets";
+import { ProfileQuickLinks } from "./quick-links";
 import type { ProfileStrings } from "./strings.types";
 
 interface DesktopProfileViewProps {
@@ -61,9 +63,12 @@ export function DesktopProfileView({
       <TabletRail activeTab={activeNavTab} onTabChange={onNavTab} lang={lang} />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-surface)] px-6 xl:px-8">
-          <div className="inline-flex items-center rounded-full bg-[var(--sn-olive)] px-3.5 py-1.5 text-xs font-semibold text-[var(--sn-primary)]">
-            {strings.academicYearBadge}
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-[var(--sn-border)] bg-[var(--sn-surface)] px-6 xl:px-8">
+          <div className="flex items-center gap-2.5">
+            <div className="hidden xl:inline-flex items-center rounded-full bg-[var(--sn-olive)] px-3.5 py-1.5 text-xs font-semibold text-[var(--sn-primary)]">
+              {strings.academicYearBadge}
+            </div>
+            <PrototypeRoleSwitcher lang={lang} activeRoleOverride="student" />
           </div>
 
           <div className="flex items-center gap-3">
@@ -175,7 +180,9 @@ export function DesktopProfileView({
                   <div className="rounded-xl bg-[var(--sn-surface-muted)] p-3 text-center sm:text-left">
                     <div className="flex items-center justify-center gap-2 text-[var(--sn-primary)] sm:justify-start">
                       <TrendingUp className="h-4 w-4" />
-                      <span className="text-base font-bold sm:text-xl">92%</span>
+                      <span className="text-base font-bold sm:text-xl">
+                        92%
+                      </span>
                     </div>
                     <p className="mt-1 text-xs font-medium text-[var(--sn-text-secondary)]">
                       {strings.statAttendance}
@@ -198,6 +205,8 @@ export function DesktopProfileView({
                 currentGrade={currentGrade}
                 onOpenGradeDialog={onOpenGradeDialog}
               />
+
+              <ProfileQuickLinks />
             </div>
 
             <div className="lg:sticky lg:top-5 lg:h-[calc(100svh-2.5rem)] lg:overflow-y-auto">

@@ -105,7 +105,9 @@ export function LessonNotesTab({ onToast }: LessonNotesTabProps) {
               <p className="text-sm text-[var(--sn-text-muted)]">
                 {note.timestamp}
               </p>
-              <p className="text-base text-[var(--sn-text-main)]">{note.text}</p>
+              <p className="text-base text-[var(--sn-text-main)]">
+                {note.text}
+              </p>
               <button
                 type="button"
                 onClick={() => {

@@ -49,8 +49,8 @@ export function SipNenaVideoLessonScreen() {
   const handleNavTab = (tab: string) => {
     setActiveNav(tab);
     if (tab === "home") void navigate({ to: "/home" });
-    else if (tab === "courses" || tab === "saved")
-      void navigate({ to: "/courses" });
+    else if (tab === "courses") void navigate({ to: "/courses" });
+    else if (tab === "saved") void navigate({ to: "/saved" });
     else if (tab === "me" || tab === "profile") void navigate({ to: "/me" });
     else showToast(tab.toUpperCase());
   };

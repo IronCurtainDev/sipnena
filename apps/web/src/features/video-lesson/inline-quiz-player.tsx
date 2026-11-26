@@ -47,7 +47,9 @@ export function InlineQuizPlayer({
     setIsChecked(true);
     const correct = question.options.find((o) => o.isCorrect)?.id;
     onToast(
-      selectedOption === correct ? "Correct — well done." : "Check the explanation.",
+      selectedOption === correct
+        ? "Correct — well done."
+        : "Check the explanation.",
     );
   };
 

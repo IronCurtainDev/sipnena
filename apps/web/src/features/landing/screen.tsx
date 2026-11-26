@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   getSavedLanguage,
@@ -21,7 +21,6 @@ import { LANDING_STRINGS } from "./strings";
 export function SipNenaLandingScreen() {
   const navigate = useNavigate();
   const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
-  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = LANDING_STRINGS[lang];
 
@@ -39,12 +38,6 @@ export function SipNenaLandingScreen() {
     setLang(nextLang);
     saveLanguage(nextLang);
   };
-
-  const showToast = useCallback((msg: string) => {
-    setToastMsg(msg);
-    const timer = setTimeout(() => setToastMsg(null), 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const el = document.getElementById(sectionId);
@@ -77,7 +70,9 @@ export function SipNenaLandingScreen() {
           onSelectGrade={(gradeNum) => {
             try {
               localStorage.setItem("sipnena_selected_grade", String(gradeNum));
-            } catch {}
+            } catch {
+              // Ignore storage restrictions
+            }
             void navigate({ to: "/courses" });
           }}
           t={t}
@@ -87,7 +82,9 @@ export function SipNenaLandingScreen() {
           onSelectSubject={(subjectId) => {
             try {
               localStorage.setItem("sipnena_selected_subject", subjectId);
-            } catch {}
+            } catch {
+              // Ignore storage restrictions
+            }
             void navigate({ to: "/courses" });
           }}
           t={t}
@@ -125,17 +122,6 @@ export function SipNenaLandingScreen() {
         }}
         t={t}
       />
-
-      {toastMsg && (
-        <aside
-          role="status"
-          aria-live="polite"
-          className="fixed bottom-6 right-4 z-50 flex max-w-sm items-center gap-2 rounded-2xl bg-[var(--sn-text-main)] px-4 py-3 text-xs font-semibold text-white shadow-xl sm:right-6"
-        >
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--sn-primary)]" />
-          <span>{toastMsg}</span>
-        </aside>
-      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { MobileBottomNav } from "@/features/home/nav-bars";
 import type { AppLanguage } from "@/lib/language";
 import { AvatarIcon } from "./avatar-icon";
 import { AvatarPicker } from "./avatar-picker";
+import { ProfileQuickLinks } from "./quick-links";
 import { SettingsList } from "./settings-list";
 import type { ProfileStrings } from "./strings.types";
 
@@ -146,6 +147,8 @@ export function MobileProfileView({
             onOpenHelpDialog={onOpenHelpDialog}
           />
         </div>
+
+        <ProfileQuickLinks />
 
         {/* Log Out Button */}
         <button

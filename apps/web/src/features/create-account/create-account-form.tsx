@@ -52,7 +52,9 @@ export function CreateAccountForm({
     try {
       localStorage.setItem("sipnena_student_name", firstName.trim());
       localStorage.setItem("sipnena_student_grade", String(selectedGrade));
-    } catch {}
+    } catch {
+      // Ignore storage restrictions
+    }
     setFormFeedback({ type: "info", text: t.signupComingNextMsg });
     setTimeout(() => {
       void navigate({ to: "/pick-subjects" });

@@ -56,7 +56,9 @@ export function LandingFreePreviewsSection({
               </div>
 
               <div className="flex flex-1 flex-col justify-between p-5">
-                <p className="text-xs text-[var(--sn-text-muted)]">{c.teacher}</p>
+                <p className="text-xs text-[var(--sn-text-muted)]">
+                  {c.teacher}
+                </p>
                 <button
                   type="button"
                   onClick={() => onWatchCoursePreview(c.id)}

@@ -51,7 +51,7 @@ export function SipNenaLanguageSetupScreen() {
       `${t.continueFeedback} ${chosen ? chosen.nativeTitle : selectedLang}`,
     );
     setTimeout(() => {
-      void navigate({ to: "/create-account" });
+      void navigate({ to: "/select-grade" });
     }, 280);
   };
 

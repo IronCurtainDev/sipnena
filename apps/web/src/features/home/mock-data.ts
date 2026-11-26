@@ -137,6 +137,7 @@ export const TIMETABLE_ITEMS = [
   {
     id: "tt-2",
     time: "02:30 PM",
-    badgeBg: "bg-[var(--sn-olive)] text-[var(--sn-text-main)] border-[var(--sn-border)]/60",
+    badgeBg:
+      "bg-[var(--sn-olive)] text-[var(--sn-text-main)] border-[var(--sn-border)]/60",
   },
 ];

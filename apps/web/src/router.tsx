@@ -16,37 +16,7 @@ import {
 import { OrganizationGate } from "./features/organizations/organization-gate";
 import { authClient } from "./lib/auth/client";
 import { safeRedirect } from "./lib/auth/redirect";
-import {
-  AcceptInvitationPage,
-  AccountPage,
-  AdminPage,
-  AppLayout,
-  AuthLayout,
-  CourseDetailPage,
-  CoursesPage,
-  CreateAccountPage,
-  FilesPage,
-  ForgotPasswordPage,
-  HomePage,
-  LoginPage,
-  OrganizationPage,
-  OrganizationsPage,
-  PickSubjectsPage,
-  PreparingCoursesPage,
-  ResetPasswordPage,
-  SignupPage,
-  SipNenaHomePage,
-  VerifyEmailPage,
-  VideoLessonPage,
-  QuizPage,
-  QuizResultPage,
-  CourseCompletedPage,
-  SipNenaProfilePage,
-  CheckoutPage,
-  EnrollPage,
-  LandingPage,
-  WelcomeLanguagePage,
-} from "./route-components";
+import * as Pages from "./route-components";
 
 // Runs before rendering, so signed-out visitors never see protected screens.
 async function requireSession({ location }: { location: ParsedLocation }) {
@@ -74,19 +44,17 @@ const rootRoute = createRootRoute({
   ),
 });
 
-// Signed-out screens: sign in, sign up, email verification, password reset.
 const authLayout = createRoute({
   getParentRoute: () => rootRoute,
   id: "auth",
-  component: AuthLayout,
+  component: Pages.AuthLayout,
 });
 
-// Signed-in screens share the sidebar shell and the session check.
 const appLayout = createRoute({
   getParentRoute: () => rootRoute,
   id: "app",
   beforeLoad: requireSession,
-  component: AppLayout,
+  component: Pages.AppLayout,
 });
 
 function authPage<const Path extends string>(
@@ -133,7 +101,7 @@ function appPage<const Path extends string>(
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/login",
-  component: LoginPage,
+  component: Pages.LoginPage,
   validateSearch: (search: Record<string, unknown>): { redirect?: string } => ({
     redirect:
       typeof search.redirect === "string"
@@ -142,76 +110,73 @@ const loginRoute = createRoute({
   }),
 });
 
-const homeRoute = publicPage("/", HomePage);
-const welcomeLanguageRoute = publicPage(
-  "/welcome-language",
-  WelcomeLanguagePage,
-);
-const createAccountRoute = publicPage("/create-account", CreateAccountPage);
-const pickSubjectsRoute = publicPage("/pick-subjects", PickSubjectsPage);
-const preparingCoursesRoute = publicPage(
-  "/preparing-courses",
-  PreparingCoursesPage,
-);
-const forgotPasswordRoute = publicPage("/forgot-password", ForgotPasswordPage);
-const resetPasswordRoute = publicPage("/reset-password", ResetPasswordPage);
-const sipnenaHomeRoute = publicPage("/home", SipNenaHomePage);
-const coursesRoute = publicPage("/courses", CoursesPage);
-const courseRoute = publicPage("/course", CourseDetailPage);
-const courseIdRoute = publicPage("/courses/$courseId", CourseDetailPage);
-const videoLessonRoute = publicPage("/lesson", VideoLessonPage);
-const quizRoute = publicPage("/quiz", QuizPage);
-const quizResultRoute = publicPage("/quiz-result", QuizResultPage);
-const courseCompletedRoute = publicPage(
-  "/course-completed",
-  CourseCompletedPage,
-);
-const meRoute = publicPage("/me", SipNenaProfilePage);
-const profileRoute = publicPage("/profile", SipNenaProfilePage);
-const checkoutRoute = publicPage("/checkout", CheckoutPage);
-const enrollRoute = publicPage("/enroll", EnrollPage);
-const landingRoute = publicPage("/landing", LandingPage);
-const courseLessonRoute = publicPage(
-  "/courses/$courseId/lesson",
-  VideoLessonPage,
-);
-
 const routeTree = rootRoute.addChildren([
-  homeRoute,
-  sipnenaHomeRoute,
-  coursesRoute,
-  courseRoute,
-  courseIdRoute,
-  videoLessonRoute,
-  quizRoute,
-  quizResultRoute,
-  courseCompletedRoute,
-  meRoute,
-  profileRoute,
-  checkoutRoute,
-  enrollRoute,
-  landingRoute,
-  courseLessonRoute,
-  welcomeLanguageRoute,
-  createAccountRoute,
-  pickSubjectsRoute,
+  publicPage("/", Pages.HomePage),
+  publicPage("/landing", Pages.LandingPage),
+  publicPage("/welcome-language", Pages.WelcomeLanguagePage),
+  publicPage("/select-grade", Pages.SelectGradePage),
+  publicPage("/select-medium", Pages.SelectMediumPage),
+  publicPage("/create-account", Pages.CreateAccountPage),
+  publicPage("/pick-subjects", Pages.PickSubjectsPage),
+  publicPage("/preparing-courses", Pages.PreparingCoursesPage),
+  publicPage("/forgot-password", Pages.ForgotPasswordPage),
+  publicPage("/reset-password", Pages.ResetPasswordPage),
+  publicPage("/home", Pages.SipNenaHomePage),
+  publicPage("/courses", Pages.CoursesPage),
+  publicPage("/course", Pages.CourseDetailPage),
+  publicPage("/courses/$courseId", Pages.CourseDetailPage),
+  publicPage("/courses/$courseId/lesson", Pages.VideoLessonPage),
+  publicPage("/courses/$courseId/materials", Pages.CourseMaterialsPage),
+  publicPage("/courses/$courseId/qa", Pages.CourseQaPage),
+  publicPage("/lesson", Pages.VideoLessonPage),
+  publicPage("/quiz", Pages.QuizPage),
+  publicPage("/quiz-result", Pages.QuizResultPage),
+  publicPage("/course-completed", Pages.CourseCompletedPage),
+  publicPage("/me", Pages.SipNenaProfilePage),
+  publicPage("/profile", Pages.SipNenaProfilePage),
+  publicPage("/checkout", Pages.CheckoutPage),
+  publicPage("/enroll", Pages.EnrollPage),
+  publicPage("/payment-status", Pages.PaymentStatusPage),
+  publicPage("/billing", Pages.BillingPage),
+  publicPage("/past-papers", Pages.PastPapersPage),
+  publicPage("/past-papers/$paperId", Pages.PastPaperDetailPage),
+  publicPage("/term-tests", Pages.TermTestsPage),
+  publicPage("/notes", Pages.NotesPage),
+  publicPage("/live", Pages.LiveClassesPage),
+  publicPage("/schedule", Pages.SchedulePage),
+  publicPage("/doubts", Pages.DoubtsPage),
+  publicPage("/parent", Pages.ParentDashboardPage),
+  publicPage("/parent/child/$studentId", Pages.ParentChildPage),
+  publicPage("/teacher", Pages.TeacherHomePage),
+  publicPage("/teacher/courses", Pages.TeacherCoursesPage),
+  publicPage("/teacher/quizzes", Pages.TeacherQuizzesPage),
+  publicPage("/teacher/doubts", Pages.TeacherDoubtsPage),
+  publicPage("/admin/payments", Pages.AdminPaymentsPage),
+  publicPage("/admin/syllabus", Pages.AdminSyllabusPage),
+  publicPage("/search", Pages.SearchPage),
+  publicPage("/progress", Pages.ProgressPage),
+  publicPage("/quiz-history", Pages.QuizHistoryPage),
+  publicPage("/saved", Pages.SavedPage),
+  publicPage("/downloads", Pages.DownloadsPage),
+  publicPage("/notifications", Pages.NotificationsPage),
+  publicPage("/help", Pages.HelpPage),
+  publicPage("/terms", Pages.TermsPage),
+  publicPage("/privacy", Pages.PrivacyPage),
+  publicPage("/refund-policy", Pages.RefundPolicyPage),
   loginRoute,
-  preparingCoursesRoute,
-  forgotPasswordRoute,
-  resetPasswordRoute,
   authLayout.addChildren([
-    authPage("/signup", SignupPage),
-    authPage("/verify-email", VerifyEmailPage),
+    authPage("/signup", Pages.SignupPage),
+    authPage("/verify-email", Pages.VerifyEmailPage),
   ]),
   appLayout.addChildren([
-    appPage("/account", AccountPage),
-    appPage("/files", FilesPage),
-    appPage("/admin", AdminPage),
-    appPage("/organizations", OrganizationsPage, { organizations: true }),
-    appPage("/organizations/$organizationId", OrganizationPage, {
+    appPage("/account", Pages.AccountPage),
+    appPage("/files", Pages.FilesPage),
+    appPage("/admin", Pages.AdminPage),
+    appPage("/organizations", Pages.OrganizationsPage, { organizations: true }),
+    appPage("/organizations/$organizationId", Pages.OrganizationPage, {
       organizations: true,
     }),
-    appPage("/accept-invitation/$invitationId", AcceptInvitationPage, {
+    appPage("/accept-invitation/$invitationId", Pages.AcceptInvitationPage, {
       organizations: true,
     }),
   ]),

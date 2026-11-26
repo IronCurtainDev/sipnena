@@ -97,7 +97,9 @@ export function LandingHero({
                 <p className="font-bold text-[var(--sn-text-main)]">
                   Unit 1: Light & Reflection
                 </p>
-                <p className="text-xs">සිංහල / தமிழ் / English · Free preview</p>
+                <p className="text-xs">
+                  සිංහල / தமிழ் / English · Free preview
+                </p>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { ArrowLeft, User } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
+import { PrototypeRoleSwitcher } from "@/features/portal-shell/role-switcher";
 import type { CourseDetailStrings } from "./strings.types";
 
 interface CourseDetailTopBarProps {
@@ -57,9 +58,12 @@ export function CourseDetailTopBar({
       </header>
 
       {/* DESKTOP & TABLET TOP BAR (>= 640px) */}
-      <header className="hidden h-16 shrink-0 items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-surface)] px-6 sm:flex lg:px-8">
-        <div className="inline-flex items-center rounded-full bg-[var(--sn-surface-muted)] px-3.5 py-1.5 text-sm font-semibold text-[var(--sn-text-secondary)]">
-          {t.topContextPill}
+      <header className="hidden h-16 shrink-0 items-center justify-between gap-2 border-b border-[var(--sn-border)] bg-[var(--sn-surface)] px-6 sm:flex lg:px-8">
+        <div className="flex items-center gap-2.5">
+          <div className="hidden xl:inline-flex items-center rounded-full bg-[var(--sn-surface-muted)] px-3.5 py-1.5 text-sm font-semibold text-[var(--sn-text-secondary)]">
+            {t.topContextPill}
+          </div>
+          <PrototypeRoleSwitcher lang={lang} activeRoleOverride="student" />
         </div>
 
         <div className="flex items-center gap-3">

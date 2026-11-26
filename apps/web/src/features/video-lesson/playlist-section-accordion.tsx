@@ -1,10 +1,6 @@
 import { Check, Lock, Play } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
-import {
-  formatDuration,
-  lessonTitle,
-  PLAYLIST_STATUS,
-} from "./playlist-copy";
+import { formatDuration, lessonTitle, PLAYLIST_STATUS } from "./playlist-copy";
 import type { VideoLessonStrings } from "./strings";
 import type { PlaylistSection } from "./types";
 

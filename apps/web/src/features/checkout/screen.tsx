@@ -5,6 +5,7 @@ import {
   saveLanguage,
   type AppLanguage,
 } from "@/lib/language";
+import { usePrototypeState } from "@/lib/prototype-state";
 import { BankSlipModal } from "./bank-slip-modal";
 import { CheckoutTopBar } from "./checkout-top-bar";
 import {
@@ -22,15 +23,16 @@ import type { CheckoutViewMode, ReceiptInfo } from "./types";
 
 export function SipNenaCheckoutScreen() {
   const navigate = useNavigate();
+  const { submitBankSlip, state } = usePrototypeState();
   const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
   const [viewMode, setViewMode] = useState<CheckoutViewMode>(() => {
-    if (typeof window === "undefined") return "student_intro";
+    if (typeof window === "undefined") return "parent_pay";
     const mode = new URLSearchParams(window.location.search).get("mode");
-    if (mode === "parent_pay") return "parent_pay";
+    if (mode === "student_intro") return "student_intro";
     if (mode === "payment_failed") return "payment_failed";
     if (mode === "payment_success") return "payment_success";
     if (mode === "payment_pending") return "payment_pending";
-    return "student_intro";
+    return "parent_pay";
   });
   const [isSlipModalOpen, setIsSlipModalOpen] = useState(false);
   const [receipt, setReceipt] = useState<ReceiptInfo>(MOCK_INITIAL_RECEIPT);
@@ -57,50 +59,48 @@ export function SipNenaCheckoutScreen() {
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
-    const timer = setTimeout(() => setToastMsg(null), 3000);
-    return () => clearTimeout(timer);
+    setTimeout(() => setToastMsg(null), 3000);
   }, []);
 
-  const handleBack = () => {
-    if (viewMode === "student_intro") {
-      void navigate({ to: "/course" });
-    } else {
-      setViewMode("student_intro");
-    }
-  };
-
-  const handleSendToParent = () => {
-    showToast(t.shareParentToast);
-    setTimeout(() => setViewMode("parent_pay"), 800);
-  };
-
-  const handleCopyLink = () => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      void navigator.clipboard.writeText(
-        `${window.location.origin}/checkout?mode=parent_pay`,
-      );
-    }
-    showToast(t.linkCopiedToast);
-  };
-
-  const handlePayCard = () => {
+  const handlePayCard = (methodName = "Visa / Mastercard") => {
     setReceipt((prev) => ({
       ...prev,
-      paymentMethodName: "Visa / Mastercard",
+      paymentMethodName: methodName,
       receiptNumber: `TN-PAY-${Math.floor(100000 + Math.random() * 900000)}`,
     }));
     setViewMode("payment_success");
   };
 
-  const handleSubmitSlip = (bankName: string, ref: string) => {
+  const handleSubmitSlip = (
+    bankName: string,
+    ref: string,
+    fileName = "bank_deposit_slip.jpg",
+  ) => {
+    const refCode =
+      ref || `TN-REF-${Math.floor(10000 + Math.random() * 90000)}`;
+    submitBankSlip({
+      studentName: state.studentName,
+      grade: state.grade,
+      courseTitle: course.title,
+      bankName,
+      referenceCode: refCode,
+      amount: course.feeAmount,
+      slipFileName: fileName,
+    });
     setReceipt((prev) => ({
       ...prev,
       paymentMethodName: `${bankName} (Slip)`,
-      referenceCode:
-        ref || `TN-REF-${Math.floor(10000 + Math.random() * 90000)}`,
+      referenceCode: refCode,
     }));
     showToast(t.slipUploadedToast);
     setViewMode("payment_pending");
+  };
+
+  const handleCopy = (label: string, value: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      void navigator.clipboard.writeText(value);
+    }
+    showToast(`${label} copied!`);
   };
 
   const handleOpenWhatsApp = () => {
@@ -112,7 +112,7 @@ export function SipNenaCheckoutScreen() {
       <CheckoutTopBar
         lang={lang}
         onLanguageChange={handleLanguageChange}
-        onBack={handleBack}
+        onBack={() => void navigate({ to: "/home" })}
         onProfileClick={() => void navigate({ to: "/me" })}
         t={t}
       />
@@ -122,8 +122,13 @@ export function SipNenaCheckoutScreen() {
           <StudentEnrollView
             course={course}
             t={t}
-            onSendToParent={handleSendToParent}
-            onCopyLink={handleCopyLink}
+            onSendToParent={() => setViewMode("parent_pay")}
+            onCopyLink={() =>
+              handleCopy(
+                "Enrollment link",
+                `${window.location.origin}/checkout?mode=parent_pay`,
+              )
+            }
             onWatchPreviews={() => void navigate({ to: "/lesson" })}
             onOpenParentPortal={() => setViewMode("parent_pay")}
           />
@@ -135,7 +140,9 @@ export function SipNenaCheckoutScreen() {
             student={student}
             t={t}
             onPayCard={handlePayCard}
-            onPayBankTransfer={() => setIsSlipModalOpen(true)}
+            onSubmitBankSlip={handleSubmitSlip}
+            onCopyInfo={handleCopy}
+            onSendToParent={() => setViewMode("student_intro")}
             onSimulateFail={() => setViewMode("payment_failed")}
             onWhatsAppHelp={handleOpenWhatsApp}
           />
@@ -172,14 +179,10 @@ export function SipNenaCheckoutScreen() {
             student={student}
             receipt={receipt}
             t={t}
-            onGoToCourses={() => void navigate({ to: "/courses" })}
+            onGoToCourses={() => void navigate({ to: "/payment-status" })}
             onWatchPreviews={() => void navigate({ to: "/lesson" })}
             onReUploadSlip={() => setIsSlipModalOpen(true)}
-            onCopyRef={() => {
-              if (navigator.clipboard)
-                void navigator.clipboard.writeText(receipt.referenceCode);
-              showToast("Reference code copied!");
-            }}
+            onCopyRef={() => handleCopy("Reference", receipt.referenceCode)}
             onWhatsAppHelp={handleOpenWhatsApp}
           />
         )}
@@ -188,7 +191,9 @@ export function SipNenaCheckoutScreen() {
       <BankSlipModal
         isOpen={isSlipModalOpen}
         onClose={() => setIsSlipModalOpen(false)}
-        onSubmitSlip={handleSubmitSlip}
+        onSubmitSlip={(bankName, ref) =>
+          handleSubmitSlip(bankName, ref, "updated_bank_slip.jpg")
+        }
       />
 
       {toastMsg && (
@@ -197,7 +202,7 @@ export function SipNenaCheckoutScreen() {
           aria-live="polite"
           className="fixed bottom-6 right-4 z-50 flex max-w-sm items-center gap-2 rounded-2xl bg-[var(--sn-text-main)] px-4 py-3 text-xs font-semibold text-white shadow-xl sm:right-6"
         >
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--sn-primary)]" />
+          <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
           <span>{toastMsg}</span>
         </aside>
       )}

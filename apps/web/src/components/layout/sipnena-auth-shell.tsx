@@ -43,10 +43,7 @@ export function SipNenaOnboardingShell({
             </button>
           ) : null}
 
-          <Link
-            to="/"
-            className="flex flex-col min-w-0 focus:outline-none"
-          >
+          <Link to="/" className="flex flex-col min-w-0 focus:outline-none">
             <span className="text-sm sm:text-base font-black text-[var(--sn-text-main)] tracking-tight leading-none block truncate">
               {brand.name}
             </span>

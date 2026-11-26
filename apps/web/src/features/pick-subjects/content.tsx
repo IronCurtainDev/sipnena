@@ -7,11 +7,19 @@ import {
   HelpCircle,
   Lightbulb,
 } from "lucide-react";
+import { OlBasketsPicker } from "./ol-baskets";
 import { SubjectGrid } from "./subject-grid";
 import type { PickSubjectsStrings } from "./strings";
 
 interface Props {
   t: PickSubjectsStrings;
+  grade: number;
+  onChangeGrade: (grade: number) => void;
+  olBaskets: { basket1: string; basket2: string; basket3: string };
+  onSelectBasket: (
+    basketId: "basket1" | "basket2" | "basket3",
+    optionId: string,
+  ) => void;
   selectedSubjects: Record<string, boolean>;
   onToggleSubject: (id: string) => void;
   onProceed: () => void;
@@ -19,12 +27,19 @@ interface Props {
 
 export function PickSubjectsContent({
   t,
+  grade,
+  onChangeGrade,
+  olBaskets,
+  onSelectBasket,
   selectedSubjects,
   onToggleSubject,
   onProceed,
 }: Props) {
   const [showHelp, setShowHelp] = useState(false);
-  const selectedCount = Object.values(selectedSubjects).filter(Boolean).length;
+  const isOL = grade >= 10;
+  const selectedCount = isOL
+    ? 9
+    : Object.values(selectedSubjects).filter(Boolean).length;
   const hasAtLeastOne = selectedCount > 0;
 
   const countBadge =
@@ -36,13 +51,38 @@ export function PickSubjectsContent({
     <div className="md:col-span-7 p-5 sm:p-7 flex flex-col justify-between space-y-5">
       {/* Top Mobile Title / Desktop Subheader Row */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--sn-sage)] text-[var(--sn-primary)]">
             <span className="w-2 h-2 rounded-full bg-[var(--sn-primary)]" />
             <span>{t.stepPillDesktop}</span>
           </div>
 
           <div className="flex items-center gap-2">
+            <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-0.5 text-[11px] font-bold">
+              <button
+                type="button"
+                onClick={() => onChangeGrade(8)}
+                className={`rounded-full px-2.5 py-1 transition ${
+                  !isOL
+                    ? "bg-white text-[var(--sn-primary)] shadow-2xs"
+                    : "text-slate-500"
+                }`}
+              >
+                Grades 6–9
+              </button>
+              <button
+                type="button"
+                onClick={() => onChangeGrade(11)}
+                className={`rounded-full px-2.5 py-1 transition ${
+                  isOL
+                    ? "bg-[var(--sn-primary)] text-white shadow-2xs"
+                    : "text-slate-500"
+                }`}
+              >
+                Grades 10–11 (O/L)
+              </button>
+            </div>
+
             <button
               type="button"
               onClick={() => setShowHelp((prev) => !prev)}
@@ -78,20 +118,27 @@ export function PickSubjectsContent({
 
         <div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            {t.cardGroupTitle}
+            {isOL
+              ? `Grade ${grade} G.C.E. O/L Subjects & Baskets`
+              : t.cardGroupTitle}
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-            {t.cardGroupSubtitle}
+            {isOL
+              ? "6 core subjects plus 1 subject from each O/L Basket (I, II & III)"
+              : t.cardGroupSubtitle}
           </p>
         </div>
       </div>
 
-      {/* 2-Column Subject Grid */}
-      <SubjectGrid
-        t={t}
-        selectedSubjects={selectedSubjects}
-        onToggleSubject={onToggleSubject}
-      />
+      {isOL ? (
+        <OlBasketsPicker baskets={olBaskets} onSelectBasket={onSelectBasket} />
+      ) : (
+        <SubjectGrid
+          t={t}
+          selectedSubjects={selectedSubjects}
+          onToggleSubject={onToggleSubject}
+        />
+      )}
 
       {/* Bottom Action Area */}
       <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3.5">

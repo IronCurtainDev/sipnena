@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { MessageCircle } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
 import type { LandingStrings } from "./strings.types";
@@ -69,12 +70,55 @@ export function LandingFooter({
             <span>{t.whatsappContact}</span>
           </button>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[var(--sn-text-muted)]">
-            <span>{t.privacyPolicy}</span>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-semibold text-[var(--sn-text-muted)]">
+            <Link
+              to="/privacy"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              {t.privacyPolicy}
+            </Link>
             <span>•</span>
-            <span>{t.termsOfService}</span>
+            <Link
+              to="/terms"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              {t.termsOfService}
+            </Link>
             <span>•</span>
-            <span>{t.forTeachers}</span>
+            <Link
+              to="/refund-policy"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              Refund Policy
+            </Link>
+            <span>•</span>
+            <Link
+              to="/help"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              Help &amp; FAQ
+            </Link>
+            <span>•</span>
+            <Link
+              to="/parent"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              Parent Portal
+            </Link>
+            <span>•</span>
+            <Link
+              to="/teacher"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              {t.forTeachers}
+            </Link>
+            <span>•</span>
+            <Link
+              to="/admin/payments"
+              className="hover:text-[var(--sn-primary)] hover:underline"
+            >
+              Admin Ops
+            </Link>
           </div>
         </div>
 

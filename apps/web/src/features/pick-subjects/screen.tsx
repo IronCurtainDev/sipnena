@@ -6,6 +6,7 @@ import {
   saveLanguage,
   type AppLanguage,
 } from "@/lib/language";
+import { usePrototypeState } from "@/lib/prototype-state";
 import { DEFAULT_SELECTED_SUBJECTS } from "./config";
 import { PickSubjectsHighlightCard } from "./highlight-card";
 import { PickSubjectsContent } from "./content";
@@ -13,6 +14,7 @@ import { PICK_SUBJECTS_STRINGS, type PickSubjectsStrings } from "./strings";
 
 export function PickSubjectsScreen() {
   const navigate = useNavigate();
+  const { state, setGrade, update } = usePrototypeState();
   const [selectedLang, setSelectedLang] =
     useState<AppLanguage>(getSavedLanguage);
 
@@ -48,11 +50,7 @@ export function PickSubjectsScreen() {
   };
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      void navigate({ to: "/create-account" });
-    }
+    void navigate({ to: "/select-medium" });
   };
 
   const toggleSubject = (id: string) => {
@@ -62,10 +60,31 @@ export function PickSubjectsScreen() {
     }));
   };
 
+  const handleSelectBasket = (
+    basketId: "basket1" | "basket2" | "basket3",
+    optionId: string,
+  ) => {
+    update((prev) => ({
+      ...prev,
+      olBaskets: { ...prev.olBaskets, [basketId]: optionId },
+    }));
+  };
+
   const handleProceed = () => {
-    const chosen = Object.keys(selectedSubjects).filter(
-      (id) => selectedSubjects[id],
-    );
+    const chosen =
+      state.grade >= 10
+        ? [
+            "maths",
+            "science",
+            "english",
+            "firstLang",
+            "history",
+            state.olBaskets.basket1,
+            state.olBaskets.basket2,
+            state.olBaskets.basket3,
+          ]
+        : Object.keys(selectedSubjects).filter((id) => selectedSubjects[id]);
+    update((prev) => ({ ...prev, selectedSubjects: chosen }));
     if (typeof window !== "undefined") {
       try {
         localStorage.setItem("sipnena_chosen_subjects", JSON.stringify(chosen));
@@ -91,6 +110,10 @@ export function PickSubjectsScreen() {
         <PickSubjectsHighlightCard t={t} />
         <PickSubjectsContent
           t={t}
+          grade={state.grade}
+          onChangeGrade={setGrade}
+          olBaskets={state.olBaskets}
+          onSelectBasket={handleSelectBasket}
           selectedSubjects={selectedSubjects}
           onToggleSubject={toggleSubject}
           onProceed={handleProceed}

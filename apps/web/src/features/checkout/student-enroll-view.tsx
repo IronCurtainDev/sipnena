@@ -122,7 +122,9 @@ export function StudentEnrollView({
                         {item.icon === "test" && (
                           <HelpCircle className="h-4 w-4" />
                         )}
-                        {item.icon === "pdf" && <FileText className="h-4 w-4" />}
+                        {item.icon === "pdf" && (
+                          <FileText className="h-4 w-4" />
+                        )}
                       </div>
                       <span className="pt-2 text-base font-medium leading-normal text-[var(--sn-text-main)]">
                         {item.title}

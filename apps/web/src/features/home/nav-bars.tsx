@@ -1,6 +1,8 @@
-import { User } from "lucide-react";
+import { Bell, Search, User } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import type { AppLanguage } from "@/lib/language";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
+import { PrototypeRoleSwitcher } from "@/features/portal-shell/role-switcher";
 import { NAV_ITEMS } from "./mock-data";
 import { HOME_STRINGS } from "./strings";
 
@@ -111,6 +113,13 @@ export function HomeTopBar({
         </h1>
 
         <div className="flex items-center gap-2">
+          <Link
+            to="/search"
+            aria-label="Search"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)]"
+          >
+            <Search className="h-4 w-4" />
+          </Link>
           <CompactLanguageSwitcher
             selectedLang={lang}
             onLanguageChange={onLanguageChange}
@@ -129,13 +138,30 @@ export function HomeTopBar({
         </div>
       </header>
 
-      <header className="sticky top-0 z-20 hidden h-14 shrink-0 items-center justify-between border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-6 backdrop-blur-md sm:flex lg:px-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-xs font-semibold text-[var(--sn-text-secondary)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--sn-primary)]" />
-          <span>{t.topContextPill}</span>
+      <header className="sticky top-0 z-20 hidden h-14 shrink-0 items-center justify-between gap-2 border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-6 backdrop-blur-md sm:flex lg:px-8">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="hidden xl:inline-flex items-center gap-2 rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-xs font-semibold text-[var(--sn-text-secondary)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--sn-primary)]" />
+            <span>{t.topContextPill}</span>
+          </div>
+          <PrototypeRoleSwitcher lang={lang} activeRoleOverride="student" />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <Link
+            to="/search"
+            aria-label="Search"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
+          >
+            <Search className="h-4 w-4" />
+          </Link>
+          <Link
+            to="/notifications"
+            aria-label="Notifications"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
+          >
+            <Bell className="h-4 w-4" />
+          </Link>
           <CompactLanguageSwitcher
             selectedLang={lang}
             onLanguageChange={onLanguageChange}

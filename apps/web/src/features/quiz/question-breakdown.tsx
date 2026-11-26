@@ -54,7 +54,9 @@ export function QuestionBreakdown({
             type="button"
             onClick={() => onFilterChange("all")}
             className={`rounded-lg px-2.5 py-1 transition ${
-              filter === "all" ? "bg-[var(--sn-primary)] text-white" : "hover:bg-slate-100"
+              filter === "all"
+                ? "bg-[var(--sn-primary)] text-white"
+                : "hover:bg-slate-100"
             }`}
           >
             All ({questions.length})

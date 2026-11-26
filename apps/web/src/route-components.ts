@@ -1,5 +1,7 @@
 import { lazyRouteComponent } from "@tanstack/react-router";
 
+export * from "./sipnena-route-components";
+
 export const AuthLayout = lazyRouteComponent(
   () => import("./components/layout/auth-layout"),
   "AuthLayout",
@@ -73,6 +75,16 @@ export const AcceptInvitationPage = lazyRouteComponent(
 export const WelcomeLanguagePage = lazyRouteComponent(
   () => import("./routes/welcome-language"),
   "WelcomeLanguagePage",
+);
+
+export const SelectGradePage = lazyRouteComponent(
+  () => import("./routes/onboarding-steps"),
+  "SelectGradePage",
+);
+
+export const SelectMediumPage = lazyRouteComponent(
+  () => import("./routes/onboarding-steps"),
+  "SelectMediumPage",
 );
 
 export const CreateAccountPage = lazyRouteComponent(

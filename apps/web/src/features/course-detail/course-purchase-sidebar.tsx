@@ -1,7 +1,10 @@
+import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   ExternalLink,
+  FileText,
   MessageCircle,
+  MessageCircleQuestion,
   Play,
   Share2,
 } from "lucide-react";
@@ -90,6 +93,25 @@ export function CoursePurchaseSidebar({
               <Share2 className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span>{t.sendToParentBtn}</span>
             </button>
+
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <Link
+                to="/courses/$courseId/materials"
+                params={{ courseId: "sci-g8-full" }}
+                className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span>Course Tutes</span>
+              </Link>
+              <Link
+                to="/courses/$courseId/qa"
+                params={{ courseId: "sci-g8-full" }}
+                className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
+              >
+                <MessageCircleQuestion className="h-3.5 w-3.5" />
+                <span>Course Q&amp;A</span>
+              </Link>
+            </div>
           </div>
 
           <ul className="space-y-2.5 border-t border-[var(--sn-border)] pt-4 text-sm text-[var(--sn-text-secondary)]">
