@@ -33,7 +33,7 @@ export function ReceiptModal({
           <X className="h-5 w-5" />
         </button>
         <div className="text-center">
-          <span className="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-800">
+          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
             {copy.officialReceiptBadge}
           </span>
           <h4 className="mt-2 text-lg font-extrabold text-[var(--sn-text-main)]">

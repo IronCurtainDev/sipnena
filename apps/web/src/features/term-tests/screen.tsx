@@ -164,20 +164,20 @@ export function TermTestsScreen() {
               >
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                    <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                       {formatGrade(lang, pack.grade)} •{" "}
                       {formatSubject(lang, pack.subject)}
                     </span>
                     <div className="flex items-center gap-1.5">
                       <span
-                        className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${difficultyCls}`}
+                        className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${difficultyCls}`}
                       >
                         {DIFFICULTY_LABELS[pack.difficulty][lang]}
                       </span>
                       <button
                         type="button"
                         onClick={() => toggleCompleted(pack.id)}
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold ${
                           done
                             ? "bg-emerald-100 text-emerald-800"
                             : "bg-slate-100 text-slate-600"

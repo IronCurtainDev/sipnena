@@ -121,7 +121,7 @@ export function NotificationsScreen() {
                   <p className="mt-0.5 text-xs text-[var(--sn-text-secondary)]">
                     {n.localizedBody[lang]}
                   </p>
-                  <p className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-[var(--sn-text-muted)]">
+                  <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-[var(--sn-text-muted)]">
                     <Bell className="h-3 w-3" /> {n.localizedTime[lang]}
                   </p>
                 </div>

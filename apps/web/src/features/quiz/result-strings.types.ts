@@ -1,7 +1,17 @@
 export interface QuizResultStrings {
+  topContext: string;
+  breadcrumbBack: string;
+  breadcrumbSubject: string;
+  breadcrumbTopic: string;
+  breadcrumbUnit: string;
+  breadcrumbResult: string;
+  badgeGrade: string;
+  badgeTerm: string;
   headerTitle: string;
   pillUnit: string;
   passCriteria: string;
+  competencyAttained: string;
+  passMarkPrefix: string;
   scoreLabel: string;
   passedBadge: string;
   almostThereTitle: string;
@@ -15,16 +25,29 @@ export interface QuizResultStrings {
   statTimeSpent: string;
   statAttempts: string;
   statCompletion: string;
+  questionsUnit: string;
+  ofUnlimited: string;
+  spentShort: string;
   scienceTipTitle: string;
   breakdownTitle: string;
   breakdownSub: string;
+  breakdownMobileHint: string;
   filterAll: string;
   filterReview: string;
   filterCorrect: string;
+  questionShortPrefix: string;
+  statusCorrectShort: string;
+  statusReviewShort: string;
+  tipLabel: string;
+  reviewInPrefix: string;
+  markUnit: string;
   tryAgainBtn: string;
   reviewAnswersBtn: string;
   reviewNotesBtn: string;
   nextLessonBtn: string;
+  nextLessonMobileBtn: string;
+  backToCourseMobileBtn: string;
+  reviewNotesMobileBtn: string;
   downloadPdfBtn: string;
   reviewSolutionsBtn: string;
   yourAnswerLabel: string;
@@ -37,6 +60,8 @@ export interface QuizResultStrings {
   refresher2Meta: string;
   formulaCardTitle: string;
   formulaCardBody: string;
+  teacherName: string;
+  teacherTitle: string;
   teacherPraiseQuote: string;
   askTeacherWhatsApp: string;
   nextInSyllabusTitle: string;
@@ -47,4 +72,9 @@ export interface QuizResultStrings {
   unitProgressValue: string;
   shareWithGuardian: string;
   printSheet: string;
+  backAria: string;
+  profileAria: string;
+  whatsappToast: string;
+  reviewLessonToastPrefix: string;
+  nextSectionToast: string;
 }

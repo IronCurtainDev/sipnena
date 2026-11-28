@@ -26,7 +26,7 @@ export function LandingFooter({
             <span className="text-sm font-extrabold text-[var(--sn-text-main)] sm:text-base">
               {t.brandName}
             </span>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               {t.footerTagline}
             </p>
           </button>
@@ -70,7 +70,7 @@ export function LandingFooter({
             <span>{t.whatsappContact}</span>
           </button>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-semibold text-[var(--sn-text-muted)]">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-[var(--sn-text-muted)]">
             <Link
               to="/privacy"
               className="hover:text-[var(--sn-primary)] hover:underline"
@@ -138,7 +138,7 @@ export function LandingFooter({
           </div>
         </div>
 
-        <p className="text-center text-[10px] text-slate-400">
+        <p className="text-center text-xs text-slate-400">
           {t.curriculumAccreditation}
         </p>
       </div>

@@ -1,20 +1,19 @@
 import { useState, type FormEvent } from "react";
-import { Plus } from "lucide-react";
+import {
+  type Course,
+  type Localized,
+  type PublishStatus,
+  type Unit,
+} from "@/data/courses";
+import { formatGrade, formatSubject } from "@/lib/i18n-common";
 import type { AppLanguage } from "@/lib/language";
-import { formatSubject } from "@/lib/i18n-common";
-import type {
-  TeacherCourseDraft,
-  TeacherCourseSection,
-} from "@/lib/prototype-state";
 import type { CourseContentCopy } from "./course-content-strings";
 import { QuizOptionFields } from "./quiz-option-fields";
 import { QuizPlacementFields } from "./quiz-placement-fields";
 import type { TeacherCopy } from "./strings";
 
-const SUBJECTS = ["Science", "Mathematics", "ICT", "History"];
-
 export interface NewQuizInput {
-  title: string;
+  title: Localized;
   subject: string;
   grade: number;
   courseId: string;
@@ -23,6 +22,7 @@ export interface NewQuizInput {
   options: [string, string, string, string];
   correctIndex: number;
   explanation: string;
+  status: PublishStatus;
 }
 
 interface LockedPlacement {
@@ -36,8 +36,8 @@ interface QuizCreateFormProps {
   lang: AppLanguage;
   copy: TeacherCopy;
   content: CourseContentCopy;
-  courses: TeacherCourseDraft[];
-  sections: TeacherCourseSection[];
+  courses: Course[];
+  sections: Unit[];
   lockedPlacement?: LockedPlacement;
   onCreate: (input: NewQuizInput) => void;
   onCancel?: () => void;
@@ -64,23 +64,27 @@ export function QuizCreateForm({
   const [explanation, setExplanation] = useState("");
   const [placementError, setPlacementError] = useState("");
   const locked = Boolean(lockedPlacement);
+  const selectedCourse = courses.find((course) => course.id === courseId);
+  const derivedFromCourse = Boolean(selectedCourse);
 
   const courseSections = sections
     .filter((section) => section.courseId === courseId)
     .sort((a, b) => a.order - b.order);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!courseId || !sectionId) {
+  const buildInput = (status: PublishStatus): NewQuizInput | null => {
+    if (!courseId || !sectionId || !grade) {
       setPlacementError(content.placementMissing);
-      return;
+      return null;
     }
-    if (!prompt.trim() || !options[0]?.trim() || !options[1]?.trim()) return;
+    if (!prompt.trim() || !options[0]?.trim() || !options[1]?.trim()) return null;
     setPlacementError("");
-    onCreate({
-      title: quizTitle.trim() || copy.defaultQuizFallbackTitle,
-      subject,
-      grade,
+    const titleStr = quizTitle.trim() || copy.defaultQuizFallbackTitle;
+    const resolvedSubject = selectedCourse?.subject ?? subject;
+    const resolvedGrade = selectedCourse?.grade ?? grade;
+    return {
+      title: { en: titleStr, si: titleStr, ta: titleStr, [lang]: titleStr },
+      subject: resolvedSubject,
+      grade: resolvedGrade,
       courseId,
       sectionId,
       prompt: prompt.trim(),
@@ -92,17 +96,29 @@ export function QuizCreateForm({
       ],
       correctIndex,
       explanation: explanation.trim() || copy.defaultExplanation,
-    });
+      status,
+    };
+  };
+
+  const submitWithStatus = (status: PublishStatus) => {
+    const input = buildInput(status);
+    if (!input) return;
+    onCreate(input);
     setPrompt("");
     setOptions(["", "", "", ""]);
     setExplanation("");
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    submitWithStatus("draft");
   };
 
   return (
     <form
       onSubmit={handleSubmit}
       aria-labelledby="teacher-quiz-form-heading"
-      className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 lg:col-span-8"
+      className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5"
       data-testid="teacher-quiz-create"
     >
       <h2
@@ -112,28 +128,8 @@ export function QuizCreateForm({
         {locked ? content.createNewQuiz : copy.buildQuizHeading}
       </h2>
 
-      {!locked ? (
-        <QuizPlacementFields
-          content={content}
-          courses={courses}
-          courseSections={courseSections}
-          courseId={courseId}
-          sectionId={sectionId}
-          placementError={placementError}
-          onCourseChange={(next) => {
-            setCourseId(next);
-            setSectionId("");
-            setPlacementError("");
-          }}
-          onSectionChange={(next) => {
-            setSectionId(next);
-            setPlacementError("");
-          }}
-        />
-      ) : null}
-
       <label className="block text-base font-bold" htmlFor="quiz-title">
-        <span className="sr-only">{copy.quizTitlePlaceholder}</span>
+        <span className="mb-1 block text-sm">{copy.quizTitlePlaceholder}</span>
         <input
           id="quiz-title"
           type="text"
@@ -145,46 +141,62 @@ export function QuizCreateForm({
       </label>
 
       {!locked ? (
-        <>
-          <label className="block text-base font-bold" htmlFor="quiz-subject">
-            <span className="sr-only">{copy.subjectField}</span>
-            <select
-              id="quiz-subject"
-              value={subject}
-              onChange={(event) => setSubject(event.target.value)}
-              className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 py-3 text-base"
-            >
-              {SUBJECTS.map((item) => (
-                <option key={item} value={item}>
-                  {formatSubject(lang, item)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <fieldset className="space-y-2">
-            <legend className="text-base font-bold">{copy.gradeColon}</legend>
-            <div className="flex flex-wrap items-center gap-2">
-              {[6, 7, 8, 9, 10, 11].map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => setGrade(item)}
-                  className={`min-h-12 rounded-xl px-3 text-base font-bold ${
-                    grade === item
-                      ? "bg-[var(--sn-primary)] text-white"
-                      : "bg-[var(--sn-olive)] text-[var(--sn-primary)]"
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-        </>
+        <fieldset className="space-y-2">
+          <legend className="text-base font-bold">{copy.gradeColon}</legend>
+          <div className="flex flex-wrap items-center gap-2">
+            {[6, 7, 8, 9, 10, 11].map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setGrade(item)}
+                disabled={derivedFromCourse}
+                className={`min-h-12 rounded-xl px-3 text-base font-bold ${
+                  grade === item
+                    ? "bg-[var(--sn-primary)] text-white"
+                    : "bg-[var(--sn-olive)] text-[var(--sn-primary)]"
+                } disabled:opacity-70`}
+              >
+                {formatGrade(lang, item)}
+              </button>
+            ))}
+          </div>
+          {derivedFromCourse && selectedCourse ? (
+            <p className="text-xs font-semibold text-[var(--sn-text-secondary)]">
+              {formatSubject(lang, selectedCourse.subject)} ·{" "}
+              {formatGrade(lang, selectedCourse.grade)}
+            </p>
+          ) : null}
+        </fieldset>
+      ) : null}
+
+      {!locked ? (
+        <QuizPlacementFields
+          lang={lang}
+          content={content}
+          courses={courses}
+          courseSections={courseSections}
+          courseId={courseId}
+          sectionId={sectionId}
+          placementError={placementError}
+          onCourseChange={(next) => {
+            setCourseId(next);
+            setSectionId("");
+            setPlacementError("");
+            const selected = courses.find((c) => c.id === next);
+            if (selected) {
+              setSubject(selected.subject);
+              setGrade(selected.grade);
+            }
+          }}
+          onSectionChange={(next) => {
+            setSectionId(next);
+            setPlacementError("");
+          }}
+        />
       ) : null}
 
       <label className="block text-base font-bold" htmlFor="quiz-prompt">
-        <span className="sr-only">{copy.promptPlaceholder}</span>
+        <span className="mb-1 block text-sm">{copy.promptPlaceholder}</span>
         <textarea
           id="quiz-prompt"
           rows={3}
@@ -227,10 +239,16 @@ export function QuizCreateForm({
       <div className="flex flex-col gap-2 sm:flex-row">
         <button
           type="submit"
-          className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[var(--sn-primary)] text-base font-bold text-white"
+          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-xl bg-[var(--sn-primary)] text-base font-bold text-white"
         >
-          <Plus className="h-4 w-4" />
-          <span>{copy.publishQuizBtn}</span>
+          {copy.saveDraftBtn}
+        </button>
+        <button
+          type="button"
+          onClick={() => submitWithStatus("published")}
+          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-xl border border-[var(--sn-border)] bg-[var(--sn-olive)] px-4 text-base font-bold text-[var(--sn-primary)]"
+        >
+          {copy.publishQuizBtn}
         </button>
         {onCancel ? (
           <button

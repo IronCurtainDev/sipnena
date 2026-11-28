@@ -22,8 +22,8 @@ export function LessonActionBar({
   courseMode = false,
 }: LessonActionBarProps) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="min-w-0 space-y-1">
+    <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="min-w-[min(100%,24rem)] flex-1 space-y-1">
         <p className="text-sm font-semibold leading-normal text-[var(--sn-text-secondary)]">
           {courseMode ? lessonCounter : `${lessonCounter} · ${t.unitSubtitle}`}
         </p>
@@ -37,7 +37,7 @@ export function LessonActionBar({
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+      <div className="flex shrink-0 flex-wrap items-center gap-2.5">
         <button
           type="button"
           onClick={onToggleDone}

@@ -56,7 +56,7 @@ export function LandingGradesSection({
                   }`}
                 >
                   {g.isOL && (
-                    <span className="absolute top-2 right-2 rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold text-amber-800">
+                    <span className="absolute top-2 right-2 rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-bold text-amber-800">
                       O/L
                     </span>
                   )}
@@ -73,11 +73,11 @@ export function LandingGradesSection({
                   <span className="mt-1 text-xs font-semibold text-slate-600">
                     {g.labelSi}
                   </span>
-                  <span className="mt-0.5 text-[11px] text-slate-400">
+                  <span className="mt-0.5 text-xs text-slate-400">
                     {g.labelTa}
                   </span>
 
-                  <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-[var(--sn-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-[var(--sn-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
                     <span>Explore</span>
                     <ArrowRight className="h-3 w-3" />
                   </span>

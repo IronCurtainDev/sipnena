@@ -53,7 +53,7 @@ export function LessonOverviewTab({
                 className="border-t border-[var(--sn-border)] pt-3 first:border-t-0 first:pt-0"
               >
                 <p className="text-sm font-bold text-[var(--sn-primary)]">
-                  {index + 1}. {rule.title}
+                  {index + 1}. {rule.title.replace(/^\d+\.\s*/, "")}
                 </p>
                 <p className="mt-1 text-base leading-relaxed text-[var(--sn-text-secondary)]">
                   {rule.body}

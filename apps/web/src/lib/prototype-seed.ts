@@ -1,4 +1,11 @@
 import type { StudyMedium } from "./language-types";
+import type {
+  TeacherCourseDraft,
+  TeacherCourseSection,
+  TeacherLessonDraft,
+  TeacherLiveSession,
+  TeacherQuizDraft,
+} from "./prototype-teacher-seed";
 
 export type DemoRole = "student" | "parent" | "teacher" | "admin";
 export type DataSaverQuality = "low" | "medium" | "high";
@@ -38,21 +45,6 @@ export interface PrototypeDoubt {
     repliedAt: string;
   };
 }
-
-import type {
-  TeacherCourseDraft,
-  TeacherCourseSection,
-  TeacherLessonDraft,
-  TeacherLiveSession,
-  TeacherQuizDraft,
-} from "./prototype-teacher-seed";
-import {
-  SEED_TEACHER_COURSES,
-  SEED_TEACHER_LESSONS,
-  SEED_TEACHER_LIVE_SESSIONS,
-  SEED_TEACHER_QUIZZES,
-  SEED_TEACHER_SECTIONS,
-} from "./prototype-teacher-seed-data";
 
 export type {
   LessonFileDraft,
@@ -96,132 +88,30 @@ export interface PrototypeState {
   activeChildId: string;
 }
 
+/** Empty defaults — no invented students, payments, doubts, or teacher drafts. */
 export const INITIAL_PROTOTYPE_STATE: PrototypeState = {
   role: "student",
   grade: 8,
   medium: "si",
-  studentName: "Kasun Perera",
-  selectedSubjects: [
-    "maths",
-    "science",
-    "english",
-    "firstLang",
-    "history",
-    "ict",
-  ],
+  studentName: "",
+  selectedSubjects: [],
   olBaskets: {
-    basket1: "commerce",
-    basket2: "art",
-    basket3: "ict",
+    basket1: "",
+    basket2: "",
+    basket3: "",
   },
-  bookmarkedIds: [
-    "les-light-4",
-    "note-light-short",
-    "pp-2023-sci-mcq-12",
-    "note-algebra-formula",
-  ],
-  downloadedIds: ["tute-light-pdf", "textbook-sci-g8", "video-mirrors-4"],
+  bookmarkedIds: [],
+  downloadedIds: [],
   dataSaverQuality: "medium",
   wifiOnlyDownloads: true,
-  recentSearches: ["Alokaya", "Quadratic equations", "ගණිතය 2023", "Newton"],
-  readNotificationIds: ["notif-4"],
-  activeChildId: "kasun",
-  bankSlips: [
-    {
-      id: "slip-101",
-      studentName: "Kasun Perera",
-      grade: 8,
-      courseTitle: "Grade 8 Science: Full Year Masterclass",
-      bankName: "Bank of Ceylon (BOC)",
-      referenceCode: "BOC-2026-44190",
-      amount: 1500,
-      uploadedAt: "Today, 10:42 AM",
-      status: "pending",
-      slipFileName: "boc_deposit_kasun_g8.jpg",
-    },
-    {
-      id: "slip-102",
-      studentName: "Nethmi Fernando",
-      grade: 11,
-      courseTitle: "G.C.E. O/L Mathematics Past Paper Clinic",
-      bankName: "Commercial Bank of Ceylon",
-      referenceCode: "COMB-2026-78214",
-      amount: 2200,
-      uploadedAt: "Yesterday, 4:15 PM",
-      status: "pending",
-      slipFileName: "comb_transfer_nethmi_ol.png",
-    },
-    {
-      id: "slip-103",
-      studentName: "Kavindu Silva",
-      grade: 9,
-      courseTitle: "Grade 9 Term 2 Science + Maths Bundle",
-      bankName: "Sampath Bank",
-      referenceCode: "SAMP-2026-11904",
-      amount: 1800,
-      uploadedAt: "2 days ago",
-      status: "approved",
-      slipFileName: "sampath_vishwa_kavindu.jpg",
-    },
-  ],
-  doubts: [
-    {
-      id: "doubt-1",
-      studentName: "Kasun Perera",
-      grade: 8,
-      subject: "Science",
-      courseId: "sci-g8-full",
-      lessonTitle: "Mirrors & Image Formation",
-      timestampTag: "08:24",
-      question:
-        "If an object is placed between the focal point (F) and pole (P) of a concave mirror, why is the image virtual and upright?",
-      photoLabel: "ray_diagram_sketch.jpg",
-      createdAt: "2 hours ago",
-      status: "answered",
-      upvotes: 14,
-      reply: {
-        teacherName: "Ms. Menaka Jayawardena",
-        text: "When the object is inside the focal length (between F and P), reflected rays diverge and only appear to meet behind the mirror. That is why a shaving/makeup mirror shows an enlarged upright virtual image!",
-        repliedAt: "45 mins ago",
-      },
-    },
-    {
-      id: "doubt-2",
-      studentName: "Nethmi Fernando",
-      grade: 11,
-      subject: "Mathematics",
-      courseId: "math-ol-rev",
-      lessonTitle: "Quadratic Equations & Graphs",
-      timestampTag: "14:10",
-      question:
-        "In 2022 O/L Part II Question 3(b), should we give the roots of x² - 5x + 3 = 0 rounded to 1 decimal place using the graph or formula?",
-      createdAt: "4 hours ago",
-      status: "pending",
-      upvotes: 6,
-    },
-    {
-      id: "doubt-3",
-      studentName: "Sahan Bandara",
-      grade: 10,
-      subject: "ICT",
-      courseId: "ict-g10-logic",
-      lessonTitle: "Logic Gates & Truth Tables",
-      timestampTag: "05:40",
-      question:
-        "How do I quickly draw a NAND gate equivalent of an OR gate for structured essay questions?",
-      createdAt: "Yesterday",
-      status: "answered",
-      upvotes: 11,
-      reply: {
-        teacherName: "Ms. Dilani Silva",
-        text: "Invert both inputs A and B using two single-input NAND gates, then feed those two outputs into a third NAND gate (De Morgan's law: A + B = (A' · B')').",
-        repliedAt: "Yesterday",
-      },
-    },
-  ],
-  teacherCourses: SEED_TEACHER_COURSES,
-  teacherCourseSections: SEED_TEACHER_SECTIONS,
-  teacherLessons: SEED_TEACHER_LESSONS,
-  teacherQuizzes: SEED_TEACHER_QUIZZES,
-  teacherLiveSessions: SEED_TEACHER_LIVE_SESSIONS,
+  recentSearches: [],
+  readNotificationIds: [],
+  activeChildId: "",
+  bankSlips: [],
+  doubts: [],
+  teacherCourses: [],
+  teacherCourseSections: [],
+  teacherLessons: [],
+  teacherQuizzes: [],
+  teacherLiveSessions: [],
 };

@@ -90,25 +90,25 @@ export function AdminPaymentsScreen() {
 
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-2xl bg-white/10 p-3">
-            <p className="text-[11px] font-bold text-amber-300">
+            <p className="text-xs font-bold text-amber-300">
               {copy.kpiPendingLabel}
             </p>
             <p className="mt-1 text-xl font-black">{pendingCount}</p>
           </div>
           <div className="rounded-2xl bg-white/10 p-3">
-            <p className="text-[11px] font-bold text-emerald-300">
+            <p className="text-xs font-bold text-emerald-300">
               {copy.kpiApprovedLabel}
             </p>
             <p className="mt-1 text-xl font-black">{approvedList.length}</p>
           </div>
           <div className="rounded-2xl bg-white/10 p-3">
-            <p className="text-[11px] font-bold text-rose-300">
+            <p className="text-xs font-bold text-rose-300">
               {copy.kpiRejectedLabel}
             </p>
             <p className="mt-1 text-xl font-black">{rejectedCount}</p>
           </div>
           <div className="rounded-2xl bg-white/10 p-3">
-            <p className="text-[11px] font-bold text-slate-300">
+            <p className="text-xs font-bold text-slate-300">
               {copy.kpiTotalValueLabel}
             </p>
             <p className="mt-1 text-xl font-black">
@@ -150,7 +150,7 @@ export function AdminPaymentsScreen() {
 
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[640px] text-left text-xs">
-            <thead className="border-b border-slate-200 text-[11px] uppercase text-[var(--sn-text-muted)]">
+            <thead className="border-b border-slate-200 text-xs uppercase text-[var(--sn-text-muted)]">
               <tr>
                 <th className="py-2.5 pr-3">{copy.colStudentCourse}</th>
                 <th className="py-2.5 pr-3">{copy.colBankRef}</th>
@@ -166,7 +166,7 @@ export function AdminPaymentsScreen() {
                     <p className="font-extrabold text-[var(--sn-text-main)]">
                       {slip.studentName} ({formatGradeShort(lang, slip.grade)})
                     </p>
-                    <p className="text-[11px] text-[var(--sn-text-muted)]">
+                    <p className="text-xs text-[var(--sn-text-muted)]">
                       {localizeSlipCourseTitle(slip, lang)}
                     </p>
                   </td>
@@ -174,7 +174,7 @@ export function AdminPaymentsScreen() {
                     <p className="font-bold">
                       {localizeBankName(slip.bankName, lang)}
                     </p>
-                    <p className="font-mono text-[11px] text-[var(--sn-text-muted)]">
+                    <p className="font-mono text-xs text-[var(--sn-text-muted)]">
                       {slip.referenceCode} •{" "}
                       {localizeTimestamp(slip.uploadedAt, lang)}
                     </p>
@@ -184,7 +184,7 @@ export function AdminPaymentsScreen() {
                   </td>
                   <td className="py-3 pr-3">
                     <span
-                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                         slip.status === "approved"
                           ? "bg-emerald-100 text-emerald-800"
                           : slip.status === "rejected"
@@ -203,7 +203,7 @@ export function AdminPaymentsScreen() {
                           setRejectNote("");
                           setPreviewSlip(slip);
                         }}
-                        className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-700"
+                        className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-700"
                       >
                         <Eye className="h-3.5 w-3.5" />
                         <span>{copy.slipBtn}</span>
@@ -211,7 +211,7 @@ export function AdminPaymentsScreen() {
                       <button
                         type="button"
                         onClick={() => handleApprove(slip)}
-                        className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-2.5 py-1.5 text-[11px] font-bold text-white"
+                        className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-2.5 py-1.5 text-xs font-bold text-white"
                       >
                         <Check className="h-3.5 w-3.5" />
                         <span>{copy.approveBtn}</span>
@@ -219,7 +219,7 @@ export function AdminPaymentsScreen() {
                       <button
                         type="button"
                         onClick={() => handleReject(slip)}
-                        className="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-2.5 py-1.5 text-[11px] font-bold text-white"
+                        className="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-2.5 py-1.5 text-xs font-bold text-white"
                       >
                         <XCircle className="h-3.5 w-3.5" />
                         <span>{copy.rejectBtn}</span>

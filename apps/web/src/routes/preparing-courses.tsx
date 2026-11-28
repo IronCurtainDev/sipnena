@@ -1,6 +1,5 @@
-import { lazyRouteComponent } from "@tanstack/react-router";
+import { PreparingCoursesLoadingScreen } from "@/features/onboarding/preparing-courses-screen";
 
-export const PreparingCoursesPage = lazyRouteComponent(
-  () => import("../features/onboarding/preparing-courses-screen"),
-  "PreparingCoursesLoadingScreen",
-);
+export function PreparingCoursesPage() {
+  return <PreparingCoursesLoadingScreen />;
+}

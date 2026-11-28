@@ -55,7 +55,7 @@ export function CompactLanguageSwitcher({
             }`}
           >
             <span
-              className={`font-semibold shrink-0 text-[11px] sm:text-xs rounded px-1 py-0.5 ${
+              className={`font-semibold shrink-0 text-xs sm:text-xs rounded px-1 py-0.5 ${
                 showLabel ? "min-[420px]:hidden" : ""
               } ${
                 isSelected

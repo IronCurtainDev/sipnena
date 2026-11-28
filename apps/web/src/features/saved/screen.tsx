@@ -101,7 +101,7 @@ export function SavedBookmarksScreen() {
                           <Icon className="h-4 w-4" />
                         </span>
                         <div className="min-w-0">
-                          <span className="text-[10px] font-bold uppercase text-[var(--sn-text-muted)]">
+                          <span className="text-xs font-bold uppercase text-[var(--sn-text-muted)]">
                             {item.localizedType[lang]}
                           </span>
                           <p className="truncate text-xs font-extrabold text-[var(--sn-text-main)] sm:text-sm">

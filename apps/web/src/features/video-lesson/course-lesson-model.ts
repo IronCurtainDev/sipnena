@@ -1,3 +1,4 @@
+import type { Item, PublishStatus } from "@/data/courses";
 import type { PrototypeState } from "@/lib/prototype-state";
 import type { QuizQuestion } from "@/features/quiz/types";
 import type {
@@ -16,7 +17,7 @@ export interface LessonFileItem {
 }
 
 export interface AuthoredLessonView {
-  kind: "video" | "quiz" | "lab";
+  kind: "video" | "quiz" | "lab" | "assignment";
   title: string;
   labPrompt: string;
   overviewTitle: string;
@@ -28,6 +29,15 @@ export interface AuthoredLessonView {
   files: LessonFileItem[];
   questions: QuizQuestion[] | null;
   quizTitle: string;
+  quizId?: string;
+  quizQuestionIds?: string[];
+  assignment?: {
+    instructions: string;
+    dueAt?: string;
+    maxScore: number;
+  };
+  videoItem?: Extract<Item, { type: "video" }>;
+  status?: PublishStatus;
 }
 
 export interface CourseLessonBundle {
@@ -36,6 +46,7 @@ export interface CourseLessonBundle {
   sidebarFiles: LessonFileItem[];
   sidebarQuizzes: { id: string; title: string; questionCount: number }[];
   firstId: string | null;
+  resolvedCourseId?: string;
 }
 
 export function toPlayableQuestions(quiz: {

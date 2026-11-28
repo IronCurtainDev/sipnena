@@ -1,10 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { DesktopProfileView } from "./desktop-profile-view";
 import { GradeDialog } from "./grade-dialog";
 import { MobileProfileView } from "./mobile-profile-view";
@@ -14,8 +10,8 @@ import { PROFILE_STRINGS } from "./strings";
 
 export function SipNenaProfileScreen() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
-  const [avatarId, setAvatarId] = useState<string>("kasun");
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
+  const [avatarId, setAvatarId] = useState<string>("student");
   const [currentGrade, setCurrentGrade] = useState<string>("8");
   const [activeNavTab, setActiveNavTab] = useState<string>("me");
 
@@ -25,21 +21,6 @@ export function SipNenaProfileScreen() {
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = PROFILE_STRINGS[lang];
-
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
 
   const showToast = (msg: string) => {
     setToastMsg(msg);

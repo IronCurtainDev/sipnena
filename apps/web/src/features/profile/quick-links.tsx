@@ -2,9 +2,11 @@ import { Link } from "@tanstack/react-router";
 import {
   BarChart3,
   Bell,
+  Bookmark,
   CreditCard,
   Download,
   FileCheck2,
+  FileText,
   GraduationCap,
   HelpCircle,
   Languages,
@@ -77,6 +79,24 @@ const PROFILE_LINKS: Array<{
     icon: Download,
   },
   {
+    to: "/saved",
+    label: {
+      en: "Saved Courses & Lessons",
+      si: "සුරැකි පාඨමාලා සහ පාඩම්",
+      ta: "சேமித்த பாடங்கள்",
+    },
+    icon: Bookmark,
+  },
+  {
+    to: "/notes",
+    label: {
+      en: "My Study Notes",
+      si: "මගේ අධ්‍යයන සටහන්",
+      ta: "என் குறிப்புகள்",
+    },
+    icon: FileText,
+  },
+  {
     to: "/notifications",
     label: {
       en: "Notifications Center",
@@ -121,7 +141,7 @@ export function ProfileQuickLinks({ lang }: { lang: AppLanguage }) {
           );
         })}
       </div>
-      <div className="mt-3 flex flex-wrap gap-3 border-t border-slate-100 pt-2.5 text-[11px] font-semibold text-[var(--sn-text-muted)]">
+      <div className="mt-3 flex flex-wrap gap-3 border-t border-slate-100 pt-2.5 text-xs font-semibold text-[var(--sn-text-muted)]">
         <Link
           to="/terms"
           className="hover:text-[var(--sn-primary)] hover:underline"

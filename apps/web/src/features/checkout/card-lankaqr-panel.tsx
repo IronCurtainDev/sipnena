@@ -54,7 +54,7 @@ export function CardLankaQrPanel({
           <div className="mx-auto my-3 flex h-36 w-36 items-center justify-center rounded-2xl border-2 border-[var(--sn-primary)] bg-[var(--sn-page-bg)]">
             <QrCode className="h-24 w-24 text-[var(--sn-primary)]" />
           </div>
-          <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-emerald-700">
+          <p className="flex items-center justify-center gap-1 text-xs font-semibold text-emerald-700">
             <Smartphone className="h-3.5 w-3.5" />
             <span>
               {extra.amountWord} {amount.toLocaleString()} •{" "}

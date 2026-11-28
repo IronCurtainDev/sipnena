@@ -122,6 +122,7 @@ export interface CourseStrings {
   exploreAllDesktop: string;
   unitsWord: string;
   coursesWord: string;
+  courseSingularWord: string;
   sub_maths: string;
   sub_maths_desc: string;
   sub_history: string;

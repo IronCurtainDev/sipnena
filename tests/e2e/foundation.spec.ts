@@ -8,15 +8,11 @@ test("register, verify, sign in, update profile, and sign out", async ({
   page.on("pageerror", (error) => errors.push(error.message));
   const email = `signup-${crypto.randomUUID()}@example.com`;
   await page.goto("/signup");
-  await expect(
-    page.getByRole("heading", { name: "Create your account" }),
-  ).toBeVisible();
-  await page.getByLabel("Name", { exact: true }).fill("First User");
-  await page.getByLabel("Email", { exact: true }).fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page
-    .getByRole("button", { name: "Create account", exact: true })
-    .click();
+  await expect(page.getByTestId("signup-heading")).toBeVisible();
+  await page.getByTestId("signup-name").fill("First User");
+  await page.getByTestId("signup-email").fill(email);
+  await page.getByTestId("signup-password").fill(password);
+  await page.getByTestId("signup-submit").click();
   await expect(page).toHaveURL(/\/verify-email/);
   await page.goto(await emailLink(email, "Verify"));
   await page.goto("/login");

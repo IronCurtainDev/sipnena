@@ -9,9 +9,11 @@ import {
   X,
 } from "lucide-react";
 import { CelebrationCheckGraphic } from "./course-enroll-graphics";
+import type { CourseDetailData } from "./mock-data";
 import type { CourseDetailStrings } from "./strings.types";
 
 interface StepSuccessProps {
+  course: CourseDetailData;
   t: CourseDetailStrings;
   onClose: () => void;
   onStartFirstLesson: () => void;
@@ -19,17 +21,21 @@ interface StepSuccessProps {
 }
 
 export function CourseEnrollStepSuccess({
+  course,
   t,
   onClose,
   onStartFirstLesson,
   onGoToCourses,
 }: StepSuccessProps) {
+  const firstLesson = course.modules
+    .flatMap((m) => m.lessons)
+    .find(Boolean);
   return (
     <>
       <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 p-4 sm:p-5">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sn-border)] bg-[var(--sn-olive)] px-3 py-1 text-xs font-semibold text-[var(--sn-primary)]">
           <BookOpen className="h-3.5 w-3.5 text-[var(--sn-primary)]" />
-          <span>{t.subjectGradePill}</span>
+          <span>{course.subjectGradePill}</span>
         </span>
         <button
           type="button"
@@ -62,12 +68,12 @@ export function CourseEnrollStepSuccess({
         <div className="space-y-3 rounded-2xl border border-slate-200/80 bg-slate-50/70 p-3.5 sm:p-4">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
-              <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-500 uppercase sm:text-[11px]">
+              <div className="mb-0.5 flex items-center gap-1.5 text-xs font-bold tracking-wider text-slate-500 uppercase sm:text-xs">
                 <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" />
                 <span>{t.enrolledTag}</span>
               </div>
               <div className="text-sm font-bold leading-snug text-slate-900 sm:text-base">
-                {t.courseTitle}
+                {course.title}
               </div>
             </div>
             <span className="inline-flex shrink-0 items-center rounded-full border border-emerald-200 bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
@@ -82,7 +88,7 @@ export function CourseEnrollStepSuccess({
                 <span>{t.syllabusStatus}</span>
               </div>
               <span className="text-xs font-bold text-slate-900 sm:text-sm">
-                {t.progressPercent}
+                0% · 0 of {course.lessonsTotal} lessons
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200 sm:h-2">
@@ -104,16 +110,15 @@ export function CourseEnrollStepSuccess({
                 <Play className="ml-0.5 h-4 w-4 fill-current" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-bold tracking-wide text-[var(--sn-primary)] uppercase sm:text-[11px]">
+                <div className="text-xs font-bold tracking-wide text-[var(--sn-primary)] uppercase sm:text-xs">
                   <span className="hidden sm:inline">{t.nextUpEyebrow}</span>
                   <span className="sm:hidden">{t.nextUpEyebrowMobile}</span>
                 </div>
                 <div className="truncate text-xs font-bold text-slate-900 transition group-hover:text-[var(--sn-primary)] sm:text-sm">
-                  {t.nextUpLessonTitle}
+                  {firstLesson?.title || t.startFirstLessonBtn}
                 </div>
-                <div className="text-[11px] text-slate-500 sm:text-xs">
-                  <span className="hidden sm:inline">{t.nextUpLessonMeta}</span>
-                  <span className="sm:hidden">{t.nextUpLessonMetaMobile}</span>
+                <div className="text-xs text-slate-500 sm:text-xs">
+                  {firstLesson?.meta || course.duration || "—"}
                 </div>
               </div>
             </div>
@@ -147,7 +152,7 @@ export function CourseEnrollStepSuccess({
             {t.goToMyCoursesBtn}
           </button>
 
-          <div className="flex items-center justify-center gap-1.5 pt-1 text-center text-[11px] text-slate-500 sm:text-xs">
+          <div className="flex items-center justify-center gap-1.5 pt-1 text-center text-xs text-slate-500 sm:text-xs">
             <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
             <span className="hidden sm:inline">{t.trackerFootnote}</span>
             <span className="sm:hidden">{t.trackerFootnoteMobile}</span>

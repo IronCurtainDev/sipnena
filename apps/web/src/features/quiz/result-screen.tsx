@@ -1,39 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { DesktopQuizResultView } from "./desktop-quiz-result-view";
 import { MobileQuizResultView } from "./mobile-quiz-result-view";
-import { MOCK_FAIL_RESULT, MOCK_PASS_RESULT } from "./result-mock-data";
+import { getQuizResultMock } from "./result-mock-data";
 import { QUIZ_RESULT_STRINGS } from "./result-strings";
 
 export function SipNenaQuizResultScreen() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
   const [activeNav, setActiveNav] = useState("courses");
-  const [isPassedState, setIsPassedState] = useState(false); // Can toggle between 4/10 and 8/10
+  const [isPassedState, setIsPassedState] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = QUIZ_RESULT_STRINGS[lang];
-  const result = isPassedState ? MOCK_PASS_RESULT : MOCK_FAIL_RESULT;
-
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
+  const result = getQuizResultMock(lang, isPassedState);
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
@@ -51,7 +32,6 @@ export function SipNenaQuizResultScreen() {
   };
 
   const handleTryAgain = () => {
-    // Toggle to passed state on try again to demonstrate both screens!
     setIsPassedState(!isPassedState);
     void navigate({ to: "/quiz" });
   };
@@ -60,7 +40,7 @@ export function SipNenaQuizResultScreen() {
     if (isPassedState) {
       void navigate({ to: "/course-completed" });
     } else {
-      showToast("Starting next section: Curved Mirrors!");
+      showToast(t.nextSectionToast);
       void navigate({ to: "/lesson" });
     }
   };
@@ -77,7 +57,7 @@ export function SipNenaQuizResultScreen() {
           onTryAgain={handleTryAgain}
           onNextLesson={handleNextLesson}
           onReviewLesson={(ref) => {
-            showToast(`Opening ${ref}`);
+            showToast(`${t.reviewLessonToastPrefix} ${ref}`);
             void navigate({ to: "/lesson" });
           }}
           onBack={() => void navigate({ to: "/quiz" })}
@@ -96,7 +76,7 @@ export function SipNenaQuizResultScreen() {
         onTryAgain={handleTryAgain}
         onNextLesson={handleNextLesson}
         onReviewLesson={(ref) => {
-          showToast(`Opening ${ref}`);
+          showToast(`${t.reviewLessonToastPrefix} ${ref}`);
           void navigate({ to: "/lesson" });
         }}
         onBackToCourse={() => void navigate({ to: "/course" })}

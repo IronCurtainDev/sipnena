@@ -75,7 +75,7 @@ export function CertificateModal({
               <p className="font-serif text-sm font-bold text-slate-800">
                 Ms. Menaka Jayawardena
               </p>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-xs text-slate-500">
                 Science Specialist, Colombo Zone
               </p>
             </div>
@@ -83,7 +83,7 @@ export function CertificateModal({
               <p className="font-mono text-xs font-bold text-slate-700">
                 SN-SCI8-2026-9481
               </p>
-              <p className="text-[11px] text-slate-500">Certificate ID</p>
+              <p className="text-xs text-slate-500">Certificate ID</p>
             </div>
           </div>
         </div>

@@ -1,43 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { DesktopQuizView } from "./desktop-quiz-view";
 import { MobileQuizView } from "./mobile-quiz-view";
-import { SAMPLE_QUIZ_QUESTIONS } from "./mock-data";
+import { getSampleQuizQuestions } from "./mock-data";
 import { QUIZ_STRINGS } from "./strings";
 
 export function SipNenaQuizScreen() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
   const [activeNav, setActiveNav] = useState("courses");
   const [isStarted, setIsStarted] = useState(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(2); // start on Question 3 to match screenshot
-  const [selectedOption, setSelectedOption] = useState<string | null>("B");
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = QUIZ_STRINGS[lang];
-  const question =
-    SAMPLE_QUIZ_QUESTIONS[currentQuestionIndex] ?? SAMPLE_QUIZ_QUESTIONS[0]!;
-
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
+  const questions = getSampleQuizQuestions(lang);
+  const question = questions[currentQuestionIndex] ?? questions[0]!;
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
@@ -65,21 +46,28 @@ export function SipNenaQuizScreen() {
     setIsChecked(true);
     const correct = question.options.find((o) => o.isCorrect)?.id;
     if (selectedOption === correct) {
-      showToast("Correct! Well done! 🎉");
+      showToast(t.toastCorrect);
     } else {
-      showToast("Check the explanation to learn why!");
+      showToast(t.toastCheckExplanation);
     }
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex + 1 < SAMPLE_QUIZ_QUESTIONS.length) {
+    if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedOption(null);
       setIsChecked(false);
     } else {
-      showToast("Quiz completed! Showing your evaluation.");
+      showToast(t.toastCompleted);
       void navigate({ to: "/quiz-result" });
     }
+  };
+
+  const handleStart = () => {
+    setIsStarted(true);
+    setCurrentQuestionIndex(0);
+    setSelectedOption(null);
+    setIsChecked(false);
   };
 
   return (
@@ -91,12 +79,7 @@ export function SipNenaQuizScreen() {
           lang={lang}
           onLanguageChange={handleLanguageChange}
           isStarted={isStarted}
-          onStart={() => {
-            setIsStarted(true);
-            setCurrentQuestionIndex(2); // Jump to question 3 matching screenshots
-            setSelectedOption("B");
-            setIsChecked(false);
-          }}
+          onStart={handleStart}
           onReviewNotes={() => void navigate({ to: "/lesson" })}
           question={question}
           selectedOption={selectedOption}
@@ -120,12 +103,7 @@ export function SipNenaQuizScreen() {
         activeNav={activeNav}
         onNavTab={handleNavTab}
         isStarted={isStarted}
-        onStart={() => {
-          setIsStarted(true);
-          setCurrentQuestionIndex(2);
-          setSelectedOption("B");
-          setIsChecked(false);
-        }}
+        onStart={handleStart}
         onReviewNotes={() => void navigate({ to: "/lesson" })}
         question={question}
         selectedOption={selectedOption}

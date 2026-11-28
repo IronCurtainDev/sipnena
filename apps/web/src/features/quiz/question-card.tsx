@@ -33,10 +33,11 @@ export function QuestionCard({
       <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs space-y-4">
         <div className="flex items-center justify-between gap-2">
           <span className="inline-flex items-center rounded-lg bg-[var(--sn-olive)] px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)]">
-            GRADE 8 QUIZ
+            {t.gradeQuizBadge}
           </span>
           <span className="flex items-center gap-1 text-xs font-semibold text-slate-500">
-            <HelpCircle className="h-3.5 w-3.5" />1 mark
+            <HelpCircle className="h-3.5 w-3.5" />
+            {t.markLabel}
           </span>
         </div>
 
@@ -46,6 +47,7 @@ export function QuestionCard({
 
         {question.showDiagram === false ? null : (
           <QuizRayDiagram
+            t={t}
             incidentAngle={question.incidentAngle}
             showLawBadge={question.showLawBadge}
             highlightCorrect={isChecked && isCorrect}
@@ -217,7 +219,7 @@ export function QuestionCard({
           </button>
         )}
         <p className="text-center text-xs text-slate-500 font-medium">
-          {!isChecked ? t.tapCheckNotice : "Great job practicing! Keep going."}
+          {!isChecked ? t.tapCheckNotice : t.keepGoingNotice}
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import {
+  ClipboardList,
   CreditCard,
   FileCheck2,
   FolderTree,
@@ -14,7 +15,8 @@ import type { PortalNavLink } from "./nav-config";
 import { STUDENT_MOBILE_TABS } from "./student-nav";
 
 export function mobileTabGridClass(count: number): string {
-  if (count <= 3) return "grid-cols-3";
+  if (count <= 2) return "grid-cols-2";
+  if (count === 3) return "grid-cols-3";
   if (count === 4) return "grid-cols-4";
   return "grid-cols-5";
 }
@@ -55,6 +57,11 @@ export const MOBILE_TABS_BY_ROLE: Record<DemoRole, PortalNavLink[]> = {
       label: { en: "Courses", si: "පාඨමාලා", ta: "பாடநெறி" },
     },
     {
+      to: "/teacher/quizzes",
+      icon: ClipboardList,
+      label: { en: "Quizzes", si: "ප්‍රශ්නාවලි", ta: "வினாடிகள்" },
+    },
+    {
       to: "/teacher/doubts",
       icon: MessageCircleQuestion,
       label: { en: "Doubts", si: "ගැටලු", ta: "கேள்விகள்" },
@@ -72,9 +79,9 @@ export const MOBILE_TABS_BY_ROLE: Record<DemoRole, PortalNavLink[]> = {
       label: { en: "Syllabus", si: "නිර්දේශය", ta: "பாடத்திட்டம்" },
     },
     {
-      to: "/payment-status",
-      icon: FileCheck2,
-      label: { en: "Status", si: "තත්ත්වය", ta: "நிலை" },
+      to: "/admin/teachers",
+      icon: GraduationCap,
+      label: { en: "Teachers", si: "ගුරු", ta: "ஆசிரியர்" },
     },
     {
       to: "/help",

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
-import {
-  Captions,
-  Maximize2,
-  Minimize2,
-  Pause,
-  Play,
-  RotateCcw,
-  RotateCw,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Captions, Headphones, Pause, Play } from "lucide-react";
+import { isYoutubeUrl } from "@/lib/youtube";
 import { RayDiagramGraphic } from "./ray-diagram-graphic";
 import type { VideoLessonStrings } from "./strings";
+import {
+  QUALITY_META,
+  VideoControlsBar,
+  type QualityId,
+} from "./video-player-controls";
+import { YoutubeLessonEmbed } from "./youtube-lesson-embed";
 
 interface VideoPlayerProps {
   t: VideoLessonStrings;
@@ -19,6 +16,20 @@ interface VideoPlayerProps {
   onTogglePlay: () => void;
   onToast: (msg: string) => void;
   compact?: boolean;
+  src?: string;
+  poster?: string;
+}
+
+const MOCK_TOTAL_SECONDS = 1110;
+
+function getInitialQuality(): QualityId {
+  if (typeof navigator !== "undefined") {
+    const conn = (navigator as { connection?: { saveData?: boolean } })
+      .connection;
+    if (conn?.saveData) return "240p";
+  }
+  if (typeof window !== "undefined" && window.innerWidth < 768) return "360p";
+  return "720p";
 }
 
 export function VideoPlayer({
@@ -27,18 +38,58 @@ export function VideoPlayer({
   onTogglePlay,
   onToast,
   compact = false,
+  src,
+  poster,
 }: VideoPlayerProps) {
-  const [seconds, setSeconds] = useState(522); // 08:42
-  const totalSeconds = 1110; // 18:30
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const youtube = isYoutubeUrl(src);
+  const hasHtmlVideo = Boolean(src?.trim()) && !youtube;
+  const [seconds, setSeconds] = useState(hasHtmlVideo ? 0 : 522);
+  const [totalSeconds, setTotalSeconds] = useState(
+    hasHtmlVideo ? 0 : MOCK_TOTAL_SECONDS,
+  );
   const [isMuted, setIsMuted] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [subtitles, setSubtitles] = useState<"en" | "si" | "ta" | "off">("si");
-  const [quality, setQuality] = useState<string>("720p HD");
+  const [quality, setQuality] = useState<QualityId>(getInitialQuality);
+  const [audioOnly, setAudioOnly] = useState(false);
 
-  // Live timer tick when video is playing
   useEffect(() => {
-    if (!isPlaying) return;
+    const video = videoRef.current;
+    if (!hasHtmlVideo || !video) return;
+    const onTime = () => setSeconds(Math.floor(video.currentTime));
+    const onMeta = () => {
+      if (Number.isFinite(video.duration)) {
+        setTotalSeconds(Math.floor(video.duration));
+      }
+    };
+    const onEnded = () => {
+      onToast("Lesson finished. You can take the section quiz.");
+      if (isPlaying) onTogglePlay();
+    };
+    video.addEventListener("timeupdate", onTime);
+    video.addEventListener("loadedmetadata", onMeta);
+    video.addEventListener("ended", onEnded);
+    return () => {
+      video.removeEventListener("timeupdate", onTime);
+      video.removeEventListener("loadedmetadata", onMeta);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, [hasHtmlVideo, src, isPlaying, onTogglePlay, onToast]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!hasHtmlVideo || !video) return;
+    video.muted = isMuted;
+    video.playbackRate = playbackSpeed;
+    if (isPlaying) void video.play().catch(() => undefined);
+    else video.pause();
+    return () => video.pause();
+  }, [hasHtmlVideo, isPlaying, isMuted, playbackSpeed, src]);
+
+  useEffect(() => {
+    if (hasHtmlVideo || youtube || !isPlaying) return;
     const interval = setInterval(() => {
       setSeconds((prev) => {
         if (prev >= totalSeconds) {
@@ -48,72 +99,58 @@ export function VideoPlayer({
         return prev + 1;
       });
     }, 1000 / playbackSpeed);
-
     return () => clearInterval(interval);
-  }, [isPlaying, playbackSpeed, totalSeconds, onToast]);
+  }, [hasHtmlVideo, youtube, isPlaying, playbackSpeed, totalSeconds, onToast]);
 
-  const formatTime = (sec: number) => {
-    const mins = Math.floor(sec / 60);
-    const remainder = sec % 60;
-    return `${String(mins).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
-  };
+  if (youtube && src) {
+    return (
+      <div
+        className={`overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl ${
+          compact ? "rounded-none" : "rounded-2xl"
+        }`}
+      >
+        <YoutubeLessonEmbed
+          src={src}
+          isPlaying={isPlaying}
+          onTogglePlay={onTogglePlay}
+        />
+      </div>
+    );
+  }
 
   const handleSkip = (delta: number) => {
+    if (hasHtmlVideo && videoRef.current) {
+      const next = Math.min(
+        totalSeconds,
+        Math.max(0, videoRef.current.currentTime + delta),
+      );
+      videoRef.current.currentTime = next;
+      setSeconds(Math.floor(next));
+      return;
+    }
     setSeconds((prev) => Math.min(totalSeconds, Math.max(0, prev + delta)));
   };
 
-  const handleSpeedToggle = () => {
-    const speeds = [1.0, 1.25, 1.5, 2.0];
-    const nextIdx = (speeds.indexOf(playbackSpeed) + 1) % speeds.length;
-    const next = speeds[nextIdx] ?? 1.0;
-    setPlaybackSpeed(next);
-    onToast(`Speed: ${next}x`);
-  };
-
-  const handleSubtitlesToggle = () => {
-    const modes: Array<"si" | "ta" | "en" | "off"> = ["si", "ta", "en", "off"];
-    const nextIdx = (modes.indexOf(subtitles) + 1) % modes.length;
-    const next = modes[nextIdx] ?? "si";
-    setSubtitles(next);
-    const label =
-      next === "si"
-        ? "සිංහල උපසිරැසි"
-        : next === "ta"
-          ? "தமிழ் வசனங்கள்"
-          : next === "en"
-            ? "English Captions"
-            : "Subtitles Off";
-    onToast(`Subtitles: ${label}`);
-  };
-
-  const handleQualityToggle = () => {
-    const qualities = ["720p HD", "480p SD", "360p Data-Saver"];
-    const nextIdx = (qualities.indexOf(quality) + 1) % qualities.length;
-    const next = qualities[nextIdx] ?? "720p HD";
-    setQuality(next);
-    onToast(`Quality: ${next}`);
-  };
-
-  const progressPercent = Math.min(
-    100,
-    Math.round((seconds / totalSeconds) * 100),
-  );
+  const progressPercent =
+    totalSeconds > 0
+      ? Math.min(100, Math.round((seconds / totalSeconds) * 100))
+      : 0;
 
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl transition-all ${
+      onContextMenu={(e) => e.preventDefault()}
+      className={`group relative flex flex-col overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl ${
         compact ? "rounded-none" : "rounded-2xl"
       } ${isFullscreen ? "fixed inset-0 z-50 rounded-none border-0" : ""}`}
     >
-      {/* Top Meta Bar Overlay */}
-      <div className="z-10 flex items-center justify-between bg-gradient-to-b from-slate-950/90 to-transparent px-4 py-2.5 text-sm font-semibold text-white/90">
+      <div className="z-10 flex flex-wrap items-center justify-between gap-2 bg-gradient-to-b from-slate-950/90 to-transparent px-4 py-2.5 text-xs font-semibold text-white/95 sm:text-sm">
         <div className="flex items-center gap-2">
           <span>{t.termBadge}</span>
           {!compact && (
             <>
-              <span className="text-slate-500">·</span>
-              <span className="font-normal text-slate-300">
-                {t.videoAudioMeta}
+              <span className="text-slate-400">·</span>
+              <span className="font-normal text-slate-200">
+                {t.videoAudioMeta} (~{QUALITY_META[quality].mb} MB)
               </span>
             </>
           )}
@@ -121,11 +158,38 @@ export function VideoPlayer({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={handleSubtitlesToggle}
-            className={`flex min-h-[36px] items-center gap-1 rounded-lg border px-2.5 py-1 text-sm font-bold transition ${
+            onClick={() => {
+              setAudioOnly((v) => !v);
+              onToast(audioOnly ? "Video stream enabled" : "Audio + slides");
+            }}
+            aria-pressed={audioOnly}
+            className={`flex min-h-11 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-bold ${
+              audioOnly
+                ? "border-emerald-300 bg-emerald-800 text-white"
+                : "border-white/15 bg-black/60 text-slate-200"
+            }`}
+          >
+            <Headphones className="h-4 w-4" />
+            <span>{audioOnly ? "Audio + Slides" : "Slides"}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const modes: Array<"si" | "ta" | "en" | "off"> = [
+                "si",
+                "ta",
+                "en",
+                "off",
+              ];
+              const next =
+                modes[(modes.indexOf(subtitles) + 1) % modes.length] ?? "si";
+              setSubtitles(next);
+              onToast(next === "off" ? "Subtitles Off" : `Captions: ${next}`);
+            }}
+            className={`flex min-h-11 items-center gap-1 rounded-lg border px-2.5 text-xs font-bold ${
               subtitles !== "off"
-                ? "border-[var(--sn-border-selected)]/60 bg-[var(--sn-primary)]/60 text-white"
-                : "border-white/10 bg-black/60 text-slate-400 hover:text-white"
+                ? "border-[var(--sn-border-selected)]/60 bg-[var(--sn-primary)]/70 text-white"
+                : "border-white/15 bg-black/60 text-slate-300"
             }`}
           >
             <Captions className="h-4 w-4" />
@@ -134,29 +198,32 @@ export function VideoPlayer({
         </div>
       </div>
 
-      {/* Main Video Canvas with Interactive Ray Diagram */}
       <div className="relative aspect-[16/9] w-full overflow-hidden">
-        <RayDiagramGraphic isPlaying={isPlaying} compact={compact} />
-
-        {/* Subtitle Line Overlay */}
-        {subtitles !== "off" && (
-          <div className="absolute bottom-6 inset-x-4 z-10 flex justify-center text-center pointer-events-none">
-            <span className="rounded-lg bg-black/80 px-3.5 py-1 text-xs font-semibold text-amber-300 backdrop-blur-xs sm:text-sm">
-              {subtitles === "si"
-                ? "කිරණ සටහන: අවතල දර්පණයක නාභිය (F) ලක්ෂ්‍යය කේන්ද්‍රය (C) සහ ධ්‍රැවය (P) අතර මධ්‍යයේ පිහිටයි."
-                : subtitles === "ta"
-                  ? "கதிர் வரைபடம்: குழிவாடியின் குவியம் (F) முனையத்திற்கும் (P) வளைவு மையத்திற்கும் (C) நடுவில் அமையும்."
-                  : "Ray diagram: The principal focus (F) sits exactly halfway between Pole (P) and Center (C)."}
-            </span>
+        {audioOnly ? (
+          <div className="flex h-full items-center justify-center bg-slate-900 text-white">
+            <Headphones className="h-10 w-10 text-emerald-300" />
           </div>
+        ) : hasHtmlVideo ? (
+          <video
+            ref={videoRef}
+            key={src}
+            src={src}
+            poster={poster}
+            playsInline
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+            className="h-full w-full bg-black object-contain"
+            onClick={onTogglePlay}
+            onContextMenu={(e) => e.preventDefault()}
+          />
+        ) : (
+          <RayDiagramGraphic isPlaying={isPlaying} compact={compact} />
         )}
-
-        {/* Big Center Play/Pause Floating Circle */}
         <button
           type="button"
           onClick={onTogglePlay}
-          className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sn-primary)]/90 text-[var(--sn-cream)] shadow-2xl ring-4 ring-[var(--sn-primary)]/30 backdrop-blur-xs transition hover:scale-105 active:scale-95 z-20"
-          aria-label={isPlaying ? "Pause" : "Play"}
+          className="absolute inset-0 z-20 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--sn-primary)]/90 text-[var(--sn-cream)] shadow-2xl ring-4 ring-[var(--sn-primary)]/30"
+          aria-label={isPlaying ? "Pause lesson video" : "Play lesson video"}
         >
           {isPlaying ? (
             <Pause className="h-7 w-7 fill-current" />
@@ -166,120 +233,68 @@ export function VideoPlayer({
         </button>
       </div>
 
-      {/* In-Video Scrubber Bar */}
       <div className="relative z-10 w-full px-4 pt-2">
         <div
           role="slider"
+          aria-label="Lesson progress scrubber"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
           aria-valuemax={100}
           tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") handleSkip(-10);
+            if (e.key === "ArrowRight") handleSkip(10);
+          }}
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
-            const clickPos = (e.clientX - rect.left) / rect.width;
-            setSeconds(Math.round(clickPos * totalSeconds));
+            const next = Math.round(
+              ((e.clientX - rect.left) / rect.width) * (totalSeconds || 0),
+            );
+            if (hasHtmlVideo && videoRef.current) {
+              videoRef.current.currentTime = next;
+            }
+            setSeconds(next);
           }}
-          className="group/scrub relative flex h-3 w-full cursor-pointer items-center"
+          className="flex h-6 w-full cursor-pointer items-center"
         >
-          <div className="h-1.5 w-full rounded-full bg-slate-700/80 transition group-hover/scrub:h-2">
-            <div
-              className="relative h-full rounded-full bg-[var(--sn-primary)] transition-all"
-              style={{ width: `${progressPercent}%` }}
-            >
-              <div className="absolute -right-2 -top-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-[var(--sn-primary)] shadow-md group-hover/scrub:scale-125" />
-            </div>
-          </div>
+          <progress
+            value={progressPercent}
+            max={100}
+            className="h-2 w-full overflow-hidden rounded-full accent-[var(--sn-primary)]"
+          />
         </div>
       </div>
 
-      {/* Bottom Controls Bar */}
-      <div className="z-10 flex items-center justify-between px-4 pb-3 pt-1 text-xs text-white">
-        <div className="flex items-center gap-3 sm:gap-4">
-          <button
-            type="button"
-            onClick={onTogglePlay}
-            className="text-white hover:text-[var(--sn-primary)] transition"
-            aria-label={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" />
-            ) : (
-              <Play className="h-4 w-4" />
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleSkip(-10)}
-            className="text-slate-300 hover:text-white transition"
-            aria-label="Skip back 10 seconds"
-          >
-            <RotateCcw className="h-4 w-4" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleSkip(10)}
-            className="text-slate-300 hover:text-white transition"
-            aria-label="Skip forward 10 seconds"
-          >
-            <RotateCw className="h-4 w-4" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setIsMuted(!isMuted);
-              onToast(isMuted ? "Audio Unmuted" : "Audio Muted");
-            }}
-            className="text-slate-300 hover:text-white transition"
-            aria-label={isMuted ? "Unmute" : "Mute"}
-          >
-            {isMuted ? (
-              <VolumeX className="h-4 w-4 text-rose-400" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
-          </button>
-
-          <span className="font-mono text-slate-300 text-[11px] sm:text-xs">
-            {formatTime(seconds)} / {formatTime(totalSeconds)}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            onClick={handleSpeedToggle}
-            className="rounded bg-slate-800/80 px-2 py-0.5 font-bold text-slate-200 hover:bg-slate-700 transition text-[11px]"
-          >
-            {playbackSpeed}x
-          </button>
-
-          {!compact && (
-            <button
-              type="button"
-              onClick={handleQualityToggle}
-              className="rounded bg-slate-800/80 px-2 py-0.5 font-bold text-slate-200 hover:bg-slate-700 transition text-[11px]"
-            >
-              {quality}
-            </button>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="text-slate-300 hover:text-white transition"
-            aria-label="Fullscreen"
-          >
-            {isFullscreen ? (
-              <Minimize2 className="h-4 w-4" />
-            ) : (
-              <Maximize2 className="h-4 w-4" />
-            )}
-          </button>
-        </div>
-      </div>
+      <VideoControlsBar
+        isPlaying={isPlaying}
+        isMuted={isMuted}
+        isFullscreen={isFullscreen}
+        seconds={seconds}
+        totalSeconds={totalSeconds || MOCK_TOTAL_SECONDS}
+        playbackSpeed={playbackSpeed}
+        quality={quality}
+        onTogglePlay={onTogglePlay}
+        onSkip={handleSkip}
+        onToggleMute={() => {
+          setIsMuted(!isMuted);
+          onToast(isMuted ? "Audio Unmuted" : "Audio Muted");
+        }}
+        onSpeedToggle={() => {
+          const speeds = [1.0, 1.25, 1.5, 2.0];
+          const next =
+            speeds[(speeds.indexOf(playbackSpeed) + 1) % speeds.length] ?? 1;
+          setPlaybackSpeed(next);
+          onToast(`Speed: ${next}x`);
+        }}
+        onQualityToggle={() => {
+          const order: QualityId[] = ["240p", "360p", "720p"];
+          const next =
+            order[(order.indexOf(quality) + 1) % order.length] ?? "360p";
+          setQuality(next);
+          onToast(`Video quality: ${QUALITY_META[next].label}`);
+        }}
+        onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
+      />
     </div>
   );
 }

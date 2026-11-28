@@ -92,16 +92,16 @@ export const VIDEO_LESSON_STRINGS: Record<AppLanguage, VideoLessonStrings> = {
       "The principal focus (F) is located exactly halfway between the mirror pole (P) and the center of curvature (C). Hence for all spherical mirrors:",
     formulaBox: "f = R / 2  (focal length is half of radius)",
     essentialRulesHeading: "Essential Ray Tracing Rules for Concave Mirrors",
-    rule1Title: "1. Parallel Ray Rule",
+    rule1Title: "Parallel Ray Rule",
     rule1Desc:
       "Any incident ray parallel to the principal axis reflects directly through the Principal Focus (F).",
-    rule2Title: "2. Focal Ray Rule",
+    rule2Title: "Focal Ray Rule",
     rule2Desc:
       "Any incident ray passing through the focus (F) reflects parallel to the principal axis.",
-    rule3Title: "3. Center of Curvature (C) Rule",
+    rule3Title: "Center of Curvature (C) Rule",
     rule3Desc:
       "A ray striking through C hits normally (90°) and bounces back along its exact same path.",
-    rule4Title: "4. Pole Ray Rule",
+    rule4Title: "Pole Ray Rule",
     rule4Desc:
       "A ray incident at the pole (P) reflects symmetrically such that the angle of incidence equals the angle of reflection (i = r).",
     educatorHeading:
@@ -162,16 +162,16 @@ export const VIDEO_LESSON_STRINGS: Record<AppLanguage, VideoLessonStrings> = {
       "ප්‍රධාන නාභිය (F) පිහිටා ඇත්තේ දර්පණ ධ්‍රැවය (P) සහ වක්‍රතා කේන්ද්‍රය (C) අතර හරියටම මැද ය. එබැවින් සියලුම ගෝලීය දර්පණ සඳහා:",
     formulaBox: "f = R / 2  (නාභීය දුර යනු වක්‍රතා අරයෙන් අඩකි)",
     essentialRulesHeading: "අවතල දර්පණ සඳහා අත්‍යවශ්‍ය කිරණ ඇඳීමේ නීති 4",
-    rule1Title: "1. සමාන්තර කිරණ නීතිය",
+    rule1Title: "සමාන්තර කිරණ නීතිය",
     rule1Desc:
       "ප්‍රධාන අක්ෂයට සමාන්තරව පැමිණෙන ඕනෑම ආලෝක කිරණයක් පරාවර්තනයෙන් පසු ප්‍රධාන නාභිය (F) හරහා ගමන් කරයි.",
-    rule2Title: "2. නාභීය කිරණ නීතිය",
+    rule2Title: "නාභීය කිරණ නීතිය",
     rule2Desc:
       "ප්‍රධාන නාභිය (F) හරහා පැමිණෙන ඕනෑම ආලෝක කිරණයක් පරාවර්තනයෙන් පසු ප්‍රධාන අක්ෂයට සමාන්තරව ගමන් කරයි.",
-    rule3Title: "3. වක්‍රතා කේන්ද්‍ර (C) නීතිය",
+    rule3Title: "වක්‍රතා කේන්ද්‍ර (C) නීතිය",
     rule3Desc:
       "වක්‍රතා කේන්ද්‍රය (C) හරහා ගමන් කරන කිරණයක් දර්පණය මත ලම්බකව (90°) පතිත වී එම මාර්ගයේම ආපසු පරාවර්තනය වේ.",
-    rule4Title: "4. ධ්‍රැව (P) නීතිය",
+    rule4Title: "ධ්‍රැව (P) නීතිය",
     rule4Desc:
       "දර්පණ ධ්‍රැවය (P) මත පතිත වන කිරණයක් පතන කෝණය = පරාවර්තන කෝණය (i = r) වන පරිදි සමමිතිකව පරාවර්තනය වේ.",
     educatorHeading:
@@ -232,16 +232,16 @@ export const VIDEO_LESSON_STRINGS: Record<AppLanguage, VideoLessonStrings> = {
     formulaBox: "f = R / 2  (குவியத் தூரம் வளைவு ஆரையின் பாதியாகும்)",
     essentialRulesHeading:
       "குழிவு ஆடிகளுக்கான 4 அத்தியாவசிய கதிர் வரைபட விதிகள்",
-    rule1Title: "1. சமாந்தர கதிர் விதி",
+    rule1Title: "சமாந்தர கதிர் விதி",
     rule1Desc:
       "முதன்மை அச்சுக்கு சமாந்தரமாக வரும் எந்தவொரு படுகதிரும் பிரதிபலிப்பின் பின் முதன்மை குவியம் (F) ஊடாக செல்லும்.",
-    rule2Title: "2. குவியக் கதிர் விதி",
+    rule2Title: "குவியக் கதிர் விதி",
     rule2Desc:
       "முதன்மை குவியம் (F) ஊடாக செல்லும் கதிர் பிரதிபலிப்பின் பின் முதன்மை அச்சுக்கு சமாந்தரமாக செல்லும்.",
-    rule3Title: "3. வளைவு மையம் (C) விதி",
+    rule3Title: "வளைவு மையம் (C) விதி",
     rule3Desc:
       "வளைவு மையம் (C) ஊடாக செல்லும் கதிர் செங்குத்தாக பட்டு அதே பாதையில் மீண்டும் பிரதிபலிக்கும்.",
-    rule4Title: "4. முனை (P) விதி",
+    rule4Title: "முனை (P) விதி",
     rule4Desc:
       "ஆடியின் முனை (P) இல் படும் கதிர் படுகோணம் = பிரதிபலிப்புக் கோணம் (i = r) என்றவாறு சமச்சீராக பிரதிபலிக்கும்.",
     educatorHeading:

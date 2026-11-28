@@ -3,6 +3,8 @@ import type { CourseDetailStrings } from "./strings.types";
 
 interface CourseBreadcrumbBarProps {
   t: CourseDetailStrings;
+  courseTitle: string;
+  subjectLabel: string;
   isSaved: boolean;
   onBackToCourses: () => void;
   onShare: () => void;
@@ -11,6 +13,8 @@ interface CourseBreadcrumbBarProps {
 
 export function CourseBreadcrumbBar({
   t,
+  courseTitle,
+  subjectLabel,
   isSaved,
   onBackToCourses,
   onShare,
@@ -75,18 +79,24 @@ export function CourseBreadcrumbBar({
 
           <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
 
-          <button
-            type="button"
-            onClick={onBackToCourses}
-            className="min-h-[44px] rounded-lg px-2 text-[var(--sn-text-muted)] transition hover:text-[var(--sn-text-main)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
-          >
-            {t.breadcrumbSubject}
-          </button>
+          {subjectLabel ? (
+            <>
+              <button
+                type="button"
+                onClick={onBackToCourses}
+                className="min-h-[44px] rounded-lg px-2 text-[var(--sn-text-muted)] transition hover:text-[var(--sn-text-main)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+              >
+                {subjectLabel}
+              </button>
+              <ChevronRight
+                className="h-4 w-4 text-slate-400"
+                aria-hidden="true"
+              />
+            </>
+          ) : null}
 
-          <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
-
-          <span className="font-bold text-[var(--sn-text-main)]">
-            {t.breadcrumbCurrent}
+          <span className="max-w-[280px] truncate font-bold text-[var(--sn-text-main)]">
+            {courseTitle || t.breadcrumbCourses}
           </span>
         </nav>
 
@@ -96,7 +106,7 @@ export function CourseBreadcrumbBar({
           className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl px-3 text-sm font-semibold text-[var(--sn-primary)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-          <span>{t.backToScienceBtn}</span>
+          <span>{t.breadcrumbCourses}</span>
         </button>
       </div>
     </>

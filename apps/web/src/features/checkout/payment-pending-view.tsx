@@ -94,7 +94,7 @@ export function PaymentPendingView({
       {/* Receipt Overview Card */}
       <div className="rounded-3xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 shadow-xs">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <span className="text-[10px] font-bold tracking-wider text-[var(--sn-text-muted)] uppercase">
+          <span className="text-xs font-bold tracking-wider text-[var(--sn-text-muted)] uppercase">
             {t.receiptOverviewTitle}
           </span>
           <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">
@@ -158,7 +158,7 @@ export function PaymentPendingView({
             <div className="font-bold text-[var(--sn-text-main)]">
               Need to update bank slip?
             </div>
-            <div className="text-[11px] text-[var(--sn-text-muted)]">
+            <div className="text-xs text-[var(--sn-text-muted)]">
               Blurry or partial photo uploaded?
             </div>
           </div>
@@ -194,7 +194,7 @@ export function PaymentPendingView({
           <MessageCircle className="h-4 w-4" />
           <span>{t.whatsappSupport} • Free hotline</span>
         </button>
-        <p className="mt-1 text-[10px] text-[var(--sn-text-muted)]">
+        <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
           National Educational Curriculum Platform • Sri Lanka
         </p>
       </div>

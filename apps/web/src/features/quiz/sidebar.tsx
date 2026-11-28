@@ -42,7 +42,7 @@ export function QuizSidebar({ t }: QuizSidebarProps) {
           <p className="text-xs italic leading-relaxed text-slate-700">
             {t.teacherQuote}
           </p>
-          <div className="text-[11px] font-bold text-slate-500 text-right">
+          <div className="text-xs font-bold text-slate-500 text-right">
             {t.teacherAuthor}
           </div>
         </div>
@@ -68,14 +68,14 @@ export function QuizSidebar({ t }: QuizSidebarProps) {
               key={i}
               className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-3"
             >
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--sn-sage)] text-[10px] font-bold text-[var(--sn-primary)]">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--sn-sage)] text-xs font-bold text-[var(--sn-primary)]">
                 {i + 1}
               </div>
               <div className="space-y-0.5 min-w-0">
                 <div className="text-xs font-bold text-slate-900">
                   {topic.title}
                 </div>
-                <div className="truncate text-[11px] text-slate-500 font-medium">
+                <div className="truncate text-xs text-slate-500 font-medium">
                   {topic.sub}
                 </div>
               </div>
@@ -89,7 +89,7 @@ export function QuizSidebar({ t }: QuizSidebarProps) {
         <div className="text-xs font-bold text-[var(--sn-text-main)]">
           {t.syllabusSyncTitle}
         </div>
-        <p className="text-[11px] leading-relaxed text-slate-600">
+        <p className="text-xs leading-relaxed text-slate-600">
           {t.syllabusSyncDesc}
         </p>
       </div>

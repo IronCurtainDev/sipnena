@@ -89,7 +89,7 @@ export function NotesAndMaterialsScreen({
           <div className="flex gap-2">
             <Link
               to="/courses/$courseId/qa"
-              params={{ courseId: courseId ?? "sci-g8-full" }}
+              params={{ courseId: courseId ?? "" }}
               className="rounded-xl border border-[var(--sn-border)] bg-white px-3 py-1.5 text-xs font-bold text-[var(--sn-primary)]"
             >
               {copy.courseQa}
@@ -161,10 +161,10 @@ export function NotesAndMaterialsScreen({
               <div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex flex-wrap gap-1.5">
-                    <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                    <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                       {CATEGORY_LABELS[item.category][lang]}
                     </span>
-                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">
+                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700">
                       {formatGrade(lang, item.grade)} •{" "}
                       {formatSubject(lang, item.subject)}
                     </span>

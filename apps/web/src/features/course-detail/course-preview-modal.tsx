@@ -17,9 +17,6 @@ export function CoursePreviewModal({
 }: CoursePreviewModalProps) {
   if (!previewLesson) return null;
 
-  const titleKey = `${previewLesson.id}_title` as keyof CourseDetailStrings;
-  const metaKey = `${previewLesson.id}_meta` as keyof CourseDetailStrings;
-
   return (
     <div
       role="dialog"
@@ -37,7 +34,7 @@ export function CoursePreviewModal({
               id="preview-lesson-title"
               className="text-lg font-bold leading-snug text-[var(--sn-text-main)] sm:text-xl"
             >
-              {t[titleKey]}
+              {previewLesson.title}
             </h2>
           </div>
 
@@ -59,9 +56,9 @@ export function CoursePreviewModal({
                 aria-hidden="true"
               />
             </div>
-            <div className="text-base font-bold">{t[titleKey]}</div>
+            <div className="text-base font-bold">{previewLesson.title}</div>
             <div className="text-sm text-slate-300">
-              {t[metaKey]} • {t.mediumPill}
+              {previewLesson.meta}
             </div>
           </div>
 

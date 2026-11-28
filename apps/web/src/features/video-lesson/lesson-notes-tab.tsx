@@ -14,19 +14,19 @@ interface SavedNote {
 
 const REVISION_POINTS = [
   {
-    title: "1. Light travels straight",
+    title: "Light travels straight",
     body: "In a uniform medium, light moves in straight lines. Ray arrows show the direction.",
   },
   {
-    title: "2. Normal line",
+    title: "Normal line",
     body: "An imaginary line at 90° to the mirror at the point of incidence.",
   },
   {
-    title: "3. Law of reflection (i = r)",
+    title: "Law of reflection (i = r)",
     body: "Angle of incidence equals angle of reflection, both measured from the normal.",
   },
   {
-    title: "4. Concave focus",
+    title: "Concave focus",
     body: "For a concave mirror, f is half of radius R. Formula: f = R / 2.",
   },
 ];
@@ -77,13 +77,13 @@ export function LessonNotesTab({
           </p>
         ) : null}
         <ol className="space-y-3">
-          {points.map((point) => (
+          {points.map((point, index) => (
             <li
               key={point.title}
               className="border-t border-[var(--sn-border)] pt-3 first:border-t-0 first:pt-0"
             >
               <p className="text-sm font-bold text-[var(--sn-primary)]">
-                {point.title}
+                {index + 1}. {point.title.replace(/^\d+\.\s*/, "")}
               </p>
               <p className="mt-1 text-base text-[var(--sn-text-secondary)]">
                 {point.body}

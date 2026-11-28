@@ -63,6 +63,12 @@ export function SipNenaHomeScreen() {
 
   return (
     <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased sm:flex-row">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-[var(--sn-primary)] focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
+      >
+        Skip to content
+      </a>
       <DesktopSidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -81,7 +87,10 @@ export function SipNenaHomeScreen() {
           onProfileClick={() => void navigate({ to: "/me" })}
         />
 
-        <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
+        <main
+          id="main-content"
+          className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8"
+        >
           <HeroBanner
             lang={lang}
             onToggleOffline={() => showToast(t.statusOfflineReady)}
@@ -89,7 +98,13 @@ export function SipNenaHomeScreen() {
 
           <ActiveLessonCard
             lang={lang}
-            onContinue={() => void navigate({ to: "/lesson" })}
+            onContinue={(courseId, lessonId) =>
+              void navigate({
+                to: "/courses/$courseId/lesson",
+                params: { courseId: courseId || "" },
+                search: lessonId ? { lessonId } : undefined,
+              })
+            }
           />
 
           <MobileSupportStrip
@@ -190,8 +205,11 @@ export function SipNenaHomeScreen() {
 
               <NewCoursesSection
                 lang={lang}
-                onCourseClick={() => {
-                  void navigate({ to: "/course" });
+                onCourseClick={(courseId) => {
+                  void navigate({
+                    to: "/courses/$courseId",
+                    params: { courseId },
+                  });
                 }}
               />
             </div>

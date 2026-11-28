@@ -17,6 +17,10 @@ interface InlineQuizPlayerProps {
   lang: AppLanguage;
   onNextLesson: () => void;
   onToast: (msg: string) => void;
+  onQuizCompleted?: (
+    result: QuizResultSummary,
+    answers: Record<number, string>,
+  ) => void;
   questions?: QuizQuestion[];
   introTitle?: string;
   scoreLabel?: string;
@@ -27,6 +31,7 @@ export function InlineQuizPlayer({
   lang,
   onNextLesson,
   onToast,
+  onQuizCompleted,
   questions,
   introTitle,
   scoreLabel = "Correct",
@@ -81,7 +86,11 @@ export function InlineQuizPlayer({
       setIsChecked(false);
       return;
     }
-    if (questions) setScoredResult(scorePlayableQuiz(bank, nextAnswers));
+    if (questions) {
+      const scored = scorePlayableQuiz(bank, nextAnswers);
+      setScoredResult(scored);
+      onQuizCompleted?.(scored, nextAnswers);
+    }
     setStep("result");
     onToast("Quiz finished.");
   };

@@ -44,6 +44,7 @@ export interface CreateAccountStrings {
   firstNameRequiredErr: string;
   passwordShortErr: string;
   signupComingNextMsg: string;
+  accountCreatedMsg: string;
   googleStatusMsg: string;
   backStatusMsg: string;
   loginStatusMsg: string;
@@ -124,6 +125,7 @@ export const CREATE_ACCOUNT_STRINGS: Record<
     passwordShortErr: "Please use at least 8 characters for your password.",
     signupComingNextMsg:
       "Account signup connects next. For now, open Log in if you already have an account, or use the Sign up page.",
+    accountCreatedMsg: "Account created. You can enroll in courses now.",
     googleStatusMsg: "Google sign-in will connect in a later update.",
     backStatusMsg: "Going back to language selection.",
     loginStatusMsg: "Opening student sign-in...",
@@ -188,6 +190,7 @@ export const CREATE_ACCOUNT_STRINGS: Record<
     passwordShortErr: "මුරපදය සඳහා අවම වශයෙන් අකුරු 8ක්වත් ඇතුළත් කරන්න.",
     signupComingNextMsg:
       "ගිණුම සෑදීම ඉදිරියේදී සම්බන්ධ වේ. දැනට ගිණුමක් තිබේ නම් ඇතුළු වන්න, නැත්නම් Sign up පිටුව භාවිතා කරන්න.",
+    accountCreatedMsg: "ගිණුම සාදන ලදී. දැන් පාඨමාලාවලට එකතු විය හැක.",
     googleStatusMsg: "Google ඇතුළු වීම ඉදිරියේදී සම්බන්ධ වේ.",
     backStatusMsg: "භාෂාව තෝරාගැනීමේ පිටුවට ආපසු යොමු විය.",
     loginStatusMsg: "ගිණුමට ඇතුල් වීමේ පිටුව විවෘත වේ...",
@@ -250,6 +253,7 @@ export const CREATE_ACCOUNT_STRINGS: Record<
     passwordShortErr: "கடவுச்சொல்லுக்கு குறைந்தது 8 எழுத்துக்கள் தேவை.",
     signupComingNextMsg:
       "கணக்கு உருவாக்கம் அடுத்ததாக இணைக்கப்படும். இப்போது கணக்கு இருந்தால் உள்நுழையவும், இல்லையெனில் Sign up பக்கத்தைப் பயன்படுத்தவும்.",
+    accountCreatedMsg: "கணக்கு உருவாக்கப்பட்டது. இப்போது பாடநெறிகளில் சேரலாம்.",
     googleStatusMsg: "Google உள்நுழைவு பின்னர் இணைக்கப்படும்.",
     backStatusMsg: "மொழித் தெரிவுக்குத் திரும்பியது.",
     loginStatusMsg: "உள்நுழைவுப் பக்கம் திறக்கப்படுகிறது...",

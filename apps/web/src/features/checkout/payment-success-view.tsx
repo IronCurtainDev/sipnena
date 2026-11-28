@@ -70,7 +70,7 @@ export function PaymentSuccessView({
       <div className="rounded-3xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 shadow-xs">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span className="text-[10px] font-bold tracking-wider text-[var(--sn-text-muted)] uppercase">
+            <span className="text-xs font-bold tracking-wider text-[var(--sn-text-muted)] uppercase">
               {t.courseEnrollmentLabel}
             </span>
             <h4 className="text-sm font-bold text-[var(--sn-text-main)]">
@@ -172,7 +172,7 @@ export function PaymentSuccessView({
           <MessageCircle className="h-4 w-4" />
           <span>{t.whatsappSupport}</span>
         </button>
-        <p className="mt-1 text-[10px] text-[var(--sn-text-muted)]">
+        <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
           Sri Lanka National Educational Curriculum Platform • MoE Aligned
         </p>
       </div>

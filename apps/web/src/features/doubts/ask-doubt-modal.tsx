@@ -19,18 +19,14 @@ interface AskDoubtModalProps {
   }) => void;
 }
 
-const SAMPLE_PHOTOS = [
-  "maths_geometry_sketch.jpg",
-  "science_mirror_notebook.jpg",
-  "past_paper_q3_photo.png",
-];
+const SAMPLE_PHOTOS: string[] = [];
 
 const MODAL_SUBJECTS = ["Science", "Mathematics", "ICT", "English", "History"];
 
 export function AskDoubtModal({
   lang,
   isOpen,
-  defaultCourseId = "sci-g8-full",
+  defaultCourseId = "",
   onClose,
   onSubmit,
 }: AskDoubtModalProps) {
@@ -148,7 +144,7 @@ export function AskDoubtModal({
                 <button
                   type="button"
                   onClick={() => setPhotoLabel(undefined)}
-                  className="text-[11px] font-bold text-rose-600"
+                  className="text-xs font-bold text-rose-600"
                 >
                   {copy.clearBtn}
                 </button>
@@ -160,7 +156,7 @@ export function AskDoubtModal({
                   key={sample}
                   type="button"
                   onClick={() => setPhotoLabel(sample)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold ${
+                  className={`rounded-lg px-2.5 py-1 text-xs font-semibold ${
                     photoLabel === sample
                       ? "bg-[var(--sn-primary)] text-white"
                       : "border border-slate-200 bg-white text-slate-600"

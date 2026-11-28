@@ -1,63 +1,92 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams } from "@tanstack/react-router";
 import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
-import { usePrototypeState } from "@/lib/prototype-state";
+  getCompletedLessonIds,
+  markLessonCompleted,
+  recordStudentQuizAttempt,
+  resolveActiveStudentId,
+  useCoursesStore,
+} from "@/data/courses";
+import { MobileBottomNav } from "@/features/home/nav-bars";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
+import { useMinWidth } from "@/hooks/use-min-width";
 import { COURSE_LESSON_COPY } from "./course-lesson-copy";
-import { buildCourseLessonModel } from "./course-lesson-model";
 import { DesktopLessonView } from "./desktop-lesson-view";
 import { MobileLessonView } from "./mobile-lesson-view";
-import { MobileBottomNav } from "@/features/home/nav-bars";
+import { buildStoreCourseLessonBundle } from "./store-lesson-builder";
 import { VIDEO_LESSON_STRINGS } from "./strings";
 
-export function SipNenaVideoLessonScreen() {
+function readSearchParam(name: string): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+export function SipNenaVideoLessonScreen(props?: {
+  courseIdOverride?: string;
+  initialLessonId?: string;
+  includeDrafts?: boolean;
+}) {
   const navigate = useNavigate();
-  const { courseId } = useParams({ strict: false });
-  const { state } = usePrototypeState();
-  const bundle = courseId ? buildCourseLessonModel(state, courseId) : undefined;
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const { courseId: paramCourseId } = useParams({ strict: false });
+  const { store } = useCoursesStore();
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
+
+  const includeDrafts =
+    props?.includeDrafts ?? readSearchParam("preview") === "1";
+  const targetCourseId = props?.courseIdOverride ?? paramCourseId ?? "";
+
+  const bundle = useMemo(
+    () =>
+      buildStoreCourseLessonBundle(store, targetCourseId, lang, {
+        includeDrafts,
+      }),
+    [store, targetCourseId, lang, includeDrafts],
+  );
+
+  const initialQueryLessonId =
+    props?.initialLessonId ?? readSearchParam("lessonId");
+  const [activeLessonId, setActiveLessonId] = useState(
+    () => initialQueryLessonId ?? bundle?.firstId ?? "tl-1",
+  );
+  const [prevQueryLessonId, setPrevQueryLessonId] =
+    useState(initialQueryLessonId);
+  if (initialQueryLessonId !== prevQueryLessonId) {
+    setPrevQueryLessonId(initialQueryLessonId);
+    if (initialQueryLessonId && bundle?.byId[initialQueryLessonId]) {
+      setActiveLessonId(initialQueryLessonId);
+    }
+  }
   const [activeTab, setActiveTab] = useState<
     "overview" | "notes" | "discussion" | "downloads"
   >("overview");
   const [activeNav, setActiveNav] = useState("courses");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isDone, setIsDone] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [activeLessonId, setActiveLessonId] = useState("les3");
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const isDesktop = useMinWidth(1024);
 
-  const t = VIDEO_LESSON_STRINGS[lang];
-  const lessonCopy = COURSE_LESSON_COPY[lang];
+  const resolvedCourseId = bundle?.resolvedCourseId ?? targetCourseId;
   const resolvedLessonId =
     bundle && !bundle.byId[activeLessonId]
       ? (bundle.firstId ?? activeLessonId)
       : activeLessonId;
 
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
+  const studentId = resolveActiveStudentId(store.activeStudentId);
+  const isDone = getCompletedLessonIds(
+    store,
+    studentId,
+    resolvedCourseId,
+  ).includes(resolvedLessonId);
+
+  const t = VIDEO_LESSON_STRINGS[lang];
+  const lessonCopy = COURSE_LESSON_COPY[lang];
 
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
-    const timer = setTimeout(() => setToastMsg(null), 3000);
-    return () => clearTimeout(timer);
+    setTimeout(() => setToastMsg(null), 3000);
   }, []);
 
-  if (courseId && !bundle) return <Navigate to="/courses" />;
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
+  if (paramCourseId && !bundle) return <Navigate to="/courses" />;
 
   const handleNavTab = (tab: string) => {
     setActiveNav(tab);
@@ -81,95 +110,129 @@ export function SipNenaVideoLessonScreen() {
     }
     setActiveLessonId(id);
     const kind = bundle?.byId[id]?.kind;
-    if (kind === "quiz" || id.startsWith("quiz")) {
-      setIsPlaying(false);
-      showToast(`Started Section Checkpoint Quiz`);
-    } else {
-      setIsPlaying(true);
-      showToast("Lesson loaded");
-    }
+    setIsPlaying(kind === "video");
+    showToast(
+      kind === "quiz" ? "Started Section Checkpoint Quiz" : "Lesson loaded",
+    );
   };
 
   const handleToggleDone = () => {
-    setIsDone(!isDone);
-    showToast(isDone ? "Marked as incomplete" : "Marked as completed! 🎉");
+    if (!isDone) {
+      markLessonCompleted(studentId, resolvedCourseId, resolvedLessonId);
+      showToast("Marked as completed!");
+    } else {
+      showToast("Already completed");
+    }
+  };
+
+  const handleQuizCompleted = (
+    score: number,
+    total: number,
+    _passed: boolean,
+    answers: Record<number, string>,
+  ) => {
+    const authored = bundle?.byId[resolvedLessonId];
+    if (authored?.quizId) {
+      const answerList = (authored.quizQuestionIds ?? []).map((_qid, idx) => {
+        const letter = answers[idx + 1] ?? "A";
+        return Math.max(0, letter.charCodeAt(0) - 65);
+      });
+      recordStudentQuizAttempt(
+        studentId,
+        resolvedCourseId,
+        resolvedLessonId,
+        {
+          quizId: authored.quizId,
+          score,
+          total,
+          answers: answerList,
+        },
+      );
+    }
+    markLessonCompleted(studentId, resolvedCourseId, resolvedLessonId);
   };
 
   const handleToggleSave = () => {
-    setIsSaved(!isSaved);
-    showToast(isSaved ? "Removed from bookmarks" : t.savedToBookmarks);
+    setIsSaved((prev) => {
+      const next = !prev;
+      showToast(next ? t.savedToBookmarks : "Removed from bookmarks");
+      return next;
+    });
+  };
+
+  const goBackToCourse = () => {
+    if (props?.courseIdOverride) {
+      void navigate({
+        to: "/teacher/courses/$courseId",
+        params: { courseId: props.courseIdOverride },
+      });
+      return;
+    }
+    void navigate({
+      to: "/courses/$courseId",
+      params: { courseId: resolvedCourseId },
+    });
   };
 
   return (
     <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased">
-      {/* Mobile Screen (< 1024px) */}
-      <div className="block lg:hidden">
-        <MobileLessonView
+      {isDesktop ? (
+        <DesktopLessonView
           t={t}
           lang={lang}
           onLanguageChange={handleLanguageChange}
+          activeNav={activeNav}
+          onNavTab={handleNavTab}
+          isPlaying={isPlaying}
+          onTogglePlay={() => setIsPlaying((prev) => !prev)}
           isDone={isDone}
           onToggleDone={handleToggleDone}
           isSaved={isSaved}
           onToggleSave={handleToggleSave}
           activeLessonId={resolvedLessonId}
           onSelectLesson={handleSelectLesson}
-          isPlaying={isPlaying}
-          onTogglePlay={() => setIsPlaying(!isPlaying)}
-          onBack={() =>
-            void navigate(
-              courseId
-                ? { to: "/courses/$courseId", params: { courseId } }
-                : { to: "/course" },
-            )
-          }
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onBackToCourse={goBackToCourse}
+          onQuizCompleted={handleQuizCompleted}
+          onToast={showToast}
           bundle={bundle ?? undefined}
           lessonCopy={bundle ? lessonCopy : undefined}
-          onNavTab={handleNavTab}
-          onToast={showToast}
         />
-        <MobileBottomNav
-          activeTab={activeNav}
-          onTabChange={handleNavTab}
-          lang={lang}
-        />
-      </div>
+      ) : (
+        <>
+          <MobileLessonView
+            t={t}
+            lang={lang}
+            onLanguageChange={handleLanguageChange}
+            isDone={isDone}
+            onToggleDone={handleToggleDone}
+            isSaved={isSaved}
+            onToggleSave={handleToggleSave}
+            activeLessonId={resolvedLessonId}
+            onSelectLesson={handleSelectLesson}
+            isPlaying={isPlaying}
+            onTogglePlay={() => setIsPlaying((prev) => !prev)}
+            onBack={goBackToCourse}
+            bundle={bundle ?? undefined}
+            lessonCopy={bundle ? lessonCopy : undefined}
+            onNavTab={handleNavTab}
+            onQuizCompleted={handleQuizCompleted}
+            onToast={showToast}
+          />
+          <MobileBottomNav
+            activeTab={activeNav}
+            onTabChange={handleNavTab}
+            lang={lang}
+          />
+        </>
+      )}
 
-      {/* Desktop Screen (>= 1024px) */}
-      <DesktopLessonView
-        t={t}
-        lang={lang}
-        onLanguageChange={handleLanguageChange}
-        activeNav={activeNav}
-        onNavTab={handleNavTab}
-        isPlaying={isPlaying}
-        onTogglePlay={() => setIsPlaying(!isPlaying)}
-        isDone={isDone}
-        onToggleDone={handleToggleDone}
-        isSaved={isSaved}
-        onToggleSave={handleToggleSave}
-        activeLessonId={resolvedLessonId}
-        onSelectLesson={handleSelectLesson}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onBackToCourse={() =>
-          void navigate(
-            courseId
-              ? { to: "/courses/$courseId", params: { courseId } }
-              : { to: "/course" },
-          )
-        }
-        onToast={showToast}
-        bundle={bundle ?? undefined}
-        lessonCopy={bundle ? lessonCopy : undefined}
-      />
-
-      {/* Floating Status Toast Feedback */}
       {toastMsg && (
         <aside
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs font-semibold text-white shadow-2xl"
+          className="fixed bottom-24 right-4 z-50 flex items-center gap-2.5 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-2xl sm:bottom-6 sm:right-6"
         >
           <span
             aria-hidden="true"

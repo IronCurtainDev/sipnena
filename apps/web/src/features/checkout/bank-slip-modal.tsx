@@ -125,7 +125,7 @@ export function BankSlipModal({
                   {extra.modalFilePrompt}
                 </p>
               )}
-              <span className="mt-0.5 text-[10px] text-slate-400">
+              <span className="mt-0.5 text-xs text-slate-400">
                 {extra.modalFileHint}
               </span>
             </div>

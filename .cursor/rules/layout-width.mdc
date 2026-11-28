@@ -1,15 +1,14 @@
 ---
-description: Use horizontal viewport space — avoid empty side gutters on portal and library UIs
+description: Full-width workspace layouts — never leave empty left/right side gutters on portal, studio, or dashboard screens
 globs: "apps/web/**"
-alwaysApply: false
+alwaysApply: true
 ---
 
-# Utilize horizontal space
+# Utilize Full Horizontal Workspace Width
 
-Portal and library screens must fill usable width. Do not leave large empty gutters on both sides.
+Portal, studio, dashboard, library, and sidebar-layout `<main>` screens (teacher, parent, admin, student, quiz, lesson, catalog) MUST use the full available horizontal width (`w-full flex-1`) with modest edge padding only (`px-4 sm:px-6 xl:px-8`).
 
-- Portal main content: at least `max-w-7xl` (not `max-w-3xl` / `max-w-5xl` / `max-w-6xl` for list/library/catalog pages).
-- Prefer responsive grids that grow with the viewport (`sm:grid-cols-2`, `lg:grid-cols-3`, `xl:grid-cols-4`) over a single narrow stacked column.
-- Put air **between** items (`gap-5` / `gap-6`), not as unused left/right margins from an overly narrow max-width.
-- Keep modest horizontal padding only (`px-4` / `sm:px-6` / `lg:px-8`).
-- Exception: focused single-column forms (auth, checkout, short settings) may stay narrower when that aids reading.
+- **Forbidden on workspace `<main>` containers:** Do not center workspace `<main>` containers or inner portal wrappers with `mx-auto` + `max-w-*` caps (`max-w-3xl`, `max-w-5xl`, `max-w-6xl`, `max-w-7xl`, `max-w-[1340px]`). On desktop and wide monitors (`>= 1440px`), capping `<main>` creates large blank vertical margins on both left and right sides.
+- **Scale grids across wide screens:** Prefer responsive multi-column grids (`sm:grid-cols-2`, `lg:grid-cols-3`, `2xl:grid-cols-3` / `2xl:grid-cols-4`) with spacing **between** items (`gap-4` / `gap-5` / `gap-6`) rather than restricting outer container width.
+- **Allowed narrow exceptions only:** Standalone single-column auth forms, modal dialogs/drawers, payment status cards, or focused prose/settings forms without wide multi-column layouts may use centered narrow containers (`max-w-md`–`max-w-2xl`).
+- **Verification:** Check portal and dashboard routes (`/teacher`, `/parent`, `/admin`, `/home`, `/courses`, `/quiz-result`) at `1920x1080` in browser tests to verify `<main>` spans the full content pane beside the sidebar with zero empty side gutters.

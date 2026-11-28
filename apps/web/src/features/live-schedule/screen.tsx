@@ -149,7 +149,7 @@ export function LiveAndScheduleScreen({
               className="flex flex-col justify-between rounded-3xl border border-[var(--sn-border)] bg-white p-5 shadow-xs"
             >
               <div>
-                <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                   {formatGrade(lang, rec.grade)} •{" "}
                   {formatSubject(lang, rec.subject)}
                 </span>
@@ -192,7 +192,7 @@ export function LiveAndScheduleScreen({
                     <span className="rounded-lg bg-[var(--sn-primary)] px-2.5 py-1 text-xs font-extrabold text-white">
                       {dayLabel} • {slot.time}
                     </span>
-                    <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                    <span className="rounded-full bg-white px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                       {formatGrade(lang, slot.grade)} •{" "}
                       {formatSubject(lang, slot.subject)}
                     </span>

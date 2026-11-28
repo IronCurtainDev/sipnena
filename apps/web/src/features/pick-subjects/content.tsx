@@ -61,7 +61,7 @@ export function PickSubjectsContent({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-0.5 text-[11px] font-bold">
+            <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-0.5 text-xs font-bold">
               <button
                 type="button"
                 onClick={() => onChangeGrade(8)}

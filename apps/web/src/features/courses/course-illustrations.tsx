@@ -1,8 +1,22 @@
 interface CourseCoverProps {
   courseId: string;
+  coverImageUrl?: string;
 }
 
-export function CourseCoverIllustration({ courseId }: CourseCoverProps) {
+export function CourseCoverIllustration({
+  courseId,
+  coverImageUrl,
+}: CourseCoverProps) {
+  if (coverImageUrl) {
+    return (
+      <img
+        src={coverImageUrl}
+        alt=""
+        className="block h-full w-full object-cover select-none"
+      />
+    );
+  }
+
   if (courseId === "human-body") {
     return (
       <svg

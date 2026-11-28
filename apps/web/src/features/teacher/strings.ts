@@ -1,66 +1,7 @@
 import type { AppLanguage } from "@/lib/language";
-import type { LocalizedText } from "@/lib/i18n-common";
+import type { TeacherCopy } from "./teacher-copy";
 
-export interface TeacherCopy {
-  homeTitle: string;
-  activeStudentsLabel: string;
-  activeStudentsSub: string;
-  pendingDoubtsLabel: string;
-  replyQueueLink: string;
-  uploadedLessonsLabel: string;
-  uploadLessonLink: string;
-  modLessonsTitle: string;
-  modLessonsDesc: string;
-  modQuizTitle: string;
-  modQuizDesc: string;
-  modDoubtsTitle: string;
-  modDoubtsDesc: string;
-  coursesPageTitle: string;
-  editLessonHeading: string;
-  createLessonHeading: string;
-  lessonTitleField: string;
-  lessonTitlePlaceholder: string;
-  subjectField: string;
-  gradeField: string;
-  termField: string;
-  videoUrlField: string;
-  pdfAttachmentLabel: string;
-  browsePdfBtn: string;
-  selectedFilePrefix: string;
-  cancelBtn: string;
-  saveChangesBtn: string;
-  publishLessonBtn: string;
-  lessonUpdatedToast: string;
-  lessonCreatedToast: string;
-  uploadedListHeading: string;
-  editBtn: string;
-  defaultDuration: string;
-  quizzesPageTitle: string;
-  buildQuizHeading: string;
-  defaultQuizTitleInput: string;
-  quizTitlePlaceholder: string;
-  gradeColon: string;
-  promptPlaceholder: string;
-  optionPrefix: string;
-  markCorrectPrefix: string;
-  explanationPlaceholder: string;
-  publishQuizBtn: string;
-  publishedQuizzesHeading: string;
-  qsWord: string;
-  correctPrefix: string;
-  quizSavedToast: string;
-  defaultQuizFallbackTitle: string;
-  defaultExplanation: string;
-  doubtsPageTitle: string;
-  filterQuestionsLabel: string;
-  filterPending: string;
-  filterAnswered: string;
-  filterAll: string;
-  photoPrefix: string;
-  replyPlaceholder: string;
-  sendReplyBtn: string;
-  replySentToast: string;
-}
+export type { TeacherCopy } from "./teacher-copy";
 
 export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
   en: {
@@ -88,7 +29,7 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     subjectField: "Subject",
     gradeField: "Grade",
     termField: "Term",
-    videoUrlField: "Video Stream URL",
+    videoUrlField: "YouTube link",
     pdfAttachmentLabel: "PDF Tute Attachment",
     browsePdfBtn: "Browse PDF",
     selectedFilePrefix: "Selected:",
@@ -100,22 +41,35 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     uploadedListHeading: "Uploaded Lessons",
     editBtn: "Edit",
     defaultDuration: "22 mins",
-    quizzesPageTitle: "Teacher Studio — MCQ Quiz Builder",
-    buildQuizHeading: "Build New MCQ Question & Quiz",
-    defaultQuizTitleInput: "Term 2 Past Paper Mini Quiz",
-    quizTitlePlaceholder: "Quiz Title",
-    gradeColon: "Grade:",
-    promptPlaceholder: "Enter MCQ question prompt...",
+    quizzesPageTitle: "Teacher Studio — Quizzes",
+    buildQuizHeading: "Create a quiz",
+    defaultQuizTitleInput: "e.g. Term 2 Science check",
+    quizTitlePlaceholder: "Quiz title",
+    gradeColon: "Grade",
+    promptPlaceholder: "Write the first question...",
     optionPrefix: "Option",
-    markCorrectPrefix: "Mark correct:",
-    explanationPlaceholder:
-      "Marking explanation shown after student answers...",
-    publishQuizBtn: "Publish MCQ Quiz",
-    publishedQuizzesHeading: "Published MCQ Quizzes",
+    markCorrectPrefix: "Correct answer:",
+    explanationPlaceholder: "Short tip shown after the student answers...",
+    publishQuizBtn: "Save & publish",
+    saveDraftBtn: "Save draft",
+    createQuizBtn: "Create quiz",
+    quizzesTab: "Quizzes",
+    bankTab: "Question Bank",
+    analyticsBtn: "Analytics",
+    publishedLabel: "Published",
+    draftLabel: "Draft",
+    unassignedLabel: "Unassigned",
+    emptyQuizzes: "No quizzes yet. Create your first quiz.",
+    allGradesFilter: "All grades",
+    allSubjectsFilter: "All subjects",
+    backToQuizList: "Back to quizzes",
+    publishedQuizzesHeading: "Your quizzes",
     qsWord: "Qs",
     correctPrefix: "Correct:",
-    quizSavedToast: "MCQ Quiz saved to student quizzes!",
-    defaultQuizFallbackTitle: "New MCQ Quiz",
+    quizSavedToast: "Quiz saved!",
+    quizDraftToast: "Draft quiz saved.",
+    quizPublishedToast: "Quiz published for students.",
+    defaultQuizFallbackTitle: "New quiz",
     defaultExplanation: "Review the unit summary note.",
     doubtsPageTitle: "Teacher Studio — Student Doubts Queue",
     filterQuestionsLabel: "Filter Student Questions:",
@@ -152,7 +106,7 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     subjectField: "විෂයය",
     gradeField: "ශ්‍රේණිය",
     termField: "වාරය",
-    videoUrlField: "වීඩියෝ සබැඳිය (URL)",
+    videoUrlField: "YouTube සබැඳිය",
     pdfAttachmentLabel: "PDF ටියුට් ගොනුව",
     browsePdfBtn: "PDF තෝරන්න",
     selectedFilePrefix: "තෝරාගත්තේ:",
@@ -164,21 +118,35 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     uploadedListHeading: "උඩුගත කළ පාඩම්",
     editBtn: "සංස්කරණය",
     defaultDuration: "මිනි. 22",
-    quizzesPageTitle: "ගුරු මැදිරිය — MCQ ප්‍රශ්නාවලි",
-    buildQuizHeading: "නව MCQ ප්‍රශ්නයක් සහ ප්‍රශ්නාවලියක් සාදන්න",
-    defaultQuizTitleInput: "2 වන වාර පසුගිය ප්‍රශ්න කෙටි පරීක්ෂණය",
+    quizzesPageTitle: "ගුරු මැදිරිය — ප්‍රශ්නාවලි",
+    buildQuizHeading: "ප්‍රශ්නාවලියක් සාදන්න",
+    defaultQuizTitleInput: "උදා: 2 වන වාර විද්‍යා පරීක්ෂණය",
     quizTitlePlaceholder: "ප්‍රශ්නාවලියේ නම",
-    gradeColon: "ශ්‍රේණිය:",
-    promptPlaceholder: "MCQ ප්‍රශ්නය මෙහි ලියන්න...",
+    gradeColon: "ශ්‍රේණිය",
+    promptPlaceholder: "පළමු ප්‍රශ්නය ලියන්න...",
     optionPrefix: "විකල්පය",
     markCorrectPrefix: "නිවැරදි පිළිතුර:",
-    explanationPlaceholder: "සිසුවා පිළිතුරු දුන් පසු පෙන්වන පැහැදිලි කිරීම...",
-    publishQuizBtn: "MCQ ප්‍රශ්නාවලිය පළ කරන්න",
-    publishedQuizzesHeading: "පළ කළ MCQ ප්‍රශ්නාවලි",
+    explanationPlaceholder: "සිසුවා පිළිතුරු දුන් පසු පෙන්වන කෙටි ඉඟිය...",
+    publishQuizBtn: "සුරකින්න සහ පළ කරන්න",
+    saveDraftBtn: "කෙටුම්පත සුරකින්න",
+    createQuizBtn: "නව ප්‍රශ්නාවලියක්",
+    quizzesTab: "ප්‍රශ්නාවලි",
+    bankTab: "ප්‍රශ්න බැංකුව",
+    analyticsBtn: "විශ්ලේෂණය",
+    publishedLabel: "පළ කළ",
+    draftLabel: "කෙටුම්පත",
+    unassignedLabel: "පාඨමාලාවකට සම්බන්ධ නැත",
+    emptyQuizzes: "තවම ප්‍රශ්නාවලි නැත. පළමු එක සාදන්න.",
+    allGradesFilter: "සියලු ශ්‍රේණි",
+    allSubjectsFilter: "සියලු විෂයයන්",
+    backToQuizList: "ප්‍රශ්නාවලි වෙත ආපසු",
+    publishedQuizzesHeading: "ඔබේ ප්‍රශ්නාවලි",
     qsWord: "ප්‍රශ්න",
     correctPrefix: "නිවැරදි:",
-    quizSavedToast: "MCQ ප්‍රශ්නාවලිය සිසුන් වෙත සුරැකිණි!",
-    defaultQuizFallbackTitle: "නව MCQ ප්‍රශ්නාවලිය",
+    quizSavedToast: "ප්‍රශ්නාවලිය සුරැකිණි!",
+    quizDraftToast: "කෙටුම්පත සුරැකිණි.",
+    quizPublishedToast: "ප්‍රශ්නාවලිය සිසුන්ට පළ කළා.",
+    defaultQuizFallbackTitle: "නව ප්‍රශ්නාවලිය",
     defaultExplanation: "ඒකක සාරාංශ සටහන පරීක්ෂා කරන්න.",
     doubtsPageTitle: "ගුරු මැදිරිය — සිසු ගැටළු පෝලිම",
     filterQuestionsLabel: "සිසු ප්‍රශ්න පෙරන්න:",
@@ -215,7 +183,7 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     subjectField: "பாடம்",
     gradeField: "தரம்",
     termField: "தவணை",
-    videoUrlField: "வீடியோ இணைப்பு (URL)",
+    videoUrlField: "YouTube இணைப்பு",
     pdfAttachmentLabel: "PDF டியூட் இணைப்பு",
     browsePdfBtn: "PDF தேர்ந்தெடு",
     selectedFilePrefix: "தேர்ந்தெடுத்தது:",
@@ -227,21 +195,35 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
     uploadedListHeading: "பதிவேற்றப்பட்ட பாடங்கள்",
     editBtn: "திருத்துக",
     defaultDuration: "22 நிமி.",
-    quizzesPageTitle: "ஆசிரியர் ஸ்டுடியோ — MCQ வினாடி-வினா",
-    buildQuizHeading: "புதிய MCQ வினா & வினாடி-வினாவை உருவாக்குக",
-    defaultQuizTitleInput: "தவணை 2 கடந்த கால வினா குறுந்தேர்வு",
-    quizTitlePlaceholder: "வினாடி-வினா தலைப்பு",
-    gradeColon: "தரம்:",
-    promptPlaceholder: "MCQ வினாவை இங்கே உள்ளிடவும்...",
+    quizzesPageTitle: "ஆசிரியர் ஸ்டுடியோ — வினாடிகள்",
+    buildQuizHeading: "வினாடியை உருவாக்குக",
+    defaultQuizTitleInput: "உ-ம்: தவணை 2 விஞ்ஞான சோதனை",
+    quizTitlePlaceholder: "வினாடி தலைப்பு",
+    gradeColon: "தரம்",
+    promptPlaceholder: "முதல் வினாவை எழுதுக...",
     optionPrefix: "தெரிவு",
     markCorrectPrefix: "சரியான விடை:",
-    explanationPlaceholder: "மாணவர் பதிலளித்த பின் காட்டப்படும் விளக்கம்...",
-    publishQuizBtn: "MCQ வினாடி-வினாவை வெளியிடுக",
-    publishedQuizzesHeading: "வெளியிடப்பட்ட MCQ வினாடி-வினாக்கள்",
+    explanationPlaceholder: "மாணவர் பதிலளித்த பின் காட்டப்படும் சுருக்கக் குறிப்பு...",
+    publishQuizBtn: "சேமித்து வெளியிடு",
+    saveDraftBtn: "வரைவைச் சேமி",
+    createQuizBtn: "புதிய வினாடி",
+    quizzesTab: "வினாடிகள்",
+    bankTab: "கேள்வி வங்கி",
+    analyticsBtn: "பகுப்பாய்வு",
+    publishedLabel: "வெளியிடப்பட்டது",
+    draftLabel: "வரைவு",
+    unassignedLabel: "இணைக்கப்படவில்லை",
+    emptyQuizzes: "வினாடிகள் இல்லை. முதல் ஒன்றை உருவாக்குக.",
+    allGradesFilter: "அனைத்து தரங்கள்",
+    allSubjectsFilter: "அனைத்து பாடங்கள்",
+    backToQuizList: "வினாடிகளுக்குத் திரும்பு",
+    publishedQuizzesHeading: "உங்கள் வினாடிகள்",
     qsWord: "வினாக்கள்",
     correctPrefix: "சரியானது:",
-    quizSavedToast: "MCQ வினாடி-வினா சேமிக்கப்பட்டது!",
-    defaultQuizFallbackTitle: "புதிய MCQ வினாடி-வினா",
+    quizSavedToast: "வினாடி சேமிக்கப்பட்டது!",
+    quizDraftToast: "வரைவு சேமிக்கப்பட்டது.",
+    quizPublishedToast: "வினாடி மாணவர்களுக்கு வெளியிடப்பட்டது.",
+    defaultQuizFallbackTitle: "புதிய வினாடி",
     defaultExplanation: "அலகு சுருக்கக் குறிப்பைப் பார்க்கவும்.",
     doubtsPageTitle: "ஆசிரியர் ஸ்டுடியோ — மாணவர் சந்தேக வரிசை",
     filterQuestionsLabel: "மாணவர் கேள்விகளை வடிகட்டுக:",
@@ -255,32 +237,4 @@ export const TEACHER_COPY: Record<AppLanguage, TeacherCopy> = {
   },
 };
 
-export const SEEDED_QUIZ_PROMPTS: Record<
-  string,
-  { prompt: LocalizedText; options?: Record<AppLanguage, string[]> }
-> = {
-  q1: {
-    prompt: {
-      en: "If the angle of incidence on a plane mirror is 35°, what is the angle between the incident ray and reflected ray?",
-      si: "තල දර්පණයක් මත පතන කෝණය 35° නම්, පතන කිරණය සහ පරාවර්තන කිරණය අතර කෝණය කීයද?",
-      ta: "தள ஆடியில் படுகோணம் 35° எனில், படுகதிருக்கும் தெறிகதிருக்கும் இடைப்பட்ட கோணம் யாது?",
-    },
-  },
-  q2: {
-    prompt: {
-      en: "Which mirror is used as a vehicle side rear-view mirror?",
-      si: "වාහනවල පැති කණ්ණාඩි ලෙස භාවිතා කරන්නේ කුමන දර්පණයද?",
-      ta: "வாகனங்களின் பக்கவாட்டுக் கண்ணாடியாகப் பயன்படுத்தப்படும் ஆடி எது?",
-    },
-    options: {
-      en: [
-        "Concave mirror",
-        "Convex mirror",
-        "Plane mirror",
-        "Parabolic mirror",
-      ],
-      si: ["අවතල දර්පණය", "උත්තල දර්පණය", "තල දර්පණය", "පරාවලයික දර්පණය"],
-      ta: ["குழிவு ஆடி", "குவிவு ஆடி", "தள ஆடி", "பரவளைய ஆடி"],
-    },
-  },
-};
+export { SEEDED_QUIZ_PROMPTS } from "./seeded-quiz-prompts";

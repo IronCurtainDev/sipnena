@@ -49,7 +49,7 @@ export function ScoreMeter({
           <span className="text-xs font-bold text-slate-400">/{total}</span>
         </div>
         <span
-          className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+          className={`rounded-full px-2 py-0.5 text-xs font-bold ${
             isPassed
               ? "bg-emerald-100 text-emerald-800"
               : "bg-amber-100 text-amber-800"

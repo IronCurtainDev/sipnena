@@ -43,7 +43,7 @@ export function SettingsList({
             <h4 className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
               {strings.settingLanguageTitle}
             </h4>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               {strings.settingLanguageSub}
             </p>
           </div>
@@ -75,7 +75,7 @@ export function SettingsList({
             <h4 className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
               {strings.settingGradeTitle}
             </h4>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               Grade {currentGrade} • Change to 6, 7, 9, 10 ...
             </p>
           </div>
@@ -100,7 +100,7 @@ export function SettingsList({
             <h4 className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
               {strings.settingPasswordTitle}
             </h4>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               {strings.settingPasswordSub}
             </p>
           </div>
@@ -122,7 +122,7 @@ export function SettingsList({
             <h4 className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
               {strings.settingReceiptsTitle}
             </h4>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               {strings.settingReceiptsSub}
             </p>
           </div>
@@ -149,7 +149,7 @@ export function SettingsList({
             <h4 className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
               {strings.settingHelpTitle}
             </h4>
-            <p className="text-[11px] text-[var(--sn-text-muted)]">
+            <p className="text-xs text-[var(--sn-text-muted)]">
               {strings.settingHelpSub}
             </p>
           </div>

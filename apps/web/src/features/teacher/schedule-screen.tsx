@@ -18,8 +18,7 @@ const DAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
 
 function sortSessions(sessions: TeacherLiveSession[]) {
   return [...sessions].sort((a, b) => {
-    const dayDiff =
-      DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day);
+    const dayDiff = DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day);
     if (dayDiff !== 0) return dayDiff;
     return a.time.localeCompare(b.time);
   });
@@ -30,7 +29,7 @@ export function TeacherScheduleScreen() {
   const { state, update } = usePrototypeState();
   const { toast, showToast } = useToastMessage();
   const copy = TEACHER_EXTRA_COPY[lang];
-  const [editingId, setEditingId] = useState<string | null | "new">(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const sessions = sortSessions(state.teacherLiveSessions);
   const editingSession =

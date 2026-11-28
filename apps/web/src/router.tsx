@@ -16,6 +16,7 @@ import {
 import { OrganizationGate } from "./features/organizations/organization-gate";
 import { authClient } from "./lib/auth/client";
 import { safeRedirect } from "./lib/auth/redirect";
+import { hasTeacherLocalSession } from "./lib/portal-local-auth";
 import * as Pages from "./route-components";
 
 // Runs before rendering, so signed-out visitors never see protected screens.
@@ -30,6 +31,16 @@ async function requireSession({ location }: { location: ParsedLocation }) {
     });
 }
 
+function requireTeacherSession({ location }: { location: ParsedLocation }) {
+  if (!hasTeacherLocalSession()) {
+    throw redirect({
+      to: "/login",
+      search: { redirect: safeRedirect(location.href) },
+      replace: true,
+    });
+  }
+}
+
 const rootRoute = createRootRoute({
   component: AppShell,
   notFoundComponent: () => (
@@ -37,9 +48,9 @@ const rootRoute = createRootRoute({
       <NotFoundPage />
     </FullScreen>
   ),
-  errorComponent: () => (
+  errorComponent: (props) => (
     <FullScreen>
-      <RouteErrorPage />
+      <RouteErrorPage {...props} />
     </FullScreen>
   ),
 });
@@ -75,6 +86,18 @@ function publicPage<const Path extends string>(
   return createRoute({
     getParentRoute: () => rootRoute,
     path,
+    component: Component,
+  });
+}
+
+function teacherPage<const Path extends string>(
+  path: Path,
+  Component: RouteComponent,
+) {
+  return createRoute({
+    getParentRoute: () => rootRoute,
+    path,
+    beforeLoad: requireTeacherSession,
     component: Component,
   });
 }
@@ -116,7 +139,19 @@ const routeTree = rootRoute.addChildren([
   publicPage("/welcome-language", Pages.WelcomeLanguagePage),
   publicPage("/select-grade", Pages.SelectGradePage),
   publicPage("/select-medium", Pages.SelectMediumPage),
-  publicPage("/create-account", Pages.CreateAccountPage),
+  createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/create-account",
+    component: Pages.CreateAccountPage,
+    validateSearch: (
+      search: Record<string, unknown>,
+    ): { redirect?: string } => ({
+      redirect:
+        typeof search.redirect === "string"
+          ? safeRedirect(search.redirect)
+          : undefined,
+    }),
+  }),
   publicPage("/pick-subjects", Pages.PickSubjectsPage),
   publicPage("/preparing-courses", Pages.PreparingCoursesPage),
   publicPage("/forgot-password", Pages.ForgotPasswordPage),
@@ -147,21 +182,29 @@ const routeTree = rootRoute.addChildren([
   publicPage("/doubts", Pages.DoubtsPage),
   publicPage("/parent", Pages.ParentDashboardPage),
   publicPage("/parent/child/$studentId", Pages.ParentChildPage),
-  publicPage("/teacher", Pages.TeacherHomePage),
-  publicPage("/teacher/courses", Pages.TeacherCoursesPage),
-  publicPage("/teacher/courses/$courseId", Pages.TeacherCourseBuilderPage),
-  createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/teacher/quizzes",
-    beforeLoad: () => {
-      throw redirect({ to: "/teacher/courses", replace: true });
-    },
-  }),
-  publicPage("/teacher/doubts", Pages.TeacherDoubtsPage),
-  publicPage("/teacher/schedule", Pages.TeacherSchedulePage),
+  teacherPage("/teacher", Pages.TeacherHomePage),
+  teacherPage("/teacher/courses", Pages.TeacherCoursesPage),
+  teacherPage("/teacher/courses/$courseId", Pages.TeacherCourseBuilderPage),
+  teacherPage(
+    "/teacher/courses/$courseId/preview",
+    Pages.TeacherCoursePreviewPage,
+  ),
+  teacherPage("/teacher/courses/$courseId/students", Pages.TeacherStudentsPage),
+  teacherPage("/teacher/classes", Pages.TeacherClassesPage),
+  teacherPage("/teacher/students", Pages.TeacherStudentsPage),
+  teacherPage("/teacher/assignments", Pages.TeacherAssignmentsPage),
+  teacherPage("/teacher/quizzes", Pages.TeacherQuizzesPage),
+  teacherPage("/teacher/doubts", Pages.TeacherDoubtsPage),
+  teacherPage("/teacher/schedule", Pages.TeacherSchedulePage),
+  teacherPage("/teacher/profile", Pages.TeacherProfilePage),
+  publicPage("/admin", Pages.AdminPage),
   publicPage("/admin/payments", Pages.AdminPaymentsPage),
   publicPage("/admin/syllabus", Pages.AdminSyllabusPage),
+  publicPage("/admin/teachers", Pages.AdminTeachersPage),
   publicPage("/search", Pages.SearchPage),
+  publicPage("/exam-prep", Pages.ExamPrepHubPage),
+  publicPage("/assignments", Pages.StudentAssignmentsPage),
+  publicPage("/live-ask", Pages.LiveAskHubPage),
   publicPage("/progress", Pages.ProgressPage),
   publicPage("/quiz-history", Pages.QuizHistoryPage),
   publicPage("/saved", Pages.SavedPage),
@@ -172,14 +215,11 @@ const routeTree = rootRoute.addChildren([
   publicPage("/privacy", Pages.PrivacyPage),
   publicPage("/refund-policy", Pages.RefundPolicyPage),
   loginRoute,
-  authLayout.addChildren([
-    authPage("/signup", Pages.SignupPage),
-    authPage("/verify-email", Pages.VerifyEmailPage),
-  ]),
+  publicPage("/signup", Pages.SignupPage),
+  authLayout.addChildren([authPage("/verify-email", Pages.VerifyEmailPage)]),
   appLayout.addChildren([
     appPage("/account", Pages.AccountPage),
     appPage("/files", Pages.FilesPage),
-    appPage("/admin", Pages.AdminPage),
     appPage("/organizations", Pages.OrganizationsPage, { organizations: true }),
     appPage("/organizations/$organizationId", Pages.OrganizationPage, {
       organizations: true,

@@ -179,7 +179,7 @@ export function OlBasketsPicker({
           <h2 className="text-xs font-extrabold uppercase tracking-wider text-[var(--sn-primary)]">
             {coreTitle}
           </h2>
-          <span className="rounded-full bg-[var(--sn-primary)] px-2.5 py-0.5 text-[10px] font-bold text-white">
+          <span className="rounded-full bg-[var(--sn-primary)] px-2.5 py-0.5 text-xs font-bold text-white">
             {includedLabel}
           </span>
         </div>

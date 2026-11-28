@@ -66,7 +66,7 @@ export function SipNenaLanguageSetupScreen() {
           <span className="text-sm sm:text-lg font-black text-[var(--sn-text-main)] tracking-tight leading-none block truncate">
             {ONBOARDING_CONFIG.brandName}
           </span>
-          <span className="text-[11px] sm:text-xs text-[var(--sn-text-muted)] font-medium truncate hidden min-[420px]:block">
+          <span className="text-xs sm:text-xs text-[var(--sn-text-muted)] font-medium truncate hidden min-[420px]:block">
             {t.topContext}
           </span>
         </button>

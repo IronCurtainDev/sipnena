@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { AppLanguage } from "@/lib/language";
 import type { CourseLessonCopy } from "./course-lesson-copy";
 import type { LessonFileItem } from "./course-lesson-model";
-import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { PlaylistNotesTab } from "./playlist-notes-tab";
 import { PlaylistQuizzesTab } from "./playlist-quizzes-tab";
 import { PlaylistSectionAccordion } from "./playlist-section-accordion";
@@ -27,7 +26,7 @@ export function LessonPlaylistSidebar({
   activeLessonId,
   onSelectLesson,
   onToast,
-  playlist = VIDEO_LESSON_PLAYLIST,
+  playlist = [],
   files,
   quizzes,
   lessonCopy,

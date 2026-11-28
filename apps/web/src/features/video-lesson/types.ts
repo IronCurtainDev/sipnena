@@ -7,7 +7,9 @@ export interface LessonPlaylistItem {
   isCompleted?: boolean;
   isNowPlaying?: boolean;
   isLocked?: boolean;
-  iconType: "video" | "quiz" | "lab";
+  iconType:
+    "video" | "quiz" | "lab" | "assignment" | "reading" | "pdf" | "live";
+  status?: "draft" | "scheduled" | "published";
 }
 
 export interface PlaylistSection {
@@ -17,6 +19,7 @@ export interface PlaylistSection {
   statusColor: "green" | "blue" | "gray";
   totalDuration?: string;
   lessons: LessonPlaylistItem[];
+  status?: "draft" | "scheduled" | "published";
 }
 
 export interface RayTracingRule {

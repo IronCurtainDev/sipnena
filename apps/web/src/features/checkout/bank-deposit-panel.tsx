@@ -99,13 +99,13 @@ export function BankDepositPanel({
                       {bankLabel}
                     </span>
                   </div>
-                  <span className="text-[11px] font-semibold text-[var(--sn-text-muted)]">
+                  <span className="text-xs font-semibold text-[var(--sn-text-muted)]">
                     {BANK_BRANCH_LABELS[bank.branch]?.[lang] ?? bank.branch}
                   </span>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white px-3 py-2 text-xs">
                   <div>
-                    <span className="text-[10px] text-[var(--sn-text-muted)]">
+                    <span className="text-xs text-[var(--sn-text-muted)]">
                       {extra.accNoLabel}{" "}
                     </span>
                     <span className="font-mono font-extrabold text-[var(--sn-text-main)]">
@@ -121,7 +121,7 @@ export function BankDepositPanel({
                         bank.accountNumber,
                       );
                     }}
-                    className="inline-flex items-center gap-1 rounded-lg bg-[var(--sn-surface-muted)] px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
+                    className="inline-flex items-center gap-1 rounded-lg bg-[var(--sn-surface-muted)] px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
                   >
                     <Copy className="h-3 w-3" />
                     <span>{extra.copyBtn}</span>

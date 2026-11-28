@@ -1,64 +1,52 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { DesktopSidebar } from "@/features/home/nav-sidebar";
 import { MobileBottomNav, TabletRail } from "@/features/home/nav-bars";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
+import { useCoursesStore } from "@/data/courses";
 import { CourseCatalogGrid } from "./course-catalog-grid";
 import { CourseFilterBar } from "./course-filter-bar";
 import { BreadcrumbTrustRow, CourseHero } from "./course-hero";
 import { CourseModal } from "./course-modal";
-import { CourseSidebar } from "./course-sidebar";
-import { CourseStateViews } from "./course-state-views";
 import { CoursesTopBar } from "./courses-top-bar";
-import { EmptyFilterView } from "./empty-filter-view";
+import { EmptyCatalogView } from "./empty-catalog-view";
+import { buildCatalogCourses } from "./courses-adapter";
 import {
-  COURSES_DATA,
   type CourseItem,
   type PriceFilter,
   type SortOption,
 } from "./mock-data";
-import { COURSES_STRINGS, formatCourseString } from "./strings";
+import { COURSES_STRINGS } from "./strings";
+
+function getInitialGradeFilter(): string {
+  if (typeof window === "undefined") return "all";
+  try {
+    const saved = window.localStorage.getItem("sipnena_student_grade");
+    return saved && ["6", "7", "8", "9", "10", "11"].includes(saved)
+      ? saved
+      : "all";
+  } catch {
+    return "all";
+  }
+}
 
 export function SipNenaCoursesScreen() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const { store } = useCoursesStore();
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
   const [activeTab, setActiveTab] = useState("courses");
-  const [selectedGrade, setSelectedGrade] = useState("8");
+  const [selectedGrade, setSelectedGrade] = useState(getInitialGradeFilter);
   const [selectedMedium, setSelectedMedium] = useState("all");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("popular");
-  const [savedIds, setSavedIds] = useState<string[]>(["human-body"]);
-  const [openTermIds, setOpenTermIds] = useState<string[]>(["term1"]);
-  const [selectedUnitId, setSelectedUnitId] = useState("u2");
+  const [savedIds, setSavedIds] = useState<string[]>([]);
   const [activeCourseModal, setActiveCourseModal] = useState<CourseItem | null>(
     null,
   );
   const [statusToast, setStatusToast] = useState<string | null>(null);
-  const [demoState, setDemoState] = useState<
-    "ready" | "loading" | "empty" | "error"
-  >("ready");
 
   const t = COURSES_STRINGS[lang];
-
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
 
   const showToast = useCallback((msg: string) => {
     setStatusToast(msg);
@@ -75,39 +63,46 @@ export function SipNenaCoursesScreen() {
     else showToast(`${tab.toUpperCase()} ${t.comingSoonBadge}`);
   };
 
+  const catalogCourses = useMemo(
+    () => buildCatalogCourses(store, lang),
+    [store, lang],
+  );
+
   const filteredCourses = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    const list = COURSES_DATA.filter((course) => {
-      if (course.grade !== selectedGrade) return false;
+    const list = catalogCourses.filter((course) => {
+      if (selectedGrade !== "all" && course.grade !== selectedGrade)
+        return false;
       if (selectedMedium !== "all" && course.medium !== selectedMedium)
         return false;
       if (priceFilter === "free" && !course.isFree) return false;
       if (priceFilter === "paid" && course.isFree) return false;
-
-      if (q) {
-        const textToSearch = [
-          COURSES_STRINGS.en[`course_${course.key}_title`],
-          COURSES_STRINGS.si[`course_${course.key}_title`],
-          COURSES_STRINGS.ta[`course_${course.key}_title`],
-          COURSES_STRINGS.en[course.unitKey],
-          COURSES_STRINGS.si[course.unitKey],
-          COURSES_STRINGS.ta[course.unitKey],
-          course.teacher,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-        if (!textToSearch.includes(q)) return false;
-      }
-      return true;
+      if (!q) return true;
+      const textToSearch = [
+        course.title,
+        course.desc,
+        course.unitLabel,
+        course.teacher,
+        course.searchBlob,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return textToSearch.includes(q);
     });
 
     return [...list].sort((a, b) => {
       if (sortBy === "lessons") return b.lessonsCount - a.lessonsCount;
       return a.popularRank - b.popularRank;
     });
-  }, [searchQuery, selectedGrade, selectedMedium, priceFilter, sortBy]);
+  }, [
+    catalogCourses,
+    searchQuery,
+    selectedGrade,
+    selectedMedium,
+    priceFilter,
+    sortBy,
+  ]);
 
   const toggleSaveCourse = (courseId: string, courseTitle: string) => {
     setSavedIds((prev) => {
@@ -122,13 +117,14 @@ export function SipNenaCoursesScreen() {
   };
 
   const resetAllFilters = () => {
-    setSelectedGrade("8");
+    setSelectedGrade("all");
     setSelectedMedium("all");
     setPriceFilter("all");
     setSearchQuery("");
     showToast(t.filtersResetBanner);
   };
 
+  const hasPublished = catalogCourses.length > 0;
   const isZeroResults = filteredCourses.length === 0;
 
   return (
@@ -152,93 +148,57 @@ export function SipNenaCoursesScreen() {
           t={t}
         />
 
-        <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
-          {demoState !== "ready" ? (
-            <CourseStateViews
-              demoState={demoState}
-              onRetry={() => setDemoState("ready")}
-              t={t}
-            />
+        <main
+          id="main-content"
+          className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8"
+        >
+          <BreadcrumbTrustRow
+            t={t}
+            isZeroResults={isZeroResults}
+            onResetFilters={resetAllFilters}
+          />
+
+          {!hasPublished ? (
+            <EmptyCatalogView t={t} kind="none" />
           ) : (
             <div className="space-y-4">
-              <BreadcrumbTrustRow
+              <CourseHero t={t} courseCount={filteredCourses.length} />
+
+              <CourseFilterBar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                selectedGrade={selectedGrade}
+                onGradeChange={setSelectedGrade}
+                selectedMedium={selectedMedium}
+                onMediumChange={setSelectedMedium}
+                priceFilter={priceFilter}
+                onPriceFilterChange={setPriceFilter}
+                sortBy={sortBy}
+                onSortToggle={() =>
+                  setSortBy((prev) =>
+                    prev === "popular" ? "lessons" : "popular",
+                  )
+                }
+                courseCount={filteredCourses.length}
                 t={t}
-                isZeroResults={isZeroResults}
-                onResetFilters={resetAllFilters}
+                lang={lang}
               />
 
               {isZeroResults ? (
-                <EmptyFilterView
-                  selectedGrade={selectedGrade}
-                  selectedMedium={selectedMedium}
-                  priceFilter={priceFilter}
-                  onResetGrade={() => setSelectedGrade("8")}
-                  onResetMedium={() => setSelectedMedium("all")}
-                  onResetPrice={() => setPriceFilter("all")}
-                  onResetAll={resetAllFilters}
-                  onSeeAllSubjects={() => {
-                    resetAllFilters();
-                  }}
-                  onRequestModule={() =>
-                    showToast(
-                      formatCourseString(t.requestSentFeedback, {
-                        grade: selectedGrade,
-                      }),
-                    )
-                  }
+                <EmptyCatalogView
                   t={t}
+                  kind="filtered"
+                  onResetFilters={resetAllFilters}
                 />
               ) : (
-                <div className="space-y-4">
-                  <CourseHero t={t} />
-
-                  <CourseFilterBar
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    selectedGrade={selectedGrade}
-                    onGradeChange={setSelectedGrade}
-                    selectedMedium={selectedMedium}
-                    onMediumChange={setSelectedMedium}
-                    priceFilter={priceFilter}
-                    onPriceFilterChange={setPriceFilter}
-                    sortBy={sortBy}
-                    onSortToggle={() =>
-                      setSortBy((prev) =>
-                        prev === "popular" ? "lessons" : "popular",
-                      )
-                    }
-                    courseCount={filteredCourses.length}
-                    t={t}
-                    lang={lang}
-                  />
-
-                  <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(400px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
-                    <CourseCatalogGrid
-                      courses={filteredCourses}
-                      savedIds={savedIds}
-                      onToggleSave={toggleSaveCourse}
-                      onOpenModal={setActiveCourseModal}
-                      onViewManual={() => showToast(t.labManualBanner)}
-                      t={t}
-                    />
-
-                    <CourseSidebar
-                      selectedGrade={selectedGrade}
-                      openTermIds={openTermIds}
-                      onToggleTerm={(id) =>
-                        setOpenTermIds((p) =>
-                          p.includes(id)
-                            ? p.filter((x) => x !== id)
-                            : [...p, id],
-                        )
-                      }
-                      selectedUnitId={selectedUnitId}
-                      onSelectUnit={setSelectedUnitId}
-                      onAskTeacher={() => showToast(t.askTeacherBanner)}
-                      t={t}
-                    />
-                  </div>
-                </div>
+                <CourseCatalogGrid
+                  courses={filteredCourses}
+                  lang={lang}
+                  savedIds={savedIds}
+                  onToggleSave={toggleSaveCourse}
+                  onOpenModal={setActiveCourseModal}
+                  t={t}
+                />
               )}
             </div>
           )}
@@ -254,14 +214,17 @@ export function SipNenaCoursesScreen() {
       <CourseModal
         course={activeCourseModal}
         onClose={() => setActiveCourseModal(null)}
-        onBeginLesson={() => {
+        onBeginLesson={(course) => {
           setActiveCourseModal(null);
-          void navigate({ to: "/course" });
+          void navigate({
+            to: "/courses/$courseId",
+            params: { courseId: course.id },
+          });
         }}
         t={t}
       />
 
-      {statusToast && (
+      {statusToast ? (
         <aside
           role="status"
           aria-live="polite"
@@ -273,7 +236,7 @@ export function SipNenaCoursesScreen() {
           />
           <span>{statusToast}</span>
         </aside>
-      )}
+      ) : null}
     </div>
   );
 }

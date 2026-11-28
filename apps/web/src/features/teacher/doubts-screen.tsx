@@ -26,7 +26,7 @@ export function TeacherDoubtsScreen() {
   const handleSendReply = (doubtId: string) => {
     const text = drafts[doubtId]?.trim();
     if (!text) return;
-    replyToDoubt(doubtId, "Ms. Menaka Jayawardena", text);
+    replyToDoubt(doubtId, "Teacher", text);
     setDrafts((prev) => ({ ...prev, [doubtId]: "" }));
     showToast(copy.replySentToast);
   };

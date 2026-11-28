@@ -65,8 +65,8 @@ export function DesktopQuizView({
             <button
               type="button"
               onClick={() => onNavTab("me")}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--sn-primary)] text-white shadow-xs hover:bg-[var(--sn-primary-hover)] transition"
-              aria-label="Profile (Me)"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--sn-primary)] text-white shadow-xs hover:bg-[var(--sn-primary-hover)] transition"
+              aria-label={t.profileAria}
             >
               <User className="h-5 w-5" />
             </button>
@@ -74,7 +74,7 @@ export function DesktopQuizView({
         </header>
 
         {/* Main Content Area */}
-        <main className="mx-auto w-full max-w-[1340px] flex-1 space-y-6 px-8 py-6">
+        <main className="w-full flex-1 space-y-6 px-6 py-6 xl:px-8">
           {/* Breadcrumbs */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 overflow-x-auto whitespace-nowrap">

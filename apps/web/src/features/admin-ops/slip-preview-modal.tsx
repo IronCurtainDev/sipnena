@@ -48,11 +48,11 @@ export function SlipPreviewModal({
               <Building2 className="h-4 w-4" />
               {localizeBankName(slip.bankName, lang)}
             </span>
-            <span className="rounded bg-amber-100 px-2 py-0.5 font-mono text-[10px] font-bold text-amber-900">
+            <span className="rounded bg-amber-100 px-2 py-0.5 font-mono text-xs font-bold text-amber-900">
               {copy.verifiedStamp}
             </span>
           </div>
-          <div className="mt-3 space-y-1.5 font-mono text-[11px]">
+          <div className="mt-3 space-y-1.5 font-mono text-xs">
             <p>{copy.payeeLine}</p>
             <p>
               {copy.depositorPrefix} {slip.studentName.toUpperCase()}

@@ -49,7 +49,7 @@ export function PortalDesktopNav({
                 {getBrandTitle(lang)}
               </div>
               <div
-                className={`mt-0.5 truncate text-[11px] font-semibold ${theme.brandSubCls}`}
+                className={`mt-0.5 truncate text-xs font-semibold ${theme.brandSubCls}`}
               >
                 {isStudent
                   ? `${gradeLabel} • ${mediumLabel}`
@@ -57,7 +57,7 @@ export function PortalDesktopNav({
               </div>
               {!isStudent && (
                 <div
-                  className={`truncate text-[10px] font-medium opacity-80 ${theme.brandSubCls}`}
+                  className={`truncate text-xs font-medium opacity-80 ${theme.brandSubCls}`}
                 >
                   {theme.personaRoleLine[lang]}
                 </div>
@@ -67,13 +67,13 @@ export function PortalDesktopNav({
             {isStudent ? (
               <Link
                 to="/select-grade"
-                className="shrink-0 rounded-lg bg-[var(--sn-olive)] px-2 py-1 text-[10px] font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
+                className="shrink-0 rounded-lg bg-[var(--sn-olive)] px-2.5 py-1.5 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
               >
                 {grade >= 10 ? labels.olBadge : gradeLabel}
               </Link>
             ) : (
               <span
-                className={`shrink-0 rounded-lg px-2 py-1 text-[10px] font-extrabold ${theme.footerBadgeCls}`}
+                className={`shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-extrabold ${theme.footerBadgeCls}`}
               >
                 {theme.footerBadge[lang]}
               </span>
@@ -84,7 +84,7 @@ export function PortalDesktopNav({
             {navGroups.map((group) => (
               <div key={group.title.en} className="space-y-1">
                 <p
-                  className={`px-3 text-[10px] font-bold uppercase tracking-wider ${theme.groupTitleCls}`}
+                  className={`px-3 text-xs font-bold uppercase tracking-wider ${theme.groupTitleCls}`}
                 >
                   {group.title[lang]}
                 </p>
@@ -126,7 +126,7 @@ export function PortalDesktopNav({
               <span>{theme.footerTitle[lang]}</span>
             </span>
             <span
-              className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${theme.footerBadgeCls}`}
+              className={`rounded-full px-2 py-0.5 text-xs font-bold ${theme.footerBadgeCls}`}
             >
               {theme.footerBadge[lang]}
             </span>
@@ -141,7 +141,7 @@ export function PortalDesktopNav({
               <span>{labels.whatsapp}</span>
             </Link>
           ) : (
-            <p className={`text-[11px] font-medium ${theme.brandSubCls}`}>
+            <p className={`text-xs font-medium ${theme.brandSubCls}`}>
               {theme.portalBadge[lang]}
             </p>
           )}
@@ -156,7 +156,7 @@ export function PortalDesktopNav({
           <Link
             to={entryRoute}
             onClick={onNavClick}
-            className={`text-center text-[11px] font-black leading-tight ${theme.tabletTextCls}`}
+            className={`text-center text-xs font-black leading-tight ${theme.tabletTextCls}`}
           >
             {lang === "si"
               ? "සිප්\nනැණ"
@@ -176,7 +176,7 @@ export function PortalDesktopNav({
                     key={item.to}
                     to={item.to}
                     onClick={onNavClick}
-                    className={`flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[10px] font-bold ${
+                    className={`flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-xs font-bold ${
                       active ? theme.activeNavCls : theme.inactiveNavCls
                     }`}
                   >

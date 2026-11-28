@@ -52,7 +52,7 @@ export function ParentDashboardScreen() {
       <section className="rounded-3xl bg-[#0F2744] p-5 text-white shadow-sm sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="rounded-full bg-sky-400/20 px-3 py-1 text-[11px] font-extrabold text-sky-200">
+            <span className="rounded-full bg-sky-400/20 px-3 py-1 text-xs font-extrabold text-sky-200">
               {copy.guardianBadge}
             </span>
             <h2 className="mt-2 text-lg font-extrabold sm:text-xl">
@@ -170,7 +170,7 @@ export function ParentDashboardScreen() {
                     label={q.localizedTitle[lang]}
                   />
                 </div>
-                <p className="mt-1 text-[11px] text-[var(--sn-text-muted)]">
+                <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
                   {copy.completedPrefix} {q.localizedDate[lang]}
                 </p>
               </div>
@@ -200,7 +200,7 @@ export function ParentDashboardScreen() {
                       {alert.localizedTitle[lang]}
                     </span>
                   </div>
-                  <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[11px] font-extrabold text-amber-900">
+                  <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-amber-900">
                     {alert.localizedDateLabel[lang]}
                   </span>
                 </div>

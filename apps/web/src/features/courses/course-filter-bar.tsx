@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowUpDown, ChevronDown, Search, X } from "lucide-react";
 import type { AppLanguage } from "@/lib/language";
+import { CATALOG_EXTRA_COPY } from "./courses-adapter";
 import { GRADES, type PriceFilter, type SortOption } from "./mock-data";
 import { formatCourseString } from "./strings";
 import type { CourseStrings } from "./strings.types";
@@ -80,6 +81,18 @@ export function CourseFilterBar({
             aria-label={t.gradeFilterLabel}
             className="flex flex-wrap gap-2"
           >
+            <button
+              type="button"
+              onClick={() => onGradeChange("all")}
+              aria-pressed={selectedGrade === "all"}
+              className={`min-h-[44px] rounded-xl px-3.5 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)] ${
+                selectedGrade === "all"
+                  ? "bg-[var(--sn-primary)] text-[var(--sn-cream)]"
+                  : "border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-olive)]"
+              }`}
+            >
+              {CATALOG_EXTRA_COPY[lang].allGrades}
+            </button>
             {GRADES.map((g) => {
               const active = selectedGrade === g;
               const label =

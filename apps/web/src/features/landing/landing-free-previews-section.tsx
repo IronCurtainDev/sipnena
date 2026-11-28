@@ -41,7 +41,7 @@ export function LandingFreePreviewsSection({
               className="group flex flex-col overflow-hidden rounded-[1.5rem] border border-[var(--sn-border)] bg-[var(--sn-surface)]"
             >
               <div className="relative flex h-36 w-full items-end bg-[var(--sn-olive)] px-4 pb-4">
-                <div className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-[var(--sn-surface)]/90 px-2 py-0.5 text-[10px] font-semibold text-[var(--sn-text-secondary)]">
+                <div className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-[var(--sn-surface)]/90 px-2 py-0.5 text-xs font-semibold text-[var(--sn-text-secondary)]">
                   <Clock className="h-3 w-3" />
                   <span>Preview</span>
                 </div>

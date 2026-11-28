@@ -2,6 +2,7 @@ import { ArrowLeft, Bookmark, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import { DesktopSidebar } from "@/features/home/nav-sidebar";
 import type { AppLanguage } from "@/lib/language";
+import { AssignmentLessonPanel } from "./assignment-panel";
 import type { CourseLessonCopy } from "./course-lesson-copy";
 import {
   flatLessons,
@@ -19,7 +20,6 @@ import { LessonDownloadsTab } from "./lesson-downloads-tab";
 import { LessonNotesTab } from "./lesson-notes-tab";
 import { LessonOverviewTab } from "./lesson-overview-tab";
 import { LessonPlaylistSidebar } from "./lesson-playlist-sidebar";
-import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { lessonCounter, lessonTitle } from "./playlist-copy";
 import type { VideoLessonStrings } from "./strings";
 import { VideoPlayer } from "./video-player";
@@ -43,6 +43,12 @@ interface DesktopLessonViewProps {
     tab: "overview" | "notes" | "discussion" | "downloads",
   ) => void;
   onBackToCourse: () => void;
+  onQuizCompleted?: (
+    score: number,
+    total: number,
+    passed: boolean,
+    answers: Record<number, string>,
+  ) => void;
   onToast: (msg: string) => void;
   bundle?: CourseLessonBundle;
   lessonCopy?: CourseLessonCopy;
@@ -65,11 +71,12 @@ export function DesktopLessonView({
   activeTab,
   setActiveTab,
   onBackToCourse,
+  onQuizCompleted,
   onToast,
   bundle,
   lessonCopy,
 }: DesktopLessonViewProps) {
-  const playlist = bundle?.playlist ?? VIDEO_LESSON_PLAYLIST;
+  const playlist = bundle?.playlist ?? [];
   const lessons = flatLessons(playlist);
   const currentLesson = lessons.find((lesson) => lesson.id === activeLessonId);
   const authored = bundle?.byId[activeLessonId];
@@ -153,11 +160,23 @@ export function DesktopLessonView({
                   playlist={playlist}
                   lessonCopy={lessonCopy}
                   onSelectLesson={onSelectLesson}
+                  onQuizCompleted={onQuizCompleted}
                   onToast={onToast}
                 />
               ) : (
                 <>
-                  {authored?.kind === "lab" ? (
+                  {authored?.kind === "assignment" && authored.assignment ? (
+                    <AssignmentLessonPanel
+                      lessonId={activeLessonId}
+                      courseId={bundle?.resolvedCourseId ?? ""}
+                      title={authored.title}
+                      instructions={authored.assignment.instructions}
+                      dueAt={authored.assignment.dueAt}
+                      maxScore={authored.assignment.maxScore}
+                      lang={lang}
+                      onToast={onToast}
+                    />
+                  ) : authored?.kind === "lab" ? (
                     <LabPanel
                       kicker={lessonCopy?.labKicker}
                       title={authored.title}
@@ -166,13 +185,14 @@ export function DesktopLessonView({
                     />
                   ) : (
                     <VideoPlayer
+                      key={`${activeLessonId}:${authored?.videoItem?.url ?? ""}`}
                       t={t}
                       isPlaying={isPlaying}
                       onTogglePlay={onTogglePlay}
                       onToast={onToast}
+                      src={authored?.videoItem?.url}
                     />
                   )}
-
                   <LessonActionBar
                     t={t}
                     lessonTitle={currentLessonTitle}
@@ -187,7 +207,6 @@ export function DesktopLessonView({
                     onHelp={() => onToast("Help")}
                     courseMode={Boolean(bundle)}
                   />
-
                   <FollowQuizBanner
                     t={t}
                     bundle={bundle}
@@ -195,7 +214,6 @@ export function DesktopLessonView({
                     sampleDetail={quizDetail}
                     onSelectLesson={onSelectLesson}
                   />
-
                   <div className="flex gap-1 border-b border-[var(--sn-border)] text-sm font-bold text-[var(--sn-text-secondary)]">
                     {(
                       ["overview", "notes", "discussion", "downloads"] as const
@@ -224,7 +242,6 @@ export function DesktopLessonView({
                       );
                     })}
                   </div>
-
                   {activeTab === "overview" && (
                     <LessonOverviewTab
                       t={t}

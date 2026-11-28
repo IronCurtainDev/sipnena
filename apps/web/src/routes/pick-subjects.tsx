@@ -1,6 +1,5 @@
-import { lazyRouteComponent } from "@tanstack/react-router";
+import { PickSubjectsScreen } from "@/features/pick-subjects/screen";
 
-export const PickSubjectsPage = lazyRouteComponent(
-  () => import("../features/pick-subjects/screen"),
-  "PickSubjectsScreen",
-);
+export function PickSubjectsPage() {
+  return <PickSubjectsScreen />;
+}

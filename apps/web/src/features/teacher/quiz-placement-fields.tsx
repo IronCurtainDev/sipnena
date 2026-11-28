@@ -1,13 +1,26 @@
-import type {
-  TeacherCourseDraft,
-  TeacherCourseSection,
-} from "@/lib/prototype-state";
+import { pickLocalized, type Localized } from "@/data/courses";
+import type { AppLanguage } from "@/lib/language";
 import type { CourseContentCopy } from "./course-content-strings";
 
+interface SimpleCourse {
+  id: string;
+  title: string | Localized;
+}
+
+interface SimpleSection {
+  id: string;
+  title: string | Localized;
+}
+
+function readTitle(title: string | Localized, lang: AppLanguage): string {
+  return typeof title === "string" ? title : pickLocalized(title, lang);
+}
+
 interface QuizPlacementFieldsProps {
+  lang?: AppLanguage;
   content: CourseContentCopy;
-  courses: TeacherCourseDraft[];
-  courseSections: TeacherCourseSection[];
+  courses: SimpleCourse[];
+  courseSections: SimpleSection[];
   courseId: string;
   sectionId: string;
   placementError: string;
@@ -16,6 +29,7 @@ interface QuizPlacementFieldsProps {
 }
 
 export function QuizPlacementFields({
+  lang = "en",
   content,
   courses,
   courseSections,
@@ -41,7 +55,7 @@ export function QuizPlacementFields({
             <option value="">{content.chooseCourse}</option>
             {courses.map((course) => (
               <option key={course.id} value={course.id}>
-                {course.title}
+                {readTitle(course.title, lang)}
               </option>
             ))}
           </select>
@@ -64,7 +78,7 @@ export function QuizPlacementFields({
             <option value="">{content.chooseSection}</option>
             {courseSections.map((section) => (
               <option key={section.id} value={section.id}>
-                {section.title}
+                {readTitle(section.title, lang)}
               </option>
             ))}
           </select>

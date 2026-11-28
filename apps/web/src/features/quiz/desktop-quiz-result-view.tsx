@@ -46,7 +46,7 @@ export function DesktopQuizResultView({
   const [filter, setFilter] = useState<"all" | "review" | "correct">("all");
 
   return (
-    <div className="hidden lg:flex min-h-svh flex-row bg-slate-50">
+    <div className="hidden min-h-svh flex-row bg-slate-50 lg:flex">
       <DesktopSidebar
         activeTab={activeNav}
         onTabChange={onNavTab}
@@ -54,10 +54,9 @@ export function DesktopQuizResultView({
       />
 
       <div className="flex min-w-0 flex-1 flex-col pb-20">
-        {/* Top Header */}
         <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-8">
           <div className="inline-flex items-center rounded-full bg-slate-100 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
-            Sri Lankan General Education • Grades 6–11
+            {t.topContext}
           </div>
 
           <div className="flex items-center gap-3">
@@ -68,73 +67,70 @@ export function DesktopQuizResultView({
             <button
               type="button"
               onClick={() => onNavTab("me")}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--sn-primary)] text-white shadow-xs hover:bg-[var(--sn-primary-hover)] transition"
-              aria-label="Profile (Me)"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--sn-primary)] text-white shadow-xs transition hover:bg-[var(--sn-primary-hover)]"
+              aria-label={t.profileAria}
             >
               <User className="h-5 w-5" />
             </button>
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="mx-auto w-full max-w-[1340px] flex-1 space-y-6 px-8 py-6">
-          {/* Breadcrumb Header */}
+        <main className="w-full flex-1 space-y-6 px-6 py-6 xl:px-8">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 overflow-x-auto whitespace-nowrap">
+            <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs font-semibold text-slate-500">
               <button
                 type="button"
                 onClick={onBackToCourse}
                 className="inline-flex items-center gap-1.5 font-bold text-[var(--sn-primary)] hover:underline"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Back to Course</span>
+                <span>{t.breadcrumbBack}</span>
               </button>
               <span>/</span>
               <button
                 type="button"
                 onClick={() => onNavTab("courses")}
-                className="text-slate-600 hover:text-[var(--sn-primary)] hover:underline transition"
+                className="text-slate-600 transition hover:text-[var(--sn-primary)] hover:underline"
               >
-                Science (Grades 6–11)
+                {t.breadcrumbSubject}
               </button>
               <span>&gt;</span>
               <button
                 type="button"
                 onClick={onBackToCourse}
-                className="text-slate-600 hover:text-[var(--sn-primary)] hover:underline transition"
+                className="text-slate-600 transition hover:text-[var(--sn-primary)] hover:underline"
               >
-                Light, Reflection & Spherical Mirrors
+                {t.breadcrumbTopic}
               </button>
               <span>&gt;</span>
               <button
                 type="button"
-                onClick={() => onReviewLesson("Unit 1")}
-                className="text-slate-600 hover:text-[var(--sn-primary)] hover:underline transition"
+                onClick={() => onReviewLesson(t.breadcrumbUnit)}
+                className="text-slate-600 transition hover:text-[var(--sn-primary)] hover:underline"
               >
-                Unit 1: Fundamentals of Light
+                {t.breadcrumbUnit}
               </button>
               <span>&gt;</span>
-              <span className="font-bold text-slate-900">Quiz Result</span>
+              <span className="font-bold text-slate-900">
+                {t.breadcrumbResult}
+              </span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700">
                 <span className="h-2 w-2 rounded-full bg-[var(--sn-primary)]" />
-                <span>Science • Grade 8</span>
+                <span>{t.badgeGrade}</span>
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
-                Checkpoint Evaluation
+                {t.badgeTerm}
               </span>
             </div>
           </div>
 
-          {/* 2-Column Responsive Body */}
           <div className="grid grid-cols-1 items-start gap-8 xl:grid-cols-[minmax(0,1fr)_380px]">
-            {/* Left Main Column */}
             <div className="min-w-0 space-y-6">
-              {/* Score Summary Card */}
-              <div className="relative overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+              <div className="relative space-y-6 overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-6 shadow-xs sm:p-8">
+                <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
                   <ScoreMeter
                     score={result.score}
                     total={result.totalQuestions}
@@ -143,7 +139,7 @@ export function DesktopQuizResultView({
                   />
 
                   <div className="min-w-0 flex-1 space-y-2 text-center sm:text-left">
-                    <div className="flex items-center justify-center sm:justify-start gap-2">
+                    <div className="flex items-center justify-center gap-2 sm:justify-start">
                       <span
                         className={`rounded-full px-3 py-0.5 text-xs font-bold ${
                           result.isPassed
@@ -152,8 +148,8 @@ export function DesktopQuizResultView({
                         }`}
                       >
                         {result.isPassed
-                          ? "Competency Attained ✓"
-                          : `Pass mark: ${result.passScore} / ${result.totalQuestions} questions`}
+                          ? t.competencyAttained
+                          : `${t.passMarkPrefix} ${result.passScore} / ${result.totalQuestions} ${t.questionsUnit}`}
                       </span>
                     </div>
 
@@ -161,7 +157,7 @@ export function DesktopQuizResultView({
                       {result.isPassed ? t.wellDoneTitle : t.almostThereTitle}
                     </h1>
 
-                    <p className="text-xs sm:text-sm font-semibold text-[var(--sn-primary)]">
+                    <p className="text-xs font-semibold text-[var(--sn-primary)] sm:text-sm">
                       {result.isPassed
                         ? t.wellDoneBilingual
                         : t.almostThereBilingual}
@@ -173,28 +169,27 @@ export function DesktopQuizResultView({
                   </div>
                 </div>
 
-                {/* 4 Stats Chips */}
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 border-t border-slate-100 pt-5">
+                <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-5 sm:grid-cols-4">
                   <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 text-center">
-                    <div className="text-[11px] font-semibold text-slate-500">
+                    <div className="text-xs font-semibold text-slate-500">
                       {t.statCorrect}
                     </div>
                     <div className="text-base font-black text-emerald-600">
-                      {result.score} questions
+                      {result.score} {t.questionsUnit}
                     </div>
                   </div>
 
                   <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 text-center">
-                    <div className="text-[11px] font-semibold text-slate-500">
+                    <div className="text-xs font-semibold text-slate-500">
                       {t.statToReview}
                     </div>
                     <div className="text-base font-black text-amber-600">
-                      {result.totalQuestions - result.score} questions
+                      {result.totalQuestions - result.score} {t.questionsUnit}
                     </div>
                   </div>
 
                   <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 text-center">
-                    <div className="text-[11px] font-semibold text-slate-500">
+                    <div className="text-xs font-semibold text-slate-500">
                       {t.statTimeSpent}
                     </div>
                     <div className="text-base font-black text-slate-900">
@@ -203,30 +198,28 @@ export function DesktopQuizResultView({
                   </div>
 
                   <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 text-center">
-                    <div className="text-[11px] font-semibold text-slate-500">
+                    <div className="text-xs font-semibold text-slate-500">
                       {t.statAttempts}
                     </div>
                     <div className="text-base font-black text-[var(--sn-primary)]">
-                      {result.attemptsUsed} of unlimited
+                      {result.attemptsUsed} {t.ofUnlimited}
                     </div>
                   </div>
                 </div>
 
-                {/* Science Tip Banner */}
                 <div className="flex items-start gap-3 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-olive)]/70 p-4">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--sn-primary)] text-white shadow-2xs">
                     <Lightbulb className="h-4 w-4" />
                   </div>
                   <div className="space-y-0.5 text-xs text-[var(--sn-text-main)]">
                     <div className="font-bold">{t.scienceTipTitle}</div>
-                    <p className="leading-relaxed text-[var(--sn-text-main)] font-medium">
+                    <p className="font-medium leading-relaxed text-[var(--sn-text-main)]">
                       {result.scienceTip}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Question Breakdown Accordion */}
               <QuestionBreakdown
                 t={t}
                 questions={result.questions}
@@ -235,12 +228,11 @@ export function DesktopQuizResultView({
                 onReviewLesson={onReviewLesson}
               />
 
-              {/* Bottom Action Footer */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs">
+              <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:flex-row">
                 <button
                   type="button"
                   onClick={onTryAgain}
-                  className="flex min-h-[46px] items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                  className="flex min-h-[46px] items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                 >
                   <RotateCcw className="h-4 w-4" />
                   <span>{t.tryAgainBtn}</span>
@@ -250,7 +242,7 @@ export function DesktopQuizResultView({
                   <button
                     type="button"
                     onClick={onNextLesson}
-                    className="flex min-h-[46px] items-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-md hover:bg-[var(--sn-primary-hover)] transition active:scale-[0.99]"
+                    className="flex min-h-[46px] items-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-md transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99]"
                   >
                     <span>{t.nextLessonBtn}</span>
                     <ArrowRight className="h-4 w-4" />
@@ -258,8 +250,8 @@ export function DesktopQuizResultView({
                 ) : (
                   <button
                     type="button"
-                    onClick={() => onReviewLesson("Lesson 2")}
-                    className="flex min-h-[46px] items-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-md hover:bg-[var(--sn-primary-hover)] transition active:scale-[0.99]"
+                    onClick={() => onReviewLesson(t.breadcrumbUnit)}
+                    className="flex min-h-[46px] items-center gap-2 rounded-xl bg-[var(--sn-primary)] px-6 text-sm font-bold text-white shadow-md transition hover:bg-[var(--sn-primary-hover)] active:scale-[0.99]"
                   >
                     <BookOpen className="h-4 w-4" />
                     <span>{t.reviewNotesBtn}</span>
@@ -268,16 +260,13 @@ export function DesktopQuizResultView({
               </div>
             </div>
 
-            {/* Right Column Sidebar */}
             <div className="hidden xl:block">
               <ResultSidebarWidgets
                 t={t}
                 isPassed={result.isPassed}
                 onStartNextLesson={onNextLesson}
                 onReviewLesson={onReviewLesson}
-                onAskTeacher={() =>
-                  onToast("Opened WhatsApp Support for Ms. Menaka")
-                }
+                onAskTeacher={() => onToast(t.whatsappToast)}
               />
             </div>
           </div>

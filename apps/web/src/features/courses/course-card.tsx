@@ -1,10 +1,13 @@
 import { Bookmark, Clock, Play, Star } from "lucide-react";
+import type { AppLanguage } from "@/lib/language";
 import { CourseCoverIllustration } from "./course-illustrations";
+import { CATALOG_EXTRA_COPY } from "./courses-adapter";
 import type { CourseItem } from "./mock-data";
 import type { CourseStrings } from "./strings.types";
 
 interface CourseCardProps {
   course: CourseItem;
+  lang: AppLanguage;
   isSaved: boolean;
   onToggleSave: (id: string, title: string) => void;
   onOpenModal: (course: CourseItem) => void;
@@ -13,22 +16,37 @@ interface CourseCardProps {
 
 export function CourseCard({
   course,
+  lang,
   isSaved,
   onToggleSave,
   onOpenModal,
   t,
 }: CourseCardProps) {
-  const mobileTitle =
-    t[`course_${course.key}_title` as keyof CourseStrings] || "";
-  const desktopTitle =
-    t[`course_${course.key}_titleDesktop` as keyof CourseStrings] ||
-    mobileTitle;
+  const extra = CATALOG_EXTRA_COPY[lang];
+  const fallbackMobile =
+    course.key !== "dynamic"
+      ? t[`course_${course.key}_title` as keyof CourseStrings] || ""
+      : "";
+  const fallbackDesktop =
+    course.key !== "dynamic"
+      ? t[`course_${course.key}_titleDesktop` as keyof CourseStrings] ||
+        fallbackMobile
+      : "";
+  const mobileTitle = course.title ?? fallbackMobile;
+  const desktopTitle = course.title ?? fallbackDesktop;
   const courseDesc =
-    t[`course_${course.key}_desc` as keyof CourseStrings] || "";
-  const mediumText = t[course.mediumBadgeKey as keyof CourseStrings] || "";
+    course.desc ??
+    (course.key !== "dynamic"
+      ? t[`course_${course.key}_desc` as keyof CourseStrings] || ""
+      : "");
+  const mediumText =
+    course.mediumLabel ?? t[course.mediumBadgeKey as keyof CourseStrings] ?? "";
   const mediumDesktopText =
-    t[`${course.mediumBadgeKey}Desktop` as keyof CourseStrings] || mediumText;
-  const unitText = t[course.unitKey as keyof CourseStrings] || "";
+    course.mediumDesktopLabel ??
+    t[`${course.mediumBadgeKey}Desktop` as keyof CourseStrings] ??
+    mediumText;
+  const unitText =
+    course.unitLabel ?? t[course.unitKey as keyof CourseStrings] ?? "";
 
   return (
     <article className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] shadow-xs transition hover:border-[var(--sn-border-selected)]">
@@ -43,7 +61,10 @@ export function CourseCard({
               onClick={() => onOpenModal(course)}
               className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-[var(--sn-border)] text-left cursor-pointer focus:outline-none"
             >
-              <CourseCoverIllustration courseId={course.id} />
+              <CourseCoverIllustration
+                courseId={course.id}
+                coverImageUrl={course.coverImageUrl}
+              />
               <span className="absolute bottom-1 right-1 rounded bg-slate-900/90 px-1.5 py-0.5 text-xs font-bold text-white">
                 {course.videosCount} {t.vidShort}
               </span>
@@ -78,17 +99,23 @@ export function CourseCard({
               </p>
 
               <div className="flex flex-wrap items-center gap-1.5 pt-0.5 text-sm text-[var(--sn-text-secondary)]">
-                <span className="inline-flex items-center gap-1 font-bold text-amber-800">
-                  <Star
-                    className="h-4 w-4 fill-amber-400 text-amber-600"
-                    aria-hidden="true"
-                  />
-                  {course.rating}
-                </span>
-                <span className="text-[var(--sn-text-muted)]">
-                  ({course.reviews})
-                </span>
-                <span>•</span>
+                {course.rating ? (
+                  <>
+                    <span className="inline-flex items-center gap-1 font-bold text-amber-800">
+                      <Star
+                        className="h-4 w-4 fill-amber-400 text-amber-600"
+                        aria-hidden="true"
+                      />
+                      {course.rating}
+                    </span>
+                    {course.reviews > 0 ? (
+                      <span className="text-[var(--sn-text-muted)]">
+                        ({course.reviews})
+                      </span>
+                    ) : null}
+                    <span>•</span>
+                  </>
+                ) : null}
                 <span>
                   {course.lessonsCount} {t.lessonsWord}
                 </span>
@@ -120,15 +147,23 @@ export function CourseCard({
       <div className="hidden flex-1 flex-col justify-between sm:flex">
         <div>
           <div className="relative h-36 w-full overflow-hidden border-b border-[var(--sn-border)]">
-            <CourseCoverIllustration courseId={course.id} />
+            <CourseCoverIllustration
+              courseId={course.id}
+              coverImageUrl={course.coverImageUrl}
+            />
 
-            <div className="absolute left-3 top-3 flex items-center gap-1.5">
+            <div className="absolute left-3 top-3 flex flex-wrap items-center gap-1.5 pr-12">
               <span className="rounded-md border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)]">
                 {t.gradePrefix} {course.grade}
               </span>
               <span className="rounded-md border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--sn-text-main)]">
                 {mediumDesktopText}
               </span>
+              {course.isAssigned ? (
+                <span className="rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800">
+                  {extra.fromTeacher}
+                </span>
+              ) : null}
             </div>
 
             <button
@@ -154,14 +189,20 @@ export function CourseCard({
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Play className="h-4 w-4" aria-hidden="true" />
+                {course.unitsCount ?? 1} {extra.unitsWord} ·{" "}
                 {course.lessonsCount} {t.lessonsWord}
               </span>
             </div>
           </div>
 
           <div className="space-y-2 p-4">
-            <div className="text-sm font-bold text-[var(--sn-primary)]">
-              {unitText}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-sm font-bold text-[var(--sn-primary)]">
+              <span>{unitText}</span>
+              {course.progressPercent && course.progressPercent > 0 ? (
+                <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
+                  {course.progressPercent}% {extra.completedWord}
+                </span>
+              ) : null}
             </div>
 
             <button
@@ -189,18 +230,22 @@ export function CourseCard({
                 </span>
               </div>
 
-              <div className="inline-flex shrink-0 items-center gap-1 text-sm">
-                <Star
-                  className="h-4 w-4 fill-amber-400 text-amber-600"
-                  aria-hidden="true"
-                />
-                <span className="font-bold text-[var(--sn-text-main)]">
-                  {course.rating}
-                </span>
-                <span className="text-[var(--sn-text-muted)]">
-                  ({course.reviews})
-                </span>
-              </div>
+              {course.rating ? (
+                <div className="inline-flex shrink-0 items-center gap-1 text-sm">
+                  <Star
+                    className="h-4 w-4 fill-amber-400 text-amber-600"
+                    aria-hidden="true"
+                  />
+                  <span className="font-bold text-[var(--sn-text-main)]">
+                    {course.rating}
+                  </span>
+                  {course.reviews > 0 ? (
+                    <span className="text-[var(--sn-text-muted)]">
+                      ({course.reviews})
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

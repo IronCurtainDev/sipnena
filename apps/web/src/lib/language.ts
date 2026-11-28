@@ -31,6 +31,11 @@ export const APP_LANGUAGES: LanguageOption[] = [
 const LANGUAGE_STORAGE_KEY = "sipnena_preferred_lang";
 const DEFAULT_LANG: AppLanguage = "si";
 
+export function syncDocumentLanguage(lang: AppLanguage): void {
+  if (typeof document === "undefined") return;
+  document.documentElement.lang = lang;
+}
+
 export function getSavedLanguage(): AppLanguage {
   if (typeof window === "undefined") return DEFAULT_LANG;
   try {
@@ -46,6 +51,7 @@ export function getSavedLanguage(): AppLanguage {
 
 export function saveLanguage(lang: AppLanguage): void {
   if (typeof window === "undefined") return;
+  syncDocumentLanguage(lang);
   try {
     localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
     window.dispatchEvent(

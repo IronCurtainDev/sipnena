@@ -1,10 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { CertificateModal } from "./certificate-modal";
 import { DesktopCompletionView } from "./desktop-completion-view";
 import { MobileCompletionView } from "./mobile-completion-view";
@@ -13,28 +9,13 @@ import { COMPLETION_STRINGS } from "./strings";
 
 export function CourseCompletionScreen() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
   const [activeNav, setActiveNav] = useState("courses");
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
   const [isRatingOpen, setIsRatingOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const t = COMPLETION_STRINGS[lang];
-
-  useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
-
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -59,7 +40,7 @@ export function CourseCompletionScreen() {
   };
 
   return (
-    <div className="relative min-h-svh bg-slate-50 font-sans text-slate-900 antialiased">
+    <div className="sipnena-onboarding relative min-h-svh bg-slate-50 text-slate-900 antialiased">
       {/* Toast */}
       {toastMsg && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xl animate-in fade-in slide-in-from-bottom-2 duration-200">

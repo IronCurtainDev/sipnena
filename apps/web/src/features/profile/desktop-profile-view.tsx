@@ -17,6 +17,7 @@ import { AcademicPreferencesCard } from "./academic-preferences-card";
 import { AvatarIcon } from "./avatar-icon";
 import { AvatarPicker } from "./avatar-picker";
 import { DesktopSidebarWidgets } from "./desktop-sidebar-widgets";
+import { LearningRewardsCard } from "./learning-rewards-card";
 import { ProfileQuickLinks } from "./quick-links";
 import type { ProfileStrings } from "./strings.types";
 
@@ -197,6 +198,8 @@ export function DesktopProfileView({
                 strings={strings}
                 isDesktop={true}
               />
+
+              <LearningRewardsCard lang={lang} grade={currentGrade} />
 
               <AcademicPreferencesCard
                 lang={lang}

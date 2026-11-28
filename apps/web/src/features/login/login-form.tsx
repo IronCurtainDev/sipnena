@@ -12,6 +12,7 @@ import { useAction } from "@/hooks/use-action";
 import { queryClient } from "@/lib/api/query-client";
 import { authClient, checkAuth } from "@/lib/auth/client";
 import { safeRedirect, searchParam } from "@/lib/auth/redirect";
+import { tryLocalPortalLogin } from "@/lib/portal-local-auth";
 import type { LoginStrings } from "./strings";
 
 interface Props {
@@ -50,6 +51,15 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
 
     void action.run(async () => {
       try {
+        const local = tryLocalPortalLogin(email, password, destination);
+        if (local) {
+          setStatusMsg({ type: "success", text: t.loginSuccessMsg });
+          setTimeout(() => {
+            window.location.assign(local.redirectTo);
+          }, 400);
+          return;
+        }
+
         checkAuth(
           await authClient.signIn.email({ email, password, callbackURL }),
         );
@@ -97,7 +107,7 @@ export function LoginForm({ t, selectedLang, onCreateAccountClick }: Props) {
           <h1
             id="login-heading"
             data-testid="login-heading"
-            className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight"
+            className="text-[26px] sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight"
           >
             {t.formTitle}
           </h1>

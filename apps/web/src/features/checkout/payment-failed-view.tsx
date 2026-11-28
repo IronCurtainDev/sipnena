@@ -75,7 +75,7 @@ export function PaymentFailedView({
         <div className="flex items-center gap-2.5">
           <div className="h-8 w-1.5 rounded-full bg-emerald-500" />
           <div>
-            <span className="block text-[11px] font-bold text-[var(--sn-text-muted)] uppercase">
+            <span className="block text-xs font-bold text-[var(--sn-text-muted)] uppercase">
               Target Module
             </span>
             <span className="text-xs font-bold text-[var(--sn-text-main)] sm:text-sm">
@@ -87,7 +87,7 @@ export function PaymentFailedView({
           <span className="text-sm font-extrabold text-[var(--sn-text-main)]">
             Rs. {course.feeAmount.toLocaleString()}
           </span>
-          <span className="block text-[11px] font-semibold text-emerald-700">
+          <span className="block text-xs font-semibold text-emerald-700">
             0.00 charged
           </span>
         </div>
@@ -125,7 +125,7 @@ export function PaymentFailedView({
             <Building2 className="h-4 w-4 text-emerald-600" />
             <span>Bank transfer slip upload accepted</span>
           </div>
-          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-800">
             Supported
           </span>
         </div>
@@ -161,7 +161,7 @@ export function PaymentFailedView({
           <MessageCircle className="h-4 w-4" />
           <span>{t.whatsappSupport}</span>
         </button>
-        <p className="mt-1 text-[10px] text-[var(--sn-text-muted)]">
+        <p className="mt-1 text-xs text-[var(--sn-text-muted)]">
           Available 8:00 AM – 8:00 PM (Mon–Sat)
         </p>
       </div>

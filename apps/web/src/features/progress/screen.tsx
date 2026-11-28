@@ -114,7 +114,7 @@ export function ProgressAndMistakesScreen({
                 className="flex flex-wrap items-center justify-between gap-2 py-3.5"
               >
                 <div>
-                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
+                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                     {formatSubject(lang, item.subject)} •{" "}
                     {item.localizedDate[lang]}
                   </span>
@@ -168,7 +168,7 @@ export function ProgressAndMistakesScreen({
                   key={q.id}
                   className="rounded-3xl border border-[var(--sn-border)] bg-white p-5 shadow-xs"
                 >
-                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
+                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                     {formatSubject(lang, q.subject)} • {q.localizedSource[lang]}
                   </span>
                   <h3 className="mt-2 text-sm font-extrabold text-[var(--sn-text-main)]">

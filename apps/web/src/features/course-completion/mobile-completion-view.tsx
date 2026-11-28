@@ -50,7 +50,7 @@ export function MobileCompletionView({
         </button>
 
         {/* Trilingual Pill Switcher */}
-        <div className="flex items-center rounded-full bg-slate-100 p-0.5 text-[11px] font-medium text-slate-600 shadow-inner">
+        <div className="flex items-center rounded-full bg-slate-100 p-0.5 text-xs font-medium text-slate-600 shadow-inner">
           <button
             type="button"
             onClick={() => onLanguageChange("si")}
@@ -148,7 +148,7 @@ export function MobileCompletionView({
               <span className="mt-1 text-xs font-bold text-slate-900">
                 {strings.statCompletedNum}
               </span>
-              <span className="text-[10px] text-slate-500">
+              <span className="text-xs text-slate-500">
                 {strings.statCompletedLabel}
               </span>
             </div>
@@ -160,7 +160,7 @@ export function MobileCompletionView({
               <span className="mt-1 text-xs font-bold text-slate-900">
                 {strings.statNieBadge}
               </span>
-              <span className="text-[10px] text-slate-500">
+              <span className="text-xs text-slate-500">
                 {strings.statNieLabel}
               </span>
             </div>
@@ -172,7 +172,7 @@ export function MobileCompletionView({
               <span className="mt-1 text-xs font-bold text-slate-900">
                 {strings.statCertReady}
               </span>
-              <span className="text-[10px] text-slate-500">
+              <span className="text-xs text-slate-500">
                 {strings.statCertLabel}
               </span>
             </div>
@@ -188,7 +188,7 @@ export function MobileCompletionView({
             <h4 className="text-xs font-bold text-slate-800">
               {strings.notebookUpdatedTitle}
             </h4>
-            <p className="text-[11px] text-slate-500 line-clamp-1">
+            <p className="text-xs text-slate-500 line-clamp-1">
               {strings.notebookUpdatedDesc}
             </p>
           </div>

@@ -5,6 +5,7 @@ import { MobileBottomNav } from "@/features/home/nav-bars";
 import type { AppLanguage } from "@/lib/language";
 import { AvatarIcon } from "./avatar-icon";
 import { AvatarPicker } from "./avatar-picker";
+import { LearningRewardsCard } from "./learning-rewards-card";
 import { ProfileQuickLinks } from "./quick-links";
 import { SettingsList } from "./settings-list";
 import type { ProfileStrings } from "./strings.types";
@@ -82,14 +83,14 @@ export function MobileProfileView({
                 <h2 className="text-xl font-bold text-[var(--sn-text-main)] truncate">
                   Kasun
                 </h2>
-                <span className="rounded-full bg-[var(--sn-surface-selected)] px-2 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
+                <span className="rounded-full bg-[var(--sn-surface-selected)] px-2 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                   {strings.activeStatus}
                 </span>
               </div>
               <p className="text-xs font-semibold text-[var(--sn-text-secondary)]">
                 Student • Grade {currentGrade}
               </p>
-              <p className="text-[11px] text-[var(--sn-text-muted)]">
+              <p className="text-xs text-[var(--sn-text-muted)]">
                 National Curriculum (English Medium)
               </p>
             </div>
@@ -100,7 +101,7 @@ export function MobileProfileView({
             <div className="flex items-center gap-2 rounded-xl bg-[var(--sn-surface)] p-2 shadow-2xs border border-[var(--sn-border)]">
               <BookOpen className="h-4 w-4 text-[var(--sn-primary)]" />
               <div>
-                <p className="text-[10px] text-[var(--sn-text-muted)] font-medium">
+                <p className="text-xs text-[var(--sn-text-muted)] font-medium">
                   Enrolled
                 </p>
                 <p className="text-xs font-bold text-[var(--sn-text-main)]">
@@ -112,7 +113,7 @@ export function MobileProfileView({
             <div className="flex items-center gap-2 rounded-xl bg-[var(--sn-surface)] p-2 shadow-2xs border border-[var(--sn-border)]">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               <div>
-                <p className="text-[10px] text-[var(--sn-text-muted)] font-medium">
+                <p className="text-xs text-[var(--sn-text-muted)] font-medium">
                   Child-Safe
                 </p>
                 <p className="text-xs font-bold text-[var(--sn-text-main)]">
@@ -122,6 +123,8 @@ export function MobileProfileView({
             </div>
           </div>
         </div>
+
+        <LearningRewardsCard lang={lang} grade={currentGrade} />
 
         {/* Choose Your Avatar Picker */}
         <AvatarPicker
@@ -161,7 +164,7 @@ export function MobileProfileView({
         </button>
 
         {/* Footer */}
-        <p className="mt-1 text-center text-[11px] font-medium text-slate-400">
+        <p className="mt-1 text-center text-xs font-medium text-slate-400">
           {strings.footerVersion}
         </p>
       </main>

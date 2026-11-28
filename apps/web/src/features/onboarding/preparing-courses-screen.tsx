@@ -88,7 +88,7 @@ export function PreparingCoursesLoadingScreen({
           <span className="text-sm sm:text-base font-black text-[var(--sn-text-main)] tracking-tight block">
             SipNena
           </span>
-          <span className="text-[11px] text-[var(--sn-text-muted)] font-medium hidden min-[480px]:block">
+          <span className="text-xs text-[var(--sn-text-muted)] font-medium hidden min-[480px]:block">
             {lang === "si"
               ? "පාසල් ඉගෙනුම් ඇප් එක"
               : lang === "ta"

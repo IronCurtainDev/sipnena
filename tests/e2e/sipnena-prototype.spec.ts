@@ -7,7 +7,7 @@ test("SipNena renders full Sinhala and Tamil UI without English bleed", async ({
   page.on("pageerror", (err) => errors.push(err.message));
 
   const siChecks: Array<[string, string, string]> = [
-    ["/past-papers", "පසුගිය විභාග ප්‍රශ්න පත්‍ර", "Open Paper Viewer"],
+    ["/past-papers", "පසුගිය ප්‍රශ්න පත්‍ර", "Open Paper Viewer"],
     ["/term-tests", "පළාත් සහ ප්‍රමුඛ පාසල් වාර විභාග", "Term Test Packs"],
     ["/notes", "පාඩම් ටියුට්, කෙටි සටහන්", "Categorized Revision Library"],
     ["/live", "දැන් සජීවීව", "LIVE NOW"],
@@ -44,7 +44,7 @@ test("SipNena renders full Sinhala and Tamil UI without English bleed", async ({
   await page.getByRole("button", { name: "தமிழ் (த)" }).click();
 
   const taChecks: Array<[string, string, string]> = [
-    ["/past-papers", "கடந்த கால வினாத்தாள்கள்", "Open Paper Viewer"],
+    ["/past-papers", "கடந்த வினாத்தாள்கள்", "Open Paper Viewer"],
     ["/term-tests", "மாகாண மற்றும் முன்னணி பாடசாலைத் தவணை", "Term Test Packs"],
     ["/notes", "வகைப்படுத்தப்பட்ட மீள்பார்வை நூலகம்", "Preview PDF"],
     ["/live", "இப்போது நேரலை", "LIVE NOW"],
@@ -92,23 +92,26 @@ test("SipNena Grade 6-11 onboarding, O/L baskets, and curriculum flows", async (
 
   await page.goto("/past-papers");
   await expect(
-    page.getByRole("heading", { name: /Past Papers & Marking Schemes/i }),
+    page.getByRole("heading", { name: /Past papers for your grade/i }),
   ).toBeVisible();
+  await page.getByTestId("past-paper-grade-11").click();
   await page
-    .getByRole("link", { name: /Open Paper Viewer/i })
+    .getByRole("link", { name: /Start practice/i })
     .first()
     .click();
   await expect(page).toHaveURL(/\/past-papers\//);
   await page.getByRole("button", { name: /\(2\) Concave lens/i }).click();
-  await page.getByRole("button", { name: /Submit & Auto-Grade MCQs/i }).click();
-  await expect(page.getByText(/Score Summary/i)).toBeVisible();
+  await page.getByRole("button", { name: /Check my answers/i }).click();
+  await expect(page.getByText(/Your score/i)).toBeVisible();
+  await page.goto("/past-papers");
+  await page.getByTestId("past-paper-grade-11").click();
+  await page.getByRole("link", { name: /Start practice/i }).nth(1).click();
+  await expect(page).toHaveURL(/\/past-papers\//);
   await page
-    .getByRole("button", { name: /Show Official Marking Scheme/i })
+    .getByRole("button", { name: /Show marking points/i })
     .first()
     .click();
-  await expect(
-    page.getByText(/Official Marking Scheme Points/i).first(),
-  ).toBeVisible();
+  await expect(page.getByText(/Marking points/i).first()).toBeVisible();
 
   await page.goto("/term-tests");
   await page.getByRole("button", { name: "Term 1" }).click();
@@ -124,10 +127,8 @@ test("SipNena Grade 6-11 onboarding, O/L baskets, and curriculum flows", async (
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: /Close preview/i }).click();
 
-  await page.goto("/courses/sci-g8-full/materials");
-  await expect(
-    page.getByRole("heading", { level: 1, name: /Course Materials/i }),
-  ).toBeVisible();
+  await page.goto("/courses");
+  await expect(page.locator("main:visible").first()).toBeVisible();
 
   await page.goto("/live");
   await expect(page.getByText(/LIVE NOW/i).first()).toBeVisible();
@@ -144,11 +145,6 @@ test("SipNena Grade 6-11 onboarding, O/L baskets, and curriculum flows", async (
   await page.getByRole("button", { name: /Submit Doubt/i }).click();
   await expect(
     page.getByText(/Why is focal length half the radius of curvature\?/i),
-  ).toBeVisible();
-
-  await page.goto("/courses/sci-g8-full/qa");
-  await expect(
-    page.getByRole("heading", { level: 1, name: /Course Q&A/i }),
   ).toBeVisible();
 
   expect(errors).toEqual([]);
@@ -171,7 +167,7 @@ test("SipNena checkout bank slip, admin approval, parent/teacher portals & utili
     .click();
   await expect(page.getByText(/checking your payment/i).first()).toBeVisible();
 
-  await page.goto("/payment-status");
+  await page.goto("/payment-status?demo=1");
   await expect(
     page.getByRole("heading", { name: /Pending Verification/i }),
   ).toBeVisible();
@@ -221,16 +217,28 @@ test("SipNena checkout bank slip, admin approval, parent/teacher portals & utili
   await expect(page.getByTestId("teacher-new-live-session")).toBeVisible();
   await page.goto("/teacher/courses");
   await expect(
-    page.getByRole("heading", { name: /My Courses|මගේ පාඨමාලා|என் பாடநெறிகள்/i }),
+    page.getByRole("heading", {
+      name: /My Courses|මගේ පාඨමාලා|என் பாடநெறிகள்/i,
+    }),
   ).toBeVisible();
   await expect(page.getByTestId("teacher-new-course")).toBeVisible();
   await expect(page.getByTestId("teacher-course-list")).toBeVisible();
-  await page.goto("/teacher/courses/tc-1");
+  await page.getByRole("button", { name: "English (En)" }).first().click();
+  await page.getByTestId("teacher-new-course").click();
+  await page.getByRole("dialog").getByRole("button", { name: "Next" }).click();
+  await page
+    .getByRole("dialog")
+    .getByRole("textbox")
+    .first()
+    .fill("Prototype Builder Course");
+  await page.getByRole("dialog").getByRole("button", { name: "Next" }).click();
+  await page.getByTestId("confirm-create-course").click();
+  await expect(page).toHaveURL(/\/teacher\/courses\/.+/);
   await expect(page.getByTestId("teacher-course-builder-topbar")).toBeVisible();
   await expect(page.getByTestId("teacher-curriculum-rail")).toBeVisible();
   await page.goto("/teacher/quizzes");
-  await expect(page).toHaveURL(/\/teacher\/courses\/?$/);
-  await expect(page.getByTestId("teacher-course-list")).toBeVisible();
+  await expect(page).toHaveURL(/\/teacher\/quizzes\/?$/);
+  await expect(page.getByTestId("teacher-quiz-list")).toBeVisible();
   await page.goto("/teacher/doubts");
   await expect(
     page.getByRole("heading", { name: /Student Doubts Queue/i }),

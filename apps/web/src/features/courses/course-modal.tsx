@@ -18,13 +18,23 @@ export function CourseModal({
   if (!course) return null;
 
   const title =
-    t[`course_${course.key}_titleDesktop` as keyof CourseStrings] ||
-    t[`course_${course.key}_title` as keyof CourseStrings] ||
-    "";
-  const desc = t[`course_${course.key}_desc` as keyof CourseStrings] || "";
-  const unitText = t[course.unitKey as keyof CourseStrings] || "";
+    course.title ??
+    (course.key !== "dynamic"
+      ? t[`course_${course.key}_titleDesktop` as keyof CourseStrings] ||
+        t[`course_${course.key}_title` as keyof CourseStrings] ||
+        ""
+      : "");
+  const desc =
+    course.desc ??
+    (course.key !== "dynamic"
+      ? t[`course_${course.key}_desc` as keyof CourseStrings] || ""
+      : "");
+  const unitText =
+    course.unitLabel ?? t[course.unitKey as keyof CourseStrings] ?? "";
   const mediumDesktop =
-    t[`${course.mediumBadgeKey}Desktop` as keyof CourseStrings] || "";
+    course.mediumDesktopLabel ??
+    t[`${course.mediumBadgeKey}Desktop` as keyof CourseStrings] ??
+    "";
 
   return (
     <div

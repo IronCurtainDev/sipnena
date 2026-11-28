@@ -130,6 +130,14 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--sn-primary, #01472e);
+    outline-offset: 2px;
+  }
   a {
     @apply underline-offset-4;
   }
@@ -193,10 +201,25 @@
 }
 
 .sn-progress {
+  width: 0%;
+}
+.sn-progress[data-progress="10"] {
+  width: 10%;
+}
+.sn-progress[data-progress="15"] {
   width: 15%;
+}
+.sn-progress[data-progress="20"] {
+  width: 20%;
 }
 .sn-progress[data-progress="25"] {
   width: 25%;
+}
+.sn-progress[data-progress="30"] {
+  width: 30%;
+}
+.sn-progress[data-progress="40"] {
+  width: 40%;
 }
 .sn-progress[data-progress="48"] {
   width: 48%;
@@ -204,11 +227,23 @@
 .sn-progress[data-progress="50"] {
   width: 50%;
 }
+.sn-progress[data-progress="60"] {
+  width: 60%;
+}
 .sn-progress[data-progress="65"] {
   width: 65%;
 }
+.sn-progress[data-progress="70"] {
+  width: 70%;
+}
 .sn-progress[data-progress="75"] {
   width: 75%;
+}
+.sn-progress[data-progress="80"] {
+  width: 80%;
+}
+.sn-progress[data-progress="90"] {
+  width: 90%;
 }
 .sn-progress[data-progress="100"] {
   width: 100%;

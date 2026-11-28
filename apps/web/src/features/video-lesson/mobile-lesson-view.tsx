@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Bookmark, Check, User } from "lucide-react";
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import type { AppLanguage } from "@/lib/language";
+import { AssignmentLessonPanel } from "./assignment-panel";
 import type { CourseLessonCopy } from "./course-lesson-copy";
 import {
   flatLessons,
@@ -18,7 +19,6 @@ import { LessonDownloadsTab } from "./lesson-downloads-tab";
 import { LessonNotesTab } from "./lesson-notes-tab";
 import { LessonOverviewTab } from "./lesson-overview-tab";
 import { MobileLessonPlaylist } from "./mobile-lesson-playlist";
-import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { lessonCounter, lessonTitle } from "./playlist-copy";
 import type { VideoLessonStrings } from "./strings";
 import { VideoPlayer } from "./video-player";
@@ -37,6 +37,12 @@ interface MobileLessonViewProps {
   onTogglePlay: () => void;
   onBack: () => void;
   onNavTab?: (tab: string) => void;
+  onQuizCompleted?: (
+    score: number,
+    total: number,
+    passed: boolean,
+    answers: Record<number, string>,
+  ) => void;
   onToast: (msg: string) => void;
   bundle?: CourseLessonBundle;
   lessonCopy?: CourseLessonCopy;
@@ -56,6 +62,7 @@ export function MobileLessonView({
   onTogglePlay,
   onBack,
   onNavTab,
+  onQuizCompleted,
   onToast,
   bundle,
   lessonCopy,
@@ -64,7 +71,7 @@ export function MobileLessonView({
     "lessons" | "notes" | "discussion" | "files"
   >("lessons");
 
-  const playlist = bundle?.playlist ?? VIDEO_LESSON_PLAYLIST;
+  const playlist = bundle?.playlist ?? [];
   const lessons = flatLessons(playlist);
   const currentLesson = lessons.find((lesson) => lesson.id === activeLessonId);
   const authored = bundle?.byId[activeLessonId];
@@ -135,12 +142,26 @@ export function MobileLessonView({
             playlist={playlist}
             lessonCopy={lessonCopy}
             onSelectLesson={onSelectLesson}
+            onQuizCompleted={onQuizCompleted}
             onToast={onToast}
           />
         </div>
       ) : (
         <>
-          {authored?.kind === "lab" ? (
+          {authored?.kind === "assignment" && authored.assignment ? (
+            <div className="p-4">
+              <AssignmentLessonPanel
+                lessonId={activeLessonId}
+                courseId={bundle?.resolvedCourseId ?? ""}
+                title={authored.title}
+                instructions={authored.assignment.instructions}
+                dueAt={authored.assignment.dueAt}
+                maxScore={authored.assignment.maxScore}
+                lang={lang}
+                onToast={onToast}
+              />
+            </div>
+          ) : authored?.kind === "lab" ? (
             <LabPanel
               kicker={lessonCopy?.labKicker}
               title={authored.title}
@@ -149,10 +170,12 @@ export function MobileLessonView({
             />
           ) : (
             <VideoPlayer
+              key={`${activeLessonId}:${authored?.videoItem?.url ?? ""}`}
               t={t}
               isPlaying={isPlaying}
               onTogglePlay={onTogglePlay}
               onToast={onToast}
+              src={authored?.videoItem?.url}
               compact
             />
           )}

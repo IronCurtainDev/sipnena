@@ -35,7 +35,7 @@ export function CompletionSidebarWidgets({
             />
             <span>Saved items:</span>
           </div>
-          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[11px] text-slate-600">
+          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs text-slate-600">
             <li>Law of Reflection formula (\(i = r\))</li>
             <li>Plane mirror normal ray diagram</li>
             <li>Concave focal point derivation (\(f = R/2\))</li>
@@ -54,7 +54,7 @@ export function CompletionSidebarWidgets({
             <h4 className="text-xs font-bold text-slate-900">
               Ms. Menaka Jayawardena
             </h4>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-500">
               Science Specialist • Colombo Educational Zone
             </p>
           </div>
@@ -69,10 +69,10 @@ export function CompletionSidebarWidgets({
       {/* Next Course Unit Card */}
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--sn-primary)]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[var(--sn-primary)]">
             Next in Syllabus
           </span>
-          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700">
             Unlocked
           </span>
         </div>

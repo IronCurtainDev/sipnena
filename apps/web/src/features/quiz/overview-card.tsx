@@ -73,7 +73,7 @@ export function QuizOverviewCard({
             <div className="text-lg font-black text-slate-900">
               {t.questionsValue}
             </div>
-            <div className="text-[11px] text-slate-500 font-medium">
+            <div className="text-xs text-slate-500 font-medium">
               {t.questionsSub}
             </div>
           </div>
@@ -85,7 +85,7 @@ export function QuizOverviewCard({
             <div className="text-lg font-black text-slate-900">
               {t.estDurationValue}
             </div>
-            <div className="text-[11px] text-slate-500 font-medium">
+            <div className="text-xs text-slate-500 font-medium">
               {t.estDurationSub}
             </div>
           </div>
@@ -97,7 +97,7 @@ export function QuizOverviewCard({
             <div className="text-lg font-black text-emerald-600">
               {t.passMarkValue}
             </div>
-            <div className="text-[11px] text-emerald-700 font-medium">
+            <div className="text-xs text-emerald-700 font-medium">
               {t.passMarkSub}
             </div>
           </div>
@@ -109,7 +109,7 @@ export function QuizOverviewCard({
             <div className="text-lg font-black text-[var(--sn-primary)]">
               {t.attemptsValue}
             </div>
-            <div className="text-[11px] text-slate-500 font-medium">
+            <div className="text-xs text-slate-500 font-medium">
               {t.attemptsSub}
             </div>
           </div>
@@ -119,14 +119,16 @@ export function QuizOverviewCard({
         <div className="rounded-2xl border border-slate-200/80 bg-white p-4 space-y-2 shadow-2xs">
           <div className="flex items-center justify-between text-xs font-bold">
             <span className="text-slate-700">{t.masteryLabel}</span>
-            <span className="text-[var(--sn-primary)]">Target: 70%+</span>
+            <span className="text-[var(--sn-primary)]">
+              {t.masteryTargetValue}
+            </span>
           </div>
           <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100 flex">
             <div className="h-full bg-[var(--sn-primary)] w-[60%]" />
             <div className="h-full bg-emerald-500 w-[25%]" />
             <div className="h-full bg-slate-200 flex-1" />
           </div>
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>{t.passThresholdLabel}</span>
             <span>{t.distinctionLabel}</span>
           </div>

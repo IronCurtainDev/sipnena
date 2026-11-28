@@ -79,7 +79,7 @@ export function DownloadsScreen() {
                   <span className="text-sm font-extrabold text-[var(--sn-text-main)]">
                     {label}
                   </span>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                  <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                     {opt.res}
                   </span>
                 </div>
@@ -132,7 +132,7 @@ export function DownloadsScreen() {
                       <p className="truncate text-xs font-extrabold text-[var(--sn-text-main)] sm:text-sm">
                         {title}
                       </p>
-                      <p className="text-[11px] text-[var(--sn-text-muted)]">
+                      <p className="text-xs text-[var(--sn-text-muted)]">
                         {item.localizedKind[lang]} • {item.sizeMb} MB •{" "}
                         {copy.readyOffline}
                       </p>

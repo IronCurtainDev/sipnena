@@ -72,11 +72,11 @@ export function BillingScreen() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--sn-primary)]">
+                  <span className="rounded-full bg-[var(--sn-olive)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                     {card.localizedType[lang]}
                   </span>
                   <span
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                       card.statusKey === "Active"
                         ? "bg-emerald-100 text-emerald-800"
                         : "bg-amber-100 text-amber-800"
@@ -172,7 +172,7 @@ export function BillingScreen() {
         </h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[540px] text-left text-xs">
-            <thead className="border-b border-slate-200 text-[11px] uppercase text-[var(--sn-text-muted)]">
+            <thead className="border-b border-slate-200 text-xs uppercase text-[var(--sn-text-muted)]">
               <tr>
                 <th className="py-2.5 pr-3">{copy.colDate}</th>
                 <th className="py-2.5 pr-3">{copy.colCardBundle}</th>
@@ -200,7 +200,7 @@ export function BillingScreen() {
                     <button
                       type="button"
                       onClick={() => setActiveReceipt(row)}
-                      className="inline-flex items-center gap-1 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-[11px] font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
+                      className="inline-flex items-center gap-1 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 py-1.5 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
                     >
                       <Receipt className="h-3.5 w-3.5" />
                       <span>{copy.viewReceiptBtn}</span>

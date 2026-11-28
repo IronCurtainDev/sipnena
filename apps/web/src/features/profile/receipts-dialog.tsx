@@ -57,7 +57,7 @@ export function ReceiptsDialog({
                 <p className="mt-0.5 text-xs font-medium text-[var(--sn-text-secondary)]">
                   {item.amount} • {item.packName}
                 </p>
-                <div className="mt-1 flex items-center gap-1.5 text-[11px] text-emerald-700">
+                <div className="mt-1 flex items-center gap-1.5 text-xs text-emerald-700">
                   <CheckCircle2 className="h-3 w-3" />
                   <span>
                     Paid on {item.date} via {item.bankMethod}

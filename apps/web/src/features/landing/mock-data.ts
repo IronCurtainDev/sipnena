@@ -218,29 +218,4 @@ export const LANDING_PARENT_CHECKS: LandingParentCheckItem[] = [
   },
 ];
 
-export const LANDING_SAMPLE_COURSES: LandingSampleCourse[] = [
-  {
-    id: "sample-science",
-    gradeBadge: "Grade 8",
-    subjectBadge: "Science",
-    title: "Light, Reflection & Spherical Mirrors",
-    teacher: "Teacher Anura Jayasinghe • BSc, PGDE",
-    thumbnailType: "science",
-  },
-  {
-    id: "sample-maths",
-    gradeBadge: "Grade 8",
-    subjectBadge: "Maths",
-    title: "Algebraic Fractions & Equations",
-    teacher: "Teacher N. Gamage • BSc",
-    thumbnailType: "maths",
-  },
-  {
-    id: "sample-english",
-    gradeBadge: "Grade 8",
-    subjectBadge: "English",
-    title: "Grammar & Sentence Writing",
-    teacher: "Teacher S. Sivakumar • BA",
-    thumbnailType: "english",
-  },
-];
+export const LANDING_SAMPLE_COURSES: LandingSampleCourse[] = [];

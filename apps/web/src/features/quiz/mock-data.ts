@@ -1,223 +1,207 @@
+import type { AppLanguage } from "@/lib/language";
+import {
+  EXTRA_QUIZ_QUESTIONS,
+  type LocalizedQuestionData,
+} from "./mock-data-extra";
 import type { QuizQuestion } from "./types";
 
-export const SAMPLE_QUIZ_QUESTIONS: QuizQuestion[] = [
+const BASE_QUESTIONS: LocalizedQuestionData[] = [
   {
     id: 1,
     questionNumber: 1,
-    totalQuestions: 10,
-    gradeBadge: "Science • Grade 8",
-    subjectBadge: "Light",
-    title:
-      "Light travels in straight lines until it meets a surface. What is this property of light called in science?",
     diagramType: "plane_reflection",
     incidentAngle: 45,
     reflectedAngle: 45,
     showLawBadge: false,
+    gradeBadge: {
+      en: "Science • Grade 8",
+      si: "විද්‍යාව • 8 ශ්‍රේණිය",
+      ta: "விஞ்ஞானம் • தரம் 8",
+    },
+    subjectBadge: { en: "Light", si: "ආලෝකය", ta: "ஒளி" },
+    title: {
+      en: "Light travels in straight lines until it meets a surface. What is this property of light called?",
+      si: "ආලෝකය පෘෂ්ඨයකට හමුවන තෙක් සරල රේඛීයව ගමන් කරයි. මෙම ගුණය කුමක් ලෙස හැඳින්වේද?",
+      ta: "ஒரு மேற்பரப்பைச் சந்திக்கும் வரை ஒளி நேர்கோட்டில் பயணம் செய்கிறது. இந்தப் பண்பு எவ்வாறு அழைக்கப்படுகிறது?",
+    },
     options: [
       {
         id: "A",
-        text: "Rectilinear propagation",
-        subtext: "Light moving along a straight line path",
         isCorrect: true,
+        text: {
+          en: "Rectilinear propagation",
+          si: "සරල රේඛීය ප්‍රචාරණය",
+          ta: "நேர்கோட்டுப் பரவல்",
+        },
+        subtext: {
+          en: "Light moving along a straight line path",
+          si: "සරල රේඛීය මාර්ගයක ආලෝකය ගමන් කිරීම",
+          ta: "நேர்கோட்டுப் பாதையில் ஒளி செல்லுதல்",
+        },
       },
       {
         id: "B",
-        text: "Circular dispersion",
-        subtext: "Light bending in loops",
         isCorrect: false,
+        text: {
+          en: "Circular dispersion",
+          si: "වෘත්තාකාර අපසරණය",
+          ta: "வட்டச் சிதறல்",
+        },
+        subtext: {
+          en: "Light bending in loops",
+          si: "වළලු ලෙස ආලෝකය නැමීම",
+          ta: "வளையங்களாக ஒளி வளைதல்",
+        },
       },
       {
         id: "C",
-        text: "Diffraction wave",
-        subtext: "Spreading around corners",
         isCorrect: false,
+        text: {
+          en: "Diffraction wave",
+          si: "විවර්තන තරංගය",
+          ta: "விளிம்பு விளைவு அலை",
+        },
+        subtext: {
+          en: "Spreading around corners",
+          si: "මුළු වටා පැතිරීම",
+          ta: "மூலைகளைச் சுற்றிப் பரவுதல்",
+        },
       },
       {
         id: "D",
-        text: "Lateral inversion",
-        subtext: "Left-to-right flipping in a mirror",
         isCorrect: false,
+        text: {
+          en: "Lateral inversion",
+          si: "පාර්ශ්වික අපවර්තනය",
+          ta: "பக்கவாட்டு மாற்றம்",
+        },
+        subtext: {
+          en: "Left-to-right flipping in a mirror",
+          si: "දර්පණයක වම සහ දකුණ මාරු වීම",
+          ta: "ஆடியில் இடது-வலது மாறுதல்",
+        },
       },
     ],
     explanation: {
-      title: "Rectilinear Propagation (ආලෝකයේ සරල රේඛීය ප්‍රචාරණය)",
-      body: "In a uniform medium like air or empty space, light always travels along straight paths. This is why sharp shadows form behind opaque objects.",
-      textbookRef: "Grade 8 Science • Unit 14.1",
+      title: {
+        en: "Rectilinear Propagation",
+        si: "ආලෝකයේ සරල රේඛීය ප්‍රචාරණය",
+        ta: "ஒளியின் நேர்கோட்டுப் பரவல்",
+      },
+      body: {
+        en: "In a uniform medium like air or empty space, light always travels along straight paths. This is why sharp shadows form behind opaque objects.",
+        si: "වාතය වැනි ඒකාකාර මාධ්‍යයක ආලෝකය සැමවිටම සරල රේඛීයව ගමන් කරයි. පාරාන්ධ වස්තු පිටුපස තියුණු සෙවණැලි ඇතිවීමට හේතුව මෙයයි.",
+        ta: "காற்று போன்ற சீரான ஊடகத்தில் ஒளி எப்போதும் நேர்கோட்டில் பயணிக்கும். ஒளிபுகாப் பொருட்களுக்குப் பின்னால் நிழல் ஏற்படுவதற்கு இதுவே காரணம்.",
+      },
+      textbookRef: {
+        en: "Grade 8 Science • Unit 14.1",
+        si: "8 ශ්‍රේණිය විද්‍යාව • 14.1 ඒකකය",
+        ta: "தரம் 8 விஞ்ஞானம் • அலகு 14.1",
+      },
     },
   },
   {
     id: 2,
     questionNumber: 2,
-    totalQuestions: 10,
-    gradeBadge: "Science • Grade 8",
-    subjectBadge: "Light",
-    title:
-      "When measuring the angle of incidence (i), from which reference line must you always measure?",
     diagramType: "plane_reflection",
     incidentAngle: 30,
     reflectedAngle: 30,
     showLawBadge: true,
-    options: [
-      {
-        id: "A",
-        text: "From the mirror's flat glass surface",
-        subtext: "Surface horizontal plane",
-        isCorrect: false,
-      },
-      {
-        id: "B",
-        text: "From the normal line (90° perpendicular)",
-        subtext: "Always measured relative to the normal",
-        isCorrect: true,
-      },
-      {
-        id: "C",
-        text: "From the bottom silvered back layer",
-        subtext: "Underneath the mirror",
-        isCorrect: false,
-      },
-      {
-        id: "D",
-        text: "From the reflected ray itself",
-        subtext: "Between both light rays",
-        isCorrect: false,
-      },
-    ],
-    explanation: {
-      title: "Teacher's Golden Rule (අභිලම්භය)",
-      body: "Remember: Angles in reflection are NEVER measured against the mirror table! Both the angle of incidence (i) and reflection (r) start from the dashed 90° normal line.",
-      formula: "Angle with mirror = 90° - i",
-      textbookRef: "Grade 8 Science • Unit 14.2",
+    gradeBadge: {
+      en: "Science • Grade 8",
+      si: "විද්‍යාව • 8 ශ්‍රේණිය",
+      ta: "விஞ்ஞானம் • தரம் 8",
     },
-  },
-  {
-    id: 3,
-    questionNumber: 3,
-    totalQuestions: 10,
-    gradeBadge: "Science • Grade 8",
-    subjectBadge: "Light",
-    title:
-      "When a light ray strikes a smooth flat mirror at an angle of 35° to the normal, what is the angle of reflection?",
-    diagramType: "plane_reflection",
-    incidentAngle: 35,
-    reflectedAngle: 35,
-    showLawBadge: true,
-    options: [
-      {
-        id: "A",
-        text: "0° — along the normal",
-        subtext: "Straight up",
-        isCorrect: false,
-      },
-      {
-        id: "B",
-        text: "35° — equal to incidence",
-        subtext: "Angle of incidence equals angle of reflection",
-        isCorrect: true,
-      },
-      {
-        id: "C",
-        text: "55° — perpendicular to mirror",
-        subtext: "Complementary angle to mirror surface",
-        isCorrect: false,
-      },
-      {
-        id: "D",
-        text: "70° — double the angle",
-        subtext: "Sum of both angles combined",
-        isCorrect: false,
-      },
-    ],
-    explanation: {
-      title: "First Law of Reflection (පරාවර්තන නීතිය)",
-      body: "According to the Law of Reflection, the angle of incidence (i) is always strictly equal to the angle of reflection (r). Since i = 35°, the reflected angle must also be r = 35°.",
-      formula: "i = r ⇒ r = 35°",
-      textbookRef: "Review textbook chapter 4.2: Reflection",
+    subjectBadge: { en: "Light", si: "ආලෝකය", ta: "ஒளி" },
+    title: {
+      en: "When measuring the angle of incidence (i), from which reference line must you always measure?",
+      si: "පතන කෝණය (i) මැනීමේදී, ඔබ සැමවිටම මැනිය යුත්තේ කුමන රේඛාවේ සිටද?",
+      ta: "படுகோணத்தை (i) அளக்கும்போது எப்போதும் எந்தக் கோட்டிலிருந்து அளக்க வேண்டும்?",
     },
-  },
-  {
-    id: 4,
-    questionNumber: 4,
-    totalQuestions: 10,
-    gradeBadge: "Science • Grade 8",
-    subjectBadge: "Curved Mirrors",
-    title:
-      "Which type of spherical mirror curves inward like the hollow bowl of a soup spoon?",
-    diagramType: "concave_focus",
-    showLawBadge: false,
     options: [
       {
         id: "A",
-        text: "Concave mirror (අවතල දර්පණය)",
-        subtext: "Curves inward, collecting light rays",
-        isCorrect: true,
+        isCorrect: false,
+        text: {
+          en: "From the mirror's flat glass surface",
+          si: "දර්පණයේ පැතලි වීදුරු පෘෂ්ඨයේ සිට",
+          ta: "ஆடியின் சமதள மேற்பரப்பிலிருந்து",
+        },
+        subtext: {
+          en: "Surface horizontal plane",
+          si: "පෘෂ්ඨයේ තිරස් තලය",
+          ta: "கிடைமட்ட மேற்பரப்பு",
+        },
       },
       {
         id: "B",
-        text: "Convex mirror (උත්තල දර්පණය)",
-        subtext: "Curves outward, spreading rays apart",
-        isCorrect: false,
-      },
-      {
-        id: "C",
-        text: "Plane mirror (තල දර්පණය)",
-        subtext: "Completely flat silvered surface",
-        isCorrect: false,
-      },
-      {
-        id: "D",
-        text: "Cylindrical lens (සිලින්ඩරාකාර කාචය)",
-        subtext: "Refracting transparent glass",
-        isCorrect: false,
-      },
-    ],
-    explanation: {
-      title: "Concave vs Convex Mirrors",
-      body: "A concave mirror curves inward like an entrance to a cave or the inside bowl of a spoon. It brings incoming parallel light beams together to a focus.",
-      textbookRef: "Grade 8 Science • Unit 14.3",
-    },
-  },
-  {
-    id: 5,
-    questionNumber: 5,
-    totalQuestions: 10,
-    gradeBadge: "Science • Grade 8",
-    subjectBadge: "Curved Mirrors",
-    title:
-      "For a spherical concave mirror with a radius of curvature R = 20 cm, what is its focal length (f)?",
-    diagramType: "concave_focus",
-    showLawBadge: false,
-    options: [
-      {
-        id: "A",
-        text: "10 cm — half of radius",
-        subtext: "f = R / 2",
         isCorrect: true,
-      },
-      {
-        id: "B",
-        text: "20 cm — same as radius",
-        subtext: "f = R",
-        isCorrect: false,
+        text: {
+          en: "From the normal line (90° perpendicular)",
+          si: "අභිලම්භ රේඛාවේ සිට (90° ලම්බකය)",
+          ta: "செங்குத்துக் கோட்டிலிருந்து (90° செங்குத்து)",
+        },
+        subtext: {
+          en: "Always measured relative to the normal",
+          si: "සැමවිටම අභිලම්භයට සාපේක්ෂව මනිනු ලැබේ",
+          ta: "எப்போதும் செங்குத்துக்கேற்ப அளக்கப்படும்",
+        },
       },
       {
         id: "C",
-        text: "40 cm — double the radius",
-        subtext: "f = 2R",
         isCorrect: false,
+        text: {
+          en: "From the bottom silvered back layer",
+          si: "පිටුපස රිදී ආලේපිත ස්තරයේ සිට",
+          ta: "பின்பக்க வெள்ளிப் பூச்சிலிருந்து",
+        },
+        subtext: {
+          en: "Underneath the mirror",
+          si: "දර්පණය යටින්",
+          ta: "ஆடியின் கீழ்ப்புறம்",
+        },
       },
       {
         id: "D",
-        text: "5 cm — one quarter",
-        subtext: "f = R / 4",
         isCorrect: false,
+        text: {
+          en: "From the reflected ray itself",
+          si: "පරාවර්තිත කිරණයේ සිට",
+          ta: "தெறிப்புக்கதிரிலிருந்து",
+        },
+        subtext: {
+          en: "Between both light rays",
+          si: "කිරණ දෙක අතර",
+          ta: "இரு கதிர்களுக்கும் இடையில்",
+        },
       },
     ],
     explanation: {
-      title: "Focal Length Formula (f = R / 2)",
-      body: "The principal focus (F) always lies exactly midway between the pole (P) and center of curvature (C). Therefore, focal length is always half of the radius of curvature.",
-      formula: "f = R / 2 = 20 cm / 2 = 10 cm",
-      textbookRef: "Grade 8 Science • Unit 14.4",
+      title: {
+        en: "Teacher's Golden Rule",
+        si: "ගුරු උපදෙස (අභිලම්භය)",
+        ta: "ஆசிரியரின் பொன்மொழி (செங்குத்து)",
+      },
+      body: {
+        en: "Angles in reflection are NEVER measured from the mirror surface. Both incidence (i) and reflection (r) are measured from the 90° normal line.",
+        si: "පරාවර්තන කෝණ කිසිවිටෙක දර්පණ පෘෂ්ඨයේ සිට මනින්නේ නැත. පතන කෝණය (i) සහ පරාවර්තන කෝණය (r) යන දෙකම 90° අභිලම්භ රේඛාවේ සිට මනිනු ලැබේ.",
+        ta: "தெறிப்புக் கோணங்கள் ஒருபோதும் ஆடி மேற்பரப்பிலிருந்து அளக்கப்படாது. படுகோணம் (i) மற்றும் தெறிப்புக்கோணம் (r) இரண்டும் 90° செங்குத்துக் கோட்டிலிருந்தே அளக்கப்படும்.",
+      },
+      formula: "90° - i",
+      textbookRef: {
+        en: "Grade 8 Science • Unit 14.2",
+        si: "8 ශ්‍රේණිය විද්‍යාව • 14.2 ඒකකය",
+        ta: "தரம் 8 விஞ்ஞானம் • அலகு 14.2",
+      },
     },
   },
 ];
+
+const ALL_QUESTIONS = [...BASE_QUESTIONS, ...EXTRA_QUIZ_QUESTIONS];
+
+/** Prototype: no invented quiz bank — use store-authored quizzes in lessons. */
+export function getSampleQuizQuestions(_lang: AppLanguage): QuizQuestion[] {
+  return [];
+}
+
+export const SAMPLE_QUIZ_QUESTIONS: QuizQuestion[] = [];

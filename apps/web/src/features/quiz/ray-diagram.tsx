@@ -1,4 +1,7 @@
+import type { QuizStrings } from "./strings";
+
 interface QuizRayDiagramProps {
+  t: QuizStrings;
   incidentAngle?: number;
   reflectedAngle?: number;
   showLawBadge?: boolean;
@@ -6,6 +9,7 @@ interface QuizRayDiagramProps {
 }
 
 export function QuizRayDiagram({
+  t,
   incidentAngle = 35,
   showLawBadge = true,
   highlightCorrect = false,
@@ -17,7 +21,7 @@ export function QuizRayDiagram({
         <svg
           viewBox="0 0 460 220"
           className="h-auto w-full select-none"
-          aria-label="Reflection ray diagram on plane mirror"
+          aria-label={t.diagramAria}
         >
           <defs>
             {/* Arrow marker for incident ray */}
@@ -82,9 +86,9 @@ export function QuizRayDiagram({
             x="230"
             y="22"
             textAnchor="middle"
-            className="fill-slate-600 text-[11px] font-bold"
+            className="fill-slate-600 text-xs font-bold"
           >
-            Normal (90°)
+            {t.normalLineLabel}
           </text>
 
           {/* Incident Ray (Blue) */}
@@ -102,9 +106,9 @@ export function QuizRayDiagram({
           <text
             x="115"
             y="65"
-            className="fill-[var(--sn-primary)] text-[11px] font-extrabold"
+            className="fill-[var(--sn-primary)] text-xs font-extrabold"
           >
-            Incident Ray
+            {t.incidentRayLabel}
           </text>
 
           {/* Reflected Ray (Green or Blue) */}
@@ -127,11 +131,11 @@ export function QuizRayDiagram({
             textAnchor="middle"
             className={
               highlightCorrect
-                ? "fill-emerald-700 text-[11px] font-extrabold"
-                : "fill-[var(--sn-primary)] text-[11px] font-extrabold"
+                ? "fill-emerald-700 text-xs font-extrabold"
+                : "fill-[var(--sn-primary)] text-xs font-extrabold"
             }
           >
-            Reflected Ray
+            {t.reflectedRayLabel}
           </text>
 
           {/* Incident Angle Arc */}
@@ -145,7 +149,7 @@ export function QuizRayDiagram({
             x="195"
             y="132"
             textAnchor="end"
-            className="fill-[var(--sn-primary)] text-[11px] font-bold"
+            className="fill-[var(--sn-primary)] text-xs font-bold"
           >
             i = {incidentAngle}°
           </text>
@@ -163,11 +167,11 @@ export function QuizRayDiagram({
             textAnchor="start"
             className={
               highlightCorrect
-                ? "fill-emerald-700 text-[11px] font-bold"
-                : "fill-[var(--sn-primary)] text-[11px] font-bold"
+                ? "fill-emerald-700 text-xs font-bold"
+                : "fill-[var(--sn-primary)] text-xs font-bold"
             }
           >
-            {highlightCorrect ? "r = 35°" : "r = ?"}
+            {highlightCorrect ? `r = ${incidentAngle}°` : t.angleUnknown}
           </text>
 
           {/* Point of Incidence dot */}
@@ -194,9 +198,9 @@ export function QuizRayDiagram({
             x="230"
             y="192"
             textAnchor="middle"
-            className="fill-slate-600 text-[11px] font-medium"
+            className="fill-slate-600 text-xs font-medium"
           >
-            Plane Mirror (තල කණ්ණාඩිය)
+            {t.planeMirrorLabel}
           </text>
         </svg>
 
@@ -205,7 +209,7 @@ export function QuizRayDiagram({
           <div className="mt-2 flex w-full items-center justify-between rounded-xl border border-[var(--sn-border)] bg-[var(--sn-olive)]/80 px-4 py-2 text-xs font-semibold text-[var(--sn-text-main)]">
             <span className="flex items-center gap-1.5 font-bold">
               <span className="h-2 w-2 rounded-full bg-[var(--sn-primary)]" />
-              First Law of Reflection:
+              {t.firstLawReflection}
             </span>
             <span className="rounded-lg bg-white px-2.5 py-0.5 font-mono text-xs font-bold text-[var(--sn-primary)] shadow-2xs">
               i = r

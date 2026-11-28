@@ -81,13 +81,7 @@ export interface TeacherQuizDraft {
 }
 
 export type TeacherLiveDay =
-  | "Mon"
-  | "Tue"
-  | "Wed"
-  | "Thu"
-  | "Fri"
-  | "Sat"
-  | "Sun";
+  "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
 export type TeacherLiveChannel = "Zoom Live" | "YouTube Live";
 

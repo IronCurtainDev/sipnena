@@ -9,6 +9,7 @@ import { McqAnswerSheet } from "./mcq-sheet";
 import { PAST_PAPERS, type PastPaperItem } from "./mock-data";
 import { PartTwoSection } from "./part-two-section";
 import { PAST_PAPERS_COPY } from "./strings";
+import { PastPaperNotFound } from "./viewer-not-found";
 
 function formatClock(totalSeconds: number): string {
   const mins = Math.floor(totalSeconds / 60);
@@ -21,8 +22,12 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
   const { state, toggleBookmark } = usePrototypeState();
   const { toast, showToast } = useToastMessage();
   const copy = PAST_PAPERS_COPY[lang];
+  const showMcq = paper.paperType === "Part I MCQ" && paper.mcqs.length > 0;
+  const showPartTwo =
+    paper.paperType === "Part II Structured & Essay" &&
+    paper.partTwo.length > 0;
 
-  const [mode, setMode] = useState<"exam" | "practice">("exam");
+  const [mode, setMode] = useState<"exam" | "practice">("practice");
   const [secondsLeft, setSecondsLeft] = useState(paper.durationMinutes * 60);
   const [timerRunning, setTimerRunning] = useState(false);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -59,7 +64,7 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           to="/past-papers"
-          className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--sn-primary)] hover:underline"
+          className="inline-flex min-h-11 items-center gap-1.5 text-sm font-bold text-[var(--sn-primary)] hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>{copy.backLink}</span>
@@ -69,28 +74,28 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
           <div className="inline-flex rounded-xl bg-[var(--sn-surface-muted)] p-0.5 text-xs font-bold">
             <button
               type="button"
-              onClick={() => setMode("exam")}
-              className={`rounded-lg px-3 py-1.5 ${
-                mode === "exam"
-                  ? "bg-[var(--sn-primary)] text-white"
-                  : "text-[var(--sn-text-secondary)]"
-              }`}
-            >
-              {copy.examMode}
-            </button>
-            <button
-              type="button"
               onClick={() => {
                 setMode("practice");
                 setTimerRunning(false);
               }}
-              className={`rounded-lg px-3 py-1.5 ${
+              className={`min-h-10 rounded-lg px-3 py-1.5 ${
                 mode === "practice"
                   ? "bg-[var(--sn-primary)] text-white"
                   : "text-[var(--sn-text-secondary)]"
               }`}
             >
               {copy.practiceMode}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("exam")}
+              className={`min-h-10 rounded-lg px-3 py-1.5 ${
+                mode === "exam"
+                  ? "bg-[var(--sn-primary)] text-white"
+                  : "text-[var(--sn-text-secondary)]"
+              }`}
+            >
+              {copy.examMode}
             </button>
           </div>
 
@@ -132,46 +137,51 @@ function PastPaperViewerBody({ paper }: { paper: PastPaperItem }) {
         </div>
       </div>
 
-      <McqAnswerSheet
-        lang={lang}
-        mcqs={paper.mcqs}
-        answers={answers}
-        graded={graded}
-        bookmarkedIds={state.bookmarkedIds}
-        onSelectAnswer={(qId, idx) =>
-          setAnswers((prev) => ({ ...prev, [qId]: idx }))
-        }
-        onToggleBookmark={(qId) => {
-          const saved = state.bookmarkedIds.includes(qId);
-          toggleBookmark(qId);
-          showToast(saved ? copy.removedToast : copy.savedToast);
-        }}
-        onGrade={() => {
-          setGraded(true);
-          showToast(copy.gradedToast);
-        }}
-        onReset={() => {
-          setAnswers({});
-          setGraded(false);
-        }}
-      />
+      {showMcq ? (
+        <McqAnswerSheet
+          lang={lang}
+          mcqs={paper.mcqs}
+          answers={answers}
+          graded={graded}
+          bookmarkedIds={state.bookmarkedIds}
+          onSelectAnswer={(qId, idx) =>
+            setAnswers((prev) => ({ ...prev, [qId]: idx }))
+          }
+          onToggleBookmark={(qId) => {
+            const saved = state.bookmarkedIds.includes(qId);
+            toggleBookmark(qId);
+            showToast(saved ? copy.removedToast : copy.savedToast);
+          }}
+          onGrade={() => {
+            setGraded(true);
+            showToast(copy.gradedToast);
+          }}
+          onReset={() => {
+            setAnswers({});
+            setGraded(false);
+          }}
+        />
+      ) : null}
 
-      <PartTwoSection
-        lang={lang}
-        questions={paper.partTwo}
-        openSchemes={openSchemes}
-        showAllSchemes={showAllSchemes}
-        onToggleOne={(id) =>
-          setOpenSchemes((prev) => ({ ...prev, [id]: !prev[id] }))
-        }
-        onToggleAll={toggleAllSchemes}
-      />
+      {showPartTwo ? (
+        <PartTwoSection
+          lang={lang}
+          questions={paper.partTwo}
+          openSchemes={openSchemes}
+          showAllSchemes={showAllSchemes}
+          onToggleOne={(id) =>
+            setOpenSchemes((prev) => ({ ...prev, [id]: !prev[id] }))
+          }
+          onToggleAll={toggleAllSchemes}
+        />
+      ) : null}
     </SipNenaPortalShell>
   );
 }
 
 export function PastPaperViewerScreen() {
   const { paperId } = useParams({ strict: false });
-  const paper = PAST_PAPERS.find((p) => p.id === paperId) ?? PAST_PAPERS[0]!;
+  const paper = PAST_PAPERS.find((p) => p.id === paperId);
+  if (!paper) return <PastPaperNotFound />;
   return <PastPaperViewerBody key={paper.id} paper={paper} />;
 }

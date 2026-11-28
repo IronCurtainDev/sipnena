@@ -21,7 +21,7 @@ export function LivePlayerModal({
       <div className="w-full max-w-2xl overflow-hidden rounded-3xl border border-[var(--sn-border)] bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-bold text-white">
+            <span className="rounded-full bg-rose-600 px-2.5 py-0.5 text-xs font-bold text-white">
               {copy.liveStreamBadge}
             </span>
             <p className="truncate text-sm font-extrabold text-[var(--sn-text-main)]">

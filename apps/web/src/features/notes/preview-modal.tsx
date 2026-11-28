@@ -40,7 +40,7 @@ export function MaterialPreviewModal({
               <FileText className="h-5 w-5" />
             </span>
             <div>
-              <span className="rounded-full bg-[var(--sn-surface-selected)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
+              <span className="rounded-full bg-[var(--sn-surface-selected)] px-2.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                 {CATEGORY_LABELS[item.category][lang]} • {item.pages}{" "}
                 {copy.pagesWord} • {item.sizeLabel}
               </span>

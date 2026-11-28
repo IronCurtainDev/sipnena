@@ -223,6 +223,7 @@ export function AvatarIcon({ id, size = 64, className = "" }: AvatarIconProps) {
         </svg>
       );
 
+    case "student":
     case "kasun":
     default:
       return (

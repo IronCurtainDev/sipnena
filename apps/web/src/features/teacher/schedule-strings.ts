@@ -54,13 +54,14 @@ export interface TeacherScheduleCopy {
 export const TEACHER_EXTRA_COPY: Record<AppLanguage, TeacherScheduleCopy> = {
   en: {
     tutorBannerBadge: "Registered Educator Workspace",
-    tutorTitleLine: "Welcome, Ms. Menaka Jayawardena",
-    tutorSubLine: "BSc, PGDE • Grade 8 & G.C.E. O/L Science Panel",
+    tutorTitleLine: "Welcome to your teacher studio",
+    tutorSubLine: "Create courses, live sessions, and quizzes for your students",
     quickUploadBtn: "+ New Course",
     quickQuizBtn: "+ Build MCQ Quiz",
     schedulePageTitle: "Live sessions",
     scheduleHeading: "Live sessions",
-    scheduleSub: "Schedule, edit, and host your online Zoom or YouTube classes.",
+    scheduleSub:
+      "Schedule, edit, and host your online Zoom or YouTube classes.",
     newSessionBtn: "New session",
     emptyHeading: "Schedule your first live session",
     emptyBody: "Add a day, time, and topic so students can join on time.",
@@ -104,8 +105,8 @@ export const TEACHER_EXTRA_COPY: Record<AppLanguage, TeacherScheduleCopy> = {
   },
   si: {
     tutorBannerBadge: "ලියාපදිංචි ගුරු වැඩබිම",
-    tutorTitleLine: "ආයුබෝවන්, මේනකා ජයවර්ධන මිය",
-    tutorSubLine: "BSc, PGDE • 8 ශ්‍රේණිය සහ අ.පො.ස. සා/පෙළ විද්‍යා මණ්ඩලය",
+    tutorTitleLine: "ආයුබෝවන්, ඔබේ ගුරු මැදිරියට",
+    tutorSubLine: "පාඨමාලා, සජීවී පන්ති සහ ප්‍රශ්නාවලි සාදන්න",
     quickUploadBtn: "+ නව පාඨමාලාව",
     quickQuizBtn: "+ MCQ ප්‍රශ්නාවලිය",
     schedulePageTitle: "සජීවී පන්ති",
@@ -114,7 +115,8 @@ export const TEACHER_EXTRA_COPY: Record<AppLanguage, TeacherScheduleCopy> = {
       "Zoom හෝ YouTube සජීවී පන්ති සැලසුම් කර, සංස්කරණය කර, සත්කාරකත්වය කරන්න.",
     newSessionBtn: "නව පන්තිය",
     emptyHeading: "පළමු සජීවී පන්තිය සැලසුම් කරන්න",
-    emptyBody: "දිනය, වේලාව සහ මාතෘකාව එක් කර සිසුන්ට නියමිත වේලාවට සම්බන්ධ වීමට ඉඩ දෙන්න.",
+    emptyBody:
+      "දිනය, වේලාව සහ මාතෘකාව එක් කර සිසුන්ට නියමිත වේලාවට සම්බන්ධ වීමට ඉඩ දෙන්න.",
     editSessionBtn: "සංස්කරණය",
     deleteSessionBtn: "පන්තිය මකන්න",
     deleteConfirm: "මෙම සජීවී පන්තිය මකන්නද?",
@@ -155,8 +157,8 @@ export const TEACHER_EXTRA_COPY: Record<AppLanguage, TeacherScheduleCopy> = {
   },
   ta: {
     tutorBannerBadge: "பதிவுசெய்யப்பட்ட ஆசிரியர் பணியிடம்",
-    tutorTitleLine: "நல்வரவு, திருமதி மேனகா ஜயவர்தன",
-    tutorSubLine: "BSc, PGDE • தரம் 8 & க.பொ.த. சா/த விஞ்ஞானக் குழு",
+    tutorTitleLine: "உங்கள் ஆசிரியர் ஸ்டுடியோவிற்கு வரவேற்கிறோம்",
+    tutorSubLine: "பாடநெறிகள், நேரலை வகுப்புகள் மற்றும் வினாடி வினாக்களை உருவாக்குங்கள்",
     quickUploadBtn: "+ புதிய பாடநெறி",
     quickQuizBtn: "+ MCQ வினா",
     schedulePageTitle: "நேரலை வகுப்புகள்",
@@ -193,7 +195,8 @@ export const TEACHER_EXTRA_COPY: Record<AppLanguage, TeacherScheduleCopy> = {
     meetingUrlField: "சந்திப்பு / நேரலை இணைப்பு",
     meetingUrlPlaceholderZoom: "https://zoom.us/j/…",
     meetingUrlPlaceholderYoutube: "https://youtube.com/live/…",
-    meetingUrlMissing: "திருத்தத்தில் Zoom அல்லது YouTube இணைப்பைச் சேர்க்கவும்.",
+    meetingUrlMissing:
+      "திருத்தத்தில் Zoom அல்லது YouTube இணைப்பைச் சேர்க்கவும்.",
     openMeetingBtn: "இணைப்பைத் திறக்க",
     meetingOpenedToast: "சந்திப்பு இணைப்பு திறக்கப்படுகிறது…",
     saveSessionBtn: "வகுப்பைச் சேமி",

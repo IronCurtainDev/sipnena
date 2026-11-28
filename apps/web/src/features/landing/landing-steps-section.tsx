@@ -40,7 +40,7 @@ export function LandingStepsSection({ t }: LandingStepsSectionProps) {
               <p className="mt-2 text-xs leading-relaxed text-[var(--sn-text-secondary)]">
                 {s.descEn}
               </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-[var(--sn-text-muted)]">
+              <p className="mt-1 text-xs leading-relaxed text-[var(--sn-text-muted)]">
                 {s.descSi}
               </p>
             </div>

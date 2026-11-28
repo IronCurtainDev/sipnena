@@ -11,56 +11,7 @@ export interface OfflineItem {
   to: string;
 }
 
-export const OFFLINE_CATALOG: OfflineItem[] = [
-  {
-    id: "tute-light-pdf",
-    kindKey: "PDF",
-    localizedKind: { en: "PDF", si: "PDF ටියුට්", ta: "PDF" },
-    localizedTitle: {
-      en: "Unit 7: Light, Mirrors & Ray Diagrams Tute (PDF)",
-      si: "7 ඒකකය: ආලෝකය, දර්පණ සහ කිරණ සටහන් ටියුට් (PDF)",
-      ta: "அலகு 7: ஒளி, ஆடிகள் & கதிர் வரைபட டியூட் (PDF)",
-    },
-    sizeMb: 2,
-    to: "/notes",
-  },
-  {
-    id: "textbook-sci-g8",
-    kindKey: "PDF",
-    localizedKind: { en: "PDF", si: "PDF පෙළපොත", ta: "PDF பாடநூல்" },
-    localizedTitle: {
-      en: "NIE Official Grade 8 Science Part II Textbook",
-      si: "NIE නිල 8 ශ්‍රේණිය විද්‍යාව II කොටස පෙළපොත",
-      ta: "NIE உத்தியோகபூர்வ தரம் 8 விஞ்ஞானம் பகுதி II பாடநூல்",
-    },
-    sizeMb: 14,
-    to: "/notes",
-  },
-  {
-    id: "video-mirrors-4",
-    kindKey: "Video",
-    localizedKind: { en: "Video", si: "වීඩියෝව", ta: "வீடியோ" },
-    localizedTitle: {
-      en: "Lesson 4: Mirrors & Image Formation (480p Offline Pack)",
-      si: "4 වන පාඩම: දර්පණ සහ ප්‍රතිබිම්බ සෑදීම (480p නොබැඳි ගොනුව)",
-      ta: "பாடம் 4: ஆடிகள் & விம்ப உருவாக்கம் (480p ஆஃப்லைன் தொகுப்பு)",
-    },
-    sizeMb: 126,
-    to: "/lesson",
-  },
-  {
-    id: "note-light-short",
-    kindKey: "PDF",
-    localizedKind: { en: "PDF", si: "කෙටි සටහන", ta: "PDF குறிப்பு" },
-    localizedTitle: {
-      en: "O/L Science — Electricity & Ohm's Law One-Page Note",
-      si: "සා/පෙළ විද්‍යාව — විදුලිය සහ ඕම්ගේ නියමය කෙටි සටහන",
-      ta: "சா/த விஞ்ஞானம் — மின்னியல் & ஓமின் விதி ஒரு பக்கக் குறிப்பு",
-    },
-    sizeMb: 1,
-    to: "/notes",
-  },
-];
+export const OFFLINE_CATALOG: OfflineItem[] = [];
 
 export const QUALITY_OPTIONS: Array<{
   id: DataSaverQuality;

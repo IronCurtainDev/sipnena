@@ -80,6 +80,31 @@ export const TeacherCourseBuilderPage = lazyRouteComponent(
   "TeacherCourseBuilderPage",
 );
 
+export const TeacherCoursePreviewPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherCoursePreviewPage",
+);
+
+export const TeacherClassesPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherClassesPage",
+);
+
+export const TeacherStudentsPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherStudentsPage",
+);
+
+export const TeacherAssignmentsPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherAssignmentsPage",
+);
+
+export const TeacherQuizzesPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherQuizzesPage",
+);
+
 export const TeacherDoubtsPage = lazyRouteComponent(
   () => import("./routes/portals"),
   "TeacherDoubtsPage",
@@ -88,6 +113,11 @@ export const TeacherDoubtsPage = lazyRouteComponent(
 export const TeacherSchedulePage = lazyRouteComponent(
   () => import("./routes/portals"),
   "TeacherSchedulePage",
+);
+
+export const TeacherProfilePage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "TeacherProfilePage",
 );
 
 export const AdminPaymentsPage = lazyRouteComponent(
@@ -100,9 +130,24 @@ export const AdminSyllabusPage = lazyRouteComponent(
   "AdminSyllabusPage",
 );
 
+export const AdminTeachersPage = lazyRouteComponent(
+  () => import("./routes/portals"),
+  "AdminTeachersPage",
+);
+
 export const SearchPage = lazyRouteComponent(
   () => import("./routes/utilities"),
   "SearchPage",
+);
+
+export const ExamPrepHubPage = lazyRouteComponent(
+  () => import("./routes/utilities"),
+  "ExamPrepHubPage",
+);
+
+export const LiveAskHubPage = lazyRouteComponent(
+  () => import("./routes/utilities"),
+  "LiveAskHubPage",
 );
 
 export const ProgressPage = lazyRouteComponent(
@@ -148,4 +193,9 @@ export const PrivacyPage = lazyRouteComponent(
 export const RefundPolicyPage = lazyRouteComponent(
   () => import("./routes/utilities"),
   "RefundPolicyPage",
+);
+
+export const StudentAssignmentsPage = lazyRouteComponent(
+  () => import("./routes/utilities"),
+  "StudentAssignmentsPage",
 );

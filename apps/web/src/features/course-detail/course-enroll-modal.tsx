@@ -52,6 +52,7 @@ export function CourseEnrollModal({
           />
         ) : (
           <CourseEnrollStepSuccess
+            course={course}
             t={t}
             onClose={onClose}
             onStartFirstLesson={onStartFirstLesson}

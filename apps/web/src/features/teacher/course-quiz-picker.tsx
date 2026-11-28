@@ -1,12 +1,11 @@
-import { localizeTeacherQuizTitle } from "@/lib/prototype-i18n";
+import { pickLocalized, type Quiz } from "@/data/courses";
 import type { AppLanguage } from "@/lib/language";
-import type { TeacherQuizDraft } from "@/lib/prototype-state";
 import type { CourseContentCopy } from "./course-content-strings";
 
 interface CourseQuizPickerProps {
   lang: AppLanguage;
   copy: CourseContentCopy;
-  quizzes: TeacherQuizDraft[];
+  quizzes: Quiz[];
   onPlace: (quizId: string) => void;
   onCreateNew: () => void;
 }
@@ -53,10 +52,10 @@ export function CourseQuizPicker({
             >
               <div>
                 <p className="text-base font-bold text-[var(--sn-text-main)]">
-                  {localizeTeacherQuizTitle(quiz, lang)}
+                  {pickLocalized(quiz.title, lang)}
                 </p>
                 <p className="text-base text-[var(--sn-text-secondary)]">
-                  {quiz.questions.length} {copy.questionsWord}
+                  {quiz.questionIds.length} {copy.questionsWord}
                 </p>
               </div>
               <button

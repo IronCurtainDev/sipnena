@@ -1,5 +1,5 @@
 import { SipNenaCheckoutScreen } from "@/features/checkout/screen";
 
 export function CheckoutPage() {
-  return <SipNenaCheckoutScreen />;
+  return <SipNenaCheckoutScreen defaultMode="parent_pay" />;
 }

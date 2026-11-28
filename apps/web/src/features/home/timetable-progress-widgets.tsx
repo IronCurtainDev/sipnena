@@ -1,7 +1,28 @@
 import { Calendar, Lightbulb } from "lucide-react";
+import {
+  getCourseProgressPercent,
+  getStudentEnrollments,
+  resolveActiveStudentId,
+  useCoursesStore,
+} from "@/data/courses";
 import type { AppLanguage } from "@/lib/language";
 import { TIMETABLE_ITEMS } from "./mock-data";
 import { HOME_STRINGS } from "./strings";
+
+function useOverallTermProgress(): number {
+  const { store } = useCoursesStore();
+  const studentId = resolveActiveStudentId(store.activeStudentId);
+  const enrolled = getStudentEnrollments(store, studentId);
+  if (enrolled.length === 0) return 0;
+  let completed = 0;
+  let total = 0;
+  for (const enrollment of enrolled) {
+    const p = getCourseProgressPercent(store, studentId, enrollment.courseId);
+    completed += p.completed;
+    total += p.total;
+  }
+  return total > 0 ? Math.round((completed / total) * 100) : 0;
+}
 
 interface TimetableProgressProps {
   lang: AppLanguage;
@@ -31,6 +52,11 @@ export function TimetableWidget({
       </div>
 
       <div className="space-y-2">
+        {TIMETABLE_ITEMS.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-[var(--sn-border)] bg-[var(--sn-surface-muted)] p-4 text-sm text-[var(--sn-text-secondary)]">
+            No live sessions scheduled yet.
+          </p>
+        ) : null}
         {TIMETABLE_ITEMS.map((slot, idx) => {
           const isNext = idx === 0;
           const title = isNext ? t.tt1_title : t.tt2_title;
@@ -48,7 +74,7 @@ export function TimetableWidget({
               }`}
             >
               <span
-                className={`shrink-0 rounded-md px-2 py-1 text-[11px] font-bold ${
+                className={`shrink-0 rounded-md px-2 py-1 text-xs font-bold ${
                   isNext
                     ? "bg-[var(--sn-primary)] text-white"
                     : "bg-[var(--sn-border)] text-[var(--sn-text-secondary)]"
@@ -62,7 +88,7 @@ export function TimetableWidget({
                     {title}
                   </span>
                   {isNext && (
-                    <span className="rounded-md bg-[var(--sn-surface)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--sn-primary)]">
+                    <span className="rounded-md bg-[var(--sn-surface)] px-1.5 py-0.5 text-xs font-bold text-[var(--sn-primary)]">
                       {t.nextSlotLabel}
                     </span>
                   )}
@@ -100,6 +126,7 @@ export function StudyTipWidget({ lang }: { lang: AppLanguage }) {
 
 export function TermProgressWidget({ lang }: { lang: AppLanguage }) {
   const t = HOME_STRINGS[lang];
+  const pct = useOverallTermProgress();
 
   return (
     <div className="space-y-3 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-4 sm:p-5">
@@ -115,7 +142,7 @@ export function TermProgressWidget({ lang }: { lang: AppLanguage }) {
       <div className="flex items-center gap-3">
         <div
           role="progressbar"
-          aria-valuenow={48}
+          aria-valuenow={pct}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label={t.termProgressTitle}
@@ -123,11 +150,12 @@ export function TermProgressWidget({ lang }: { lang: AppLanguage }) {
         >
           <div
             className="sn-progress h-full rounded-full bg-emerald-500"
-            data-progress="48"
+            style={{ width: `${pct}%` }}
+            data-progress={pct}
           />
         </div>
         <span className="shrink-0 text-sm font-bold text-[var(--sn-text-main)]">
-          48%
+          {pct}%
         </span>
       </div>
 
@@ -144,6 +172,7 @@ export function MobileSupportStrip({
   onJoinSession,
 }: TimetableProgressProps) {
   const t = HOME_STRINGS[lang];
+  const pct = useOverallTermProgress();
   const next = TIMETABLE_ITEMS[0];
   if (!next) return null;
 
@@ -157,7 +186,7 @@ export function MobileSupportStrip({
         onClick={() => onJoinSession?.(next.id)}
         className="flex items-center gap-3 rounded-2xl border border-[var(--sn-border-selected)] bg-[var(--sn-surface-selected)] p-3.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
       >
-        <span className="shrink-0 rounded-md bg-[var(--sn-primary)] px-2 py-1 text-[11px] font-bold text-white">
+        <span className="shrink-0 rounded-md bg-[var(--sn-primary)] px-2 py-1 text-xs font-bold text-white">
           {next.time}
         </span>
         <div className="min-w-0 flex-1">
@@ -165,7 +194,7 @@ export function MobileSupportStrip({
             <span className="truncate text-xs font-bold text-[var(--sn-text-main)]">
               {t.tt1_title}
             </span>
-            <span className="shrink-0 text-[10px] font-bold text-[var(--sn-primary)]">
+            <span className="shrink-0 text-xs font-bold text-[var(--sn-primary)]">
               {t.nextSlotLabel}
             </span>
           </div>
@@ -182,7 +211,7 @@ export function MobileSupportStrip({
           </div>
           <div
             role="progressbar"
-            aria-valuenow={48}
+            aria-valuenow={pct}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-label={t.termProgressTitle}
@@ -190,12 +219,13 @@ export function MobileSupportStrip({
           >
             <div
               className="sn-progress h-full rounded-full bg-emerald-500"
-              data-progress="48"
+              style={{ width: `${pct}%` }}
+              data-progress={pct}
             />
           </div>
         </div>
         <span className="shrink-0 text-sm font-bold text-[var(--sn-text-main)]">
-          48%
+          {pct}%
         </span>
       </div>
     </section>

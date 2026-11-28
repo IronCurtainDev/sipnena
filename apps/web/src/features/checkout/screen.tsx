@@ -5,13 +5,18 @@ import {
   saveLanguage,
   type AppLanguage,
 } from "@/lib/language";
+import {
+  getActiveStudent,
+  pickLocalized,
+  useCoursesStore,
+} from "@/data/courses";
 import { usePrototypeState } from "@/lib/prototype-state";
 import { BankSlipModal } from "./bank-slip-modal";
 import { CheckoutTopBar } from "./checkout-top-bar";
 import {
-  MOCK_ENROLLMENT_COURSE,
-  MOCK_INITIAL_RECEIPT,
-  MOCK_STUDENT_PROFILE,
+  EMPTY_ENROLLMENT_COURSE,
+  EMPTY_RECEIPT,
+  EMPTY_STUDENT_PROFILE,
 } from "./mock-data";
 import { ParentApprovalPortalView } from "./parent-approval-portal-view";
 import { PaymentFailedView } from "./payment-failed-view";
@@ -22,27 +27,63 @@ import { CHECKOUT_STRINGS } from "./strings";
 import { StudentEnrollView } from "./student-enroll-view";
 import type { CheckoutViewMode, ReceiptInfo } from "./types";
 
-export function SipNenaCheckoutScreen() {
+export function SipNenaCheckoutScreen({
+  defaultMode = "parent_pay",
+}: {
+  defaultMode?: CheckoutViewMode;
+}) {
   const navigate = useNavigate();
   const { submitBankSlip, state } = usePrototypeState();
   const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
   const [viewMode, setViewMode] = useState<CheckoutViewMode>(() => {
-    if (typeof window === "undefined") return "parent_pay";
+    if (typeof window === "undefined") return defaultMode;
     const mode = new URLSearchParams(window.location.search).get("mode");
     if (mode === "student_intro") return "student_intro";
+    if (mode === "parent_pay") return "parent_pay";
     if (mode === "payment_failed") return "payment_failed";
     if (mode === "payment_success") return "payment_success";
     if (mode === "payment_pending") return "payment_pending";
-    return "parent_pay";
+    return defaultMode;
   });
   const [isSlipModalOpen, setIsSlipModalOpen] = useState(false);
-  const [receipt, setReceipt] = useState<ReceiptInfo>(MOCK_INITIAL_RECEIPT);
+  const [receipt, setReceipt] = useState<ReceiptInfo>(EMPTY_RECEIPT);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const { store } = useCoursesStore();
 
   const t = CHECKOUT_STRINGS[lang];
   const extra = CHECKOUT_EXTRA_COPY[lang];
-  const course = MOCK_ENROLLMENT_COURSE;
-  const student = MOCK_STUDENT_PROFILE;
+  const courseId =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("courseId")
+      : null;
+  const storeCourse = store.courses.find(
+    (c) => c.id === courseId && c.status === "published",
+  );
+  const activeStudent = getActiveStudent();
+  const course = storeCourse
+    ? {
+        ...EMPTY_ENROLLMENT_COURSE,
+        id: storeCourse.id,
+        title: pickLocalized(storeCourse.title, lang),
+        teacher: storeCourse.teacherName ?? "",
+        gradeBadge: `Grade ${storeCourse.grade}`,
+        medium: storeCourse.medium,
+        feeAmount: storeCourse.priceLkr ?? 0,
+        originalFeeAmount: storeCourse.priceLkr ?? 0,
+      }
+    : EMPTY_ENROLLMENT_COURSE;
+  const student = activeStudent
+    ? {
+        ...EMPTY_STUDENT_PROFILE,
+        name: activeStudent.name,
+        grade: `Grade ${activeStudent.grade}`,
+        medium: activeStudent.medium,
+        avatarSeed: activeStudent.id,
+      }
+    : {
+        ...EMPTY_STUDENT_PROFILE,
+        name: state.studentName || EMPTY_STUDENT_PROFILE.name,
+      };
 
   useEffect(() => {
     const handleSync = (e: Event) => {
@@ -124,7 +165,7 @@ export function SipNenaCheckoutScreen() {
           <StudentEnrollView
             course={course}
             t={t}
-            onSendToParent={() => setViewMode("parent_pay")}
+            onSendToParent={() => void navigate({ to: "/checkout" })}
             onCopyLink={() =>
               handleCopy(
                 extra.enrollmentLinkLabel,
@@ -132,7 +173,7 @@ export function SipNenaCheckoutScreen() {
               )
             }
             onWatchPreviews={() => void navigate({ to: "/lesson" })}
-            onOpenParentPortal={() => setViewMode("parent_pay")}
+            onOpenParentPortal={() => void navigate({ to: "/checkout" })}
           />
         )}
 
@@ -145,7 +186,7 @@ export function SipNenaCheckoutScreen() {
             onPayCard={handlePayCard}
             onSubmitBankSlip={handleSubmitSlip}
             onCopyInfo={handleCopy}
-            onSendToParent={() => setViewMode("student_intro")}
+            onSendToParent={() => void navigate({ to: "/enroll" })}
             onSimulateFail={() => setViewMode("payment_failed")}
             onWhatsAppHelp={handleOpenWhatsApp}
           />

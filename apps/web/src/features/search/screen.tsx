@@ -132,7 +132,7 @@ export function GlobalSearchScreen() {
                   onClick={() =>
                     update((prev) => ({ ...prev, recentSearches: [] }))
                   }
-                  className="text-[11px] font-semibold text-[var(--sn-primary)] hover:underline"
+                  className="text-xs font-semibold text-[var(--sn-primary)] hover:underline"
                 >
                   {copy.clearBtn}
                 </button>
@@ -199,7 +199,7 @@ export function GlobalSearchScreen() {
                   <Icon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0">
-                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700">
                     {SEARCH_CATEGORY_LABELS[item.category][lang]}
                   </span>
                   <h3 className="mt-1 text-sm font-extrabold text-[var(--sn-text-main)]">

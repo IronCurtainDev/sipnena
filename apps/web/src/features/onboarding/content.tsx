@@ -50,7 +50,7 @@ export function LanguageSetupContent({
               />
               <span>{t.supportedBanner}</span>
             </div>
-            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[var(--sn-olive)] text-[var(--sn-primary)] shrink-0">
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[var(--sn-olive)] text-[var(--sn-primary)] shrink-0">
               {t.freeBadge}
             </span>
           </div>
@@ -119,7 +119,7 @@ export function LanguageSetupContent({
                   <span className="text-sm sm:text-base font-bold text-slate-900 leading-snug px-0.5">
                     {lang.nativeTitle}
                   </span>
-                  <span className="text-[10px] sm:text-xs text-slate-500 leading-tight px-0.5 line-clamp-2">
+                  <span className="text-xs sm:text-xs text-slate-500 leading-tight px-0.5 line-clamp-2">
                     {t[subKey]}
                   </span>
                 </button>

@@ -47,7 +47,7 @@ export function SipNenaOnboardingShell({
             <span className="text-sm sm:text-base font-black text-[var(--sn-text-main)] tracking-tight leading-none block truncate">
               {brand.name}
             </span>
-            <span className="text-[11px] text-[var(--sn-text-muted)] font-medium truncate hidden min-[480px]:block">
+            <span className="text-xs text-[var(--sn-text-muted)] font-medium truncate hidden min-[480px]:block">
               {brandSubtitle}
             </span>
           </Link>

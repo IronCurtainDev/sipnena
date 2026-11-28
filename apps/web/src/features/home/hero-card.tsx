@@ -1,4 +1,5 @@
 import { CheckCircle2, CloudDownload } from "lucide-react";
+import { resolveActiveStudentId, useCoursesStore } from "@/data/courses";
 import type { AppLanguage } from "@/lib/language";
 import { HOME_STRINGS } from "./strings";
 
@@ -9,6 +10,21 @@ interface HeroCardProps {
 
 export function HeroBanner({ lang, onToggleOffline }: HeroCardProps) {
   const t = HOME_STRINGS[lang];
+  const { store } = useCoursesStore();
+  const studentId = resolveActiveStudentId(store.activeStudentId);
+  const student = store.students.find((s) => s.id === studentId);
+  const savedName =
+    student?.name ||
+    (typeof window !== "undefined"
+      ? window.localStorage.getItem("sipnena_student_name")
+      : null);
+  const greetingText = savedName
+    ? lang === "si"
+      ? `ආයුබෝවන්, ${savedName}`
+      : lang === "ta"
+        ? `வணக்கம், ${savedName}`
+        : `Welcome back, ${savedName}`
+    : t.greetingTitle;
 
   return (
     <section
@@ -22,7 +38,7 @@ export function HeroBanner({ lang, onToggleOffline }: HeroCardProps) {
           </p>
 
           <h1 className="text-2xl font-bold leading-normal text-[var(--sn-text-main)] sm:text-[1.75rem]">
-            {t.greetingTitle}
+            {greetingText}
           </h1>
 
           <p className="max-w-2xl text-base leading-normal text-[var(--sn-text-secondary)]">

@@ -52,7 +52,7 @@ export const ADMIN_OPS_COPY: Record<AppLanguage, AdminOpsCopy> = {
   en: {
     paymentsPageTitle: "Admin Operations — Bank Slip Approval Queue",
     openDeskBadge: "SipNena Verification & Operations Lead",
-    opsGreeting: "Kamal Jayasinghe — Colombo Payment Desk",
+    opsGreeting: "Payment verification desk",
     opsSub:
       "Review student/parent bank deposit receipts, approve enrollments, or flag illegible slips.",
     kpiPendingLabel: "Pending Review",

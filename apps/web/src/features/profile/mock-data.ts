@@ -8,9 +8,9 @@ export interface StudentAvatar {
 
 export const STUDENT_AVATARS: StudentAvatar[] = [
   {
-    id: "kasun",
-    name: "Kasun (Current)",
-    role: "Junior Secondary Student",
+    id: "student",
+    name: "Student",
+    role: "Learner",
     accentColor: "#2563EB",
     bgColor: "#EFF6FF",
   },
@@ -61,26 +61,7 @@ export interface StudentReceipt {
   status: "Paid";
 }
 
-export const STUDENT_RECEIPTS: StudentReceipt[] = [
-  {
-    id: "rec-1",
-    courseTitle: "Science: Light & Curved Mirrors",
-    packName: "Term 1 Study Pack",
-    amount: "Rs. 1,500",
-    date: "12 Jan 2024",
-    bankMethod: "Commercial Bank / Genie",
-    status: "Paid",
-  },
-  {
-    id: "rec-2",
-    courseTitle: "Grade 8 Mathematics Term 1",
-    packName: "Term 1 Geometry Pack",
-    amount: "Rs. 1,500",
-    date: "15 Jan 2024",
-    bankMethod: "Commercial Bank / Genie",
-    status: "Paid",
-  },
-];
+export const STUDENT_RECEIPTS: StudentReceipt[] = [];
 
 export interface GradeOption {
   value: string;

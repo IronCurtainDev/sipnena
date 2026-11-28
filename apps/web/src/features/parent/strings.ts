@@ -30,7 +30,7 @@ export const PARENT_COPY: Record<AppLanguage, ParentCopy> = {
   en: {
     pageTitle: "Parent / Guardian Dashboard",
     guardianBadge: "Family Monitoring & Fee Approvals",
-    guardianGreeting: "Mrs. Priyani Perera — Guardian Overview",
+    guardianGreeting: "Guardian Overview",
     guardianSub:
       "Monitor attendance, term exam readiness, and Class Card slips for your children.",
     switchChildPrompt: "Select Child Profile (Grades 6–11)",

@@ -8,6 +8,11 @@ import {
 } from "@/features/portal-shell/nav-config";
 import { ROLE_VISUAL_CONFIG } from "@/features/portal-shell/role-themes";
 import type { AppLanguage } from "@/lib/language";
+import { loadCourseStoreState } from "@/data/courses";
+import {
+  applySingleTeacher,
+  resolveTeacherActivation,
+} from "@/features/portal-shell/activate-teacher-role";
 import { updatePrototypeState, type DemoRole } from "@/lib/prototype-state";
 import type { LandingStrings } from "./strings.types";
 
@@ -57,11 +62,24 @@ export function LandingNavBar({
               <Link
                 key={role}
                 to={ROLE_ENTRY_ROUTE[role]}
-                onClick={() =>
-                  updatePrototypeState((prev) => ({ ...prev, role }))
-                }
+                onClick={() => {
+                  updatePrototypeState((prev) => ({ ...prev, role }));
+                  if (role !== "teacher") return;
+                  const preferred = loadCourseStoreState().activeTeacherId;
+                  const result = resolveTeacherActivation(preferred);
+                  if (result.kind === "single") {
+                    applySingleTeacher(result.teacher);
+                  } else if (
+                    result.kind === "many" &&
+                    result.preferredId
+                  ) {
+                    applySingleTeacher(
+                      result.teachers.find((t) => t.id === result.preferredId)!,
+                    );
+                  }
+                }}
                 data-testid={`landing-portal-${role}`}
-                className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold transition ${ROLE_VISUAL_CONFIG[role].badgePillCls} hover:opacity-90`}
+                className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold transition ${ROLE_VISUAL_CONFIG[role].badgePillCls} hover:opacity-90`}
               >
                 {ROLE_LABELS[role][lang]}
               </Link>
@@ -142,7 +160,7 @@ export function LandingNavBar({
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--sn-border)] text-[var(--sn-text-main)] lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--sn-border)] text-[var(--sn-text-main)] lg:hidden"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? (

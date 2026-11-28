@@ -103,7 +103,7 @@ export function PortalMobileDrawer({
           {navGroups.map((group) => (
             <div key={group.title.en} className="space-y-1">
               <p
-                className={`px-2 text-[10px] font-bold uppercase tracking-wider ${theme.groupTitleCls}`}
+                className={`px-2 text-xs font-bold uppercase tracking-wider ${theme.groupTitleCls}`}
               >
                 {group.title[lang]}
               </p>

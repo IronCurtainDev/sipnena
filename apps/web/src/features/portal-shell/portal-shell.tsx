@@ -12,8 +12,10 @@ import {
 import { CompactLanguageSwitcher } from "@/components/app/compact-language-switcher";
 import type { AppLanguage } from "@/lib/language";
 import { usePrototypeState, type DemoRole } from "@/lib/prototype-state";
-import { mobileTabGridClass } from "./mobile-tabs";
+import { ActiveTeacherChip } from "./active-teacher-chip";
+import { isDemoModeEnabled } from "./demo-mode";
 import { MOBILE_TABS_BY_ROLE, PORTAL_NAV_GROUPS } from "./nav-config";
+import { PortalMobileBottomBar } from "./portal-bottom-nav";
 import { PortalDesktopNav, PortalMobileDrawer } from "./portal-nav";
 import { PrototypeRoleSwitcher } from "./role-switcher";
 import { ROLE_VISUAL_CONFIG } from "./role-themes";
@@ -44,7 +46,7 @@ export function SipNenaPortalShell({
   const activeRole = roleOverride ?? state.role;
   const theme = ROLE_VISUAL_CONFIG[activeRole];
   const navGroups = PORTAL_NAV_GROUPS[activeRole];
-  const mobileTabs = MOBILE_TABS_BY_ROLE[activeRole];
+  const mobileTabs = MOBILE_TABS_BY_ROLE[activeRole].slice(0, 4);
   const unreadCount = Math.max(
     0,
     TOTAL_NOTIFICATIONS - state.readNotificationIds.length,
@@ -62,10 +64,21 @@ export function SipNenaPortalShell({
     }
   };
 
+  const demo = isDemoModeEnabled();
   return (
     <div
       className={`sipnena-onboarding flex min-h-svh flex-col text-[var(--sn-text-main)] antialiased sm:flex-row ${theme.pageBgCls}`}
     >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-[var(--sn-primary)] focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
+      >
+        {lang === "si"
+          ? "ප්‍රධාන අන්තර්ගතයට යන්න"
+          : lang === "ta"
+            ? "முதன்மை உள்ளடக்கத்திற்குச் செல்"
+            : "Skip to content"}
+      </a>
       <PortalDesktopNav
         activeRole={activeRole}
         lang={lang}
@@ -76,7 +89,7 @@ export function SipNenaPortalShell({
         onNavClick={lockRole}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col pb-24 sm:pb-6">
+      <div className="flex min-w-0 flex-1 flex-col pb-28 sm:pb-6">
         <header className="sticky top-0 z-30 border-b border-[var(--sn-border)] bg-[var(--sn-surface)]/95 backdrop-blur-md">
           <div className="flex h-14 items-center justify-between gap-2 px-4 sm:px-6">
             <div className="flex min-w-0 items-center gap-2.5">
@@ -90,12 +103,12 @@ export function SipNenaPortalShell({
                       ? "பட்டியலைத் திற"
                       : "Open navigation menu"
                 }
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] lg:hidden"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] lg:hidden"
               >
                 <Menu className="h-4 w-4" />
               </button>
               <span
-                className={`hidden shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wide sm:inline-flex ${theme.badgePillCls}`}
+                className={`hidden shrink-0 rounded-full px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide sm:inline-flex ${theme.badgePillCls}`}
               >
                 {theme.portalBadge[lang]}
               </span>
@@ -104,12 +117,14 @@ export function SipNenaPortalShell({
               </h1>
             </div>
 
-            <div className="hidden xl:block">
-              <PrototypeRoleSwitcher
-                lang={lang}
-                activeRoleOverride={activeRole}
-              />
-            </div>
+            {demo ? (
+              <div className="hidden xl:block">
+                <PrototypeRoleSwitcher
+                  lang={lang}
+                  activeRoleOverride={activeRole}
+                />
+              </div>
+            ) : null}
 
             <div className="flex items-center gap-2">
               {activeRole === "student" && (
@@ -124,7 +139,7 @@ export function SipNenaPortalShell({
                           ? "பாடங்கள் மற்றும் வினாத்தாள்களைத் தேடு"
                           : "Search lessons and past papers"
                     }
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
                   >
                     <Search className="h-4 w-4" />
                   </Link>
@@ -138,11 +153,11 @@ export function SipNenaPortalShell({
                           ? "அறிவிப்புகள்"
                           : "Notifications"
                     }
-                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
+                    className="relative flex h-11 w-11 items-center justify-center rounded-full border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] text-[var(--sn-text-main)] hover:bg-[var(--sn-sage)]"
                   >
                     <Bell className="h-4 w-4" />
                     {unreadCount > 0 && (
-                      <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white">
+                      <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-rose-600 px-1 text-xs font-bold text-white">
                         {unreadCount}
                       </span>
                     )}
@@ -168,14 +183,17 @@ export function SipNenaPortalShell({
               )}
 
               {activeRole === "teacher" && (
-                <Link
-                  to="/teacher/doubts"
-                  onClick={lockRole}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full border border-teal-200 bg-teal-50 px-3 text-xs font-bold text-[#0B3B3C]"
-                >
-                  <MessageCircleQuestion className="h-3.5 w-3.5" />
-                  <span>{pendingDoubtsCount}</span>
-                </Link>
+                <>
+                  <ActiveTeacherChip lang={lang} />
+                  <Link
+                    to="/teacher/doubts"
+                    onClick={lockRole}
+                    className="inline-flex h-9 items-center gap-1.5 rounded-full border border-teal-200 bg-teal-50 px-3 text-xs font-bold text-[#0B3B3C]"
+                  >
+                    <MessageCircleQuestion className="h-3.5 w-3.5" />
+                    <span>{pendingDoubtsCount}</span>
+                  </Link>
+                </>
               )}
 
               {activeRole === "admin" && (
@@ -201,7 +219,7 @@ export function SipNenaPortalShell({
                   to="/me"
                   onClick={lockRole}
                   aria-label={theme.personaName[lang]}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold ${theme.avatarBtnCls}`}
+                  className={`flex h-11 w-11 items-center justify-center rounded-full text-xs font-bold ${theme.avatarBtnCls}`}
                 >
                   <User className="h-4 w-4" />
                 </Link>
@@ -215,59 +233,35 @@ export function SipNenaPortalShell({
             </div>
           </div>
 
-          <div
-            className={`border-t px-4 py-1.5 xl:hidden ${theme.topStripCls}`}
-          >
-            <PrototypeRoleSwitcher
-              lang={lang}
-              activeRoleOverride={activeRole}
-              compact
-            />
-          </div>
+          {demo ? (
+            <div
+              className={`border-t px-4 py-1.5 xl:hidden ${theme.topStripCls}`}
+            >
+              <PrototypeRoleSwitcher
+                lang={lang}
+                activeRoleOverride={activeRole}
+                compact
+              />
+            </div>
+          ) : null}
         </header>
 
         <main
           id="main-content"
-          className="mx-auto w-full max-w-7xl flex-1 space-y-5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8"
+          className="w-full flex-1 space-y-5 px-4 py-4 sm:px-6 sm:py-6 xl:px-8"
         >
           {children}
         </main>
       </div>
 
-      <nav
-        aria-label="Mobile quick navigation"
-        className={`fixed inset-x-0 bottom-0 z-30 grid gap-1 border-t border-[var(--sn-border)] bg-[var(--sn-surface)]/95 px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] shadow-lg backdrop-blur-md sm:hidden ${mobileTabGridClass(mobileTabs.length)}`}
-      >
-        {mobileTabs.map((item) => {
-          const Icon = item.icon;
-          const active =
-            pathname === item.to ||
-            (item.matchPrefix ? pathname.startsWith(item.matchPrefix) : false);
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={lockRole}
-              className={`flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[11px] font-bold ${
-                active ? theme.badgePillCls : "text-[var(--sn-text-muted)]"
-              }`}
-            >
-              <Icon className="h-4 w-4" aria-hidden="true" />
-              <span className="max-w-full truncate">{item.label[lang]}</span>
-            </Link>
-          );
-        })}
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen(true)}
-          className="flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[11px] font-bold text-[var(--sn-text-muted)]"
-        >
-          <Menu className="h-4 w-4" aria-hidden="true" />
-          <span>
-            {lang === "si" ? "සියල්ල" : lang === "ta" ? "மேலும்" : "More"}
-          </span>
-        </button>
-      </nav>
+      <PortalMobileBottomBar
+        lang={lang}
+        pathname={pathname}
+        mobileTabs={mobileTabs}
+        theme={theme}
+        onTabClick={lockRole}
+        onOpenMenu={() => setMobileMenuOpen(true)}
+      />
 
       <PortalMobileDrawer
         activeRole={activeRole}

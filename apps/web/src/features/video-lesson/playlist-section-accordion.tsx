@@ -85,8 +85,13 @@ export function PlaylistSectionAccordion({
                     )}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-bold leading-normal text-[var(--sn-text-main)]">
-                      {localizedTitle}
+                    <span className="flex flex-wrap items-center gap-1.5 text-sm font-bold leading-normal text-[var(--sn-text-main)]">
+                      <span>{localizedTitle}</span>
+                      {lesson.status && lesson.status !== "published" ? (
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
+                          {lesson.status}
+                        </span>
+                      ) : null}
                     </span>
                     <span className="mt-0.5 block text-sm leading-normal text-[var(--sn-text-muted)]">
                       {statusLabel}

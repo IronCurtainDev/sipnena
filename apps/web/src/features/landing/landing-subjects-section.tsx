@@ -73,7 +73,7 @@ export function LandingSubjectsSection({
                 <span className="block text-xs font-semibold text-[var(--sn-text-secondary)]">
                   {s.titleSi}
                 </span>
-                <span className="block text-[10px] text-[var(--sn-text-muted)]">
+                <span className="block text-xs text-[var(--sn-text-muted)]">
                   {s.titleTa}
                 </span>
               </div>

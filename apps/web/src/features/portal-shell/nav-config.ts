@@ -1,14 +1,17 @@
 import {
   Calendar,
+  ClipboardList,
   CreditCard,
   FileCheck2,
   FolderTree,
   GraduationCap,
   HelpCircle,
+  LayoutDashboard,
   Library,
   MessageCircleQuestion,
   Radio,
   ShieldCheck,
+  UserRound,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -61,24 +64,6 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
             en: "Parent Dashboard",
             si: "දෙමාපිය පුවරුව",
             ta: "பெற்றோர் பலகை",
-          },
-        },
-        {
-          to: "/parent/child/kasun",
-          icon: GraduationCap,
-          label: {
-            en: "Kasun (Grade 8)",
-            si: "කසුන් (8 ශ්‍රේණිය)",
-            ta: "கசுன் (தரம் 8)",
-          },
-        },
-        {
-          to: "/parent/child/nethmi",
-          icon: GraduationCap,
-          label: {
-            en: "Nethmi (Grade 11 O/L)",
-            si: "නෙත්මි (11 සා/පෙළ)",
-            ta: "நெத்மி (தரம் 11 சா/த)",
           },
         },
         {
@@ -161,6 +146,42 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
           },
         },
         {
+          to: "/teacher/classes",
+          icon: Users,
+          label: {
+            en: "My Classes",
+            si: "මගේ පන්ති",
+            ta: "என் வகுப்புகள்",
+          },
+        },
+        {
+          to: "/teacher/students",
+          icon: GraduationCap,
+          label: {
+            en: "Students",
+            si: "සිසුන්",
+            ta: "மாணவர்கள்",
+          },
+        },
+        {
+          to: "/teacher/quizzes",
+          icon: ClipboardList,
+          label: {
+            en: "Quizzes & Bank",
+            si: "ප්‍රශ්නාවලි",
+            ta: "வினாடிகள்",
+          },
+        },
+        {
+          to: "/teacher/assignments",
+          icon: FileCheck2,
+          label: {
+            en: "Assignments",
+            si: "පැවරුම්",
+            ta: "ஒப்படைப்புகள்",
+          },
+        },
+        {
           to: "/teacher/doubts",
           icon: MessageCircleQuestion,
           label: {
@@ -178,6 +199,15 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
             ta: "எனது நேரலை வகுப்புகள்",
           },
         },
+        {
+          to: "/teacher/profile",
+          icon: UserRound,
+          label: {
+            en: "My profile",
+            si: "මගේ පැතිකඩ",
+            ta: "என் சுயவிவரம்",
+          },
+        },
       ],
     },
   ],
@@ -189,6 +219,15 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
         ta: "நிர்வாகச் செயற்பாடுகள்",
       },
       items: [
+        {
+          to: "/admin",
+          icon: LayoutDashboard,
+          label: {
+            en: "Admin Home",
+            si: "පරිපාලක මුල් පිටුව",
+            ta: "நிர்வாக முகப்பு",
+          },
+        },
         {
           to: "/admin/payments",
           icon: ShieldCheck,
@@ -205,6 +244,15 @@ export const PORTAL_NAV_GROUPS: Record<DemoRole, PortalNavGroup[]> = {
             en: "NIE Syllabus Manager",
             si: "විෂය නිර්දේශ කළමනාකරු",
             ta: "NIE பாடத்திட்ட நிர்வாகி",
+          },
+        },
+        {
+          to: "/admin/teachers",
+          icon: GraduationCap,
+          label: {
+            en: "Teachers",
+            si: "ගුරුවරුන්",
+            ta: "ஆசிரியர்கள்",
           },
         },
         {

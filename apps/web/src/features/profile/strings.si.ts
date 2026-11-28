@@ -5,9 +5,9 @@ export const SI_PROFILE_STRINGS: ProfileStrings = {
   breadcrumbHome: "මුල් පිටුව",
   breadcrumbMe: "මගේ ගිණුම සහ සැකසුම්",
   academicYearBadge: "2024 අධ්‍යයන වර්ෂය සක්‍රියයි",
-  pageTitle: "කසුන්ගේ ගිණුම",
-  studentBadge: "ශිෂ්‍ය ගිණුම • 8 ශ්‍රේණිය • සාමාන්‍ය පෙළ පදනම",
-  studentName: "කසුන් පෙරේරා",
+  pageTitle: "මගේ ගිණුම",
+  studentBadge: "ශිෂ්‍ය ගිණුම",
+  studentName: "ශිෂ්‍ය",
   activeStatus: "සක්‍රියයි",
   studentSubtitleMobile:
     "ශිෂ්‍ය • 8 ශ්‍රේණිය\nජාතික විෂය නිර්දේශය (ඉංග්‍රීසි මාධ්‍ය)",

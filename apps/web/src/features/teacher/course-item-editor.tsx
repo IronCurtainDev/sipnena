@@ -1,33 +1,23 @@
-import { useState, type FormEvent } from "react";
-import { FileUp, Trash2 } from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Trash2 } from "lucide-react";
+import { pickLocalized, type Lesson, type Quiz } from "@/data/courses";
 import type { AppLanguage } from "@/lib/language";
-import type {
-  TeacherLessonDraft,
-  TeacherQuizDraft,
-} from "@/lib/prototype-state";
+import { BUILDER_EXTRA_COPY } from "./course-builder-strings";
 import type { CourseContentCopy } from "./course-content-strings";
 import type { TeacherCourseCopy } from "./course-strings";
-import { LessonAuthoredFields } from "./lesson-authored-fields";
-import { QuizEditPanel } from "./quiz-edit-panel";
-import { TEACHER_COPY } from "./strings";
+import { LessonEditorTabs } from "./lesson-editor-tabs";
+import type { SaveIndicator } from "./use-course-builder";
 
 interface CourseItemEditorProps {
   lang: AppLanguage;
   copy: TeacherCourseCopy;
   content: CourseContentCopy;
-  lesson: TeacherLessonDraft | null;
-  quiz: TeacherQuizDraft | null;
-  onSave: (lesson: TeacherLessonDraft) => void;
-  onSaveQuiz: (quiz: TeacherQuizDraft) => void;
+  lesson: Lesson | null;
+  quiz: Quiz | null;
+  onSave: (lesson: Lesson, silent?: boolean) => void;
+  onDirtyChange: (state: SaveIndicator) => void;
+  onOpenQuizEditor?: (quizId: string) => void;
   onRemove: (lessonId: string) => void;
-}
-
-function filledBlocks<
-  T extends { title: string; body?: string; meta?: string },
->(rows: T[]): T[] {
-  return rows.filter(
-    (row) => row.title.trim() || row.body?.trim() || row.meta?.trim(),
-  );
 }
 
 export function CourseItemEditor(props: CourseItemEditorProps) {
@@ -50,39 +40,67 @@ function CourseItemForm({
   lesson,
   quiz,
   onSave,
-  onSaveQuiz,
+  onDirtyChange,
+  onOpenQuizEditor,
   onRemove,
-}: CourseItemEditorProps & { lesson: TeacherLessonDraft }) {
-  const shared = TEACHER_COPY[lang];
-  const [draft, setDraft] = useState(lesson);
-  const [editingQuiz, setEditingQuiz] = useState(false);
+}: CourseItemEditorProps & { lesson: Lesson }) {
+  const extra = BUILDER_EXTRA_COPY[lang];
+  const [draft, setDraft] = useState<Lesson>(lesson);
+  const [prevLesson, setPrevLesson] = useState<Lesson>(lesson);
+  if (lesson !== prevLesson) {
+    setPrevLesson(lesson);
+    setDraft(lesson);
+  }
+  const [editLang, setEditLang] = useState<AppLanguage>(lang);
+  const [activeTab, setActiveTab] = useState<
+    "basics" | "video" | "notes" | "files"
+  >("basics");
+  const timerRef = useRef<number | null>(null);
+  const pendingDraftRef = useRef<Lesson | null>(null);
+  const onSaveRef = useRef(onSave);
+  onSaveRef.current = onSave;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSave({
-      ...draft,
-      title: draft.title.trim() || lesson.title,
-      rules: filledBlocks(draft.rules),
-      revisionNotes: filledBlocks(draft.revisionNotes),
-      files: filledBlocks(draft.files),
-    });
+  const flushPendingSave = (silent = true) => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    const pending = pendingDraftRef.current;
+    if (!pending) return;
+    pendingDraftRef.current = null;
+    onSaveRef.current(pending, silent);
+  };
+
+  useEffect(() => {
+    return () => {
+      flushPendingSave(true);
+    };
+  }, []);
+
+  const handlePatch = (patch: Partial<Lesson>) => {
+    const next = { ...draft, ...patch };
+    setDraft(next);
+    pendingDraftRef.current = next;
+    onDirtyChange("saving");
+    if (timerRef.current) window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      timerRef.current = null;
+      pendingDraftRef.current = null;
+      onSaveRef.current(next, true);
+    }, 300);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    pendingDraftRef.current = null;
+    onSave(draft, false);
   };
 
   if (draft.kind === "quiz") {
-    if (editingQuiz && quiz) {
-      return (
-        <QuizEditPanel
-          copy={shared}
-          content={content}
-          quiz={quiz}
-          onSave={(next) => {
-            onSaveQuiz(next);
-            setEditingQuiz(false);
-          }}
-          onCancel={() => setEditingQuiz(false)}
-        />
-      );
-    }
     return (
       <section
         className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5"
@@ -91,35 +109,33 @@ function CourseItemForm({
         <h3 className="text-lg font-bold text-[var(--sn-text-main)]">
           {content.quizSlotHeading}
         </h3>
-        {quiz ? (
-          <>
-            <p className="text-base font-bold text-[var(--sn-text-main)]">
-              {quiz.title}
-            </p>
-            <p className="text-base text-[var(--sn-text-secondary)]">
-              {quiz.questions.length} {content.questionsWord}
-            </p>
+        <p className="text-base font-bold text-[var(--sn-primary)]">
+          {quiz
+            ? pickLocalized(quiz.title, lang)
+            : pickLocalized(draft.title, lang)}
+        </p>
+        <p className="text-sm text-[var(--sn-text-secondary)]">
+          {quiz?.questionIds.length ?? 0} {content.questionsWord}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {quiz && onOpenQuizEditor ? (
             <button
               type="button"
-              onClick={() => setEditingQuiz(true)}
-              className="inline-flex min-h-12 items-center text-base font-bold text-[var(--sn-primary)]"
+              onClick={() => onOpenQuizEditor(quiz.id)}
+              className="min-h-12 rounded-xl bg-[var(--sn-primary)] px-4 text-sm font-bold text-white"
             >
               {content.editQuestions}
             </button>
-          </>
-        ) : (
-          <p className="text-base text-[var(--sn-text-secondary)]">
-            {content.noQuizLinked}
-          </p>
-        )}
-        <button
-          type="button"
-          onClick={() => onRemove(lesson.id)}
-          className="inline-flex min-h-12 items-center gap-1 rounded-xl border border-red-200 bg-red-50 px-3 text-base font-bold text-red-700"
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-          <span>{content.removeRow}</span>
-        </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => onRemove(draft.id)}
+            className="inline-flex min-h-12 items-center gap-1.5 rounded-xl border border-[var(--sn-border)] px-4 text-sm font-bold text-red-700"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span>{copy.removeLectureBtn}</span>
+          </button>
+        </div>
       </section>
     );
   }
@@ -127,121 +143,81 @@ function CourseItemForm({
   return (
     <form
       onSubmit={handleSubmit}
-      aria-labelledby="teacher-item-heading"
-      className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5"
-      data-testid="teacher-lecture-editor"
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          flushPendingSave(true);
+        }
+      }}
+      className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5 pb-20 sm:pb-5"
+      data-testid="teacher-lesson-editor"
     >
-      <h3
-        id="teacher-item-heading"
-        className="text-lg font-bold text-[var(--sn-text-main)]"
-      >
-        {draft.kind === "lab" ? content.labHeading : copy.lectureEditorHeading}
-      </h3>
-
-      <label className="block text-base font-bold" htmlFor="item-title">
-        <span className="mb-1.5 block">{shared.lessonTitleField}</span>
-        <input
-          id="item-title"
-          type="text"
-          required
-          value={draft.title}
-          onChange={(event) =>
-            setDraft({ ...draft, title: event.target.value })
-          }
-          className="w-full rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
-        />
-      </label>
-
-      {draft.kind === "video" ? (
-        <>
-          <label className="block text-base font-bold" htmlFor="item-video">
-            <span className="mb-1.5 block">{shared.videoUrlField}</span>
-            <input
-              id="item-video"
-              type="url"
-              required
-              value={draft.videoUrl}
-              spellCheck={false}
-              autoCapitalize="none"
-              onChange={(event) =>
-                setDraft({ ...draft, videoUrl: event.target.value })
-              }
-              className="w-full rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
-            />
-          </label>
-          <div className="rounded-2xl border border-dashed border-[var(--sn-border)] bg-[var(--sn-olive)]/40 p-3">
-            <div className="flex items-center justify-between gap-2 text-base font-bold">
-              <span className="flex items-center gap-1.5 text-[var(--sn-primary)]">
-                <FileUp className="h-4 w-4" />
-                <span>{shared.pdfAttachmentLabel}</span>
-              </span>
-              <label className="inline-flex min-h-12 cursor-pointer items-center rounded-xl bg-[var(--sn-surface)] px-3 text-base text-[var(--sn-primary)]">
-                <span>{shared.browsePdfBtn}</span>
-                <input
-                  type="file"
-                  accept=".pdf,application/pdf"
-                  className="sr-only"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (!file) return;
-                    setDraft((current) => ({
-                      ...current,
-                      tuteName: file.name,
-                    }));
-                  }}
-                />
-              </label>
-            </div>
-            <label
-              className="mt-2 block text-base font-bold"
-              htmlFor="item-tute"
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--sn-border)] pb-3">
+        <div className="flex flex-wrap gap-1.5">
+          {(
+            [
+              ["basics", extra.tabBasics],
+              ["video", extra.tabVideo],
+              ["notes", extra.tabNotes],
+              ["files", extra.tabFiles],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setActiveTab(id)}
+              className={`min-h-11 rounded-xl px-3.5 text-sm font-bold ${
+                activeTab === id
+                  ? "bg-[var(--sn-primary)] text-white"
+                  : "border border-[var(--sn-border)] text-[var(--sn-text-secondary)]"
+              }`}
             >
-              <span className="sr-only">{shared.pdfAttachmentLabel}</span>
-              <input
-                id="item-tute"
-                type="text"
-                value={draft.tuteName}
-                spellCheck={false}
-                onChange={(event) =>
-                  setDraft({ ...draft, tuteName: event.target.value })
-                }
-                className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-3 py-3 text-base"
-              />
-            </label>
-          </div>
-        </>
-      ) : (
-        <label className="block text-base font-bold" htmlFor="item-lab">
-          <span className="mb-1.5 block">{content.labPromptLabel}</span>
-          <textarea
-            id="item-lab"
-            rows={3}
-            required
-            value={draft.labPrompt}
-            placeholder={content.labPromptPlaceholder}
-            onChange={(event) =>
-              setDraft({ ...draft, labPrompt: event.target.value })
-            }
-            className="w-full rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
-          />
-        </label>
-      )}
+              {label}
+            </button>
+          ))}
+        </div>
 
-      <LessonAuthoredFields copy={content} lesson={draft} onChange={setDraft} />
+        <div className="flex rounded-xl border border-[var(--sn-border)] p-0.5">
+          {(["si", "ta", "en"] as const).map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => setEditLang(code)}
+              className={`min-h-10 rounded-lg px-2.5 text-xs font-bold uppercase ${
+                editLang === code
+                  ? "bg-[var(--sn-olive)] text-[var(--sn-primary)]"
+                  : "text-[var(--sn-text-muted)]"
+              }`}
+            >
+              {code}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <div className="flex flex-wrap gap-2">
+      <LessonEditorTabs
+        lang={lang}
+        editLang={editLang}
+        activeTab={activeTab}
+        draft={draft}
+        copy={copy}
+        content={content}
+        onPatch={handlePatch}
+      />
+
+      <div className="sticky bottom-16 z-20 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-cream)] p-3 sm:static sm:border-0 sm:bg-transparent sm:p-0">
         <button
           type="submit"
-          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-xl bg-[var(--sn-primary)] px-4 text-base font-bold text-white"
+          data-testid="teacher-lesson-save"
+          className="min-h-12 rounded-xl bg-[var(--sn-primary)] px-5 text-sm font-bold text-white"
         >
-          {shared.saveChangesBtn}
+          {copy.saveCourseInfoBtn}
         </button>
         <button
           type="button"
-          onClick={() => onRemove(lesson.id)}
-          className="inline-flex min-h-12 items-center gap-1 rounded-xl border border-red-200 bg-red-50 px-3 text-base font-bold text-red-700"
+          onClick={() => onRemove(draft.id)}
+          className="inline-flex min-h-12 items-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 text-sm font-bold text-red-700"
         >
-          <Trash2 className="h-3.5 w-3.5" />
+          <Trash2 className="h-4 w-4" />
           <span>{copy.removeLectureBtn}</span>
         </button>
       </div>

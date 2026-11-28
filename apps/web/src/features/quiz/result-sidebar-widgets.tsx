@@ -69,9 +69,7 @@ export function ResultSidebarWidgets({
                 <div className="truncate text-xs font-bold text-slate-900">
                   {t.refresher1Title}
                 </div>
-                <div className="text-[11px] text-slate-500">
-                  {t.refresher1Meta}
-                </div>
+                <div className="text-xs text-slate-500">{t.refresher1Meta}</div>
               </div>
               <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />
             </button>
@@ -85,9 +83,7 @@ export function ResultSidebarWidgets({
                 <div className="truncate text-xs font-bold text-slate-900">
                   {t.refresher2Title}
                 </div>
-                <div className="text-[11px] text-slate-500">
-                  {t.refresher2Meta}
-                </div>
+                <div className="text-xs text-slate-500">{t.refresher2Meta}</div>
               </div>
               <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />
             </button>
@@ -104,7 +100,7 @@ export function ResultSidebarWidgets({
         <div className="rounded-xl bg-slate-50 p-3 font-mono text-xs font-bold text-slate-800 text-center">
           f = R / 2
         </div>
-        <p className="text-[11px] text-slate-500 text-center">
+        <p className="text-xs text-slate-500 text-center">
           {t.formulaCardBody}
         </p>
       </div>
@@ -117,10 +113,10 @@ export function ResultSidebarWidgets({
           </div>
           <div className="min-w-0">
             <div className="truncate text-xs font-bold text-slate-900">
-              Ms. Menaka Jayawardena
+              {t.teacherName}
             </div>
-            <div className="truncate text-[11px] text-[var(--sn-primary)] font-semibold">
-              Science Specialist • Colombo Zone
+            <div className="truncate text-xs font-semibold text-[var(--sn-primary)]">
+              {t.teacherTitle}
             </div>
           </div>
         </div>

@@ -40,6 +40,7 @@ export function CourseInlineQuiz({
   playlist,
   lessonCopy,
   onSelectLesson,
+  onQuizCompleted,
   onToast,
 }: {
   activeLessonId: string;
@@ -49,6 +50,12 @@ export function CourseInlineQuiz({
   playlist: PlaylistSection[];
   lessonCopy?: CourseLessonCopy;
   onSelectLesson: (id: string, isLocked?: boolean) => void;
+  onQuizCompleted?: (
+    score: number,
+    total: number,
+    passed: boolean,
+    answers: Record<number, string>,
+  ) => void;
   onToast: (msg: string) => void;
 }) {
   return (
@@ -61,6 +68,14 @@ export function CourseInlineQuiz({
       }
       introTitle={authored?.quizTitle}
       scoreLabel={lessonCopy?.scoreLabel}
+      onQuizCompleted={(result, answers) =>
+        onQuizCompleted?.(
+          result.score,
+          result.totalQuestions,
+          result.isPassed,
+          answers,
+        )
+      }
       onNextLesson={() => {
         if (!bundle) {
           onSelectLesson(

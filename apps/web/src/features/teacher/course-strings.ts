@@ -46,6 +46,9 @@ export interface TeacherCourseCopy {
   pricingField: string;
   priceField: string;
   pricePlaceholder: string;
+  coverImageField: string;
+  coverImageHint: string;
+  coverImageClear: string;
   saveCourseInfoBtn: string;
   publishToggleHint: string;
   defaultSectionTitle: string;
@@ -66,7 +69,7 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     emptyCoursesHeading: "Create your first course",
     noMatchCourses: "No courses match your search or filter.",
     clearFiltersBtn: "Clear filters",
-    editCurriculumBtn: "Edit curriculum",
+    editCurriculumBtn: "Edit",
     deleteCourseBtn: "Delete course",
     deleteConfirm: "Delete this course, its sections, and lessons?",
     lessonCountLabel: "lectures",
@@ -100,6 +103,9 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     pricingField: "Pricing",
     priceField: "Price",
     pricePlaceholder: "Rs. 1,200",
+    coverImageField: "Preview image",
+    coverImageHint: "Choose a JPG or PNG cover for the student catalog",
+    coverImageClear: "Remove preview image",
     saveCourseInfoBtn: "Save course info",
     publishToggleHint: "Students only see published courses.",
     defaultSectionTitle: "Section 1",
@@ -118,7 +124,7 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     emptyCoursesHeading: "පළමු පාඨමාලාව සාදන්න",
     noMatchCourses: "ඔබේ සෙවුමට හෝ පෙරහනට ගැලපෙන පාඨමාලා නැත.",
     clearFiltersBtn: "පෙරහන් ඉවත් කරන්න",
-    editCurriculumBtn: "විෂය නිර්දේශය සංස්කරණය",
+    editCurriculumBtn: "සංස්කරණය",
     deleteCourseBtn: "පාඨමාලාව මකන්න",
     deleteConfirm: "මෙම පාඨමාලාව, කොටස් සහ පාඩම් මකන්නද?",
     lessonCountLabel: "පාඩම්",
@@ -152,6 +158,9 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     pricingField: "මිල",
     priceField: "මිල ගණන",
     pricePlaceholder: "රු. 1,200",
+    coverImageField: "පෙරදසුන් රූපය",
+    coverImageHint: "සිසු කැටලොගයට JPG හෝ PNG කවරයක් තෝරන්න",
+    coverImageClear: "පෙරදසුන් රූපය ඉවත් කරන්න",
     saveCourseInfoBtn: "තොරතුරු සුරකින්න",
     publishToggleHint: "සිසුන්ට පෙනෙන්නේ පළ කළ පාඨමාලා පමණි.",
     defaultSectionTitle: "1 වන කොටස",
@@ -166,11 +175,13 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     filterAll: "அனைத்தும்",
     filterDraft: "வரைவு",
     filterPublished: "வெளியிடப்பட்டது",
-    emptyCourses: "உருவாக்கியைத் திறந்து பிரிவுகள், பாடங்கள் மற்றும் வினாடிகளைச் சேருங்கள்.",
+    emptyCourses:
+      "உருவாக்கியைத் திறந்து பிரிவுகள், பாடங்கள் மற்றும் வினாடிகளைச் சேருங்கள்.",
     emptyCoursesHeading: "முதல் பாடநெறியை உருவாக்குக",
-    noMatchCourses: "உங்கள் தேடல் அல்லது வடிகட்டிக்குப் பொருந்தும் பாடநெறிகள் இல்லை.",
+    noMatchCourses:
+      "உங்கள் தேடல் அல்லது வடிகட்டிக்குப் பொருந்தும் பாடநெறிகள் இல்லை.",
     clearFiltersBtn: "வடிகட்டிகளை அழிக்க",
-    editCurriculumBtn: "பாடத்திட்டத்தைத் திருத்துக",
+    editCurriculumBtn: "திருத்து",
     deleteCourseBtn: "பாடநெறியை நீக்குக",
     deleteConfirm: "இந்த பாடநெறி, பிரிவுகள் மற்றும் பாடங்களை நீக்கவா?",
     lessonCountLabel: "பாடங்கள்",
@@ -204,6 +215,9 @@ export const TEACHER_COURSE_COPY: Record<AppLanguage, TeacherCourseCopy> = {
     pricingField: "கட்டணம்",
     priceField: "விலை",
     pricePlaceholder: "ரூ. 1,200",
+    coverImageField: "முன்னோட்டப் படம்",
+    coverImageHint: "மாணவர் பட்டியலுக்கு JPG அல்லது PNG அட்டையைத் தேர்ந்தெடுக்க",
+    coverImageClear: "முன்னோட்டப் படத்தை நீக்கு",
     saveCourseInfoBtn: "தகவலைச் சேமி",
     publishToggleHint:
       "மாணவர்களுக்கு வெளியிடப்பட்ட பாடநெறிகள் மட்டுமே தெரியும்.",

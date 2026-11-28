@@ -1,61 +1,59 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useCoursesStore } from "@/data/courses";
 import { MobileBottomNav, TabletRail } from "@/features/home/nav-bars";
 import { DesktopSidebar } from "@/features/home/nav-sidebar";
-import {
-  getSavedLanguage,
-  saveLanguage,
-  type AppLanguage,
-} from "@/lib/language";
+import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
+import { buildCourseDetailFromStore } from "./course-detail-adapter";
 import { CourseBreadcrumbBar } from "./course-breadcrumb-bar";
 import { CourseDetailTopBar } from "./course-detail-top-bar";
 import { CourseEnrollModal } from "./course-enroll-modal";
 import { CourseInstructorSection } from "./course-instructor-section";
 import { CourseMobileEnrollBar } from "./course-mobile-enroll-bar";
-import { CourseOutcomesSection } from "./course-outcomes-section";
 import { CourseOverviewSection } from "./course-overview-section";
 import { CoursePreviewModal } from "./course-preview-modal";
 import { CoursePurchaseSidebar } from "./course-purchase-sidebar";
-import { CourseReviewsSection } from "./course-reviews-section";
 import { CourseStateViews } from "./course-state-views";
 import { CourseSyllabusSection } from "./course-syllabus-section";
-import { TrailerVideoThumbnail } from "./course-trailer-thumbnail";
-import { COURSE_DETAIL_MOCK, type LessonItem } from "./mock-data";
+import { type LessonItem } from "./mock-data";
 import { COURSE_DETAIL_STRINGS } from "./strings";
+import { useCourseEnroll } from "./use-course-enroll";
 
-export function SipNenaCourseDetailScreen() {
+export function SipNenaCourseDetailScreen(props?: {
+  courseIdOverride?: string;
+  includeDrafts?: boolean;
+}) {
   const navigate = useNavigate();
-  const [lang, setLang] = useState<AppLanguage>(getSavedLanguage);
+  const { courseId: routeCourseId } = useParams({ strict: false });
+  const { store } = useCoursesStore();
+  const [lang, handleLanguageChange] = useSipNenaLanguage();
   const [activeTab, setActiveTab] = useState("courses");
   const [isSaved, setIsSaved] = useState(false);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
-  const [openModuleIds, setOpenModuleIds] = useState<string[]>(["mod1"]);
+  const [openModuleIds, setOpenModuleIds] = useState<string[]>([]);
   const [previewLesson, setPreviewLesson] = useState<LessonItem | null>(null);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isEnrollSuccess, setIsEnrollSuccess] = useState(false);
   const [statusToast, setStatusToast] = useState<string | null>(null);
-  const [demoState, setDemoState] = useState<
-    "ready" | "loading" | "empty" | "error"
-  >("ready");
 
   const t = COURSE_DETAIL_STRINGS[lang];
-  const course = COURSE_DETAIL_MOCK;
-  const allExpanded = openModuleIds.length === course.modules.length;
+  const targetCourseId = props?.courseIdOverride ?? routeCourseId;
+  const course = useMemo(
+    () =>
+      buildCourseDetailFromStore(store, targetCourseId, lang, {
+        includeDrafts: props?.includeDrafts,
+      }),
+    [store, targetCourseId, lang, props?.includeDrafts],
+  );
 
   useEffect(() => {
-    const handleSync = (e: Event) => {
-      const customEvent = e as CustomEvent<AppLanguage>;
-      if (customEvent.detail) setLang(customEvent.detail);
-    };
-    window.addEventListener("sipnena_language_change", handleSync);
-    return () =>
-      window.removeEventListener("sipnena_language_change", handleSync);
-  }, []);
+    if (!course) return;
+    setOpenModuleIds(course.modules[0] ? [course.modules[0].id] : []);
+  }, [course?.id]);
 
-  const handleLanguageChange = (nextLang: AppLanguage) => {
-    setLang(nextLang);
-    saveLanguage(nextLang);
-  };
+  const allExpanded = course
+    ? openModuleIds.length >= course.modules.length && course.modules.length > 0
+    : false;
 
   const showToast = useCallback((msg: string) => {
     setStatusToast(msg);
@@ -76,39 +74,12 @@ export function SipNenaCourseDetailScreen() {
     void navigate({ to: "/courses" });
   };
 
-  const toggleModule = (modId: string) => {
-    setOpenModuleIds((prev) =>
-      prev.includes(modId)
-        ? prev.filter((id) => id !== modId)
-        : [...prev, modId],
-    );
-  };
-
-  const handleExpandCollapseAll = () => {
-    if (allExpanded) {
-      setOpenModuleIds([]);
-    } else {
-      setOpenModuleIds(course.modules.map((m) => m.id));
-    }
-  };
-
-  const handleToggleSave = () => {
-    setIsSaved((prev) => {
-      const next = !prev;
-      showToast(
-        `${next ? t.savedCourseMsg : t.removedCourseMsg} ${t.courseTitle}`,
-      );
-      return next;
-    });
-  };
-
-  const handleLessonClick = (lesson: LessonItem) => {
-    if (lesson.type === "quiz") {
-      void navigate({ to: "/quiz" });
-    } else {
-      void navigate({ to: "/lesson" });
-    }
-  };
+  const { beginEnroll, confirmEnroll } = useCourseEnroll(
+    course?.id,
+    showToast,
+    setIsEnrollModalOpen,
+    setIsEnrollSuccess,
+  );
 
   return (
     <div className="sipnena-onboarding flex min-h-svh flex-col bg-[var(--sn-page-bg)] text-[var(--sn-text-main)] antialiased sm:flex-row">
@@ -133,31 +104,43 @@ export function SipNenaCourseDetailScreen() {
         />
 
         <main className="w-full flex-1 space-y-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
-          {demoState !== "ready" ? (
+          {!course ? (
             <CourseStateViews
-              demoState={demoState}
-              onRetry={() => setDemoState("ready")}
+              demoState="empty"
+              onRetry={handleBackToCourses}
               t={t}
             />
           ) : (
             <div className="space-y-4">
               <CourseBreadcrumbBar
                 t={t}
+                courseTitle={course.title}
+                subjectLabel={course.subjectGradePill}
                 isSaved={isSaved}
                 onBackToCourses={handleBackToCourses}
                 onShare={() => showToast(t.parentShareMsg)}
-                onToggleSave={handleToggleSave}
+                onToggleSave={() => {
+                  setIsSaved((prev) => {
+                    const next = !prev;
+                    showToast(
+                      `${next ? t.savedCourseMsg : t.removedCourseMsg} ${course.title ?? ""}`,
+                    );
+                    return next;
+                  });
+                }}
               />
 
               <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(380px,0.95fr)] xl:grid-cols-[minmax(0,1.4fr)_minmax(420px,1fr)]">
                 <div className="min-w-0 space-y-4">
-                  {/* Mobile Top Trailer Preview Card (< 640px) */}
-                  <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] sm:hidden">
-                    <TrailerVideoThumbnail
-                      t={t}
-                      onWatchPreview={() => void navigate({ to: "/lesson" })}
-                    />
-                  </div>
+                  {course.coverImageUrl ? (
+                    <div className="overflow-hidden rounded-2xl border border-[var(--sn-border)] sm:hidden">
+                      <img
+                        src={course.coverImageUrl}
+                        alt=""
+                        className="aspect-[16/9] w-full object-cover"
+                      />
+                    </div>
+                  ) : null}
 
                   <CourseOverviewSection
                     course={course}
@@ -166,38 +149,51 @@ export function SipNenaCourseDetailScreen() {
                     onToggleDesc={() => setIsDescExpanded((prev) => !prev)}
                   />
 
-                  <CourseOutcomesSection outcomes={course.outcomes} t={t} />
-
                   <CourseSyllabusSection
                     modules={course.modules}
                     openModuleIds={openModuleIds}
                     allExpanded={allExpanded}
-                    onToggleModule={toggleModule}
-                    onExpandCollapseAll={handleExpandCollapseAll}
-                    onLessonClick={handleLessonClick}
+                    onToggleModule={(modId) =>
+                      setOpenModuleIds((prev) =>
+                        prev.includes(modId)
+                          ? prev.filter((id) => id !== modId)
+                          : [...prev, modId],
+                      )
+                    }
+                    onExpandCollapseAll={() =>
+                      setOpenModuleIds(
+                        allExpanded ? [] : course.modules.map((m) => m.id),
+                      )
+                    }
+                    onLessonClick={(lesson: LessonItem) => {
+                      void navigate({
+                        to: "/courses/$courseId/lesson",
+                        params: { courseId: course.id },
+                        search: { lessonId: lesson.id },
+                      });
+                    }}
                     t={t}
                   />
 
-                  <CourseInstructorSection
-                    instructor={course.instructor}
-                    t={t}
-                  />
-
-                  <CourseReviewsSection
-                    reviews={course.reviews}
-                    gradeBadge={t.gradeBadge}
-                    t={t}
-                  />
+                  {course.instructor.name ? (
+                    <CourseInstructorSection
+                      instructor={course.instructor}
+                      t={t}
+                    />
+                  ) : null}
                 </div>
 
                 <CoursePurchaseSidebar
                   course={course}
                   lang={lang}
                   t={t}
-                  onWatchPreview={() => void navigate({ to: "/lesson" })}
-                  onEnroll={() => {
-                    void navigate({ to: "/enroll" });
-                  }}
+                  onWatchPreview={() =>
+                    void navigate({
+                      to: "/courses/$courseId/lesson",
+                      params: { courseId: course.id },
+                    })
+                  }
+                  onEnroll={beginEnroll}
                   onSendToParent={() => {
                     void navigate({
                       to: "/checkout",
@@ -212,15 +208,13 @@ export function SipNenaCourseDetailScreen() {
         </main>
       </div>
 
-      {demoState === "ready" && (
+      {course ? (
         <CourseMobileEnrollBar
           course={course}
           t={t}
-          onEnroll={() => {
-            void navigate({ to: "/enroll" });
-          }}
+          onEnroll={beginEnroll}
         />
-      )}
+      ) : null}
 
       <MobileBottomNav
         activeTab={activeTab}
@@ -239,32 +233,35 @@ export function SipNenaCourseDetailScreen() {
         t={t}
       />
 
-      <CourseEnrollModal
-        isOpen={isEnrollModalOpen}
-        isSuccess={isEnrollSuccess}
-        course={course}
-        lang={lang}
-        t={t}
-        onClose={() => {
-          setIsEnrollModalOpen(false);
-          setIsEnrollSuccess(false);
-        }}
-        onConfirmJoin={() => {
-          setIsEnrollSuccess(true);
-        }}
-        onStartFirstLesson={() => {
-          setIsEnrollModalOpen(false);
-          setIsEnrollSuccess(false);
-          void navigate({ to: "/lesson" });
-        }}
-        onGoToCourses={() => {
-          setIsEnrollModalOpen(false);
-          setIsEnrollSuccess(false);
-          void navigate({ to: "/courses" });
-        }}
-      />
+      {course ? (
+        <CourseEnrollModal
+          isOpen={isEnrollModalOpen}
+          isSuccess={isEnrollSuccess}
+          course={course}
+          lang={lang}
+          t={t}
+          onClose={() => {
+            setIsEnrollModalOpen(false);
+            setIsEnrollSuccess(false);
+          }}
+          onConfirmJoin={confirmEnroll}
+          onStartFirstLesson={() => {
+            setIsEnrollModalOpen(false);
+            setIsEnrollSuccess(false);
+            void navigate({
+              to: "/courses/$courseId/lesson",
+              params: { courseId: course.id },
+            });
+          }}
+          onGoToCourses={() => {
+            setIsEnrollModalOpen(false);
+            setIsEnrollSuccess(false);
+            void navigate({ to: "/courses" });
+          }}
+        />
+      ) : null}
 
-      {statusToast && (
+      {statusToast ? (
         <aside
           role="status"
           aria-live="polite"
@@ -276,7 +273,7 @@ export function SipNenaCourseDetailScreen() {
           />
           <span>{statusToast}</span>
         </aside>
-      )}
+      ) : null}
     </div>
   );
 }

@@ -5,14 +5,14 @@ import { useSipNenaLanguage } from "@/features/portal-shell/use-sipnena-lang";
 import { useToastMessage } from "@/features/portal-shell/use-toast";
 import { formatGrade, TERM_NAME_MAP } from "@/lib/i18n-common";
 import { ADMIN_OPS_COPY } from "./strings";
-import { INITIAL_SYLLABUS_TREE, type SyllabusGradeNode } from "./syllabus-data";
+import { useSyllabusStore } from "@/data/syllabus-store";
 
 export function AdminSyllabusScreen() {
   const [lang, setLang] = useSipNenaLanguage();
   const { toast, showToast } = useToastMessage();
   const copy = ADMIN_OPS_COPY[lang];
 
-  const [tree, setTree] = useState<SyllabusGradeNode[]>(INITIAL_SYLLABUS_TREE);
+  const { tree, updateTree: setTree } = useSyllabusStore();
   const [openGrades, setOpenGrades] = useState<number[]>([8, 11]);
   const [openSubjects, setOpenSubjects] = useState<string[]>([
     "g8-sci",
@@ -196,7 +196,7 @@ export function AdminSyllabusScreen() {
                             <div className="mt-2 space-y-2 pl-4">
                               {sub.terms.map((tNode) => (
                                 <div key={tNode.term} className="space-y-1.5">
-                                  <p className="text-[11px] font-bold uppercase text-[var(--sn-text-muted)]">
+                                  <p className="text-xs font-bold uppercase text-[var(--sn-text-muted)]">
                                     {TERM_NAME_MAP[tNode.term][lang]}
                                   </p>
                                   {tNode.units.map((u) => (
@@ -217,7 +217,7 @@ export function AdminSyllabusScreen() {
                                             u.id,
                                           )
                                         }
-                                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                                        className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                                           u.published
                                             ? "bg-emerald-100 text-emerald-800"
                                             : "bg-slate-200 text-slate-600"

@@ -1,4 +1,10 @@
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import {
+  pickLocalized,
+  type Course,
+  type Grade,
+  type Medium,
+} from "@/data/courses";
 import {
   formatGrade,
   formatMedium,
@@ -6,23 +12,18 @@ import {
   TERM_NAME_MAP,
 } from "@/lib/i18n-common";
 import type { AppLanguage } from "@/lib/language";
-import type { StudyMedium } from "@/lib/language-types";
-import type {
-  TeacherCourseDraft,
-  TeacherCourseTerm,
-} from "@/lib/prototype-state";
+import { CourseCoverField } from "./course-cover-field";
 import type { TeacherCourseCopy } from "./course-strings";
 import { TEACHER_COPY } from "./strings";
 
 const SUBJECTS = ["Science", "Mathematics", "ICT", "History"] as const;
-const MEDIUMS: StudyMedium[] = ["si", "ta", "en"];
-const TERMS: TeacherCourseTerm[] = ["Term 1", "Term 2", "Term 3"];
+const MEDIUMS: Medium[] = ["si", "ta", "en"];
 
 interface CourseInfoPanelProps {
   lang: AppLanguage;
   copy: TeacherCourseCopy;
-  course: TeacherCourseDraft;
-  onSave: (patch: Partial<TeacherCourseDraft>) => void;
+  course: Course;
+  onSave: (patch: Partial<Course>) => void;
 }
 
 export function CourseInfoPanel({
@@ -32,26 +33,39 @@ export function CourseInfoPanel({
   onSave,
 }: CourseInfoPanelProps) {
   const shared = TEACHER_COPY[lang];
+  const [editLang, setEditLang] = useState<AppLanguage>(lang);
+  const [title, setTitle] = useState(pickLocalized(course.title, editLang));
+  const [description, setDescription] = useState(
+    pickLocalized(course.description, editLang),
+  );
+  const [subject, setSubject] = useState(course.subject);
+  const [grade, setGrade] = useState<Grade>(course.grade);
+  const [medium, setMedium] = useState<Medium>(course.medium);
+  const [term, setTerm] = useState<1 | 2 | 3>(course.term);
+  const [isFree, setIsFree] = useState(course.isFree);
+  const [priceLkr, setPriceLkr] = useState(
+    course.priceLkr ? String(course.priceLkr) : "1200",
+  );
+  const [coverImageUrl, setCoverImageUrl] = useState(course.coverImageUrl);
 
-  const read = (fd: FormData, key: string, fallback = "") => {
-    const value = fd.get(key);
-    return typeof value === "string" ? value : fallback;
+  const switchLang = (next: AppLanguage) => {
+    setEditLang(next);
+    setTitle(course.title[next] ?? "");
+    setDescription(course.description[next] ?? "");
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const isFree =
-      read(fd, "pricing", course.isFree ? "free" : "paid") === "free";
     onSave({
-      title: read(fd, "title").trim() || course.title,
-      subject: read(fd, "subject", course.subject),
-      grade: Number(read(fd, "grade", String(course.grade))) || course.grade,
-      medium: read(fd, "medium", course.medium) as StudyMedium,
-      term: read(fd, "term", course.term) as TeacherCourseTerm,
-      description: read(fd, "description").trim(),
+      title: { ...course.title, [editLang]: title.trim() },
+      description: { ...course.description, [editLang]: description.trim() },
+      subject,
+      grade,
+      medium,
+      term,
       isFree,
-      price: isFree ? null : read(fd, "price").trim() || null,
+      priceLkr: isFree ? null : Number(priceLkr) || 1200,
+      coverImageUrl,
     });
   };
 
@@ -62,24 +76,48 @@ export function CourseInfoPanel({
       className="space-y-4 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)] p-5"
       data-testid="teacher-course-info"
     >
-      <label className="block text-base font-bold">
-        <span className="mb-1.5 block">{copy.titleField}</span>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm font-bold text-[var(--sn-text-secondary)]">
+          Language tab
+        </span>
+        <div className="flex rounded-xl border border-[var(--sn-border)] p-0.5">
+          {(["si", "ta", "en"] as const).map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => switchLang(code)}
+              className={`min-h-10 rounded-lg px-3 text-xs font-bold uppercase ${
+                editLang === code
+                  ? "bg-[var(--sn-primary)] text-white"
+                  : "text-[var(--sn-text-muted)]"
+              }`}
+            >
+              {code}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <label className="block space-y-1 text-sm font-bold">
+        <span>
+          {copy.titleField} ({editLang.toUpperCase()})
+        </span>
         <input
-          name="title"
           type="text"
           required
-          defaultValue={course.title}
-          className="w-full rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="min-h-12 w-full rounded-xl border border-[var(--sn-border)] px-3 text-base"
         />
       </label>
 
-      <div className="grid grid-cols-2 gap-2">
-        <label className="block text-base font-bold">
-          <span className="mb-1.5 block">{shared.subjectField}</span>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <label className="space-y-1 text-sm font-bold">
+          <span>{shared.subjectField}</span>
           <select
-            name="subject"
-            defaultValue={course.subject}
-            className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 py-3 text-base"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="min-h-12 w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 text-base"
           >
             {SUBJECTS.map((sub) => (
               <option key={sub} value={sub}>
@@ -88,12 +126,12 @@ export function CourseInfoPanel({
             ))}
           </select>
         </label>
-        <label className="block text-base font-bold">
-          <span className="mb-1.5 block">{shared.gradeField}</span>
+        <label className="space-y-1 text-sm font-bold">
+          <span>{shared.gradeField}</span>
           <select
-            name="grade"
-            defaultValue={course.grade}
-            className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 py-3 text-base"
+            value={grade}
+            onChange={(e) => setGrade(Number(e.target.value) as Grade)}
+            className="min-h-12 w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 text-base"
           >
             {[6, 7, 8, 9, 10, 11].map((g) => (
               <option key={g} value={g}>
@@ -102,15 +140,12 @@ export function CourseInfoPanel({
             ))}
           </select>
         </label>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        <label className="block text-base font-bold">
-          <span className="mb-1.5 block">{copy.mediumField}</span>
+        <label className="space-y-1 text-sm font-bold">
+          <span>{copy.mediumField}</span>
           <select
-            name="medium"
-            defaultValue={course.medium}
-            className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 py-3 text-base"
+            value={medium}
+            onChange={(e) => setMedium(e.target.value as Medium)}
+            className="min-h-12 w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 text-base"
           >
             {MEDIUMS.map((m) => (
               <option key={m} value={m}>
@@ -119,74 +154,71 @@ export function CourseInfoPanel({
             ))}
           </select>
         </label>
-        <label className="block text-base font-bold">
-          <span className="mb-1.5 block">{shared.termField}</span>
+        <label className="space-y-1 text-sm font-bold">
+          <span>Term</span>
           <select
-            name="term"
-            defaultValue={course.term}
-            className="w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 py-3 text-base"
+            value={term}
+            onChange={(e) => setTerm(Number(e.target.value) as 1 | 2 | 3)}
+            className="min-h-12 w-full rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-2 text-base"
           >
-            {TERMS.map((t) => (
-              <option key={t} value={t}>
-                {TERM_NAME_MAP[t][lang]}
-              </option>
-            ))}
+            <option value={1}>{TERM_NAME_MAP["Term 1"][lang]}</option>
+            <option value={2}>{TERM_NAME_MAP["Term 2"][lang]}</option>
+            <option value={3}>{TERM_NAME_MAP["Term 3"][lang]}</option>
           </select>
         </label>
       </div>
 
-      <label className="block text-base font-bold">
-        <span className="mb-1.5 block">{copy.descriptionField}</span>
+      <label className="block space-y-1 text-sm font-bold">
+        <span>
+          {copy.descriptionField} ({editLang.toUpperCase()})
+        </span>
         <textarea
-          name="description"
           rows={3}
-          defaultValue={course.description}
-          placeholder={copy.descriptionPlaceholder}
-          className="w-full resize-none rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full rounded-xl border border-[var(--sn-border)] p-3 text-base"
         />
       </label>
 
-      <fieldset className="space-y-2">
-        <legend className="text-base font-bold">{copy.pricingField}</legend>
-        <div className="flex gap-4 text-base font-bold">
-          <label className="flex items-center gap-1.5">
-            <input
-              type="radio"
-              name="pricing"
-              value="free"
-              defaultChecked={course.isFree}
-            />
-            {copy.freeLabel}
-          </label>
-          <label className="flex items-center gap-1.5">
-            <input
-              type="radio"
-              name="pricing"
-              value="paid"
-              defaultChecked={!course.isFree}
-            />
-            {copy.paidLabel}
-          </label>
-        </div>
-        <label className="block text-base font-bold">
-          <span className="mb-1.5 block">{copy.priceField}</span>
-          <input
-            name="price"
-            type="text"
-            defaultValue={course.price ?? ""}
-            placeholder={copy.pricePlaceholder}
-            className="w-full rounded-xl border border-[var(--sn-border)] px-3 py-3 text-base"
-          />
-        </label>
-      </fieldset>
+      <CourseCoverField
+        label={copy.coverImageField}
+        hint={copy.coverImageHint}
+        clearLabel={copy.coverImageClear}
+        value={coverImageUrl}
+        onChange={setCoverImageUrl}
+      />
 
-      <p className="text-base text-[var(--sn-text-muted)]">
-        {copy.publishToggleHint}
-      </p>
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 text-sm font-bold">
+          <input
+            type="radio"
+            checked={isFree}
+            onChange={() => setIsFree(true)}
+          />
+          <span>{copy.freeLabel}</span>
+        </label>
+        <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 text-sm font-bold">
+          <input
+            type="radio"
+            checked={!isFree}
+            onChange={() => setIsFree(false)}
+          />
+          <span>{copy.paidLabel}</span>
+        </label>
+        {!isFree ? (
+          <input
+            type="number"
+            value={priceLkr}
+            onChange={(e) => setPriceLkr(e.target.value)}
+            aria-label={copy.priceField}
+            className="min-h-11 w-36 rounded-xl border border-[var(--sn-border)] px-3 text-base"
+          />
+        ) : null}
+      </div>
 
       <button
         type="submit"
-        className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[var(--sn-primary)] px-4 text-base font-bold text-white"
+        className="min-h-12 rounded-xl bg-[var(--sn-primary)] px-5 text-sm font-bold text-white"
       >
         {copy.saveCourseInfoBtn}
       </button>

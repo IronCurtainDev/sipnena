@@ -187,7 +187,7 @@ export function SelectGradeScreen() {
                     {item.grade}
                   </span>
                   {item.isOL ? (
-                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-900">
+                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-extrabold text-amber-900">
                       {copy.olBadge}
                     </span>
                   ) : active ? (

@@ -20,9 +20,11 @@ export function CourseMobileEnrollBar({
           <span className="text-xl font-bold text-[var(--sn-text-main)]">
             {course.priceCurrent}
           </span>
-          <span className="text-sm text-[var(--sn-text-muted)] line-through">
-            {course.priceOriginal}
-          </span>
+          {course.priceOriginal ? (
+            <span className="text-sm text-[var(--sn-text-muted)] line-through">
+              {course.priceOriginal}
+            </span>
+          ) : null}
         </div>
         <div className="truncate text-xs font-semibold text-emerald-800">
           {t.accessSubtitleMobile}

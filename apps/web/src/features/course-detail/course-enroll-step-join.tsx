@@ -36,7 +36,7 @@ export function CourseEnrollStepJoin({
           </span>
           <span className="inline-flex items-center gap-1 rounded-full border border-slate-200/60 bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
             <span className="text-slate-400">•</span>
-            <span>{t.subjectGradePill}</span>
+            <span>{course.subjectGradePill}</span>
           </span>
         </div>
         <button
@@ -51,20 +51,30 @@ export function CourseEnrollStepJoin({
 
       <div className="space-y-4 overflow-y-auto p-4 sm:p-6">
         <div className="flex items-center gap-3.5 rounded-xl border border-slate-200/70 bg-slate-50/80 p-3">
-          <OpticsRayDiagramThumbnail className="h-14 w-14 sm:h-16 sm:w-16" />
+          {course.coverImageUrl ? (
+            <img
+              src={course.coverImageUrl}
+              alt=""
+              className="h-14 w-14 rounded-xl object-cover sm:h-16 sm:w-16"
+            />
+          ) : (
+            <OpticsRayDiagramThumbnail className="h-14 w-14 sm:h-16 sm:w-16" />
+          )}
           <div className="min-w-0 flex-1">
             <h3
               id="enroll-heading"
               className="line-clamp-2 text-sm font-bold leading-snug text-slate-900 sm:text-base"
             >
-              {t.courseTitle}
+              {course.title}
             </h3>
-            <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-700 sm:text-sm">
-              <span>{course.instructor.name}</span>
-              <CheckCircle2 className="inline h-3.5 w-3.5 shrink-0 fill-[var(--sn-cream)] text-[var(--sn-primary)]" />
-            </div>
+            {course.instructor.name ? (
+              <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-slate-700 sm:text-sm">
+                <span>{course.instructor.name}</span>
+                <CheckCircle2 className="inline h-3.5 w-3.5 shrink-0 fill-[var(--sn-cream)] text-[var(--sn-primary)]" />
+              </div>
+            ) : null}
             <p className="mt-0.5 hidden truncate text-xs text-slate-500 sm:block">
-              {t.educatorRole}
+              {course.mediumPill}
             </p>
           </div>
         </div>
@@ -85,8 +95,9 @@ export function CourseEnrollStepJoin({
               </span>
             </div>
             <p className="pt-0.5 text-xs leading-relaxed text-slate-600">
-              <span className="hidden sm:inline">{t.course100FreeDesc}</span>
-              <span className="sm:hidden">{t.course100FreeDescMobile}</span>
+              {course.isFree
+                ? `${course.lessonsTotal} lessons · ${course.duration || "—"}`
+                : course.priceCurrent}
             </p>
           </div>
         </div>
@@ -98,10 +109,12 @@ export function CourseEnrollStepJoin({
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 sm:text-sm">
-                {t.feature1Title}
+                {course.lessonsTotal} lessons
               </div>
               <p className="text-xs leading-relaxed text-slate-500">
-                {t.feature1Desc}
+                {course.duration
+                  ? `About ${course.duration} of content`
+                  : "Lessons from your teacher"}
               </p>
             </div>
           </div>
@@ -112,10 +125,10 @@ export function CourseEnrollStepJoin({
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 sm:text-sm">
-                {t.feature2Title}
+                Learn at your pace
               </div>
               <p className="text-xs leading-relaxed text-slate-500">
-                {t.feature2Desc}
+                Open lessons anytime from this course.
               </p>
             </div>
           </div>
@@ -126,10 +139,10 @@ export function CourseEnrollStepJoin({
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 sm:text-sm">
-                {t.feature3Title}
+                Track your progress
               </div>
               <p className="text-xs leading-relaxed text-slate-500">
-                {t.feature3Desc}
+                See completed lessons and pick up where you left off.
               </p>
             </div>
           </div>
@@ -155,7 +168,7 @@ export function CourseEnrollStepJoin({
             <span className="sm:hidden">{t.notNowBtnMobile}</span>
           </button>
 
-          <div className="flex items-center justify-center gap-1.5 pt-1 text-center text-[11px] text-slate-500 sm:text-xs">
+          <div className="flex items-center justify-center gap-1.5 pt-1 text-center text-xs text-slate-500 sm:text-xs">
             <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
             <span>{t.syncFootnote}</span>
           </div>

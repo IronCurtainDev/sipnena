@@ -218,7 +218,7 @@ export function SelectMediumScreen() {
                   </p>
                 </div>
 
-                <div className="mt-3 rounded-xl bg-white/80 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--sn-text-secondary)]">
+                <div className="mt-3 rounded-xl bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-[var(--sn-text-secondary)]">
                   {m.sampleSubjects[lang]}
                 </div>
               </button>

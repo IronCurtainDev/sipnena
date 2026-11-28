@@ -19,7 +19,8 @@ import {
   type TeacherQuizDraft,
 } from "./prototype-seed";
 import type { StudyMedium } from "./language-types";
-import { normalizeStoredTeacherDrafts } from "./normalize-teacher-drafts";
+import { sanitizePrototypeState } from "./prototype-state-sanitize";
+import { stripPrototypeSeedData } from "./prototype-state-strip";
 
 export type {
   DataSaverQuality,
@@ -56,36 +57,12 @@ export function readPrototypeState(): PrototypeState {
         : INITIAL_PROTOTYPE_STATE;
     }
     const parsed = JSON.parse(raw) as Partial<PrototypeState>;
-    const merged = { ...INITIAL_PROTOTYPE_STATE, ...parsed };
-    const courses = Array.isArray(parsed.teacherCourses)
-      ? parsed.teacherCourses
-      : INITIAL_PROTOTYPE_STATE.teacherCourses;
-    const sections = Array.isArray(parsed.teacherCourseSections)
-      ? [...parsed.teacherCourseSections]
-      : [...INITIAL_PROTOTYPE_STATE.teacherCourseSections];
-    const drafts = normalizeStoredTeacherDrafts({
-      courses,
-      sections,
-      lessons: parsed.teacherLessons,
-      quizzes: parsed.teacherQuizzes,
-      fallbackLessons: INITIAL_PROTOTYPE_STATE.teacherLessons,
-      fallbackQuizzes: INITIAL_PROTOTYPE_STATE.teacherQuizzes,
-    });
-    const teacherLiveSessions = Array.isArray(parsed.teacherLiveSessions)
-      ? (parsed.teacherLiveSessions as TeacherLiveSession[]).map((session) => ({
-          ...session,
-          meetingUrl:
-            typeof session.meetingUrl === "string" ? session.meetingUrl : "",
-        }))
-      : INITIAL_PROTOTYPE_STATE.teacherLiveSessions;
-    return {
-      ...merged,
-      teacherCourses: courses,
-      teacherCourseSections: drafts.sections,
-      teacherLessons: drafts.lessons,
-      teacherQuizzes: drafts.quizzes,
-      teacherLiveSessions,
-    };
+    const sanitized = sanitizePrototypeState(parsed);
+    const stripped = stripPrototypeSeedData(sanitized);
+    if (stripped !== sanitized) {
+      writePrototypeState(stripped);
+    }
+    return stripped;
   } catch {
     return INITIAL_PROTOTYPE_STATE;
   }

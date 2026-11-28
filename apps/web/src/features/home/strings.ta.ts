@@ -14,7 +14,7 @@ export const TA_HOME_STRINGS: HomeStrings = {
   examFocusDesc:
     "சாதாரண தரம் (O/L) பரீட்சைக்கு நன்கு தயாராக பாடசாலைப் பாடத்திட்டப் பாடங்கள்.",
   termBadge: "2ஆம் தவணை",
-  greetingTitle: "ஆயுபோவன், கசுன்! 👋",
+  greetingTitle: "ஆயுபோவன்! 👋",
   greetingBilingualSub: "வணக்கம் • இன்றைய பாடங்களைத் தொடங்குவோம்",
   heroSubtitle:
     "பாடசாலைப் பாடத்திட்டத்திற்கு ஏற்ற எளிய பாடங்களுடன் இன்றும் தொடர்ந்து படியுங்கள்.",

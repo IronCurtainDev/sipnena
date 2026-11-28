@@ -50,8 +50,8 @@ export function CourseSyllabusSection({
             {t.syllabusTitle}
           </h2>
           <p className="mt-0.5 text-sm text-[var(--sn-text-muted)]">
-            <span className="sm:hidden">{t.syllabusMetaMobile}</span>
-            <span className="hidden sm:inline">{t.syllabusMetaDesktop}</span>
+            {modules.length} modules ·{" "}
+            {modules.reduce((n, m) => n + m.lessons.length, 0)} lessons
           </p>
         </div>
 
@@ -75,8 +75,6 @@ export function CourseSyllabusSection({
       <div className="space-y-3">
         {modules.map((mod) => {
           const isOpen = openModuleIds.includes(mod.id);
-          const titleKey = `${mod.id}_title` as keyof CourseDetailStrings;
-          const metaKey = `${mod.id}_meta` as keyof CourseDetailStrings;
 
           return (
             <div
@@ -103,11 +101,16 @@ export function CourseSyllabusSection({
                   </span>
 
                   <div className="min-w-0">
-                    <div className="text-base font-bold leading-snug text-[var(--sn-text-main)]">
-                      {t[titleKey]}
+                    <div className="flex flex-wrap items-center gap-2 text-base font-bold leading-snug text-[var(--sn-text-main)]">
+                      <span>{mod.title}</span>
+                      {mod.status && mod.status !== "published" ? (
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
+                          {mod.status}
+                        </span>
+                      ) : null}
                     </div>
                     <div className="mt-0.5 text-sm text-[var(--sn-text-muted)]">
-                      {t[metaKey]}
+                      {mod.meta}
                     </div>
                   </div>
                 </div>
@@ -138,10 +141,6 @@ export function CourseSyllabusSection({
                 <div className="divide-y divide-slate-100 border-t border-slate-100 bg-slate-50/40">
                   {mod.lessons.map((lesson) => {
                     const LessonIcon = getLessonIcon(lesson.type);
-                    const lTitleKey =
-                      `${lesson.id}_title` as keyof CourseDetailStrings;
-                    const lMetaKey =
-                      `${lesson.id}_meta` as keyof CourseDetailStrings;
 
                     return (
                       <button
@@ -154,7 +153,7 @@ export function CourseSyllabusSection({
                           <span
                             aria-hidden="true"
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
-                              lesson.isFreePreview
+                              lesson.accessible
                                 ? "border border-[var(--sn-border)] bg-[var(--sn-olive)] text-[var(--sn-primary)]"
                                 : "bg-slate-100 text-[var(--sn-text-muted)]"
                             }`}
@@ -163,11 +162,17 @@ export function CourseSyllabusSection({
                           </span>
 
                           <div className="min-w-0">
-                            <div className="line-clamp-2 text-base font-semibold text-[var(--sn-text-main)]">
-                              {t[lTitleKey]}
+                            <div className="flex flex-wrap items-center gap-2 line-clamp-2 text-base font-semibold text-[var(--sn-text-main)]">
+                              <span>{lesson.title}</span>
+                              {lesson.status &&
+                              lesson.status !== "published" ? (
+                                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">
+                                  {lesson.status}
+                                </span>
+                              ) : null}
                             </div>
                             <div className="text-sm text-[var(--sn-text-muted)]">
-                              {t[lMetaKey]}
+                              {lesson.meta}
                             </div>
                           </div>
                         </div>
@@ -180,7 +185,7 @@ export function CourseSyllabusSection({
                               aria-hidden="true"
                             />
                           </span>
-                        ) : (
+                        ) : lesson.accessible ? null : (
                           <Lock
                             className="h-5 w-5 shrink-0 text-slate-400"
                             aria-hidden="true"

@@ -1,10 +1,4 @@
-import {
-  CheckCircle2,
-  Copy,
-  Pencil,
-  Trash2,
-  Video,
-} from "lucide-react";
+import { CheckCircle2, Copy, Pencil, Trash2, Video } from "lucide-react";
 import { DAY_LABELS } from "@/features/live-schedule/strings";
 import { formatGrade, formatSubject } from "@/lib/i18n-common";
 import type { AppLanguage } from "@/lib/language";

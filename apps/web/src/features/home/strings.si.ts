@@ -14,7 +14,7 @@ export const SI_HOME_STRINGS: HomeStrings = {
   examFocusDesc:
     "සාමාන්‍ය පෙළ (O/L) විභාගයට හොඳින් සූදානම් වීමට පාසල් විෂය නිර්දේශ පාඩම්.",
   termBadge: "2 වන වාරය",
-  greetingTitle: "ආයුබෝවන්, කසුන්! 👋",
+  greetingTitle: "ආයුබෝවන්! 👋",
   greetingBilingualSub: "සුබ දවසක් • අද පාඩම් පටන් ගමු",
   heroSubtitle: "පාසල් විෂය නිර්දේශයට අදාළ සරල පාඩම් සමඟ අදත් ඉදිරියට යමු.",
   todaysGoalLabel: "අද ඉලක්කය",

@@ -71,7 +71,7 @@ export function DesktopCompletionView({
         </header>
 
         {/* Main Content */}
-        <main className="mx-auto w-full max-w-[1340px] flex-1 space-y-6 px-8 py-6">
+        <main className="w-full flex-1 space-y-6 px-6 py-6 xl:px-8">
           {/* Breadcrumb Header */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 overflow-x-auto whitespace-nowrap">

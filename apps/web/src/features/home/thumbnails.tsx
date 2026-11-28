@@ -1,5 +1,6 @@
 interface Props {
   courseId: string;
+  coverImageUrl?: string;
   badgeText?: string;
   tagBg?: string;
   tagColor?: string;
@@ -8,6 +9,7 @@ interface Props {
 
 export function CourseThumbnail({
   courseId,
+  coverImageUrl,
   badgeText,
   tagBg,
   tagColor,
@@ -15,11 +17,18 @@ export function CourseThumbnail({
 }: Props) {
   return (
     <div
-      className={`relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50 ${
-        compact ? "w-24 h-24 shrink-0" : "w-full h-36"
+      className={`relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50 ${
+        compact ? "h-24 w-24 shrink-0" : "h-36 w-full"
       }`}
     >
-      {courseId === "geometry" && (
+      {coverImageUrl ? (
+        <img
+          src={coverImageUrl}
+          alt=""
+          className="block h-full w-full object-cover"
+        />
+      ) : null}
+      {!coverImageUrl && courseId === "geometry" && (
         <svg
           viewBox="0 0 240 140"
           className="w-full h-full block"
@@ -63,7 +72,7 @@ export function CourseThumbnail({
         </svg>
       )}
 
-      {courseId === "python" && (
+      {!coverImageUrl && courseId === "python" && (
         <svg
           viewBox="0 0 240 140"
           className="w-full h-full block"
@@ -99,7 +108,7 @@ export function CourseThumbnail({
         </svg>
       )}
 
-      {courseId === "history" && (
+      {!coverImageUrl && courseId === "history" && (
         <svg
           viewBox="0 0 240 140"
           className="w-full h-full block"
@@ -129,7 +138,7 @@ export function CourseThumbnail({
 
       {compact && badgeText && tagBg && tagColor ? (
         <span
-          className={`absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md text-[11px] font-bold ${tagBg} ${tagColor}`}
+          className={`absolute top-1.5 left-1.5 px-2 py-0.5 rounded-md text-xs font-bold ${tagBg} ${tagColor}`}
         >
           {badgeText}
         </span>
@@ -257,7 +266,7 @@ export function RayDiagramThumbnail({
           strokeDasharray="2 2"
         />
       </svg>
-      <span className="absolute bottom-1.5 right-1.5 px-2 py-0.5 rounded bg-slate-900/80 text-white text-[10px] font-semibold">
+      <span className="absolute bottom-1.5 right-1.5 px-2 py-0.5 rounded bg-slate-900/80 text-white text-xs font-semibold">
         Ray Diagram
       </span>
     </div>

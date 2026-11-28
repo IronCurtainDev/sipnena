@@ -56,13 +56,13 @@ export function ParentApprovalPortalView({
         <div className="flex items-center gap-2">
           <Link
             to="/payment-status"
-            className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
+            className="rounded-lg bg-white px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)] hover:underline"
           >
             {extra.checkSlipStatus}
           </Link>
           <Link
             to="/billing"
-            className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
+            className="rounded-lg bg-white px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)] hover:underline"
           >
             {extra.classCardsLink}
           </Link>
@@ -94,7 +94,7 @@ export function ParentApprovalPortalView({
             <button
               type="button"
               onClick={onSendToParent}
-              className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--sn-primary)] hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[var(--sn-primary)] hover:underline"
             >
               <Send className="h-3 w-3" />
               <span>{extra.shareWithParentBtn}</span>
@@ -159,7 +159,7 @@ export function ParentApprovalPortalView({
         <button
           type="button"
           onClick={onSimulateFail}
-          className="text-[11px] font-semibold text-slate-400 hover:text-rose-600 hover:underline"
+          className="text-xs font-semibold text-slate-400 hover:text-rose-600 hover:underline"
         >
           {extra.demoFailTrigger}
         </button>

@@ -71,14 +71,14 @@ export function SubjectGrid({ t, selectedSubjects, onToggleSubject }: Props) {
               <div className="text-sm sm:text-base font-bold text-slate-900 leading-snug line-clamp-1">
                 {title}
               </div>
-              <div className="text-[11px] sm:text-xs text-slate-500 leading-snug truncate">
+              <div className="text-xs sm:text-xs text-slate-500 leading-snug truncate">
                 {subDesc}
               </div>
 
               {tagText ? (
                 <div className="pt-1">
                   <span
-                    className={`inline-block px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold ${subject.tagBg}`}
+                    className={`inline-block px-2 py-0.5 rounded-full text-xs sm:text-xs font-semibold ${subject.tagBg}`}
                   >
                     {tagText}
                   </span>
@@ -102,7 +102,7 @@ export function SubjectGrid({ t, selectedSubjects, onToggleSubject }: Props) {
           <div className="text-xs sm:text-sm font-bold text-slate-900">
             {t.hintTitle}
           </div>
-          <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+          <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">
             {t.hintDesktopText}
           </p>
         </div>

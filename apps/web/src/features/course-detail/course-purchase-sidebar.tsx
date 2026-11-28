@@ -11,7 +11,6 @@ import {
 import type { AppLanguage } from "@/lib/language";
 import type { CourseDetailData } from "./mock-data";
 import type { CourseDetailStrings } from "./strings.types";
-import { TrailerVideoThumbnail } from "./course-trailer-thumbnail";
 
 interface CoursePurchaseSidebarProps {
   course: CourseDetailData;
@@ -39,11 +38,20 @@ export function CoursePurchaseSidebar({
     >
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-surface)]">
         <div className="shrink-0">
-          <TrailerVideoThumbnail
-            t={t}
-            compact
-            onWatchPreview={onWatchPreview}
-          />
+          {course.coverImageUrl ? (
+            <img
+              src={course.coverImageUrl}
+              alt=""
+              className="aspect-[16/9] w-full object-cover"
+            />
+          ) : (
+            <div
+              className="flex aspect-[16/9] w-full items-center justify-center bg-[var(--sn-surface-muted)] text-sm font-semibold text-[var(--sn-text-muted)]"
+              aria-hidden="true"
+            >
+              {course.title ?? "SipNena"}
+            </div>
+          )}
         </div>
 
         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
@@ -52,14 +60,18 @@ export function CoursePurchaseSidebar({
               <span className="text-2xl font-bold text-[var(--sn-text-main)]">
                 {course.priceCurrent}
               </span>
-              <span className="text-base text-[var(--sn-text-muted)] line-through">
-                {course.priceOriginal}
-              </span>
+              {course.priceOriginal ? (
+                <span className="text-base text-[var(--sn-text-muted)] line-through">
+                  {course.priceOriginal}
+                </span>
+              ) : null}
             </div>
 
-            <span className="rounded-lg bg-[var(--sn-olive)] px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)]">
-              {course.discountLabel}
-            </span>
+            {course.discountLabel ? (
+              <span className="rounded-lg bg-[var(--sn-olive)] px-2.5 py-1 text-xs font-bold text-[var(--sn-primary)]">
+                {course.discountLabel}
+              </span>
+            ) : null}
           </div>
 
           <p className="text-sm leading-normal text-[var(--sn-text-muted)]">
@@ -76,17 +88,21 @@ export function CoursePurchaseSidebar({
               <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </button>
 
-            <button
-              type="button"
-              onClick={onWatchPreview}
-              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 text-sm font-bold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
-            >
-              <Play
-                className="h-4 w-4 text-[var(--sn-primary)]"
-                aria-hidden="true"
-              />
-              <span>{t.watch2FreeBtn}</span>
-            </button>
+            {course.modules.some((m) =>
+              m.lessons.some((l) => l.isFreePreview),
+            ) ? (
+              <button
+                type="button"
+                onClick={onWatchPreview}
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface)] px-4 text-sm font-bold text-[var(--sn-text-main)] transition hover:bg-[var(--sn-olive)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sn-primary)]"
+              >
+                <Play
+                  className="h-4 w-4 text-[var(--sn-primary)]"
+                  aria-hidden="true"
+                />
+                <span>{t.watch2FreeBtn}</span>
+              </button>
+            ) : null}
 
             <button
               type="button"
@@ -100,7 +116,7 @@ export function CoursePurchaseSidebar({
             <div className="grid grid-cols-2 gap-2 pt-1">
               <Link
                 to="/courses/$courseId/materials"
-                params={{ courseId: "sci-g8-full" }}
+                params={{ courseId: course.id }}
                 className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
               >
                 <FileText className="h-3.5 w-3.5" />
@@ -114,7 +130,7 @@ export function CoursePurchaseSidebar({
               </Link>
               <Link
                 to="/courses/$courseId/qa"
-                params={{ courseId: "sci-g8-full" }}
+                params={{ courseId: course.id }}
                 className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl border border-[var(--sn-border)] bg-[var(--sn-surface-muted)] px-3 text-xs font-bold text-[var(--sn-primary)] hover:bg-[var(--sn-sage)]"
               >
                 <MessageCircleQuestion className="h-3.5 w-3.5" />
@@ -129,20 +145,22 @@ export function CoursePurchaseSidebar({
             </div>
           </div>
 
-          <ul className="space-y-2.5 border-t border-[var(--sn-border)] pt-4 text-sm text-[var(--sn-text-secondary)]">
-            {course.inclusions.map((inc) => {
-              const Icon = inc.icon;
-              return (
-                <li key={inc.id} className="flex items-start gap-2.5">
-                  <Icon
-                    className="mt-0.5 h-5 w-5 shrink-0 text-[var(--sn-primary)]"
-                    aria-hidden="true"
-                  />
-                  <span className="leading-normal">{t[inc.id]}</span>
-                </li>
-              );
-            })}
-          </ul>
+          {course.inclusions.length > 0 ? (
+            <ul className="space-y-2.5 border-t border-[var(--sn-border)] pt-4 text-sm text-[var(--sn-text-secondary)]">
+              {course.inclusions.map((inc) => {
+                const Icon = inc.icon;
+                return (
+                  <li key={inc.id} className="flex items-start gap-2.5">
+                    <Icon
+                      className="mt-0.5 h-5 w-5 shrink-0 text-[var(--sn-primary)]"
+                      aria-hidden="true"
+                    />
+                    <span className="leading-normal">{t[inc.id]}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
 
           <div className="space-y-3 rounded-2xl border border-[var(--sn-border)] bg-[var(--sn-cream)] p-4">
             <div className="flex items-start gap-3">

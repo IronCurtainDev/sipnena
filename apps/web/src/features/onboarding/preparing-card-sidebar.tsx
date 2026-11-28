@@ -31,7 +31,7 @@ export function PreparingCardSidebar({ lang, chosenSubjectIds }: Props) {
 
         {/* Selected Subject Pills */}
         <div className="space-y-1.5 pt-1">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
             <GraduationCap className="w-3.5 h-3.5" />
             <span>
               {lang === "si"
@@ -75,7 +75,7 @@ export function PreparingCardSidebar({ lang, chosenSubjectIds }: Props) {
             type="button"
             onClick={nextFact}
             aria-label="Next tip"
-            className="p-1 rounded-lg hover:bg-amber-100 text-amber-700 transition-colors cursor-pointer flex items-center gap-1 text-[11px]"
+            className="p-1 rounded-lg hover:bg-amber-100 text-amber-700 transition-colors cursor-pointer flex items-center gap-1 text-xs"
           >
             <RefreshCw className="w-3 h-3" />
             <span>

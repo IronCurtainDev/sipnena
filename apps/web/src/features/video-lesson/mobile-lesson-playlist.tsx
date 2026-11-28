@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { AppLanguage } from "@/lib/language";
-import { VIDEO_LESSON_PLAYLIST } from "./mock-data";
 import { PLAYLIST_STATUS } from "./playlist-copy";
 import { PlaylistSectionAccordion } from "./playlist-section-accordion";
 import type { VideoLessonStrings } from "./strings";
@@ -20,7 +19,7 @@ export function MobileLessonPlaylist({
   lang,
   activeLessonId,
   onSelectLesson,
-  playlist = VIDEO_LESSON_PLAYLIST,
+  playlist = [],
   emptyLabel,
 }: MobileLessonPlaylistProps) {
   const [openSectionIds, setOpenSectionIds] = useState<string[]>(() => {
